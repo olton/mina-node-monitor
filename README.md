@@ -36,7 +36,7 @@ Also, the server requires opened network interface.
 I use an external interface with a 3085 port and restrictions by iptables for connecting.
 
 #### Dependencies
-To build server app, you must install two dependencies:
+To build/run server app, you must install two dependencies:
 + `node-fetch`
 + `systeminformation`
 
