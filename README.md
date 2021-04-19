@@ -53,7 +53,7 @@ To run server app as service you must copy `minamon.service` to `/usr/lib/system
 ```shell
 sudo cp node-monitor/minamon.service /usr/lib/systemd/user
 ```
-Now use can `start`, `stop`, and `restart` server app with commands
+Now you can `start`, `stop`, and `restart` server app with commands
 ```shell
 systemctl --user start minamon
 systemctl --user stop minamon
