@@ -27,6 +27,7 @@ To build client use command
 ```shell
 npm run build
 ```
+Now folder `dist` contains a ready client scripts. Copy these to your web server.
 
 ### Build server app
 The application server is installed on a machine with a Mina.
