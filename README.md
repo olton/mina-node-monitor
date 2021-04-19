@@ -4,8 +4,6 @@
     <img src="https://metroui.org.ua/res/node-monitor.jpg">
 </p>
 
-### Get
-
 #### Clone repository
 ```shell
 git clone https://github.com/olton/mina-node-monitor.git
