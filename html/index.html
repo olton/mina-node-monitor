@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Mina Node Monitor v1.0.0</title>
+    <link rel="stylesheet" href="vendors/metro4/css/metro-all.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="cell-md-3">
+                <div class="logo-container h-100 d-flex flex-align-center flex-justify-center flex-justify-start-md">
+                    <div class="h5 text-light"><img class="logo" src="images/logo.png"> <span class="fg-white">NODE</span><span class="fg-orange">MONITOR</span></div>
+                </div>
+            </div>
+            <div class="cell-md-6">
+                <div class="h-100 d-flex flex-align-center flex-justify-center flex-column">
+                    <div class="text-small">Next block will be produce at</div>
+                    <span id="next-block-time" class="h3 m-0 fg-white text-bold"></span>
+                    <div class="text-small"><span id="next-block-left" class="fg-yellow"></span></div>
+                </div>
+            </div>
+            <div class="cell-md-3">
+                <div class="text-center text-right-md mt-5">
+                    <div class="text-small">
+                        <span id="os-distro"></span>
+                        <span id="os-kernel"></span>
+                    </div>
+                    <div class="text-small">
+                        Server time: <span id="server-time" class="fg-white"></span>
+                    </div>
+                    <div class="text-small">
+                        Server Uptime: <span id="server-uptime" class="fg-white"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="HOSTNAME">
+                    <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
+                        <div id="hostname" style="line-height: 1">UNKNOWN</div>
+                        <div id="ip-address" class="text-small fg-white"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="STATUS" id="status-panel">
+                    <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
+                        <div id="node-status" class="text-center fg-stroke">UNKNOWN</div>
+                        <div id="network-status" class="text-small fg-white"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="BLOCK HEIGHT">
+                    <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
+                        <div id="block-height" class="text-center fg-stroke" style="line-height: 1">0</div>
+                        <div class="text-small text-center fg-white">
+                            <span id="max-block" class="fg-cyan">0</span> &bull; <span id="max-unvalidated" class="fg-red">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="UPTIME">
+                    <div id="node-uptime" class="text-center p-4 fg-stroke"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="TOTAL RAM">
+                    <div id="memory-total" class="text-center h2 text-bold fg-cyan p-4"></div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="CPU CORES">
+                    <div class="text-center p-4">
+                        <span id="cpu-threads" class=" h2 text-bold fg-cyan"></span>
+                        <div class="text-small">
+                            <span id="cpu-manufacturer"></span>
+                            <span id="cpu-brand"></span>
+                            <span id="cpu-speed"></span>
+                            <span id="cpu-speed-caption">GHz</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="NET CONNECTIONS">
+                    <div id="network-connections" class="text-center h2 text-bold fg-cyan p-4">0</div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="PEERS">
+                    <div id="peers-count" class="text-center p-4 fg-cyan">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="RAM">
+                    <div id="memory-load"></div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="CPU">
+                    <div id="cpu-load"></div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="NETWORK MB/S">
+                    <div id="net-load"></div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="PEERS CONNECTED">
+                    <div id="peers-load"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell-lg-6">
+                <div data-role="panel" data-title-caption="BLOCK PRODUCER">
+                    <div id="block-producer" class="text-center d-none-md"></div>
+                    <div id="block-producer-full" class="text-center d-none d-block-md"></div>
+                </div>
+            </div>
+            <div class="cell-lg-6">
+                <div data-role="panel" data-title-caption="SNARK WORKER <span id='snark-worker-fee' class='fg-white'>">
+                    <div id="snark-worker" class="text-center d-none-md"></div>
+                    <div id="snark-worker-full" class="text-center d-none d-block-md"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vendors/metro4/js/metro.js"></script>
+    <script src="vendors/chart/chart.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

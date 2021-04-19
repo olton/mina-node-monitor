@@ -1,0 +1,5 @@
+defaults
+last 2 versions
+not ie <= 12
+not ie_mob <= 12
+maintained node versions

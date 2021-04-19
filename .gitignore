@@ -1,0 +1,16 @@
+.idea
+output
+dist
+packages/**/lib
+packages/**/dist
+node_modules
+coverage
+packages/**/coverage
+*.bat
+.ftpauth
+*.log
+.jest-*
+.cache
+.coverage
+html/js/helpers/nodes.js
+src/config.mjs

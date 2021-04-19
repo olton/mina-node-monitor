@@ -1,0 +1,8 @@
+.idea
+.cache
+.config
+output
+temp
+lib
+node_modules
+test

@@ -1,0 +1,15 @@
+[Unit]
+Description=Mina Node Monitor Service
+After=network.target
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=15
+ExecStart=/usr/bin/node /home/olton/node-monitor/monitor.mjs
+ExecStop=/usr/bin/pkill -9 -f "node node-monitor/monitor.mjs"
+
+[Install]
+WantedBy=multi-user.target
