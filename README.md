@@ -29,7 +29,9 @@ npm run build
 ```
 
 ### Build server app
-The application server is installed on a machine with a node and GraphQL. Also, the server requires opened network interface.
+The application server is installed on a machine with a Mina.
+Monitor use graphql connection on `localhost:3085` to get Mina info.
+Also, the server requires opened network interface.
 I use an external interface with a 3085 port and restrictions by iptables for connecting.
 
 #### Dependencies
