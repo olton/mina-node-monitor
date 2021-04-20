@@ -4,7 +4,7 @@ import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
 import config from "./config.mjs"
 
-const DEV_MODE = false
+const DEV_MODE = true
 const SERVER_HOST = DEV_MODE ? 'localhost' : config.host
 const SERVER_PORT = DEV_MODE ? 8000 : config.port
 

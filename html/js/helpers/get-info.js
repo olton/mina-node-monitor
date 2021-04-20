@@ -1,12 +1,17 @@
 import nodes from "./nodes"
 
 const server = {
-    "host": nodes.node1
+    "host": nodes.node0
 }
 
 const SERVER_ADDRESS = `${server.host}/`
 
 export const getInfo = async (path, parse = true) => {
-    const result = await $.get(`${SERVER_ADDRESS}${path}`)
-    return parse ? JSON.parse(result) : result
+    try {
+        const result = await fetch(`${SERVER_ADDRESS}${path}`)
+        if (!result.ok) return null
+        return parse ? await result.json() : await result.text()
+    } catch (e) {
+        return null
+    }
 }

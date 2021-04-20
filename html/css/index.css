@@ -11,6 +11,9 @@
 .fg-stroke {
   color: var(--chart-stroke-color);
 }
+.bd-system {
+  border-color: var(--border-color) !important;
+}
 body {
   background: var(--body-background);
   color: var(--text-color);

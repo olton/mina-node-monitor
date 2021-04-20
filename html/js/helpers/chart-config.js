@@ -1,4 +1,4 @@
-export const loadChartConfig = {
+export const defaultChartConfig = {
     border: false,
     legend: {
         margin: {

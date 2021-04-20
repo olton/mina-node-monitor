@@ -46,7 +46,7 @@
                 <div data-role="panel" data-title-caption="HOSTNAME">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="hostname" style="line-height: 1">UNKNOWN</div>
-                        <div id="ip-address" class="text-small fg-white"></div>
+                        <div id="ip-address" class="text-small fg-white">_._._._</div>
                     </div>
                 </div>
             </div>
@@ -63,14 +63,16 @@
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="block-height" class="text-center fg-stroke" style="line-height: 1">0</div>
                         <div class="text-small text-center fg-white">
-                            <span id="max-block" class="fg-cyan">0</span> &bull; <span id="max-unvalidated" class="fg-red">0</span>
+                            max: <span id="max-block" class="fg-yellow">0</span>
+                            unv: <span id="max-unvalidated" class="fg-red">0</span>
+                            exp: <span id="explorer-height" class="fg-green">0</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="UPTIME">
-                    <div id="node-uptime" class="text-center p-4 fg-stroke"></div>
+                    <div id="node-uptime" class="text-center p-4 fg-stroke">0</div>
                 </div>
             </div>
         </div>
@@ -78,17 +80,17 @@
         <div class="row">
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="TOTAL RAM">
-                    <div id="memory-total" class="text-center h2 text-bold fg-cyan p-4"></div>
+                    <div id="memory-total" class="text-center h2 text-bold fg-cyan p-4">0</div>
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="CPU CORES">
                     <div class="text-center p-4">
-                        <span id="cpu-threads" class=" h2 text-bold fg-cyan"></span>
+                        <span id="cpu-threads" class=" h2 text-bold fg-cyan">0</span>
                         <div class="text-small">
-                            <span id="cpu-manufacturer"></span>
-                            <span id="cpu-brand"></span>
-                            <span id="cpu-speed"></span>
+                            <span id="cpu-manufacturer">-</span>
+                            <span id="cpu-brand">-</span>
+                            <span id="cpu-speed">0</span>
                             <span id="cpu-speed-caption">GHz</span>
                         </div>
                     </div>
@@ -132,14 +134,44 @@
         <div class="row">
             <div class="cell-lg-6">
                 <div data-role="panel" data-title-caption="BLOCK PRODUCER">
-                    <div id="block-producer" class="text-center d-none-md"></div>
-                    <div id="block-producer-full" class="text-center d-none d-block-md"></div>
+                    <div id="block-producer" class="text-center d-none-md">No data</div>
+                    <div id="block-producer-full" class="text-center d-none d-block-md">No data</div>
                 </div>
             </div>
             <div class="cell-lg-6">
                 <div data-role="panel" data-title-caption="SNARK WORKER <span id='snark-worker-fee' class='fg-white'>">
-                    <div id="snark-worker" class="text-center d-none-md"></div>
-                    <div id="snark-worker-full" class="text-center d-none d-block-md"></div>
+                    <div id="snark-worker" class="text-center d-none-md">No data</div>
+                    <div id="snark-worker-full" class="text-center d-none d-block-md">No data</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell-12">
+                <div data-role="panel" data-title-caption="LOG(s)">
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System info</div><div id="log-info" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System time</div><div id="log-time" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System CPU</div><div id="log-cpu" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System MEM</div><div id="log-mem" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System NET</div><div id="log-net" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">Mina node</div><div id="log-mina" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap">
+                            <div class="text-small">Mina Explorer</div><div id="log-explorer" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

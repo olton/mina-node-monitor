@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "serve": "parcel html/index.html --open --out-dir output -p 2222",
-        "build_site": "parcel build html/index.html --public-url .",
+        "build_site": "parcel build html/index.html --public-url . --no-minify",
         "build": "rimraf -rf dist bin && npm run build_site"
     },
     "devDependencies": {
