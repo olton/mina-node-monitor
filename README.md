@@ -40,6 +40,11 @@ To build/run server app, you must install two dependencies:
 + `node-fetch`
 + `systeminformation`
 
+You can install these with
+```shell
+npm install node-fetch systeminformation --save
+```
+
 #### Create config file
 First-of you must create config file in folder `src` with name `config.mjs`. This file contains values to server run: host, port, protocol
 ```javascript
