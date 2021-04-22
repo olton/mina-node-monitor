@@ -6,6 +6,7 @@ const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMe
 
 const processBalanceSend = async () => {
     if (!config.publicKey) return
+    if (!config.balanceSendInterval) return
 
     let status = await nodeInfo('balance')
 
