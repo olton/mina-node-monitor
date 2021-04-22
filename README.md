@@ -30,10 +30,13 @@ npm run build
 Now folder `dist` contains a ready client scripts. Copy these to your web server.
 
 ### Build server app
-The application server is installed on a machine with a Mina.
+The application server must be installed on a machine with a Mina.
 Monitor use graphql connection on `localhost:3085` to get Mina info.
-Also, the server requires opened network interface.
+Also, the server requires opens network interface.
 I use an external interface with a 3085 port and restrictions by iptables for connecting.
+
+### Install server app
+TO install server app, copy files from `src` folder to your server to any folder convenient for you.
 
 #### Dependencies
 To build/run server app, you must install two dependencies:
@@ -46,7 +49,8 @@ npm install node-fetch systeminformation --save
 ```
 
 #### Create config file
-First-of you must create config file in folder `src` with name `config.mjs`. This file contains values to server run: host, port, protocol
+First-of, you must create config file in a folder where you copied server app files with name `config.mjs`. 
+This file contains values to server run: host, port, protocol
 ```javascript
 export default {
     publicKey: "B62qr...", // public ket to get balance
