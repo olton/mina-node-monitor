@@ -13,7 +13,7 @@ export const sysInfo = async (obj) => {
         case 'static': return await si.get({
             cpu: 'manufacturer, brand, speed, speedMax, cores, physicalCores',
             mem: 'total',
-            osInfo: 'platform, distro, hostname, kernel, build, logofile'
+            osInfo: 'platform, distro, hostname, release, kernel, build, logofile, fqdn'
         })
     }
 }

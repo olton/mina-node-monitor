@@ -1,4 +1,5 @@
 import fetch from "node-fetch"
+import config from "./config.mjs"
 
 const queryNodeStatus = `
 query MyQuery {
@@ -34,6 +35,21 @@ query MyQuery {
 }
 `;
 
+const queryBalance = `
+query MyQuery {
+  account(publicKey: "${config.publicKey}") {
+    balance {
+      total
+      blockHeight
+      liquid
+      locked
+      stateHash
+      unknown
+    }
+  }
+}
+`;
+
 async function fetchGraphQL(query, operationName = "MyQuery", variables = {}) {
     try {
         const result = await fetch(
@@ -54,12 +70,13 @@ async function fetchGraphQL(query, operationName = "MyQuery", variables = {}) {
         return result.ok ? await result.json() : {}
     } catch (error) {
         console.error("The Request to GraphQL war aborted! Reason: " + error.name)
-        return {}
+        return null
     }
 }
 
 export const nodeInfo = async (obj) => {
     switch (obj) {
         case 'node-status': return await fetchGraphQL(queryNodeStatus)
+        case 'balance': return await fetchGraphQL(queryBalance)
     }
 }

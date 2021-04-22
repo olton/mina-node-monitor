@@ -15,7 +15,7 @@ const processServerTime = async () => {
     if (time) {
         let uptime = Metro.utils.secondsToTime(time.uptime)
         $("#server-time").text(datetime(time.current).format("DD-MM-YYYY HH:mm"))
-        $("#server-uptime").text(`${uptime.d} day(s) ${uptime.h} hours ${uptime.m} min`)
+        $("#server-uptime").text(`${uptime.d}d, ${uptime.h}h ${uptime.m}m`)
         elLog.html(imgOk)
         // console.log("Server time (re)loaded!")
     }

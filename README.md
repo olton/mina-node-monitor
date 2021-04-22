@@ -49,9 +49,13 @@ npm install node-fetch systeminformation --save
 First-of you must create config file in folder `src` with name `config.mjs`. This file contains values to server run: host, port, protocol
 ```javascript
 export default {
-    https: false,
-    port: 3085,
-    host: "127.0.0.1" // external interface
+    publicKey: "B62qr...", // public ket to get balance
+    telegramToken: `XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`, // your telegram bot TOKEN
+    telegramChatID: "XXXXXXXXX", // your chat id
+    balanceSendInterval: 60000 * 60 * 24, // the interval for balance send to telegram 
+    https: false, // server app protocol, currently ssl not supports
+    port: 3085, // server app port
+    host: "127.0.0.1" // opened external network interface
 }
 ```
 To run server execute command:
@@ -60,7 +64,8 @@ node src/monitor.mjs
 ```
 
 #### Run as service
-To run server app as service you must copy `minamon.service` to `/usr/lib/systemd/user`
++ First-of: replace `user-name` with your real **user name** in `ExecStart` in `minamon.service` file.
++ Second: copy `minamon.service` to `/usr/lib/systemd/user`
 ```shell
 sudo cp node-monitor/minamon.service /usr/lib/systemd/user
 ```

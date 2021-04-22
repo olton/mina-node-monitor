@@ -3,6 +3,8 @@ import {sysInfo} from "./system.mjs"
 import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
 import config from "./config.mjs"
+import "./alerter.mjs"
+import "./balance-sender.mjs"
 
 const DEV_MODE = false
 const SERVER_HOST = DEV_MODE ? 'localhost' : config.host
@@ -48,6 +50,9 @@ const requestListener = async (req, res) => {
             break;
         case '/node-status':
             response = await nodeInfo('node-status')
+            break;
+        case '/balance':
+            response = await nodeInfo('balance')
             break;
         case '/explorer':
             response = await getExplorerSummary()

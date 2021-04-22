@@ -35,6 +35,9 @@
                     <div class="text-small">
                         Server Uptime: <span id="server-uptime" class="fg-white"></span>
                     </div>
+                    <div class="text-small">
+                        Domain: <span id="domain-name" class="fg-white"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,13 +135,21 @@
         </div>
 
         <div class="row">
-            <div class="cell-lg-6">
+            <div class="cell-lg-5">
                 <div data-role="panel" data-title-caption="BLOCK PRODUCER">
                     <div id="block-producer" class="text-center d-none-md">No data</div>
                     <div id="block-producer-full" class="text-center d-none d-block-md">No data</div>
                 </div>
             </div>
-            <div class="cell-lg-6">
+            <div class="cell-lg-2">
+                <div data-role="panel" data-title-caption="BALANCE">
+                    <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
+                        <div id="balance-total" class="text-center fg-cyan">0</div>
+                        <div id="balance-liquid" class="text-small text-center">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-lg-5">
                 <div data-role="panel" data-title-caption="SNARK WORKER <span id='snark-worker-fee' class='fg-white'>">
                     <div id="snark-worker" class="text-center d-none-md">No data</div>
                     <div id="snark-worker-full" class="text-center d-none d-block-md">No data</div>

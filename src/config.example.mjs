@@ -1,5 +1,9 @@
 export default {
+    publicKey: "B62qr...",
+    telegramToken: `XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`,
+    telegramChatID: "XXXXXXXXX",
+    balanceSendInterval: 60000 * 60 * 24,
     https: false,
-    port: 3085,
-    host: "127.0.0.1" // external interface
+    port: 8000,
+    host: "localhost",
 }

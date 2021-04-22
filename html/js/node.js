@@ -23,6 +23,17 @@ const peersChart = chart.lineChart("#peers-load", [
 
 const getNodeStatus = async () => await getInfo('node-status')
 const getExplorerSummary = async () => await getInfo('explorer')
+const getBalance = async () => await getInfo('balance')
+
+const processBalance = async () => {
+    let status = await getBalance()
+
+    if (status && status.data && status.data.account && status.data.account.balance) {
+        const {total, liquid} = status.data.account.balance
+        $("#balance-total").text((total/10**9).toFixed(4))
+        $("#balance-liquid").text((liquid/10**9).toFixed(4))
+    }
+}
 
 const processExplorerSummary = async () => {
     let explorerSummary = await getExplorerSummary()
@@ -164,6 +175,7 @@ const processNodeStatus = async () => {
         // console.log("Node (re)loaded!")
 
         setTimeout(() => processExplorerSummary(), 0)
+        setTimeout(() => processBalance(), 0)
     } else {
         reload = 5000
     }

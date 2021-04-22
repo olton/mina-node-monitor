@@ -16,7 +16,8 @@ const processSystemInfo = async () => {
     if (nodeInfo) {
         if (Metro.utils.isObject2(nodeInfo) && nodeInfo.osInfo) {
             $("#os-distro").text(nodeInfo.osInfo.distro)
-            $("#os-kernel").text(` [Build ${nodeInfo.osInfo.kernel}]`)
+            $("#os-kernel").text(` [Build ${nodeInfo.osInfo.release}]`)
+            $("#domain-name").text(`${nodeInfo.osInfo.fqdn}`)
             $("#hostname").text(nodeInfo.osInfo.hostname)
 
             $("#cpu-manufacturer").text(nodeInfo.cpu.manufacturer)
