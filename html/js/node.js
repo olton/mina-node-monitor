@@ -30,8 +30,8 @@ const processBalance = async () => {
 
     if (status && status.data && status.data.account && status.data.account.balance) {
         const {total, liquid} = status.data.account.balance
-        $("#balance-total").text((total/10**9).toFixed(4))
-        $("#balance-liquid").text((liquid/10**9).toFixed(4))
+        $("#balance-total").text((total/10**9).format(2, null, ",", "."))
+        $("#balance-liquid").text((liquid/10**9).format(2, null, ",", "."))
     }
 }
 

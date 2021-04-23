@@ -8,6 +8,9 @@
   --chart-stroke-color: #7dc37b;
   --chart-fill-color: rgba(125, 195, 123, 0.3);
 }
+.fg-normal {
+  color: var(--text-color) !important;
+}
 .fg-stroke {
   color: var(--chart-stroke-color);
 }

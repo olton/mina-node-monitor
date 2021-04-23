@@ -1,7 +1,7 @@
 import nodes from "./nodes"
 
 const server = {
-    "host": nodes.node1
+    "host": nodes.node0
 }
 
 const SERVER_ADDRESS = `${server.host}/`

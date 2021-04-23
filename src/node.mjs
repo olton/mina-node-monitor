@@ -50,6 +50,24 @@ query MyQuery {
 }
 `;
 
+const queryBlockChain = `
+query MyQuery {
+  bestChain(maxLength: 1) {
+    protocolState {
+      consensusState {
+        blockHeight
+        totalCurrency
+        epochCount
+        epoch
+        slot
+        slotSinceGenesis
+      }
+    }
+  }
+}
+
+`;
+
 async function fetchGraphQL(query, operationName = "MyQuery", variables = {}) {
     try {
         const result = await fetch(
@@ -78,5 +96,6 @@ export const nodeInfo = async (obj) => {
     switch (obj) {
         case 'node-status': return await fetchGraphQL(queryNodeStatus)
         case 'balance': return await fetchGraphQL(queryBalance)
+        case 'blockchain': return await fetchGraphQL(queryBlockChain)
     }
 }

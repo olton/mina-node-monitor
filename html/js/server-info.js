@@ -19,6 +19,7 @@ const processSystemInfo = async () => {
             $("#os-kernel").text(` [Build ${nodeInfo.osInfo.release}]`)
             $("#domain-name").text(`${nodeInfo.osInfo.fqdn}`)
             $("#hostname").text(nodeInfo.osInfo.hostname)
+            $("title").text(nodeInfo.osInfo.hostname + " :: Mona Node Monitor")
 
             $("#cpu-manufacturer").text(nodeInfo.cpu.manufacturer)
             $("#cpu-brand").text(nodeInfo.cpu.brand)
@@ -28,8 +29,7 @@ const processSystemInfo = async () => {
             $("#cpu-max-speed").text(nodeInfo.cpu.speedMax)
 
             const totalRam = Math.round(nodeInfo.mem.total / (1024 ** 3))
-            $("#ram-total").text(totalRam + ' GiB')
-            $("#memory-total").text(totalRam + ' GiB')
+            $("#ram-total").text(totalRam)
         }
 
         elLog.html(imgOk)

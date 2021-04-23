@@ -39,6 +39,8 @@ const processMemInfo = async () => {
         memoryChart.addPoint(0, [datetime().time(), memUsage])
         memoryChart.addPoint(1, [datetime().time(), memFree])
 
+        $("#ram-free").text(memFree.toFixed(0))
+
         elLog.html(imgOk)
         // console.log("Mem (re)loaded!")
     }
