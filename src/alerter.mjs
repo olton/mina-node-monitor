@@ -9,7 +9,7 @@ const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMe
 const processAlerter = async () => {
     let status = await nodeInfo('node-status')
 
-    if (!config || !config.telegram || !config.telegramChatID) return
+    if (!config || !config.telegramToken || !config.telegramChatID) return
 
     if (status && status.data && status.data.daemonStatus) {
         const {syncStatus, blockchainLength, addrsAndPorts} = status.data.daemonStatus
