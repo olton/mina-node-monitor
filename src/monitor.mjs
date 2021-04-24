@@ -6,9 +6,7 @@ import config from "./config.mjs"
 import "./alerter.mjs"
 import "./balance-sender.mjs"
 
-const DEV_MODE = false
-const SERVER_HOST = DEV_MODE ? 'localhost' : config.host
-const SERVER_PORT = DEV_MODE ? 8000 : config.port
+const _SERVER = config.host.split(":")
 
 const requestListener = async (req, res) => {
     let response
@@ -41,6 +39,6 @@ const requestListener = async (req, res) => {
 
 const server = http.createServer(requestListener)
 
-server.listen(SERVER_PORT, SERVER_HOST, () => {
-    console.log(`Mina Node Server Monitor is running on http://${SERVER_HOST}:${SERVER_PORT}`)
+server.listen(+_SERVER[1], _SERVER[0], () => {
+    console.log(`Mina Node Server Monitor is running on http://${_SERVER[0]}:${_SERVER[1]}`)
 })

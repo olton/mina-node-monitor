@@ -29,7 +29,7 @@ const processAlerter = async () => {
 
         let explorer = await getExplorerSummary()
 
-        if (explorer && explorer.blockchainLength) {
+        if (explorer && explorer.blockchainLength && blockchainLength) {
             if (Math.abs(+explorer.blockchainLength - +blockchainLength) >= BLOCK_DIFF) {
                 // send blocks diffs
                 const message = `Blockchain length is incorrect, in value ${blockchainLength} of ${explorer.blockchainLength}!\nIP: ${ip}`
@@ -44,7 +44,7 @@ const processAlerter = async () => {
 
     setTimeout(()=>{
         processAlerter()
-    }, 60000)
+    }, config.alertInterval)
 }
 
 setTimeout( () => processAlerter(), 0)
