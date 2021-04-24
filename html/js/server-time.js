@@ -6,8 +6,8 @@ const getServerTime = async () => {
     return await getInfo('time')
 }
 
-const processServerTime = async () => {
-    let time = await getInfo('time')
+export const processServerTime = async () => {
+    let time = await getServerTime()
     const elLog = $("#log-time")
 
     elLog.html(imgStop)
@@ -20,7 +20,7 @@ const processServerTime = async () => {
         // console.log("Server time (re)loaded!")
     }
 
-    setTimeout(()=> processServerTime(), 60000)
+    setTimeout(()=> processServerTime(), globalThis.config.intervals.time)
 }
 
-setTimeout(() => processServerTime(), 0)
+// setTimeout(() => processServerTime(), 0)

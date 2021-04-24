@@ -6,7 +6,7 @@ const getBlockChainInfo = async () => {
     return await getInfo('blockchain')
 }
 
-const processBlockchainInfo = async () => {
+export const processBlockchainInfo = async () => {
     let blockchainInfo = await getBlockChainInfo()
 
     if (blockchainInfo && blockchainInfo.data && Array.isArray(blockchainInfo.data.bestChain) && blockchainInfo.data.bestChain.length) {
@@ -25,7 +25,7 @@ const processBlockchainInfo = async () => {
         $("#slot-since-genesis").text(slotSinceGenesis)
     }
 
-    setTimeout( () => processBlockchainInfo(), 30000 )
+    setTimeout( () => processBlockchainInfo(), globalThis.config.intervals.blockchain )
 }
 
-setTimeout( () => processBlockchainInfo(), 0 )
+// setTimeout( () => processBlockchainInfo(), 0 )

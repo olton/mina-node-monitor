@@ -1,8 +1,30 @@
-# Mina Node Monitor
-
 <p align="center">
-    <img src="https://metroui.org.ua/res/node-monitor.jpg">
+    <img src="https://metroui.org.ua/res/node-monitor-panel.jpg">
 </p>
+
+# Mina Node Monitor
+**Mina Node Monitor** is a `client-server` application for visual monitoring of the validator node and alerts when node have a problem.
+
+## Key Features
+1. Track the status of a node in real time
+2. Shows 12 parameters: status, uptime, balance, ...
+3. Shows the load on memory, processor, network
+4. Monitors the state of the node and, if the node is out of sync with the main network and / or has switched / is in a status other than SYNCED, sends notifications to Telegram
+
+#### Monitor built with a stack:
+- server - NodeJS, JavaScript
+- client - JavaScript, HTML, CSS
+
+### Credits
++ [x] [Mina Node Monitor]() by [Serhii Pimenov](https://github.com/olton)
++ [x] [Metro 4](https://github.com/olton/Metro-UI-CSS) by [Serhii Pimenov](https://github.com/olton)
++ [x] [ChartJS](https://github.com/olton/chartjs) by [Serhii Pimenov](https://github.com/olton)
++ [x] [SystemInformation](https://github.com/sebhildebrandt/systeminformation) by [Sebastian Hildebrandt](https://github.com/sebhildebrandt)
+ 
+## How to use
+
+### Pre-requirements
+To use or/and build monitor you need install `NodeJS`, `npm`.
 
 #### Clone repository
 ```shell
@@ -14,20 +36,69 @@ git clone https://github.com/olton/mina-node-monitor.git
 npm i
 ```
 
-### Build web client
-#### Create config file
-You must create config file with name `nodes.js` in `html/js/helpers` folder
-```javascript
-export default {
-    node1: "http://127.0.0.1:3085", // use your server settings 
+The Monitor consists of two parts: 
+- Client - uses for visualisation mina node state in a browser
+- Server - uses for retrieves required data from mina node
+
+### Create config files
+Before build client or/and server, you must create a config files for client and server.
+
+#### Config file for client
+Create file `config.json` in a `html` folder. Example below demonstrate witch data you must create.
+```json
+{
+    "hosts": {
+        "node1": "192.168.1.2:3085"
+    },
+    "useHost": "node1",
+    "intervals": {
+        "info": 60000,
+        "time": 60000,
+        "blockchain": 30000,
+        "alert": 30000,
+        "node": 30000,
+        "net": 2000,
+        "mem": 2000,
+        "cpu": 2000
+    }
 }
 ```
-#### Build client
+
+Section `hosts` contain information about your servers addresses. 
+Each address must be an opened network interface on the mina node server.
+Parameter `useHost` defines host where client retrieves data.
+
+Section `intervals` contain information about intervals (in milliseconds), with which data will be retrieve.
+
+- `info` - general information about server
+- `time` - server time and uptime
+- `blockchain` - total currency, slot info, and epoch
+- `alert` - interval for alerts when node isn't `SYNCED` and/or `unsynchronized`
+- `node` - interval for retrieve data from mina GraphQL server
+- `net` - interval for retrieve network information: speed, connections
+- `mem` - interval for retrieve information about server memory
+- `cpu` - interval for retrieve information about server CPU(s)
+
+#### Config file for server 
+Create file `config.mjs` in a `src` folder. Example below demonstrate witch data you must create.
+```javascript
+export default {
+    publicKey: "B62qr...",
+    telegramToken: `XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`,
+    telegramChatID: "XXXXXXXXX, XXXXXXXXX",
+    balanceSendInterval: 1000 * 60 * 60 * 24,
+    alertInterval: 1000 * 60,
+    https: false,
+    host: "192.168.1.2:3085"
+}
+```
+
+### Build web client
 To build client use command
 ```shell
 npm run build
 ```
-Now folder `dist` contains a ready client scripts. Copy these to your web server.
+Now folder `dist` contains a compiled client files. Copy these to your web server.
 
 ### Build server app
 The application server must be installed on a machine with a Mina.
@@ -39,7 +110,7 @@ I use an external interface with a 3085 port and restrictions by iptables for co
 TO install server app, copy files from `src` folder to your server to any folder convenient for you.
 
 #### Dependencies
-To build/run server app, you must install two dependencies:
+To run server app, you must install two dependencies:
 + `node-fetch`
 + `systeminformation`
 
@@ -48,31 +119,29 @@ You can install these with
 npm install node-fetch systeminformation --save
 ```
 
-#### Create config file
-First-of, you must create config file in a folder where you copied server app files with name `config.mjs`. 
-This file contains values to server run: host, port, protocol
-```javascript
-export default {
-    publicKey: "B62qr...", // public ket to get balance
-    telegramToken: `XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`, // your telegram bot TOKEN
-    telegramChatID: "XXXXXXXXX", // your chat id
-    balanceSendInterval: 60000 * 60 * 24, // the interval for balance send to telegram 
-    https: false, // server app protocol, currently ssl not supports
-    port: 3085, // server app port
-    host: "127.0.0.1" // opened external network interface
-}
-```
+#### Run server
 To run server execute command:
 ```shell
 node src/monitor.mjs
 ```
 
-#### Run as service
-+ First-of: replace `user-name` with your real **user name** in `ExecStart` in `minamon.service` file.
-+ Second: copy `minamon.service` to `/usr/lib/systemd/user`
+Also, you can run server as service. To run as service
++ replace `user-name` with your real server **user name** in `ExecStart` in `minamon.service` file.
++ copy `minamon.service` to `/usr/lib/systemd/user`
 ```shell
 sudo cp node-monitor/minamon.service /usr/lib/systemd/user
 ```
+
+Enable service for autorun when restart server 
+```shell
+systemctl --user enable minamon
+```
+
+Start server
+```shell
+systemctl --user start minamon
+```
+
 Now you can `start`, `stop`, and `restart` server app with commands
 ```shell
 systemctl --user start minamon

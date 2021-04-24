@@ -6,9 +6,9 @@ const getSystemInfo = async () => {
     return await getInfo('static')
 }
 
-const processSystemInfo = async () => {
+export const processSystemInfo = async () => {
     let nodeInfo = await getSystemInfo()
-    let reload = 60000
+    let reload = globalThis.config.intervals.info //|| 60000
     const elLog = $("#log-info")
 
     elLog.html(imgStop)
@@ -41,5 +41,5 @@ const processSystemInfo = async () => {
     setTimeout( () => processSystemInfo(), reload)
 }
 
-setTimeout(() => processSystemInfo(), 0)
+// setTimeout(() => processSystemInfo(), 0)
 

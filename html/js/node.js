@@ -59,9 +59,9 @@ const processExplorerSummary = async () => {
     // console.log("Block height from explorer (re)loaded!")
 }
 
-const processNodeStatus = async () => {
+export const processNodeStatus = async () => {
     let status = await getNodeStatus()
-    let reload = 30000
+    let reload = globalThis.config.intervals.node
     const UNKNOWN = "UNKNOWN"
     const elLog = $("#log-mina")
 
@@ -183,5 +183,5 @@ const processNodeStatus = async () => {
     setTimeout(() => processNodeStatus(), reload)
 }
 
-setTimeout(() => processNodeStatus(), 0)
+// setTimeout(() => processNodeStatus(), 0)
 

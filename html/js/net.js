@@ -33,7 +33,7 @@ const getNetConnections = async () => {
     return await getInfo('net-conn')
 }
 
-const processNetInfo = async () => {
+export const processNetInfo = async () => {
     let net = await getNetInfo()
 
     if (net) {
@@ -41,10 +41,10 @@ const processNetInfo = async () => {
         networkChart.addPoint(1, [datetime().time(), Math.round(net[0].rx_sec)])
     }
 
-    setTimeout(()=> processNetInfo(), 2000)
+    setTimeout(()=> processNetInfo(), globalThis.config.intervals.net)
 }
 
-const processNetConnections = async () => {
+export const processNetConnections = async () => {
     let net = await getNetConnections()
     const elLog = $("#log-net")
 
@@ -56,9 +56,9 @@ const processNetConnections = async () => {
         // console.log("Net (re)loaded!")
     }
 
-    setTimeout(() => processNetConnections(), 2000)
+    setTimeout(() => processNetConnections(), globalThis.config.intervals.net)
 }
 
-setTimeout(() => processNetInfo(), 0)
-setTimeout(() => processNetConnections(), 0)
+// setTimeout(() => processNetInfo(), 0)
+// setTimeout(() => processNetConnections(), 0)
 

@@ -26,7 +26,7 @@ const memoryChart = chart.lineChart("#memory-load", [
     }
 ], chartConfig);
 
-const processMemInfo = async () => {
+export const processMemInfo = async () => {
     let mem = await getMemInfo()
     const elLog = $("#log-mem")
 
@@ -45,7 +45,7 @@ const processMemInfo = async () => {
         // console.log("Mem (re)loaded!")
     }
 
-    setTimeout(() => processMemInfo(), 2000)
+    setTimeout(() => processMemInfo(), globalThis.config.intervals.mem)
 }
 
-setTimeout(() => processMemInfo(), 0)
+// setTimeout(() => processMemInfo(), 0)

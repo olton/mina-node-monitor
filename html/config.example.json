@@ -1,0 +1,16 @@
+{
+    "hosts": {
+        "node0": "localhost:8000"
+    },
+    "useHost": "node0",
+    "intervals": {
+        "info": 60000,
+        "time": 60000,
+        "blockchain": 30000,
+        "alert": 30000,
+        "node": 30000,
+        "net": 2000,
+        "mem": 2000,
+        "cpu": 2000
+    }
+}
