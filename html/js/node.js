@@ -183,5 +183,3 @@ export const processNodeStatus = async () => {
     setTimeout(() => processNodeStatus(), reload)
 }
 
-// setTimeout(() => processNodeStatus(), 0)
-

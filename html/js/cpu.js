@@ -41,8 +41,6 @@ export const processCPUData = async () => {
     let cpu = await loadCPUData()
     const elLog = $("#log-cpu")
 
-    console.log(cpu.currentLoad)
-
     elLog.html(imgStop)
     if (cpu) {
         cpuChart.addPoint(0, [datetime().time(), cpu.currentLoad])
@@ -55,6 +53,3 @@ export const processCPUData = async () => {
 
     setTimeout( () => processCPUData(), globalThis.config.intervals.cpu )
 }
-
-// setTimeout(() => processCPUData(), 0)
-

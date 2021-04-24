@@ -27,5 +27,3 @@ export const processBlockchainInfo = async () => {
 
     setTimeout( () => processBlockchainInfo(), globalThis.config.intervals.blockchain )
 }
-
-// setTimeout( () => processBlockchainInfo(), 0 )

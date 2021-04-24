@@ -41,5 +41,3 @@ export const processSystemInfo = async () => {
     setTimeout( () => processSystemInfo(), reload)
 }
 
-// setTimeout(() => processSystemInfo(), 0)
-

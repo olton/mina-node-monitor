@@ -47,5 +47,3 @@ export const processMemInfo = async () => {
 
     setTimeout(() => processMemInfo(), globalThis.config.intervals.mem)
 }
-
-// setTimeout(() => processMemInfo(), 0)

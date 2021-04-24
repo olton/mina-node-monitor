@@ -23,4 +23,3 @@ export const processServerTime = async () => {
     setTimeout(()=> processServerTime(), globalThis.config.intervals.time)
 }
 
-// setTimeout(() => processServerTime(), 0)

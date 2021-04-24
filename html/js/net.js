@@ -58,7 +58,3 @@ export const processNetConnections = async () => {
 
     setTimeout(() => processNetConnections(), globalThis.config.intervals.net)
 }
-
-// setTimeout(() => processNetInfo(), 0)
-// setTimeout(() => processNetConnections(), 0)
-
