@@ -1,8 +1,8 @@
 {
     "hosts": {
-        "node0": "localhost:8000"
+        "node1": "192.168.1.2:3085"
     },
-    "useHost": "node0",
+    "useHost": "node1",
     "intervals": {
         "info": 60000,
         "time": 60000,
