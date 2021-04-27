@@ -131,6 +131,7 @@ export const processNodeStatus = async () => {
         const elSnarkWorkerName = $("#snark-worker")
         const elSnarkWorkerNameFull = $("#snark-worker-full")
         const elSnarkWorkerFee = $("#snark-worker-fee")
+        const elEndOfEpoch = $("#end-of-epoch")
 
         // node status
         elNodeStatus.closest(".panel").removeClass("alert warning")
@@ -154,12 +155,16 @@ export const processNodeStatus = async () => {
             elNextBlockTime.text(blockDate.format("ddd, DD MMM, HH:mm"))
             elNextBlockLeft.text(`${blockLeft.d} day(s) ${blockLeft.h} hour(s) ${blockLeft.m} minute(s)`)
         } else {
-            const blockLeft = Metro.utils.secondsToTime(
-                (datetime(genesisStart).addSecond(secondsInEpoch * (+consensusTimeNow.epoch + 1)).time() - datetime().time()) / 1000
-            )
             elNextBlockTime.text('None this epoch')
-            elNextBlockLeft.text(`Checking at in ${blockLeft.d}d ${blockLeft.h}h ${blockLeft.m}m`)
+            elNextBlockLeft.text('')
         }
+
+        // Epoch end
+        const blockLeft = Metro.utils.secondsToTime(
+            (datetime(genesisStart).addSecond(secondsInEpoch * (+consensusTimeNow.epoch + 1)).time() - datetime().time()) / 1000
+        )
+        elEndOfEpoch.text(`End of epoch in ${blockLeft.d}d ${blockLeft.h}h ${blockLeft.m}m`)
+
 
         // block height
         globalThis.blockchainLength = blockchainLength
