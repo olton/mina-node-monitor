@@ -31,6 +31,9 @@ query MyQuery {
     blockProductionKeys
     snarkWorker
     snarkWorkFee
+    consensusTimeNow {
+      epoch
+    }
   }
 }
 `;

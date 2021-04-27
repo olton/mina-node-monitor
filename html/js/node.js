@@ -71,7 +71,8 @@ export const processNodeStatus = async () => {
     let reload = globalThis.config.intervals.node
     const UNKNOWN = "UNKNOWN"
     const elLog = $("#log-mina")
-    let peersStart = 200
+    const secondsInEpoch = 1285200000 / 1000
+    const genesisStart = "2021-03-17 02:00:00.000000+02:00"
 
     elLog.html(imgStop)
 
@@ -112,6 +113,7 @@ export const processNodeStatus = async () => {
             blockProductionKeys,
             snarkWorker,
             snarkWorkFee,
+            consensusTimeNow
         } = daemon
 
         const elNodeStatus = $("#node-status")
@@ -145,12 +147,18 @@ export const processNodeStatus = async () => {
         elPeersCount.text(peers.length)
 
         // next block produce
-        if (nextBlockProduction) {
-            const blockDate = nextBlockProduction.times && nextBlockProduction.times.length ? datetime(+nextBlockProduction.times[0].startTime) : 'None this epoch';
-            const blockLeft = typeof blockDate === "string" ? '' : Metro.utils.secondsToTime((blockDate.time() - datetime().time())/1000)
+        if (nextBlockProduction && nextBlockProduction.times.length) {
+            const blockDate = datetime(+nextBlockProduction.times[0].startTime)
+            const blockLeft = Metro.utils.secondsToTime((blockDate.time() - datetime().time())/1000)
 
-            elNextBlockTime.text(typeof blockDate === "string" ? blockDate : blockDate.format("ddd, DD MMM, HH:mm"))
-            elNextBlockLeft.text(blockLeft ? `${blockLeft.d} day(s) ${blockLeft.h} hour(s) ${blockLeft.m} minute(s)` : '')
+            elNextBlockTime.text(blockDate.format("ddd, DD MMM, HH:mm"))
+            elNextBlockLeft.text(`${blockLeft.d} day(s) ${blockLeft.h} hour(s) ${blockLeft.m} minute(s)`)
+        } else {
+            const blockLeft = Metro.utils.secondsToTime(
+                (datetime(genesisStart).addSecond(secondsInEpoch * (+consensusTimeNow.epoch + 1)).time() - datetime().time()) / 1000
+            )
+            elNextBlockTime.text('None this epoch')
+            elNextBlockLeft.text(`Checking at in ${blockLeft.d}d ${blockLeft.h}h ${blockLeft.m}m`)
         }
 
         // block height
