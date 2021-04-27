@@ -15,3 +15,4 @@ packages/**/coverage
 html/js/helpers/nodes.js
 html/config.json
 src/config.mjs
+src/config.json

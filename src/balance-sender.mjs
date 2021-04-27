@@ -1,14 +1,13 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
-import config from "./config.mjs"
 
-const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
+export const processBalanceSend = async (config) => {
+    const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
 
-const processBalanceSend = async () => {
     if (!config.publicKey) return
     if (!config.balanceSendInterval) return
 
-    let status = await nodeInfo('balance')
+    let status = await nodeInfo('balance', config)
 
     if (!config || !config.telegramToken || !config.telegramChatID) return
 
@@ -24,10 +23,5 @@ const processBalanceSend = async () => {
         }
     }
 
-    setTimeout(()=>{
-        processBalanceSend()
-    }, config.balanceSendInterval)
+    setTimeout(() => processBalanceSend(config), config.balanceSendInterval)
 }
-
-setTimeout( () => processBalanceSend(), 0)
-

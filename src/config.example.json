@@ -1,0 +1,8 @@
+{
+    "publicKey": "B62qr...",
+    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "telegramChatID": "XXXXXXXXX,XXXXXXXXX",
+    "balanceSendInterval": 86400000,
+    "alertInterval": 60000,
+    "host": "localhost:8000"
+}

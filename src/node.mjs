@@ -1,5 +1,4 @@
 import fetch from "node-fetch"
-import config from "./config.mjs"
 
 const queryNodeStatus = `
 query MyQuery {
@@ -40,7 +39,7 @@ query MyQuery {
 
 const queryBalance = `
 query MyQuery {
-  account(publicKey: "${config.publicKey}") {
+  account(publicKey: "%PUBLIC_KEY%") {
     balance {
       total
       blockHeight
@@ -95,10 +94,10 @@ async function fetchGraphQL(query, operationName = "MyQuery", variables = {}) {
     }
 }
 
-export const nodeInfo = async (obj) => {
+export const nodeInfo = async (obj, config) => {
     switch (obj) {
         case 'node-status': return await fetchGraphQL(queryNodeStatus)
-        case 'balance': return await fetchGraphQL(queryBalance)
+        case 'balance': return await fetchGraphQL(queryBalance.replace("%PUBLIC_KEY%", config.publicKey))
         case 'blockchain': return await fetchGraphQL(queryBlockChain)
     }
 }

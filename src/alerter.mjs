@@ -1,12 +1,11 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
-import config from "./config.mjs"
 
-const BLOCK_DIFF = 2
-const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
+export const processAlerter = async (config) => {
+    const BLOCK_DIFF = 2
+    const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
 
-const processAlerter = async () => {
     let status = await nodeInfo('node-status')
 
     if (!config || !config.telegramToken || !config.telegramChatID) return
@@ -42,10 +41,6 @@ const processAlerter = async () => {
         }
     }
 
-    setTimeout(()=>{
-        processAlerter()
-    }, config.alertInterval)
+    setTimeout(() => processAlerter(config), config.alertInterval)
 }
-
-setTimeout( () => processAlerter(), 0)
 

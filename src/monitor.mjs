@@ -1,11 +1,24 @@
+#!/usr/bin/env node
+
+import fs from "fs"
+import path, {dirname} from "path"
+import { fileURLToPath } from 'url'
 import http from "http"
 import {sysInfo} from "./system.mjs"
 import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
-import config from "./config.mjs"
-import "./alerter.mjs"
-import "./balance-sender.mjs"
+import {processAlerter} from "./alerter.mjs"
+import {processBalanceSend} from "./balance-sender.mjs"
+import {processHello} from "./hello.mjs"
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const configPath = path.resolve(__dirname, 'config.json')
+
+if (!fs.existsSync(configPath)) {
+    throw new Error("Config file not exist!")
+}
+
+const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
 const _SERVER = config.host.split(":")
 
 const requestListener = async (req, res) => {
@@ -27,7 +40,7 @@ const requestListener = async (req, res) => {
         case '/net-stat': response = await sysInfo('net-stat'); break;
         case '/net-conn': response = await sysInfo('net-conn'); break;
         case '/node-status': response = await nodeInfo('node-status'); break;
-        case '/balance': response = await nodeInfo('balance'); break;
+        case '/balance': response = await nodeInfo('balance', config); break;
         case '/blockchain': response = await nodeInfo('blockchain'); break;
         case '/explorer': response = await getExplorerSummary(); break;
         default:
@@ -42,3 +55,7 @@ const server = http.createServer(requestListener)
 server.listen(+_SERVER[1], _SERVER[0], () => {
     console.log(`Mina Node Server Monitor is running on http://${_SERVER[0]}:${_SERVER[1]}`)
 })
+
+setTimeout( () => processHello(config), 0)
+setTimeout( () => processAlerter(config), 0)
+setTimeout( () => processBalanceSend(config), 0)
