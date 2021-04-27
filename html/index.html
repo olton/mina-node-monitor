@@ -115,60 +115,22 @@
 
         <div class="row">
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="TOTAL RAM (GiB)">
-                    <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
-                        <div id="ram-total" class="text-center h2 m-0 text-bold fg-cyan">0</div>
-                        <div class="text-small ">
-                            <span class="fg-normal">Free: </span>
-                            <span id="ram-free" class="text-center text-bold">0</span>
-                            <span class="fg-normal">GiB</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="CPU(s)">
-                    <div class="text-center p-4">
-                        <span id="cpu-threads" class=" h2 text-bold fg-cyan">0</span>
-                        <div class="text-small">
-                            <span id="cpu-manufacturer">-</span>
-                            <span id="cpu-brand">-</span>
-                            <span id="cpu-speed">0</span>
-                            <span id="cpu-speed-caption">GHz</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="NET CONNECTIONS">
-                    <div id="network-connections" class="text-center h2 text-bold fg-cyan p-4">0</div>
-                </div>
-            </div>
-            <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="PEERS">
-                    <div id="peers-count" class="text-center p-4 fg-cyan">0</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="RAM">
+                <div data-role="panel" data-title-caption="RAM <span id='ram-total' class='enlarge-4 text-bold fg-cyan'>0</span> GiB">
                     <div id="memory-load"></div>
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="CPU">
+                <div data-role="panel" data-title-caption="CPUs <span id='cpu-threads' class='enlarge-4 text-bold fg-cyan'>0</span>">
                     <div id="cpu-load"></div>
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="NETWORK MB/S">
+                <div data-role="panel" data-title-caption="NET <span id='net-traffic' class='enlarge-4 text-bold fg-cyan'>0</span> MB/S">
                     <div id="net-load"></div>
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="PEERS CONNECTED">
+                <div data-role="panel" data-title-caption="PEERS <span id='peers-count' class='enlarge-4 text-bold fg-cyan'>0</span>">
                     <div id="peers-load"></div>
                 </div>
             </div>

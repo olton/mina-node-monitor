@@ -39,6 +39,8 @@ export const processNetInfo = async () => {
     if (net) {
         networkChart.addPoint(0, [datetime().time(), Math.round(net[0].tx_sec)])
         networkChart.addPoint(1, [datetime().time(), Math.round(net[0].rx_sec)])
+
+        $("#net-traffic").text( ((Math.round(net[0].rx_sec) + Math.round(net[0].tx_sec)) / 1024 / 1024).toFixed(2) )
     }
 
     setTimeout(()=> processNetInfo(), globalThis.config.intervals.net)
@@ -51,10 +53,11 @@ export const processNetConnections = async () => {
     elLog.html(imgStop)
 
     if (net) {
-        $("#network-connections").text(net.filter((v) => !$.isLocalhost(v.peerAddress)).length)
+        // $("#network-connections").text(net.filter((v) => !$.isLocalhost(v.peerAddress)).length)
         elLog.html(imgOk)
         // console.log("Net (re)loaded!")
     }
 
     setTimeout(() => processNetConnections(), globalThis.config.intervals.net)
 }
+

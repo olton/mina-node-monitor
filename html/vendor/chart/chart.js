@@ -314,7 +314,7 @@
       return merge(target, ...sources);
     }
 
-    var drawText = (ctx, text, _ref, _ref2) => {
+    var drawText = function drawText(ctx, text, _ref) {
       var [x, y] = _ref;
       var {
         align = 'left',
@@ -323,7 +323,7 @@
         font,
         angle = 0,
         translate = [0, 0]
-      } = _ref2;
+      } = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
       var {
         style = 'normal',
         weight = 'normal',
@@ -385,14 +385,14 @@
       return size;
     };
 
-    var drawSquare = (ctx, _ref, _ref2) => {
+    var drawSquare = function drawSquare(ctx, _ref) {
       var [x, y, r] = _ref;
       var {
         color = '#000',
         fill = '#fff',
         size = 1,
         dash = []
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash(dash);
@@ -406,14 +406,14 @@
       ctx.closePath();
     };
 
-    var drawBox = (ctx, _ref, _ref2) => {
+    var drawBox = function drawBox(ctx, _ref) {
       var [x, y, w, h] = _ref;
       var {
         color = '#fff',
         borderColor = '#000',
         dash = [],
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.save();
       ctx.beginPath();
       ctx.strokeStyle = borderColor;
@@ -879,13 +879,13 @@
       return [min, max];
     };
 
-    var drawCircle = (ctx, _ref, _ref2) => {
+    var drawCircle = function drawCircle(ctx, _ref) {
       var [x, y, r] = _ref;
       var {
         color = '#000',
         fill = '#fff',
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash([]);
@@ -899,13 +899,13 @@
       ctx.closePath();
     };
 
-    var drawTriangle = (ctx, _ref, _ref2) => {
+    var drawTriangle = function drawTriangle(ctx, _ref) {
       var [x, y, r] = _ref;
       var {
         color = '#000',
         fill = '#fff',
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash([]);
@@ -922,13 +922,13 @@
       ctx.closePath();
     };
 
-    var drawDiamond = (ctx, _ref, _ref2) => {
+    var drawDiamond = function drawDiamond(ctx, _ref) {
       var [x, y, r] = _ref;
       var {
         color = '#000',
         fill = '#fff',
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash([]);
@@ -953,7 +953,7 @@
         fill = '#000',
         size = 1,
         dash = []
-      } = arguments.length > 2 ? arguments[2] : undefined;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash(dash);
@@ -1003,13 +1003,13 @@
 
     };
 
-    var drawArrowX = (ctx, _ref, _ref2) => {
+    var drawArrowX = function drawArrowX(ctx, _ref) {
       var [x1, y1, x2, y2, factorX, factorY] = _ref;
       var {
         color = '#000',
         dash = [],
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.strokeStyle = color;
       ctx.lineWidth = size;
@@ -1024,13 +1024,13 @@
       ctx.closePath();
     };
 
-    var drawVector = (ctx, _ref, _ref2) => {
+    var drawVector = function drawVector(ctx, _ref) {
       var [x1, y1, x2, y2] = _ref;
       var {
         color = '#000',
         size = 1,
         dash = []
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash(dash);
@@ -1043,13 +1043,13 @@
       ctx.closePath();
     };
 
-    var drawArrowY = (ctx, _ref, _ref2) => {
+    var drawArrowY = function drawArrowY(ctx, _ref) {
       var [x1, y1, x2, y2, factorX, factorY] = _ref;
       var {
         color = '#000',
         dash = [],
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.strokeStyle = color;
       ctx.lineWidth = size;
@@ -1249,7 +1249,7 @@
         color = '#000',
         size = 1,
         dash = []
-      } = arguments.length > 2 ? arguments[2] : undefined;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash(dash);
@@ -1538,14 +1538,14 @@
       onDrawLabel: null
     };
 
-    var drawRect = (ctx, _ref, _ref2) => {
+    var drawRect = function drawRect(ctx, _ref) {
       var [x, y, w, h] = _ref;
       var {
         color = '#000',
         fill = '#fff',
         size = 1,
         dash = []
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash(dash);
@@ -1897,7 +1897,10 @@
       barWidth: 10,
       axis: defaultAxis,
       cross: defaultCross,
-      graphSize: 40
+      graphSize: 40,
+      bars: {
+        stroke: '#fff'
+      }
     };
 
     var MixinAddTriplet = {
@@ -1989,6 +1992,7 @@
         for (var i = 0; i < this.data.length; i++) {
           var graph = this.data[i];
           var color = o.colors[i];
+          var stroke = graph.stroke || o.bars.stroke;
 
           for (var [x1, x2, y] of graph.data) {
             var _x1 = Math.floor((x1 - this.minX) * this.ratioX + padding.left);
@@ -2001,7 +2005,7 @@
 
             drawRect(ctx, [_x1, _y, _x2 - _x1, _h], {
               fill: color,
-              color: '#fff'
+              color: stroke
             });
           }
         }
@@ -2039,7 +2043,7 @@
         size = 1,
         dash = [],
         tension = 0.25
-      } = arguments.length > 2 ? arguments[2] : undefined;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash(dash);
@@ -2308,13 +2312,13 @@
       onDrawValue: null
     };
 
-    var drawArc = (ctx, _ref, _ref2) => {
+    var drawArc = function drawArc(ctx, _ref) {
       var [x, y, radius = 4, startAngle, endAngle] = _ref;
       var {
         color = '#000',
         fill = '#fff',
         size = 1
-      } = _ref2;
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       ctx.beginPath();
       ctx.save();
       ctx.setLineDash([]);

@@ -1,11 +1,18 @@
 import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
-import {getFakeData} from "./helpers/get-fake-data"
+import {getFakeData, getFakeHistogramData, getFakeHistogramData2} from "./helpers/get-fake-data"
 import {defaultChartConfig} from "./helpers/chart-config"
 import {merge} from "./helpers/merge";
 import {imgOk, imgStop} from "./helpers/const";
 
 const chartConfig = merge({}, defaultChartConfig, {
+    bars: {
+        stroke: '#22272e'
+    },
+    boundaries: {
+        maxY: 100
+    },
+    graphSize: 20,
     onDrawLabelX: (v) => {
         return `${datetime(+v).format("HH:mm:ss")}`
     },
@@ -64,6 +71,7 @@ export const processNodeStatus = async () => {
     let reload = globalThis.config.intervals.node
     const UNKNOWN = "UNKNOWN"
     const elLog = $("#log-mina")
+    let peersStart = 200
 
     elLog.html(imgStop)
 

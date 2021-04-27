@@ -70,14 +70,20 @@ hr {
 .panel.warning {
   background: var(--warning-color);
 }
-#peers-count,
 #hostname,
 #node-status,
 #block-height,
-#node-uptime {
-  font-size: 36px;
+#node-uptime,
+#epoch-number,
+#slot-number,
+#balance-total,
+#currency-total {
+  font-size: 32px;
   font-weight: bold;
   line-height: 1;
+}
+#currency-total {
+  font-size: 28px;
 }
 #block-producer-full,
 #snark-worker-full {
