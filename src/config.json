@@ -1,8 +1,0 @@
-{
-    "publicKey": "B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw",
-    "telegramToken": "1613991717:AAGdMdk6B9homVzSYtbU6yote6NwB7aOCDA",
-    "telegramChatID": "304399970,437319402",
-    "balanceSendInterval": 86400000,
-    "alertInterval": 60000,
-    "host": "localhost:8000"
-}

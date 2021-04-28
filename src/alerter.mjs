@@ -3,7 +3,7 @@ import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
 
 export const processAlerter = async (config) => {
-    const BLOCK_DIFF = 2
+    const BLOCK_DIFF = config.blockDiff
     const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
 
     let status = await nodeInfo('node-status')
