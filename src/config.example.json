@@ -4,5 +4,6 @@
     "telegramChatID": "XXXXXXXXX,XXXXXXXXX",
     "balanceSendInterval": 86400000,
     "alertInterval": 60000,
+    "blockDiff": 2,
     "host": "localhost:8000"
 }
