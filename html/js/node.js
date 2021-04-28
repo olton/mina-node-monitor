@@ -12,7 +12,7 @@ const chartConfig = merge({}, defaultChartConfig, {
     boundaries: {
         maxY: 100
     },
-    graphSize: 20,
+    graphSize: 40,
     onDrawLabelX: (v) => {
         return `${datetime(+v).format("HH:mm:ss")}`
     },
@@ -132,6 +132,9 @@ export const processNodeStatus = async () => {
         const elSnarkWorkerNameFull = $("#snark-worker-full")
         const elSnarkWorkerFee = $("#snark-worker-fee")
         const elEndOfEpoch = $("#end-of-epoch")
+        const elNodeVersion = $("#node-version")
+
+        elNodeVersion.text(version)
 
         // node status
         elNodeStatus.closest(".panel").removeClass("alert warning")
