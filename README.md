@@ -80,18 +80,28 @@ Section `intervals` contain information about intervals (in milliseconds), with 
 - `cpu` - interval for retrieve information about server CPU(s)
 
 #### Config file for server 
-Create file `config.mjs` in a `src` folder. Example below demonstrate witch data you must create.
-```javascript
-export default {
-    publicKey: "B62qr...",
-    telegramToken: `XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`,
-    telegramChatID: "XXXXXXXXX, XXXXXXXXX",
-    balanceSendInterval: 1000 * 60 * 60 * 24,
-    alertInterval: 1000 * 60,
-    https: false,
-    host: "192.168.1.2:3085"
+Create file `config.json` in a `src` folder. Example below demonstrate witch data you must create.
+```json
+{
+    "publicKey": "B62qr...",
+    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "telegramChatID": "XXXXXXXXX, XXXXXXXXX",
+    "balanceSendInterval": 86400000,
+    "alertInterval": 60000,
+    "blockDiff": 2,
+    "host": "192.168.1.2:3085"
 }
 ```
+
+where
+
+- `publicKey` - node key for getting balance
+- `telegramToken` - your telegram bot token
+- `telegramChatID` - chat id(s), if there are several, must be separated by commas
+- `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
+- `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
+- `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
+- `host` - IP and PORT on which the server will run
 
 ### Build web client
 To build client use command
