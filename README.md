@@ -110,14 +110,14 @@ npm run build
 ```
 Now folder `dist` contains a compiled client files. Copy these to your web server.
 
-### Build server app
+### Install server app
 The application server must be installed on a machine with a Mina.
 Monitor use graphql connection on `localhost:3085` to get Mina info.
-Also, the server requires opens network interface.
+Also, the server requires opens external network interface if client run on a different server.
 I use an external interface with a 3085 port and restrictions by iptables for connecting.
 
 ### Install server app
-TO install server app, copy files from `src` folder to your server to any folder convenient for you.
+To install server app, copy files from `src` folder to your server to any folder convenient for you (for example copy to `~/node-monitor` in a home directory).
 
 #### Dependencies
 To run server app, you must install two dependencies:
@@ -126,6 +126,7 @@ To run server app, you must install two dependencies:
 
 You can install these with
 ```shell
+cd ~/node-monitor
 npm install node-fetch systeminformation --save
 ```
 

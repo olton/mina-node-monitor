@@ -5,6 +5,7 @@ import {defaultChartConfig} from "./helpers/chart-config"
 import {merge} from "./helpers/merge";
 import {imgOk, imgStop} from "./helpers/const";
 
+const graphSize = 40
 const chartConfig = merge({}, defaultChartConfig, {
     bars: {
         stroke: '#22272e'
@@ -12,7 +13,7 @@ const chartConfig = merge({}, defaultChartConfig, {
     boundaries: {
         maxY: 100
     },
-    graphSize: 40,
+    graphSize,
     onDrawLabelX: (v) => {
         return `${datetime(+v).format("HH:mm:ss")}`
     },
@@ -24,7 +25,7 @@ const chartConfig = merge({}, defaultChartConfig, {
 const peersChart = chart.lineChart("#peers-load", [
     {
         name: "Peers",
-        data: getFakeData(40)
+        data: getFakeData(graphSize)
     },
 ], chartConfig);
 
