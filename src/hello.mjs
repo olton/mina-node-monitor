@@ -1,5 +1,5 @@
 import fetch from "node-fetch"
-import {TELEGRAM_BOT_URL} from "./telegram.js"
+import {TELEGRAM_BOT_URL} from "./telegram.mjs"
 
 export const processHello = async (config) => {
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", config.telegramToken)

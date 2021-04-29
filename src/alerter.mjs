@@ -1,7 +1,7 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
-import {TELEGRAM_BOT_URL} from "./telegram.js"
+import {TELEGRAM_BOT_URL} from "./telegram.mjs"
 
 export const processAlerter = async (config) => {
     const BLOCK_DIFF = config.blockDiff
