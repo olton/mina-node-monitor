@@ -1,10 +1,11 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
+import {TELEGRAM_BOT_URL} from "./telegram.js"
 
 export const processAlerter = async (config) => {
     const BLOCK_DIFF = config.blockDiff
-    const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
+    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", config.telegramToken)
 
     let status = await nodeInfo('node-status')
 

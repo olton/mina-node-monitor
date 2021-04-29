@@ -1,8 +1,9 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
+import {TELEGRAM_BOT_URL} from "./telegram.js"
 
 export const processBalanceSend = async (config) => {
-    const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
+    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", config.telegramToken)
 
     if (!config.publicKey) return
     if (!config.balanceSendInterval) return

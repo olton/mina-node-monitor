@@ -1,7 +1,8 @@
 import fetch from "node-fetch"
+import {TELEGRAM_BOT_URL} from "./telegram.js"
 
 export const processHello = async (config) => {
-    const TELEGRAM_URL = `https://api.telegram.org/bot${config.telegramToken}/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%`
+    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", config.telegramToken)
     const ids = config.telegramChatID.split(",").map( v => v.trim() )
     const message = `Node says hello from ${config.host.split(":")[0]}`
     let target
