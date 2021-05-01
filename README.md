@@ -1,6 +1,6 @@
 <p align="center">
-    <img src="https://metroui.org.ua/res/node-monitor.jpg">
-</p>
+    <img src="https://metroui.org.ua/res/node-monitor-1.jpg">
+</p> 
 
 # Mina Node Monitor
 **Mina Node Monitor** is a `client-server` application for visual monitoring of the validator node and alerts when node have a problem.
