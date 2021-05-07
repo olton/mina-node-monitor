@@ -70,9 +70,9 @@
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="block-height" class="text-center fg-stroke" style="line-height: 1">0</div>
                         <div class="text-small text-center fg-white">
-                            max: <span id="max-block" class="fg-yellow">0</span>
-                            unv: <span id="max-unvalidated" class="fg-red">0</span>
-                            exp: <span id="explorer-height" class="fg-green">0</span>
+                            max: <span id="max-block">0</span>
+                            unv: <span id="max-unvalidated">0</span>
+                            exp: <span id="explorer-height">0</span>
                         </div>
                     </div>
                 </div>
@@ -124,10 +124,23 @@
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="RAM USE">
+                    <div id="memory-use"></div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="CPU USE">
+                    <div id="cpu-use"></div>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="CPUs <span id='cpu-threads' class='enlarge-4 text-bold fg-cyan'>0</span>">
                     <div id="cpu-load"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="row">
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="NET <span id='net-traffic' class='enlarge-4 text-bold fg-cyan'>0</span> MB/S">
                     <div id="net-load"></div>
@@ -136,6 +149,33 @@
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="PEERS <span id='peers-count' class='enlarge-4 text-bold fg-cyan'>0</span>">
                     <div id="peers-load"></div>
+                </div>
+            </div>
+            <div class="cell-lg-6">
+                <div data-role="panel" data-title-caption="System Queries">
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System info</div><div id="log-info" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System time</div><div id="log-time" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System CPU</div><div id="log-cpu" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System MEM</div><div id="log-mem" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">System NET</div><div id="log-net" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
+                            <div class="text-small">Mina GraphQL</div><div id="log-mina" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                        <div class="d-flex flex-row no-wrap">
+                            <div class="text-small">Mina Explorer</div><div id="log-explorer" class="ml-auto"><span class="mif-stop fg-red"></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,34 +196,6 @@
         </div>
 
         <div class="row">
-            <div class="cell-12">
-                <div data-role="panel" data-title-caption="LOG(s)">
-                    <div class="d-flex flex-column">
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System info</div><div id="log-info" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System time</div><div id="log-time" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System CPU</div><div id="log-cpu" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System MEM</div><div id="log-mem" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System NET</div><div id="log-net" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">Mina node</div><div id="log-mina" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap">
-                            <div class="text-small">Mina Explorer</div><div id="log-explorer" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="cell-12">
                 <div data-role="panel" data-title-caption="NODE VERSION">
                     <div id="node-version" class="text-center fg-orange">unknown</div>

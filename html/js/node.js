@@ -159,7 +159,7 @@ export const processNodeStatus = async () => {
             elNextBlockTime.text(blockDate.format("ddd, DD MMM, HH:mm"))
             elNextBlockLeft.text(`${blockLeft.d} day(s) ${blockLeft.h} hour(s) ${blockLeft.m} minute(s)`)
         } else {
-            elNextBlockTime.text('None this epoch')
+            elNextBlockTime.text(netSyncStatus === 'BOOTSTRAP' ? 'No data available' : 'None this epoch')
             elNextBlockLeft.text('')
         }
 
@@ -182,6 +182,11 @@ export const processNodeStatus = async () => {
 
         // ip address
         elIpAddress.text(addrsAndPorts.externalIp)
+        if (!config.showIp) {
+            elIpAddress.hide()
+        } else {
+            elIpAddress.show()
+        }
 
         // producer and snark worker
         const noBlockProducer = 'No running block producer'

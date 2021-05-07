@@ -2,7 +2,7 @@ import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
 import {getFakeData} from "./helpers/get-fake-data";
 import {merge} from "./helpers/merge";
-import {defaultChartConfig} from "./helpers/chart-config";
+import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
 const chartConfig = merge({}, defaultChartConfig, {
@@ -32,6 +32,7 @@ const cpuChart = chart.lineChart("#cpu-load", [
     }
 ], chartConfig);
 
+let cpuGauge
 
 const loadCPUData = async () => {
     return await getInfo('cpu-load')
@@ -43,9 +44,25 @@ export const processCPUData = async () => {
 
     elLog.html(imgStop)
     if (cpu) {
-        cpuChart.addPoint(0, [datetime().time(), cpu.currentLoad])
-        cpuChart.addPoint(1, [datetime().time(), cpu.currentLoadUser])
-        cpuChart.addPoint(2, [datetime().time(), cpu.currentLoadSystem])
+
+        let {currentLoad = 0, currentLoadUser = 0, currentLoadSystem = 0} = cpu
+
+        cpuChart.addPoint(1, [datetime().time(), currentLoadUser])
+        cpuChart.addPoint(0, [datetime().time(), currentLoad])
+        cpuChart.addPoint(2, [datetime().time(), currentLoadSystem])
+
+        if (!cpuGauge) {
+            cpuGauge = chart.gauge('#cpu-use', [currentLoad], {
+                ...defaultGaugeConfig,
+                backStyle: '#1e2228',
+                fillStyle: 'tomato',
+                onDrawValue: (v, p) => {
+                    return +p.toFixed(0) + "%"
+                }
+            })
+        } else {
+            cpuGauge.setData([currentLoad])
+        }
 
         // console.log("CPU (re)loaded!")
         elLog.html(imgOk)

@@ -266,6 +266,7 @@
       boundaries: false,
       accuracy: 2,
       colors: Object.values(StandardColorPalette),
+      animate: false,
       onDrawLabelY: null,
       onDrawLabelX: null,
       onTooltipShow: null,
@@ -318,6 +319,7 @@
       var [x, y] = _ref;
       var {
         align = 'left',
+        baseLine = 'middle',
         color = '#000',
         stroke = '#000',
         font,
@@ -348,7 +350,7 @@
       ctx.font = "".concat(style, " ").concat(weight, " ").concat(size, "px/").concat(lineHeight, " ").concat(family);
       ctx.translate(tX, tY);
       ctx.rotate(angle);
-      ctx.textBaseline = "middle";
+      ctx.textBaseline = baseLine;
       var lines = text.toString().split('\n');
       lines.map((str, i) => {
         ctx.fillText(str, x, y + y * i * lineHeight);
@@ -635,6 +637,7 @@
         this.chartType = type;
         this.rect = this.el.getBoundingClientRect();
         this.canvasRect = null;
+        this.static = false;
         var that = this;
         this.proxy = new Proxy({}, {
           set() {
@@ -689,6 +692,8 @@
         this.dpiWidth = o.dpi * width;
         this.viewHeight = this.dpiHeight - (padding.top + padding.bottom);
         this.viewWidth = this.dpiWidth - (padding.left + padding.right);
+        this.center = [this.dpiWidth / 2, this.dpiHeight / 2];
+        this.radius = Math.min(this.viewHeight, this.viewWidth) / 2;
       }
 
       title() {
@@ -1344,15 +1349,6 @@
           }
 
           coords.push([coords[coords.length - 1][0], _this.viewHeight + padding.top, 0, 0]);
-
-          if (graph.showLines !== false) {
-            drawLine(ctx, coords, {
-              color,
-              fill,
-              size: graph.size
-            });
-          }
-
           drawArea(ctx, coords, {
             color,
             fill,
@@ -1399,6 +1395,16 @@
             drawPointFn,
             opt
           };
+          coords.shift();
+          coords.pop();
+
+          if (graph.showLines !== false) {
+            drawLine(ctx, coords, {
+              color,
+              fill,
+              size: graph.size
+            });
+          }
         };
 
         for (var i = 0; i < this.data.length; i++) {
@@ -1621,15 +1627,17 @@
         this.barWidth = availableSpace / bars;
       }
 
-      barsY() {
+      bars() {
+        var axisX = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
         var o = this.options;
         var padding = expandPadding(o.padding);
         var ctx = this.ctx;
-        var px = padding.left + o.groupDistance;
-        var py = this.viewHeight + padding.top;
         var rect = this.canvas.getBoundingClientRect();
-        var mx, my;
-        var tooltip = false;
+        var px,
+            py,
+            mx,
+            my,
+            tooltip = false;
         if (!this.data || !this.data.length) return;
 
         if (this.proxy.mouse) {
@@ -1637,8 +1645,10 @@
           my = this.proxy.mouse.y - rect.top;
         }
 
+        px = axisX ? padding.left : padding.left + o.groupDistance;
+        py = axisX ? padding.top + o.groupDistance : this.viewHeight + padding.top;
+
         for (var g = 0; g < this.data.length; g++) {
-          // let colors = graph.color.split(",").map( c => c.trim() )
           var graph = this.data[g];
           var data = graph.data;
           var labelColor = o.labels.color;
@@ -1648,17 +1658,19 @@
           for (var i = 0; i < data.length; i++) {
             var delta = data[i] * this.ratio;
             var color = data.length === 1 ? o.colors[g] : o.colors[i];
-            var fill = color;
-            drawRect(ctx, [px, py - delta, this.barWidth - 1, delta], {
+            var options = {
               color,
-              fill
-            });
+              fill: color
+            };
+            var coords = axisX ? [px, py, px + delta - padding.right, this.barWidth] : [px, py - delta, this.barWidth - 1, delta];
+            drawRect(ctx, coords, options);
+            var borderX = axisX ? [px, px + delta] : [px, px + this.barWidth - 1];
+            var borderY = axisX ? [py, py + this.barWidth - 1] : [py - delta, py];
 
-            if (mx > px && mx < px + this.barWidth - 1 && my > py - delta && my < py) {
-              drawRect(ctx, [px, py - delta, this.barWidth - 1, delta], {
-                color,
+            if (mx > borderX[0] && mx < borderX[1] && my > borderY[0] && my < borderY[1]) {
+              drawRect(ctx, coords, _objectSpread2(_objectSpread2({}, options), {}, {
                 fill: 'rgba(255,255,255,.3)'
-              });
+              }));
 
               if (o.tooltip) {
                 this.showTooltip([o.legend.titles ? o.legend.titles[i] : name, data[i]], graph);
@@ -1667,82 +1679,20 @@
             }
 
             groupWidth += this.barWidth + o.barDistance;
-            px += o.barDistance + this.barWidth;
-          }
 
-          px -= o.barDistance;
-          groupWidth -= o.barDistance;
-
-          if (typeof o.onDrawLabel === 'function') {
-            name = o.onDrawLabel.apply(null, name);
-          }
-
-          drawText(ctx, name, [px - groupWidth / 2, py + 20], {
-            align: 'center',
-            color: labelColor,
-            stroke: labelColor,
-            font: o.font
-          });
-          px += o.groupDistance;
-        }
-
-        if (!tooltip && this.tooltip) {
-          this.tooltip.remove();
-          this.tooltip = null;
-        }
-      }
-
-      barsX() {
-        var o = this.options;
-        var padding = expandPadding(o.padding);
-        var ctx = this.ctx;
-        var px, py;
-        var rect = this.canvas.getBoundingClientRect();
-        var mx, my;
-        var tooltip = false;
-
-        if (this.proxy.mouse) {
-          mx = this.proxy.mouse.x - rect.left;
-          my = this.proxy.mouse.y - rect.top;
-        }
-
-        px = padding.left;
-        py = padding.top + o.groupDistance;
-
-        for (var g = 0; g < this.data.length; g++) {
-          // let colors = graph.color.split(",").map( c => c.trim() )
-          var graph = this.data[g];
-          var data = graph.data;
-          var labelColor = o.labels.color;
-          var name = graph.name;
-          var groupWidth = 0;
-
-          for (var i = 0; i < data.length; i++) {
-            var delta = data[i] * this.ratio;
-            var color = data.length === 1 ? o.colors[g] : o.colors[i];
-            var fill = color;
-            drawRect(ctx, [px, py, px + delta - padding.right, this.barWidth], {
-              color,
-              fill
-            });
-
-            if (mx > px && mx < px + delta && my > py && my < py + this.barWidth) {
-              drawRect(ctx, [px, py, px + delta - padding.right, this.barWidth], {
-                color,
-                fill: 'rgba(255,255,255,.3)'
-              });
-
-              if (o.tooltip) {
-                this.showTooltip([o.legend.titles ? o.legend.titles[i] : name, data[i]], graph);
-                tooltip = true;
-              }
+            if (axisX) {
+              py += o.barDistance + this.barWidth;
+            } else {
+              px += o.barDistance + this.barWidth;
             }
-
-            groupWidth += this.barWidth + o.barDistance;
-            py += o.barDistance + this.barWidth;
           }
 
-          py -= o.barDistance;
+          if (axisX) {
+            py -= o.barDistance;
+          } else {
+            px -= o.barDistance;
+          }
+
           groupWidth -= o.barDistance;
 
           if (typeof o.onDrawLabel === 'function') {
@@ -1754,16 +1704,23 @@
             color: labelColor,
             stroke: labelColor,
             font: o.font,
-            angle: Math.PI / 2,
-            translate: [px - 20, py - groupWidth / 2]
+            angle: axisX ? Math.PI / 2 : 0,
+            translate: axisX ? [px - 20, py - groupWidth / 2] : [px - groupWidth / 2, py + 20]
           });
-          py += o.groupDistance;
+
+          if (axisX) {
+            py += o.groupDistance;
+          } else {
+            px += o.groupDistance;
+          }
         }
 
         if (!tooltip && this.tooltip) {
           this.tooltip.remove();
           this.tooltip = null;
         }
+
+        this.static = true;
       }
 
       draw() {
@@ -1774,12 +1731,11 @@
 
         if (o.dataAxisX) {
           this.axisX();
-          this.barsX();
         } else {
           this.axisY();
-          this.barsY();
         }
 
+        this.bars(o.dataAxisX);
         this.arrowY();
         this.arrowX();
         this.legend();
@@ -2312,7 +2268,7 @@
       onDrawValue: null
     };
 
-    var drawArc = function drawArc(ctx, _ref) {
+    var drawSector = function drawSector(ctx, _ref) {
       var [x, y, radius = 4, startAngle, endAngle] = _ref;
       var {
         color = '#000',
@@ -2336,7 +2292,6 @@
     class PieChart extends Chart {
       constructor(el, data, options) {
         super(el, data, merge({}, defaultPieChartOptions, options), 'pie');
-        this.center = [this.dpiWidth / 2, this.dpiHeight / 2];
         this.total = this.data.reduce((acc, curr) => acc + curr.data, 0);
         this.legendItems = [];
 
@@ -2351,10 +2306,10 @@
 
       sectors() {
         var ctx = this.ctx,
-            o = this.options,
-            padding = expandPadding(o.padding);
+            o = this.options;
+            expandPadding(o.padding);
         var [x, y] = this.center;
-        var radius = this.viewHeight > this.viewWidth ? this.viewWidth / 2 - (padding.left + padding.right) : this.viewHeight / 2 - (padding.top + padding.bottom);
+        var radius = this.radius;
         var startAngle = 0,
             endAngle = 360,
             offset = 0,
@@ -2367,7 +2322,7 @@
           var sector = this.data[i];
           var color = o.colors[i];
           endAngle = 2 * Math.PI * sector.data / this.total;
-          drawArc(ctx, [x, y, radius, startAngle, startAngle + endAngle], {
+          drawSector(ctx, [x, y, radius, startAngle, startAngle + endAngle], {
             fill: color,
             color: color
           });
@@ -2644,6 +2599,136 @@
     Object.assign(StackedBarChart.prototype, MixinAxis);
     var stackedBarChart = (el, data, options) => new StackedBarChart(el, data, options);
 
+    var gaugeLabel = {
+      font: defaultFont,
+      fixed: false,
+      color: "#000",
+      angle: 0,
+      shift: {
+        x: 0,
+        y: 0
+      }
+    };
+    var defaultGaugeOptions = {
+      backStyle: "#a7a7a7",
+      fillStyle: "#8f8",
+      startFactor: 0.85,
+      endFactor: 0.15,
+      backWidth: 32,
+      valueWidth: 32,
+      radius: 100,
+      boundaries: {
+        min: 0,
+        max: 100
+      },
+      value: gaugeLabel,
+      label: {
+        min: gaugeLabel,
+        max: gaugeLabel
+      },
+      padding: {
+        left: 0,
+        right: 0
+      }
+    };
+
+    var drawArc = function drawArc(ctx, _ref) {
+      var [x, y, radius, startAngle, endAngle] = _ref;
+      var {
+        stroke = '#000',
+        fill = '#fff',
+        size = 1,
+        dash = []
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      ctx.beginPath();
+      ctx.save();
+      ctx.setLineDash(dash);
+      ctx.lineWidth = size;
+      ctx.strokeStyle = stroke;
+      ctx.fillStyle = fill;
+      ctx.arc(x, y, radius, startAngle, endAngle);
+      ctx.stroke();
+      ctx.restore();
+      ctx.closePath();
+    };
+
+    class Gauge extends Chart {
+      constructor(el, data, options) {
+        super(el, data, merge({}, defaultGaugeOptions, options), 'gauge');
+        this.resize();
+      }
+
+      gauge() {
+        var ctx = this.ctx,
+            o = this.options,
+            padding = expandPadding(o.padding);
+        var [x, y] = this.center;
+        x += padding.left;
+        y += padding.top;
+        var PI = Math.PI,
+            min = PI * o.startFactor,
+            max = PI * (2 + o.endFactor);
+        var r = o.radius * this.radius / 100 - o.backWidth;
+        var v = this.data[0],
+            p = Math.abs(100 * (v - o.boundaries.min) / (o.boundaries.max - o.boundaries.min));
+        var val = min + (max - min) * p / 100;
+        var textVal = p.toFixed(0);
+
+        if (typeof o.onDrawValue === 'function') {
+          textVal = o.onDrawValue.apply(null, [v, p]);
+        }
+
+        drawArc(ctx, [x, y, r, min, max], {
+          size: o.backWidth,
+          stroke: o.backStyle
+        });
+        drawArc(ctx, [x, y, r, min, val], {
+          size: o.valueWidth,
+          stroke: o.fillStyle
+        });
+        drawText(ctx, textVal, [0, 0], {
+          align: "center",
+          baseLine: "middle",
+          color: o.value.color,
+          stroke: o.value.color,
+          font: o.value.font || o.font,
+          translate: [x + o.value.shift.x, y + o.value.shift.y],
+          angle: o.value.angle
+        });
+
+        if (o.label.min) {
+          drawText(ctx, o.boundaries.min, [0, 0], {
+            align: "left",
+            baseLine: "middle",
+            color: o.label.min.color,
+            stroke: o.label.min.color,
+            font: o.label.min.font || o.font,
+            translate: [x + r * Math.cos(min) + o.backWidth + o.label.min.shift.x, y + r * Math.sin(min) + o.label.min.shift.y],
+            angle: 0
+          });
+        }
+
+        if (o.label.max) {
+          drawText(ctx, o.boundaries.max, [0, 0], {
+            align: "right",
+            baseLine: "middle",
+            color: o.label.max.color,
+            stroke: o.label.max.color,
+            font: o.label.max.font || o.font,
+            translate: [x + r * Math.cos(max) - o.backWidth + o.label.max.shift.x, y + r * Math.sin(max) + o.label.max.shift.y],
+            angle: 0
+          });
+        }
+      }
+
+      draw() {
+        super.draw();
+        this.gauge();
+      }
+
+    }
+    var gauge = (el, data, options) => new Gauge(el, data, options);
+
     globalThis.chart = {
       areaChart,
       barChart,
@@ -2651,7 +2736,8 @@
       histogramChart,
       lineChart,
       pieChart,
-      stackedBarChart
+      stackedBarChart,
+      gauge
     };
 
 }());

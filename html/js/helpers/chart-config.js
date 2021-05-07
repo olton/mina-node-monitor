@@ -59,3 +59,23 @@ export const defaultChartConfig = {
     },
     tooltip: false,
 }
+
+export const defaultGaugeConfig = {
+    border: false,
+    backStyle: "#7dc37b",
+    fillStyle: "#00AFF0",
+    value: {
+        color: "#7dc37b",
+        font: {
+            size: 20
+        }
+    },
+    label: {
+        min: false,
+        max: false,
+    },
+    padding: {
+        top: 20,
+        bottom: 0
+    },
+}

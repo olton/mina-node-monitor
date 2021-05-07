@@ -14,7 +14,7 @@ export const processAlerter = async (config) => {
     if (status && status.data && status.data.daemonStatus) {
         const {syncStatus, blockchainLength, addrsAndPorts} = status.data.daemonStatus
         const ip = addrsAndPorts.externalIp
-        const ids = config.telegramChatID.split(",").map( v => v.trim() )
+        const ids = config.telegramChatIDAlert.split(",").map( v => v.trim() )
         let target
 
         if (syncStatus !== 'SYNCED') {

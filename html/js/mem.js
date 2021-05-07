@@ -2,29 +2,14 @@ import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
 import {getFakeData} from "./helpers/get-fake-data";
 import {merge} from "./helpers/merge";
-import {defaultChartConfig} from "./helpers/chart-config";
+import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
 const getMemInfo = async () => {
     return await getInfo('mem')
 }
 
-const chartConfig = merge({}, defaultChartConfig, {
-    onDrawLabelX: (v) => {
-        return `${datetime(+v).format("HH:mm:ss")}`
-    }
-})
-
-const memoryChart = chart.lineChart("#memory-load", [
-    {
-        name: "Used",
-        data: getFakeData(40)
-    },
-    {
-        name: "Free",
-        data: getFakeData(40)
-    }
-], chartConfig);
+let memoryChart, memoryGauge
 
 export const processMemInfo = async () => {
     let mem = await getMemInfo()
@@ -35,9 +20,46 @@ export const processMemInfo = async () => {
     if (mem) {
         const memUsage = mem.used / (1024 ** 3)
         const memFree = mem.free / (1024 ** 3)
+        const memTotal = mem.total / (1024 ** 3)
 
+        if (!memoryChart) {
+            const _data = getFakeData(40)
+
+            memoryChart = chart.lineChart("#memory-load", [
+                {
+                    name: "Used",
+                    data: _data
+                },
+                {
+                    name: "Free",
+                    data: _data
+                }
+            ], {
+                ...defaultChartConfig,
+                boundaries: {
+                    maxY: memTotal,
+                    minY: 0
+                },
+                onDrawLabelX: (v) => {
+                    return `${datetime(+v).format("HH:mm:ss")}`
+                }
+            });
+        }
         memoryChart.addPoint(0, [datetime().time(), memUsage])
         memoryChart.addPoint(1, [datetime().time(), memFree])
+
+        if (!memoryGauge) {
+            memoryGauge = chart.gauge('#memory-use', [0], {
+                ...defaultGaugeConfig,
+                boundaries: {
+                    max: Math.round(memTotal),
+                },
+                onDrawValue: (v, p) => {
+                    return +p.toFixed(0) + "%"
+                }
+            })
+        }
+        memoryGauge.setData([memUsage])
 
         $("#ram-free").text(memFree.toFixed(0))
 

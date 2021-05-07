@@ -30,6 +30,15 @@ body {
 hr {
   background: var(--border-color) !important;
 }
+#max-block {
+  color: #fff000;
+}
+#max-unvalidated {
+  color: #ff0000;
+}
+#explorer-height {
+  color: #0b98da;
+}
 .panel {
   height: 100%;
   background: var(--panel-background);
@@ -66,6 +75,14 @@ hr {
 .panel.alert #node-status,
 .panel.warning #node-status {
   color: #fff !important;
+}
+.panel.alert #max-block,
+.panel.warning #max-block,
+.panel.alert #max-unvalidated,
+.panel.warning #max-unvalidated,
+.panel.alert #explorer-height,
+.panel.warning #explorer-height {
+  color: #fff;
 }
 .panel.warning {
   background: var(--warning-color);
