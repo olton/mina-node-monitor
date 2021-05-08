@@ -2662,6 +2662,22 @@
         this.resize();
       }
 
+      _getFillColor(p, colors) {
+        var res = '#fff',
+            min = 0;
+
+        for (var i = 0; i < colors.length; i++) {
+          var c = colors[i][0];
+
+          if (p > min && p <= c) {
+            res = colors[i][1];
+            min = colors[i][0];
+          }
+        }
+
+        return res;
+      }
+
       gauge() {
         var ctx = this.ctx,
             o = this.options,
@@ -2674,9 +2690,10 @@
             max = PI * (2 + o.endFactor);
         var r = o.radius * this.radius / 100 - o.backWidth;
         var v = this.data[0],
-            p = Math.abs(100 * (v - o.boundaries.min) / (o.boundaries.max - o.boundaries.min));
+            p = Math.round(Math.abs(100 * (v - o.boundaries.min) / (o.boundaries.max - o.boundaries.min)));
         var val = min + (max - min) * p / 100;
-        var textVal = p.toFixed(0);
+        var textVal = p;
+        var colors = [];
 
         if (typeof o.onDrawValue === 'function') {
           textVal = o.onDrawValue.apply(null, [v, p]);
@@ -2686,9 +2703,18 @@
           size: o.backWidth,
           stroke: o.backStyle
         });
+
+        if (typeof o.fillStyle === "string") {
+          colors.push([100, o.fillStyle]);
+        } else if (Array.isArray(o.fillStyle)) {
+          for (var c of o.fillStyle) {
+            colors.push(c);
+          }
+        }
+
         drawArc(ctx, [x, y, r, min, val], {
           size: o.valueWidth,
-          stroke: o.fillStyle
+          stroke: this._getFillColor(p, colors)
         });
         drawText(ctx, textVal, [0, 0], {
           align: "center",
