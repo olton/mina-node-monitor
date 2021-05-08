@@ -13,7 +13,10 @@ query MyQuery {
       peerId
     }
     addrsAndPorts {
+      libp2pPort
       externalIp
+      clientPort
+      bindIp
     }
     uptimeSecs
     highestBlockLengthReceived

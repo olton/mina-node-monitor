@@ -62,8 +62,8 @@ export const defaultChartConfig = {
 
 export const defaultGaugeConfig = {
     border: false,
-    backStyle: "#7dc37b",
-    fillStyle: "#00AFF0",
+    backStyle: '#1e2228',
+    fillStyle: 'tomato',
     value: {
         color: "#7dc37b",
         font: {

@@ -53,7 +53,6 @@
                 <div data-role="panel" data-title-caption="HOSTNAME">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="hostname" style="line-height: 1">UNKNOWN</div>
-                        <div id="ip-address" class="text-small fg-white">_._._._</div>
                     </div>
                 </div>
             </div>
@@ -151,31 +150,60 @@
                     <div id="peers-load"></div>
                 </div>
             </div>
-            <div class="cell-lg-6">
+            <div class="cell-md-6 cell-lg-3">
+                <div data-role="panel" data-title-caption="Addresses and Ports" data-cls-content="flex-align-start">
+                    <table class="table text-small info-table">
+                        <tr>
+                            <td>IP address</td>
+                            <td class="text-right"><span id="ip-address">___.___.___</span></td>
+                        </tr>
+                        <tr>
+                            <td>Bind IP</td>
+                            <td class="text-right"><span id="bind-ip">___.___.___</span></td>
+                        </tr>
+                        <tr>
+                            <td>P2P port</td>
+                            <td class="text-right"><span id="p2p-port">0000</span></td>
+                        </tr>
+                        <tr>
+                            <td>Client port</td>
+                            <td class="text-right"><span id="client-port">0000</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="System Queries">
-                    <div class="d-flex flex-column">
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System info</div><div id="log-info" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System time</div><div id="log-time" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System CPU</div><div id="log-cpu" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System MEM</div><div id="log-mem" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">System NET</div><div id="log-net" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap border-bottom bd-system">
-                            <div class="text-small">Mina GraphQL</div><div id="log-mina" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                        <div class="d-flex flex-row no-wrap">
-                            <div class="text-small">Mina Explorer</div><div id="log-explorer" class="ml-auto"><span class="mif-stop fg-red"></span></div>
-                        </div>
-                    </div>
+                    <table class="table text-small info-table">
+                        <tr>
+                            <td>System info</td>
+                            <td id="log-info" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td>System time</td>
+                            <td id="log-time" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td>CPU info</td>
+                            <td id="log-cpu" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td>RAM info</td>
+                            <td id="log-mem" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td>NET info</td>
+                            <td id="log-net" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Mina GraphQL</td>
+                            <td id="log-mina" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Mina Explorer</td>
+                            <td id="log-explorer" class="text-right"><span class="mif-stop fg-red"></span></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

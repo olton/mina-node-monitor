@@ -39,9 +39,9 @@ const requestListener = async (req, res) => {
         case '/dyn': response = await sysInfo('dyn'); break;
         case '/net-stat': response = await sysInfo('net-stat'); break;
         case '/net-conn': response = await sysInfo('net-conn'); break;
-        case '/node-status': response = await nodeInfo('node-status'); break;
+        case '/node-status': response = await nodeInfo('node-status', config); break;
         case '/balance': response = await nodeInfo('balance', config); break;
-        case '/blockchain': response = await nodeInfo('blockchain'); break;
+        case '/blockchain': response = await nodeInfo('blockchain', config); break;
         case '/explorer': response = await getExplorerSummary(); break;
         default:
             response = "OK"

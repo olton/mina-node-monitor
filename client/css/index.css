@@ -106,4 +106,16 @@ hr {
 #snark-worker-full {
   font-size: 0.9em;
 }
+.info-table {
+  margin-top: 8px;
+}
+.info-table tr:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+.info-table tbody td {
+  padding: 4px 0;
+}
+.info-table tbody td:nth-child(2) {
+  color: #fff;
+}
 /*# sourceMappingURL=index.css.map */

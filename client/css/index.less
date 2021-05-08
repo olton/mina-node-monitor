@@ -101,3 +101,17 @@ hr {
 #block-producer-full, #snark-worker-full {
   font-size: .9em;
 }
+
+.info-table {
+  margin-top: 8px;
+  tr:not(:last-child) {
+    border-bottom: 1px solid var(--border-color)
+  }
+
+  tbody td {
+    padding: 4px 0;
+    &:nth-child(2) {
+      color: #fff;
+    }
+  }
+}

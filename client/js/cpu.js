@@ -54,8 +54,6 @@ export const processCPUData = async () => {
         if (!cpuGauge) {
             cpuGauge = chart.gauge('#cpu-use', [currentLoad], {
                 ...defaultGaugeConfig,
-                backStyle: '#1e2228',
-                fillStyle: 'tomato',
                 onDrawValue: (v, p) => {
                     return +p.toFixed(0) + "%"
                 }

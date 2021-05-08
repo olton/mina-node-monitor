@@ -11,7 +11,7 @@ const chartConfig = merge({}, defaultChartConfig, {
         stroke: '#22272e'
     },
     boundaries: {
-        maxY: 100
+        maxY: 150
     },
     graphSize,
     onDrawLabelX: (v) => {
@@ -127,6 +127,9 @@ export const processNodeStatus = async () => {
         const elMaxUnvalidated = $("#max-unvalidated")
         const elNodeUptime = $("#node-uptime")
         const elIpAddress = $("#ip-address")
+        const elBindIp = $("#bind-ip")
+        const elP2PPort = $("#p2p-port")
+        const elClientPort = $("#client-port")
         const elBlockProducerName = $("#block-producer")
         const elBlockProducerNameFull = $("#block-producer-full")
         const elSnarkWorkerName = $("#snark-worker")
@@ -182,6 +185,9 @@ export const processNodeStatus = async () => {
 
         // ip address
         elIpAddress.text(addrsAndPorts.externalIp)
+        elBindIp.text(addrsAndPorts.bindIp)
+        elP2PPort.text(addrsAndPorts.libp2pPort)
+        elClientPort.text(addrsAndPorts.clientPort)
         if (!config.showIp) {
             elIpAddress.hide()
         } else {
