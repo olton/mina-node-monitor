@@ -86,6 +86,7 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "publicKey": "B62qr...",
     "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
     "telegramChatID": "XXXXXXXXX, XXXXXXXXX",
+    "telegramChatIDAlert": "XXXXXXXXX, XXXXXXXXX",
     "balanceSendInterval": 86400000,
     "alertInterval": 60000,
     "blockDiff": 2,
@@ -97,7 +98,8 @@ where
 
 - `publicKey` - node key for getting balance
 - `telegramToken` - your telegram bot token
-- `telegramChatID` - chat id(s), if there are several, must be separated by commas
+- `telegramChatID` - chat id(s) for balance info, if there are several, must be separated by commas
+- `telegramChatIDAlert` - chat id(s) for alerting, if there are several, must be separated by commas
 - `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
