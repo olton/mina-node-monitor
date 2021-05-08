@@ -55,7 +55,6 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "info": 60000,
         "time": 60000,
         "blockchain": 30000,
-        "alert": 30000,
         "node": 30000,
         "net": 2000,
         "mem": 2000,
@@ -90,7 +89,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "balanceSendInterval": 86400000,
     "alertInterval": 60000,
     "blockDiff": 2,
-    "host": "192.168.1.2:3085"
+    "host": "192.168.1.2:3085",
+    "graphql": "localhost:3085"
 }
 ```
 
@@ -104,6 +104,7 @@ where
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
 - `host` - IP and PORT on which the server will run
+- `graphql` - Mina node GraphQL address
 
 ### Build web client
 To build client use command
@@ -114,7 +115,7 @@ Now folder `dist` contains a compiled client files. Copy these to your web serve
 
 ### Install server app
 The application server must be installed on a machine with a Mina.
-Monitor use graphql connection on `localhost:3085` to get Mina info.
+Monitor use graphql connection defined in config with prop `graphql` (default is `localhost:3085`) to get Mina info.
 Also, the server requires opens external network interface if client run on a different server.
 I use an external interface with a 3085 port and restrictions by iptables for connecting.
 

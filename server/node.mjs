@@ -70,10 +70,10 @@ query MyQuery {
 
 `;
 
-async function fetchGraphQL(query, operationName = "MyQuery", variables = {}) {
+async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = {}) {
     try {
         const result = await fetch(
-            "http://localhost:3085/graphql",
+            `http://${addr}/graphql`,
             {
                 method: "POST",
                 headers: {
@@ -96,8 +96,8 @@ async function fetchGraphQL(query, operationName = "MyQuery", variables = {}) {
 
 export const nodeInfo = async (obj, config) => {
     switch (obj) {
-        case 'node-status': return await fetchGraphQL(queryNodeStatus)
-        case 'balance': return await fetchGraphQL(queryBalance.replace("%PUBLIC_KEY%", config.publicKey))
-        case 'blockchain': return await fetchGraphQL(queryBlockChain)
+        case 'node-status': return await fetchGraphQL(config.graphql, queryNodeStatus)
+        case 'balance': return await fetchGraphQL(config.graphql, queryBalance.replace("%PUBLIC_KEY%", config.publicKey))
+        case 'blockchain': return await fetchGraphQL(config.graphql, queryBlockChain)
     }
 }
