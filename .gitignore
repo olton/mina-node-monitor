@@ -12,6 +12,6 @@ packages/**/coverage
 .jest-*
 .cache
 .coverage
-html/config.json
-src/config.mjs
-src/config.json
+client/config.json
+server/config.mjs
+server/config.json

@@ -5,8 +5,8 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "serve": "xcopy html\\config.json output\\*.* /Y && parcel serve --open -d output -p 2222 --no-cache html/index.html",
-        "build_site": "xcopy html\\config.json dist\\*.* /Y /I && parcel build -d dist --public-url . --no-minify html/index.html",
+        "serve": "xcopy client\\config.json output\\*.* /Y && parcel serve --open -d output -p 2222 --no-cache client/index.html",
+        "build_site": "xcopy client\\config.json dist\\*.* /Y /I && parcel build -d dist --public-url . --no-minify client/index.html",
         "build": "rimraf -rf dist bin && npm run build_site"
     },
     "devDependencies": {

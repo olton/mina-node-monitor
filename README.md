@@ -44,7 +44,7 @@ The Monitor consists of two parts:
 Before build client or/and server, you must create a config files for client and server.
 
 #### Config file for client
-Create file `config.json` in a `html` folder. Example below demonstrate witch data you must create.
+Create file `config.json` in a `client` folder. Example below demonstrate witch data you must create.
 ```json
 {
     "hosts": {
@@ -80,7 +80,7 @@ Section `intervals` contain information about intervals (in milliseconds), with 
 - `cpu` - interval for retrieve information about server CPU(s)
 
 #### Config file for server 
-Create file `config.json` in a `src` folder. Example below demonstrate witch data you must create.
+Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.
 ```json
 {
     "publicKey": "B62qr...",
@@ -117,7 +117,7 @@ Also, the server requires opens external network interface if client run on a di
 I use an external interface with a 3085 port and restrictions by iptables for connecting.
 
 ### Install server app
-To install server app, copy files from `src` folder to your server to any folder convenient for you (for example copy to `~/node-monitor` in a home directory).
+To install server app, copy files from `server` folder to your server to any folder convenient for you (for example copy to `~/node-monitor` in a home directory).
 
 #### Dependencies
 To run server app, you must install two dependencies:
@@ -133,7 +133,7 @@ npm install node-fetch systeminformation --save
 #### Run server
 To run server execute command:
 ```shell
-node src/monitor.mjs
+node monitor.mjs
 ```
 
 Also, you can run server as service. To run as service
