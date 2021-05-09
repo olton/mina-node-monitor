@@ -18,7 +18,6 @@ export const processAlerter = async (config) => {
         let target
 
         if (syncStatus !== 'SYNCED') {
-            // send sync status
             const message = `Node not synced, in status ${syncStatus}!\nIP: ${ip}`
 
             for (const id of ids) {
@@ -31,7 +30,6 @@ export const processAlerter = async (config) => {
 
         if (explorer && explorer.blockchainLength && blockchainLength) {
             if (Math.abs(+explorer.blockchainLength - +blockchainLength) >= BLOCK_DIFF) {
-                // send blocks diffs
                 const message = explorer.blockchainLength > blockchainLength
                     ? `The Node lags behind Explorer, in value ${blockchainLength} of ${explorer.blockchainLength}!\nIP: ${ip}`
                     : `The Explorer lags behind Node, in value ${explorer.blockchainLength} of ${blockchainLength}!\nIP: ${ip}`

@@ -19,7 +19,7 @@ if (!fs.existsSync(configPath)) {
 }
 
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
-const _SERVER = config.host.split(":")
+const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
 const requestListener = async (req, res) => {
     let response
@@ -52,8 +52,8 @@ const requestListener = async (req, res) => {
 
 const server = http.createServer(requestListener)
 
-server.listen(+_SERVER[1], _SERVER[0], () => {
-    console.log(`Mina Node Server Monitor is running on http://${_SERVER[0]}:${_SERVER[1]}`)
+server.listen(+SERVER_PORT, SERVER_HOST, () => {
+    console.log(`Mina Node Server Monitor is running on http://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
 setTimeout( () => processHello(config), 0)

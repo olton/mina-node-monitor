@@ -14,7 +14,7 @@ export const processBalanceSend = async (config) => {
 
     if (status && status.data && status.data.account) {
         const {balance} = status.data.account
-        const message = `Current balance: ${(balance.total / 10**9).toFixed(4)}\nliquid: ${(balance.liquid / 10**9).toFixed(4)}`
+        const message = `Balance: ${(balance.total / 10**9).toFixed(4)}\nLiquid: ${(balance.liquid / 10**9).toFixed(4)}`
         const ids = config.telegramChatID.split(",").map( v => v.trim() )
         let target
 
