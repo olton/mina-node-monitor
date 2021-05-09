@@ -107,11 +107,31 @@ where
 - `graphql` - Mina node GraphQL address
 
 ### Build web client
-To build client use command
+To build client use command: 
+
+**for Windows**
 ```shell
 npm run build
 ```
+
+**for Linux**
+```shell
+npm run build_x
+```
+
 Now folder `dist` contains a compiled client files. Copy these to your web server.
+
+If you don't have a web server, you can run the client in your local environment. To do this, run the command:
+
+**For Windows**
+```shell
+npm run serve
+```
+
+**For Linux**
+```shell
+npm run serve_x
+```
 
 ### Install server app
 The application server must be installed on a machine with a Mina.
