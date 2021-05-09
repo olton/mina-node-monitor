@@ -72,7 +72,6 @@ Section `intervals` contain information about intervals (in milliseconds), with 
 - `info` - general information about server
 - `time` - server time and uptime
 - `blockchain` - total currency, slot info, and epoch
-- `alert` - interval for alerts when node isn't `SYNCED` and/or `unsynchronized`
 - `node` - interval for retrieve data from mina GraphQL server
 - `net` - interval for retrieve network information: speed, connections
 - `mem` - interval for retrieve information about server memory
