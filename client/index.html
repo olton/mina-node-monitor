@@ -21,7 +21,6 @@
                     <div class="text-small">Next block will be produce at</div>
                     <span id="next-block-time" class="h3 m-0 fg-white text-bold">Calculating...</span>
                     <div class="text-small"><span id="next-block-left" class="fg-yellow"></span></div>
-                    <div class="text-small"><span id="end-of-epoch" class="fg-orange"></span></div>
                 </div>
             </div>
             <div class="cell-md-3">
@@ -60,7 +59,6 @@
                 <div data-role="panel" data-title-caption="STATUS" id="status-panel">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-status" class="text-center fg-stroke">UNKNOWN</div>
-                        <div id="network-status" class="text-small fg-white"></div>
                     </div>
                 </div>
             </div>
@@ -88,7 +86,9 @@
                 <div data-role="panel" data-title-caption="BALANCE">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="balance-total" class="text-center h2 m-0 fg-cyan">0</div>
-                        <div id="balance-liquid" class="text-small text-center">0</div>
+                        <div>
+                            <span class="text-small text-muted">liquid: </span><span id="balance-liquid" class="text-small text-center text-bold">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,6 +103,7 @@
                 <div data-role="panel" data-title-caption="EPOCH">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="epoch-number" class="text-center h2 m-0 fg-cyan">0</div>
+                        <div class="text-small"><span id="end-of-epoch" class="fg-orange"></span></div>
                     </div>
                 </div>
             </div>
