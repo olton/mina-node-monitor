@@ -1,7 +1,7 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
 import {TELEGRAM_BOT_URL} from "./telegram.mjs"
-import {parseTelegramChatIDs} from "./helpers.js";
+import {parseTelegramChatIDs} from "./helpers.mjs";
 
 export const processBalanceSend = async (config) => {
     const {balanceSendInterval, telegramChatID, telegramToken} = config
