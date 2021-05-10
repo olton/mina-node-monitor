@@ -98,9 +98,11 @@ async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = 
 }
 
 export const nodeInfo = async (obj, config) => {
+    const {graphql, publicKey} = config
+
     switch (obj) {
-        case 'node-status': return await fetchGraphQL(config.graphql, queryNodeStatus)
-        case 'balance': return await fetchGraphQL(config.graphql, queryBalance.replace("%PUBLIC_KEY%", config.publicKey))
-        case 'blockchain': return await fetchGraphQL(config.graphql, queryBlockChain)
+        case 'node-status': return await fetchGraphQL(graphql, queryNodeStatus)
+        case 'balance': return await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey))
+        case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
     }
 }

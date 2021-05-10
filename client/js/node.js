@@ -11,7 +11,7 @@ const chartConfig = merge({}, defaultChartConfig, {
         stroke: '#22272e'
     },
     boundaries: {
-        maxY: 150
+        maxY: 200
     },
     graphSize,
     onDrawLabelX: (v) => {

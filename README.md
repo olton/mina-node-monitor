@@ -88,6 +88,9 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "balanceSendInterval": 86400000,
     "alertInterval": 60000,
     "blockDiff": 2,
+    "canRestartNode": true,
+    "restartAfter": 30,
+    "restartCmd": "systemctl --user restart mina",
     "host": "192.168.1.2:3085",
     "graphql": "localhost:3085"
 }
@@ -104,6 +107,9 @@ where
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
 - `host` - IP and PORT on which the server will run
 - `graphql` - Mina node GraphQL address
+- `canRestartNode` - if true, server can restart mina node
+- `restartAfter` - value in minutes, if node synced and height is lower from Mina Explorer within the specified time, node will restart after this interval
+- `restartCmd` - command for restart mina node
 
 ### Build web client
 To build client use command: 

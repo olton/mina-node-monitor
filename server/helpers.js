@@ -1,0 +1,1 @@
+export const parseTelegramChatIDs = s => s.split(",").map( v => v.trim() )

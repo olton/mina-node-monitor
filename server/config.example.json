@@ -5,5 +5,9 @@
     "balanceSendInterval": 86400000,
     "alertInterval": 60000,
     "blockDiff": 2,
-    "host": "localhost:8000"
+    "canRestartNode": true,
+    "restartAfter": 30,
+    "restartCmd": "systemctl --user restart mina",
+    "host": "123.123.123.123:8000",
+    "graphql": "localhost:3085"
 }

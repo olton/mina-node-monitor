@@ -1,22 +1,36 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
 import {TELEGRAM_BOT_URL} from "./telegram.mjs"
+import {parseTelegramChatIDs} from "./helpers.js";
 
 export const processBalanceSend = async (config) => {
-    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", config.telegramToken)
+    const {balanceSendInterval, telegramChatID, telegramToken} = config
+    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
 
     if (!config.publicKey) return
-    if (!config.balanceSendInterval) return
+    if (!balanceSendInterval) return
 
     let status = await nodeInfo('balance', config)
 
-    if (!config || !config.telegramToken || !config.telegramChatID) return
+    if (!config || !telegramToken || !telegramChatID) return
 
-    if (status && status.data && status.data.account) {
-        const {balance} = status.data.account
-        const message = `Balance: ${(balance.total / 10**9).toFixed(4)}\nLiquid: ${(balance.liquid / 10**9).toFixed(4)}`
-        const ids = config.telegramChatID.split(",").map( v => v.trim() )
+    if (status && status.data && status.data.account && status.data.account.balance) {
+        const {total, liquid, locked, unknown, blockHeight} = status.data.account.balance
+        const message =
+`
+Balance: ${(total / 10**9).toFixed(4)}
+Liquid: ${(liquid / 10**9).toFixed(4)}
+Locked: ${(locked / 10**9).toFixed(4)}
+Height: ${blockHeight}
+`
+        const ids = parseTelegramChatIDs(telegramChatID)
         let target
+
+        if (globalThis.currentBalance === total) {
+            return
+        }
+
+        globalThis.currentBalance = total
 
         for (const id of ids) {
             target = TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)
@@ -24,5 +38,6 @@ export const processBalanceSend = async (config) => {
         }
     }
 
-    setTimeout(() => processBalanceSend(config), config.balanceSendInterval)
+    setTimeout(() => processBalanceSend(config), balanceSendInterval)
 }
+
