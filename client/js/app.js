@@ -5,6 +5,7 @@ import {processMemInfo} from "./mem";
 import {processNetConnections, processNetInfo} from "./net";
 import {processBlockchainInfo} from "./blockchain";
 import {processNodeStatus} from "./node";
+import {processConsensus} from "./consensus"
 
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     globalThis.config = config
@@ -17,6 +18,7 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processNetConnections(), 0)
     setTimeout( () => processBlockchainInfo(), 0 )
     setTimeout(() => processNodeStatus(), 0)
+    setTimeout(() => processConsensus(), 0)
 }).catch( reason => {
     //
 })

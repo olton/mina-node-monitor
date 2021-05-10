@@ -118,4 +118,13 @@ hr {
 .info-table tbody td:nth-child(2) {
   color: #fff;
 }
+.progress {
+  border: 1px solid var(--border-color);
+}
+.progress-back {
+  background: var(--body-background);
+}
+.progress-bar {
+  background: var(--chart-stroke-color) !important;
+}
 /*# sourceMappingURL=index.css.map */

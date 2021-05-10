@@ -19,7 +19,9 @@ export const processBlockchainInfo = async () => {
             slotSinceGenesis,
         } = blockchainInfo.data.bestChain[0].protocolState.consensusState
 
-        $("#currency-total").text((totalCurrency / 10**9).format(2, null, ",", "."))
+        const total = (totalCurrency / 10**9)
+
+        $("#currency-total").text(total.format(2, null, ",", "."))
         $("#epoch-number").text(epoch)
         $("#slot-number").text(slot)
         $("#slot-since-genesis").text(slotSinceGenesis)

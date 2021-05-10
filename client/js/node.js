@@ -99,6 +99,7 @@ export const processNodeStatus = async () => {
 
         const node = status.data
         const version = node.version
+        const netStatus = node.syncStatus
         const daemon = node.daemonStatus
 
         const {
@@ -117,6 +118,7 @@ export const processNodeStatus = async () => {
         } = daemon
 
         const elNodeStatus = $("#node-status")
+        const elNetStatus = $("#network-status")
         const elNextBlockTime = $("#next-block-time")
         const elNextBlockLeft = $("#next-block-left")
         const elPeersCount = $("#peers-count")
@@ -139,6 +141,7 @@ export const processNodeStatus = async () => {
         elNodeVersion.text(version)
 
         // node status
+        elNetStatus.text(netStatus)
         elNodeStatus.closest(".panel").removeClass("alert warning")
         elNodeStatus.text(syncStatus)
         if (syncStatus === 'CATCHUP') {
@@ -167,7 +170,7 @@ export const processNodeStatus = async () => {
         const blockLeft = Metro.utils.secondsToTime(
             (datetime(genesisStart).addSecond(secondsInEpoch * (+consensusTimeNow.epoch + 1)).time() - datetime().time()) / 1000
         )
-        elEndOfEpoch.text(`Will end in ${blockLeft.d}d ${blockLeft.h}h ${blockLeft.m}m`)
+        elEndOfEpoch.text(`will end in ${blockLeft.d}d ${blockLeft.h}h ${blockLeft.m}m`)
 
 
         // block height

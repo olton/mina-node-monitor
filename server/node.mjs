@@ -70,7 +70,36 @@ query MyQuery {
     }
   }
 }
+`;
 
+const queryConsensus = `
+query MyQuery {
+  daemonStatus {
+    consensusConfiguration {
+      acceptableNetworkDelay
+      delta
+      epochDuration
+      genesisStateTimestamp
+      k
+      slotDuration
+      slotsPerEpoch
+    }
+    consensusTimeNow {
+      startTime
+      slot
+      globalSlot
+      epoch
+      endTime
+    }
+    consensusTimeBestTip {
+      startTime
+      slot
+      globalSlot
+      epoch
+      endTime
+    }
+  }
+}
 `;
 
 async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = {}) {
@@ -104,5 +133,6 @@ export const nodeInfo = async (obj, config) => {
         case 'node-status': return await fetchGraphQL(graphql, queryNodeStatus)
         case 'balance': return await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey))
         case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
+        case 'consensus': return await fetchGraphQL(graphql, queryConsensus)
     }
 }

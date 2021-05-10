@@ -59,6 +59,7 @@
                 <div data-role="panel" data-title-caption="STATUS" id="status-panel">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-status" class="text-center fg-stroke">UNKNOWN</div>
+                        <div id="network-status" class="text-small fg-white">UNKNOWN</div>
                     </div>
                 </div>
             </div>
@@ -103,7 +104,10 @@
                 <div data-role="panel" data-title-caption="EPOCH">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="epoch-number" class="text-center h2 m-0 fg-cyan">0</div>
-                        <div class="text-small"><span id="end-of-epoch" class="fg-orange"></span></div>
+                        <div class="text-small"><span id="end-of-epoch" class="fg-orange">calculating...</span></div>
+                        <div class="w-100 pl-10 pr-10 pt-1">
+                            <div data-role="progress" id="epoch-progress" data-small="true" data-cls-back="progress-back" data-cls-bar="progress-bar"></div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -46,6 +46,7 @@ const requestListener = async (req, res) => {
         case '/balance': response = await nodeInfo('balance', config); break;
         case '/blockchain': response = await nodeInfo('blockchain', config); break;
         case '/explorer': response = await getExplorerSummary(); break;
+        case '/consensus': response = await nodeInfo('consensus', config); break;
         default:
             response = "OK"
     }
