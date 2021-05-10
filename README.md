@@ -24,7 +24,9 @@
 ## How to use
 
 ### Pre-requirements
-To use or/and build monitor you need install `NodeJS`, `npm`.
+To use or/and build monitor you need install `NodeJS`, `npm`. 
+
+**Important!** For assembling use the only Parcel 1.x! 
 
 #### Clone repository
 ```shell

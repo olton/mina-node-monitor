@@ -6,7 +6,7 @@ import {processNetConnections, processNetInfo} from "./net";
 import {processBlockchainInfo} from "./blockchain";
 import {processNodeStatus} from "./node";
 
-fetch("config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
+fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     globalThis.config = config
 
     setTimeout(() => processSystemInfo(), 0)
