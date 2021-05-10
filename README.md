@@ -10,6 +10,7 @@
 2. Shows 12 parameters: status, uptime, balance, ...
 3. Shows the load on memory, processor, network
 4. Monitors the state of the node and, if the node is out of sync with the main network and / or has switched / is in a status other than SYNCED, sends notifications to Telegram
+5. Restart node when de-sync discovered
 
 #### Monitor built with a stack:
 - server - NodeJS, JavaScript
