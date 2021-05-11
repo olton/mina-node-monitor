@@ -17,7 +17,6 @@ export const processConsensus = async () => {
         } = consensusConfiguration
 
         const epochDurationProgress = (+consensusTimeNow.slot * +slotDuration * 100) / epochDuration
-        console.log(epochDurationProgress)
         Metro.getPlugin('#epoch-progress', 'progress').val(epochDurationProgress)
     }
 

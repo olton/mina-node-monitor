@@ -19,15 +19,15 @@ const chartConfig = merge({}, defaultChartConfig, {
 
 const cpuChart = chart.lineChart("#cpu-load", [
     {
-        name: "Total",
+        name: "Tot",
         data: getFakeData(40)
     },
     {
-        name: "User",
+        name: "Usr",
         data: getFakeData(40)
     },
     {
-        name: "System",
+        name: "Sys",
         data: getFakeData(40)
     }
 ], chartConfig);

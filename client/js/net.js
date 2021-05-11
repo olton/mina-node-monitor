@@ -6,6 +6,7 @@ import {defaultChartConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
 const chartConfig = merge({}, defaultChartConfig, {
+    colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#7dc37b', .5)],
     onDrawLabelX: (v) => {
         return `${datetime(+v).format("HH:mm:ss")}`
     },
@@ -14,13 +15,13 @@ const chartConfig = merge({}, defaultChartConfig, {
     }
 })
 
-const networkChart = chart.lineChart("#net-load", [
+const networkChart = chart.areaChart("#net-load", [
     {
-        name: "Transferred",
+        name: "TX",
         data: getFakeData(40)
     },
     {
-        name: "Received",
+        name: "RX",
         data: getFakeData(40)
     },
 ], chartConfig);
@@ -53,7 +54,7 @@ export const processNetConnections = async () => {
     elLog.html(imgStop)
 
     if (net) {
-        // $("#network-connections").text(net.filter((v) => !$.isLocalhost(v.peerAddress)).length)
+        $("#network-connections").text(net.filter((v) => !$.isLocalhost(v.peerAddress)).length)
         elLog.html(imgOk)
         // console.log("Net (re)loaded!")
     }
