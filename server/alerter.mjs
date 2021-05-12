@@ -6,8 +6,9 @@ import {exec} from "child_process"
 import {parseTelegramChatIDs} from "./helpers.mjs"
 
 export const processAlerter = async (config) => {
-    const {telegramToken, telegramChatIDAlert, blockDiff, restartAfter, canRestartNode, restartCmd, alertInterval} = config
+    const {telegramToken, telegramChatIDAlert, blockDiff, restartAfter, restartAfterNotSynced, canRestartNode, restartCmd, alertInterval} = config
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
+    const ids = parseTelegramChatIDs(telegramChatIDAlert)
 
     let status = await nodeInfo('node-status', config)
 
@@ -16,15 +17,46 @@ export const processAlerter = async (config) => {
     if (status && status.data && status.data.daemonStatus) {
         const {syncStatus, blockchainLength, highestUnvalidatedBlockLengthReceived, addrsAndPorts} = status.data.daemonStatus
         const ip = addrsAndPorts.externalIp
-        const ids = parseTelegramChatIDs(telegramChatIDAlert)
         const SYNCED = syncStatus === 'SYNCED'
-        let OK = true
+        let OK = true, OK_SYNCED = true
+
+        const restart = () => {
+            exec(restartCmd, async (error, stdout, stderr) => {
+                let message, result
+
+                if (error) {
+                    result = error.message
+                } else
+                if (stderr) {
+                    result = stderr
+                } else {
+                    result = 'OK'
+                }
+
+                message = `Restart command executed for ${ip}. With result ${result}`
+
+                for (const id of ids) {
+                    await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
+                }
+            })
+        }
 
         if (!SYNCED) {
             const message = `Node not synced, status ${syncStatus}! IP: ${ip}`
 
             for (const id of ids) {
                 await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
+            }
+
+            OK_SYNCED = false
+
+            if (globalThis.restartTimerNotSynced / 60000 >= restartAfter) {
+                globalThis.restartTimerNotSynced = 0
+                if (canRestartNode && restartCmd) {
+                    restart()
+                }
+            } else {
+                globalThis.restartTimerNotSynced += alertInterval
             }
         }
 
@@ -55,24 +87,7 @@ export const processAlerter = async (config) => {
                     if (globalThis.restartTimer / 60000 >= restartAfter) {
                         globalThis.restartTimer = 0
                         if (canRestartNode && restartCmd) {
-                            exec(restartCmd, async (error, stdout, stderr) => {
-                                let message, result
-
-                                if (error) {
-                                    result = error.message
-                                } else
-                                if (stderr) {
-                                    result = stderr
-                                } else {
-                                    result = 'OK'
-                                }
-
-                                message = `Restart command executed for ${ip}. With result ${result}`
-
-                                for (const id of ids) {
-                                    await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
-                                }
-                            })
+                            restart()
                         }
                     } else {
                         globalThis.restartTimer += alertInterval
@@ -82,6 +97,7 @@ export const processAlerter = async (config) => {
         }
 
         if (OK) globalThis.restartTimer = 0
+        if (OK_SYNCED) globalThis.restartTimerNotSynced = 0
     }
 
     setTimeout(() => processAlerter(config), alertInterval)

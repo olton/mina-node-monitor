@@ -127,4 +127,12 @@ hr {
 .progress-bar {
   background: var(--chart-stroke-color) !important;
 }
+#ip-address,
+#bind-ip,
+#p2p-port,
+#client-port {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 500;
+}
 /*# sourceMappingURL=index.css.map */
