@@ -50,7 +50,7 @@ export const processAlerter = async (config) => {
 
             OK_SYNCED = false
 
-            if (globalThis.restartTimerNotSynced / 60000 >= restartAfter) {
+            if (globalThis.restartTimerNotSynced / 60000 >= restartAfter && globalThis.currentHeight === blockchainLength) {
                 globalThis.restartTimerNotSynced = 0
                 if (canRestartNode && restartCmd) {
                     restart()
@@ -95,6 +95,8 @@ export const processAlerter = async (config) => {
                 }
             }
         }
+
+        globalThis.currentHeight = blockchainLength
 
         if (OK) globalThis.restartTimer = 0
         if (OK_SYNCED) globalThis.restartTimerNotSynced = 0

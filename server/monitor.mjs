@@ -24,6 +24,7 @@ const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 globalThis.restartTimer = 0
 globalThis.restartTimerNotSynced = 0
 globalThis.currentBalance = 0
+globalThis.currentHeight = 0
 
 const requestListener = async (req, res) => {
     let response
