@@ -4,15 +4,12 @@ import {TELEGRAM_BOT_URL} from "./telegram.mjs"
 import {parseTelegramChatIDs} from "./helpers.mjs";
 
 export const processBalanceSend = async (config) => {
-    const {balanceSendInterval, telegramChatID, telegramToken} = config
+    const {balanceSendInterval, telegramChatID, telegramToken, publicKey} = config
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
 
-    if (!config.publicKey) return
-    if (!balanceSendInterval) return
+    if (!config || !telegramToken || !telegramChatID || !balanceSendInterval || !publicKey) return
 
     let status = await nodeInfo('balance', config)
-
-    if (!config || !telegramToken || !telegramChatID) return
 
     if (status && status.data && status.data.account && status.data.account.balance) {
         const {total, liquid, locked, unknown, blockHeight} = status.data.account.balance

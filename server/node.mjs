@@ -131,7 +131,7 @@ export const nodeInfo = async (obj, config) => {
 
     switch (obj) {
         case 'node-status': return await fetchGraphQL(graphql, queryNodeStatus)
-        case 'balance': return await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey))
+        case 'balance': return publicKey ? await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey)) : 0
         case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
         case 'consensus': return await fetchGraphQL(graphql, queryConsensus)
     }
