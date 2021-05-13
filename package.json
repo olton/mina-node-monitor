@@ -9,9 +9,7 @@
         "build_site": "xcopy client\\config.json dist\\*.* /Y /I && parcel build -d dist --public-url . --no-minify client/index.html",
         "build_site_x": "cp -a client/config.json dist && parcel build -d dist --public-url . --no-minify client/index.html",
         "build": "rimraf -rf dist bin && npm run build_site",
-        "build_x": "rimraf -rf dist bin && npm run build_site_x",
-        "snow:dev": "snowpack dev ",
-        "snow:build": "snowpack build"
+        "build_x": "rimraf -rf dist bin && npm run build_site_x"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.16",
@@ -27,8 +25,7 @@
         "glob": "^7.1.7",
         "jest": "^26.6.3",
         "parcel-bundler": "^1.12.5",
-        "rimraf": "^3.0.2",
-        "snowpack": "^3.3.7"
+        "rimraf": "^3.0.2"
     },
     "dependencies": {
         "node-fetch": "^2.6.1",
