@@ -1,5 +1,5 @@
 {
-    "name": "@olton/mina-node-monitor",
+    "name": "@olton/mina-monitor",
     "version": "1.0.0",
     "license": "MIT",
     "type": "module",
