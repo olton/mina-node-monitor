@@ -10,6 +10,7 @@ import {getExplorerSummary} from "./explorer.mjs"
 import {processAlerter} from "./alerter.mjs"
 import {processBalanceSend} from "./balance-sender.mjs"
 import {processHello} from "./hello.mjs"
+import {getUptime} from "./uptime.mjs"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const configPath = path.resolve(__dirname, 'config.json')
@@ -49,6 +50,7 @@ const requestListener = async (req, res) => {
         case '/blockchain': response = await nodeInfo('blockchain', config); break;
         case '/explorer': response = await getExplorerSummary(); break;
         case '/consensus': response = await nodeInfo('consensus', config); break;
+        case '/uptime': response = await getUptime(config.publicKey); break;
         default:
             response = "OK"
     }

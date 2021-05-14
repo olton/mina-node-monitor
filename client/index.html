@@ -77,7 +77,13 @@
             </div>
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="UPTIME">
-                    <div id="node-uptime" class="text-center p-4 fg-stroke">0</div>
+                    <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
+                        <div id="node-uptime" class="text-center fg-stroke">0</div>
+                        <div class="text-small text-center fg-white">
+                            position: <span id="sidecar-position">0</span>
+                            uptime: <span id="sidecar-uptime">0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
