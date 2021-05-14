@@ -3,14 +3,14 @@
 </p> 
 
 # Mina Node Monitor
-**Mina Node Monitor** is a `client-server` application for visual monitoring of the validator node and alerts when node have a problem.
+**Mina Node Monitor** is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
 ## Key Features
 1. Track the status of a node in real time
 2. Shows 12 parameters: status, uptime, balance, ...
 3. Shows the load on memory, processor, network
-4. Monitors the state of the node and, if the node is out of sync with the main network and / or has switched / is in a status other than SYNCED, sends notifications to Telegram
-5. Restart node when de-sync discovered
+4. Monitors the state of the node and, if the node is out of sync with the main network and / or has switched in a status other than SYNCED, sends notifications to Telegram
+5. Restart node when de-sync discovered. Two types: de-sync, long time not synced with the same block height.
 
 #### Monitor built with a stack:
 - server - NodeJS, JavaScript
