@@ -227,7 +227,7 @@ In the client config file, define 2 parameters `useProxy`,` proxy`:
 ```json
 {
     ...,
-    "useProxy": false,
+    "useProxy": true,
     "proxy": "https://server/proxy.php"
 }
 ```

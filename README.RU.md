@@ -246,7 +246,7 @@ return $servers = [
 ```json
 {
     ...,
-    "useProxy": false,
+    "useProxy": true,
     "proxy": "https://server/proxy.php"
 }
 ```
