@@ -123,6 +123,11 @@ hr {
 }
 .progress {
   border: 1px solid var(--border-color);
+  overflow: visible;
+}
+.progress .value {
+  top: -16px;
+  transform: none;
 }
 .progress-back {
   background: var(--body-background);

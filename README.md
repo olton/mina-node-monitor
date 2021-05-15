@@ -61,8 +61,11 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "node": 30000,
         "net": 2000,
         "mem": 2000,
-        "cpu": 2000
-    }
+        "cpu": 2000,
+        "uptime": 600000
+    },
+    "useProxy": false,
+    "proxy": "https://server/proxy.php"
 }
 ```
 
@@ -167,6 +170,8 @@ To run server execute command:
 node monitor.mjs
 ```
 
+## Sever side as Service
+
 Also, you can run server as service. To run as service
 + replace `user-name` with your real server **user name** in `ExecStart` in `minamon.service` file.
 + copy `minamon.service` to `/usr/lib/systemd/user`
@@ -190,4 +195,34 @@ systemctl --user start minamon
 systemctl --user stop minamon
 systemctl --user restart minamon
 systemctl --user status minamon
+```
+
+## Proxy server
+If you do not want to provide direct access to the server with Mina and the server side of the monitor, you can additionally use a proxy server.
+The proxy server is written in **PHP**. This is a very simple script that allows you to redirect the request to the server side of the monitor and return it to the client side.
+This approach allows you to provide access to the Mina server and the server side of the monitor only from the IP proxy server, and receive monitoring from any other IP address.
+
+### Setting up a proxy server
+The proxy server **proxy.php** is located in the `proxy/php` folder.
+Next to the proxy server file there is **servers.php** with the parameters of the servers where the Monitor server part is installed.
+This is a simple array in which the server parameters are specified in key:value pairs, and which must match the values,
+specified in the `hosts` parameter of the client's configuration file (the client determines which server he wants to contact for
+using the key `config.useHost` and specifies this value when requesting a proxy server):
+```php
+return $servers = [
+    "node1" => "127.0.0.1:3085",  // Change to your real server address
+    "node2" => "127.0.0.2:3085",  // Change to your real server address
+    "node3" => "127.0.0.3:3085"   // Change to your real server address
+];
+```
+
+### Setting up a proxy server
+Copy the files `proxy.php` and `servers.php` in the folder `proxy/php` to a convenient location on your web server.
+In the client config file, define 2 parameters `useProxy`,` proxy`:
+```json
+{
+    ...,
+    "useProxy": false,
+    "proxy": "https://server/proxy.php"
+}
 ```

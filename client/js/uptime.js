@@ -5,7 +5,6 @@ export const processUptime = async () => {
     let time = await getInfo("uptime")
 
     if (time && Array.isArray(time) && time.length) {
-        console.log(time)
         $("#sidecar-position").text(time[0])
         $("#sidecar-uptime").text(Math.floor(parseFloat(time[2])) + "%")
     }

@@ -21,6 +21,7 @@
                     <div class="text-small">Next block will be produce at</div>
                     <span id="next-block-time" class="h3 m-0 fg-white text-bold">Calculating...</span>
                     <div class="text-small"><span id="next-block-left" class="fg-yellow"></span></div>
+                    <div class="text-small"><span id="epoch-duration" class="fg-orange">calculating...</span></div>
                 </div>
             </div>
             <div class="cell-md-3">
@@ -81,7 +82,7 @@
                         <div id="node-uptime" class="text-center fg-stroke">0</div>
                         <div class="text-small text-center fg-white">
                             position: <span id="sidecar-position">0</span>
-                            uptime: <span id="sidecar-uptime">0</span>
+                            rate: <span id="sidecar-uptime">0</span>
                         </div>
                     </div>
                 </div>
@@ -110,8 +111,8 @@
                 <div data-role="panel" data-title-caption="EPOCH">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="epoch-number" class="text-center h2 m-0 fg-cyan">0</div>
-                        <div class="text-small"><span id="end-of-epoch" class="fg-orange">calculating...</span></div>
-                        <div class="w-100 pl-10 pr-10 pt-1">
+                        <div class="text-small">until the end <span id="end-of-epoch" class="fg-orange">calculating...</span> left</div>
+                        <div class="w-100 pl-10 pr-10 mt-1">
                             <div data-role="progress" id="epoch-progress" data-small="true" data-cls-back="progress-back" data-cls-bar="progress-bar"></div>
                         </div>
                     </div>

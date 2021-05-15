@@ -6,6 +6,7 @@ import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
 const chartConfig = merge({}, defaultChartConfig, {
+    colors: ['#00AFF0', '#aa00ff'],
     boundaries: {
         maxY: 100
     },
@@ -19,15 +20,11 @@ const chartConfig = merge({}, defaultChartConfig, {
 
 const cpuChart = chart.lineChart("#cpu-load", [
     {
-        name: "Tot",
+        name: "User",
         data: getFakeData(40)
     },
     {
-        name: "Usr",
-        data: getFakeData(40)
-    },
-    {
-        name: "Sys",
+        name: "System",
         data: getFakeData(40)
     }
 ], chartConfig);
@@ -47,9 +44,8 @@ export const processCPUData = async () => {
 
         let {currentLoad = 0, currentLoadUser = 0, currentLoadSystem = 0} = cpu
 
-        cpuChart.addPoint(1, [datetime().time(), currentLoadUser])
-        cpuChart.addPoint(0, [datetime().time(), currentLoad])
-        cpuChart.addPoint(2, [datetime().time(), currentLoadSystem])
+        cpuChart.addPoint(0, [datetime().time(), currentLoadUser])
+        cpuChart.addPoint(1, [datetime().time(), currentLoadSystem])
 
         if (!cpuGauge) {
             cpuGauge = chart.gauge('#cpu-use', [currentLoad], {

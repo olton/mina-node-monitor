@@ -137,6 +137,7 @@ export const processNodeStatus = async () => {
         const elSnarkWorkerNameFull = $("#snark-worker-full")
         const elSnarkWorkerFee = $("#snark-worker-fee")
         const elEndOfEpoch = $("#end-of-epoch")
+        const elEpochDuration = $("#epoch-duration")
         const elNodeVersion = $("#node-version")
 
         elNodeVersion.text(version)
@@ -166,7 +167,7 @@ export const processNodeStatus = async () => {
             elNextBlockTime.text(blockDate.format("ddd, DD MMM, HH:mm"))
             elNextBlockLeft.text(`${blockLeft.d} day(s) ${blockLeft.h} hour(s) ${blockLeft.m} minute(s)`)
         } else {
-            elNextBlockTime.text(syncStatus === 'BOOTSTRAP' ? 'No data available' : 'None this epoch')
+            elNextBlockTime.text(syncStatus === 'BOOTSTRAP' ? 'No data available' : 'None this epoch :(')
             elNextBlockLeft.text('')
         }
 
@@ -174,7 +175,11 @@ export const processNodeStatus = async () => {
         const blockLeft = Metro.utils.secondsToTime(
             (datetime(genesisStart).addSecond(secondsInEpoch * (+consensusTimeNow.epoch + 1)).time() - datetime().time()) / 1000
         )
-        elEndOfEpoch.text(`will end in ${blockLeft.d}d ${blockLeft.h}h ${blockLeft.m}m`)
+        const epochDays = blockLeft.d ? blockLeft.d + 'd' : ''
+        const epochHours = blockLeft.h ? blockLeft.h + 'h' : ''
+        const epochMinutes = blockLeft.m ? blockLeft.m + 'm' : ''
+        elEndOfEpoch.html(`${epochDays} ${epochHours} ${epochMinutes}`)
+        elEpochDuration.html(`epoch will end in ${epochDays} ${epochHours} ${epochMinutes}`)
 
 
         // block height
