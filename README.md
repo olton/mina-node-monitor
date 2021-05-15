@@ -82,6 +82,11 @@ Section `intervals` contain information about intervals (in milliseconds), with 
 - `net` - interval for retrieve network information: speed, connections
 - `mem` - interval for retrieve information about server memory
 - `cpu` - interval for retrieve information about server CPU(s)
+- `uptime` - interval for retrieve information about sidecar calculating server uptime
+  
+Section for using proxy (read about proxy below)
+- `useProxy` - use or not proxy server
+- `proxy` - proxy server address
 
 #### Config file for server 
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.

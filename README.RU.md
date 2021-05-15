@@ -88,6 +88,11 @@ npm i
 - `net` - интервал обновления информации о загрузке сети: speed, connections
 - `mem` - интервал обновления информации о загрузке оперативной памяти сервера
 - `cpu` - интервал обновления информации о загрузке CPU(s)
+- `uptime` - interval for retrieve information about sidecar calculating server uptime
+
+Section for using proxy (читайте про прокси-сервер ниже)
+- `useProxy` - use or not proxy server
+- `proxy` - proxy server address
 
 #### Конфигурационный файл для сервера 
 Создайте в папке `server` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.

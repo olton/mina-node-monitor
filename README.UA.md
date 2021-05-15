@@ -89,6 +89,11 @@ npm i
 - `net` - інтервал оновлення інформації про завантаження мережі: speed, connections
 - `mem` - інтервал оновлення інформації про завантаження оперативної пам'яті сервера
 - `cpu` - інтервал оновлення інформації про завантаження CPU (s)
+- `uptime` - interval for retrieve information about sidecar calculating server uptime
+
+Section for using proxy (інформацію про проксі-сервер викладено нижче)
+- `useProxy` - use or not proxy server
+- `proxy` - proxy server address
 
 #### Конфігураційний файл для сервера 
 
