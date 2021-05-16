@@ -66,6 +66,6 @@ server.listen(+SERVER_PORT, SERVER_HOST, () => {
     console.log(`Mina Node Server Monitor is running on http://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
-//setTimeout( () => processHello(config), 0)
+setTimeout( () => processHello(config), 0)
 setTimeout( () => processAlerter(config), 0)
-//setTimeout( () => processBalanceSend(config), 0)
+setTimeout( () => processBalanceSend(config), 0)

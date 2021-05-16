@@ -57,7 +57,7 @@ export const processMemInfo = async () => {
         }
         memoryGauge.setData([memUsage])
 
-        $("#ram-free").text(memFree.toFixed(0))
+        $("#free-ram").text(memFree.toFixed(0))
 
         elLog.html(imgOk)
         // console.log("Mem (re)loaded!")

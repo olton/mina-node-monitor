@@ -1,5 +1,6 @@
 import si from "systeminformation"
 import os from "os"
+import {execSync} from "child_process"
 
 const getMem = () => {
     const total = os.totalmem()
@@ -74,13 +75,22 @@ const getServerTime = () => {
     }
 }
 
+const getOsVersion = () => {
+    if (process.platform === 'win32') {
+        return execSync('ver').toString().trim()
+    } else {
+        return execSync('cat /etc/os-release | grep PRETTY_NAME').toString().split("=")[1].replace(/"/g, "")
+    }
+}
+
 const getPlatform = () => {
     return {
         hostname: os.hostname(),
         platform: os.platform(),
         release: os.release(),
         type: os.type(),
-        version: os.version()
+        version: os.version(),
+        osVersion: getOsVersion()
     }
 }
 

@@ -1,11 +1,16 @@
 import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
 import {getFakeData} from "./helpers/get-fake-data";
-import {merge} from "./helpers/merge";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
-const chartConfig = merge({}, defaultChartConfig, {
+const cpuChart = chart.areaChart("#cpu-load", [
+    {
+        name: "CPU usage",
+        data: getFakeData(40)
+    }
+], {
+    ...defaultChartConfig,
     colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
     boundaries: {
         maxY: 100
@@ -16,22 +21,9 @@ const chartConfig = merge({}, defaultChartConfig, {
     onDrawLabelY: (v) => {
         return `${+v}%`
     }
-})
+});
 
-const cpuChart = chart.areaChart("#cpu-load", [
-    {
-        name: "CPU usage",
-        data: getFakeData(40)
-    }
-], chartConfig);
-
-let cpuGauge = chart.gauge('#cpu-use', [0], {
-    ...defaultGaugeConfig,
-    padding: 0,
-    onDrawValue: (v, p) => {
-        return +p.toFixed(0) + "%"
-    }
-})
+let cpuGauge
 
 export const processCPUData = async () => {
     let cpu = await getInfo('cpu-load')
@@ -42,8 +34,17 @@ export const processCPUData = async () => {
 
         let {load = 0, user = 0, sys = 0, loadavg = [0, 0, 0]} = cpu
 
-        cpuChart.addPoint(0, [datetime().time(), load])
+        if (!cpuGauge) {
+            cpuGauge = chart.gauge('#cpu-use', [0], {
+                ...defaultGaugeConfig,
+                padding: 0,
+                onDrawValue: (v, p) => {
+                    return +p.toFixed(0) + "%"
+                }
+            })
+        }
 
+        cpuChart.addPoint(0, [datetime().time(), load])
         cpuGauge.setData([load])
 
         $("#loadavg").html(`<span class="fg-white">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
