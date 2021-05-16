@@ -35,22 +35,24 @@ const requestListener = async (req, res) => {
     res.writeHead(200)
 
     switch (req.url) {
-        case '/os': response = await sysInfo('os'); break;
+        case '/platform': response = await sysInfo('platform'); break;
+        case '/mem': response = await sysInfo('mem'); break;
         case '/cpu': response = await sysInfo('cpu'); break;
         case '/cpu-load': response = await sysInfo('cpu-load'); break;
-        case '/mem': response = await sysInfo('mem'); break;
-        case '/load': response = await sysInfo('load'); break;
-        case '/time': response = await sysInfo('time'); break;
-        case '/static': response = await sysInfo('static'); break;
-        case '/dyn': response = await sysInfo('dyn'); break;
-        case '/net-stat': response = await sysInfo('net-stat'); break;
-        case '/net-conn': response = await sysInfo('net-conn'); break;
+
+        case '/consensus': response = await nodeInfo('consensus', config); break;
+        case '/blockchain': response = await nodeInfo('blockchain', config); break;
         case '/node-status': response = await nodeInfo('node-status', config); break;
         case '/balance': response = await nodeInfo('balance', config); break;
-        case '/blockchain': response = await nodeInfo('blockchain', config); break;
         case '/explorer': response = await getExplorerSummary(); break;
-        case '/consensus': response = await nodeInfo('consensus', config); break;
         case '/uptime': response = await getUptime(config.publicKey); break;
+        case '/time': response = await sysInfo('time'); break;
+
+        /* */
+        case '/net-stat': response = await sysInfo('net-stat'); break;
+        case '/net-conn': response = await sysInfo('net-conn'); break;
+        /* */
+
         default:
             response = "OK"
     }
@@ -64,6 +66,6 @@ server.listen(+SERVER_PORT, SERVER_HOST, () => {
     console.log(`Mina Node Server Monitor is running on http://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
-setTimeout( () => processHello(config), 0)
+//setTimeout( () => processHello(config), 0)
 setTimeout( () => processAlerter(config), 0)
-setTimeout( () => processBalanceSend(config), 0)
+//setTimeout( () => processBalanceSend(config), 0)

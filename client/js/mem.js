@@ -4,14 +4,10 @@ import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
-const getMemInfo = async () => {
-    return await getInfo('mem')
-}
-
 let memoryChart, memoryGauge
 
 export const processMemInfo = async () => {
-    let mem = await getMemInfo()
+    let mem = await getInfo('mem')
     const elLog = $("#log-mem")
 
     elLog.html(imgStop)
@@ -50,6 +46,7 @@ export const processMemInfo = async () => {
         if (!memoryGauge) {
             memoryGauge = chart.gauge('#memory-use', [0], {
                 ...defaultGaugeConfig,
+                padding: 0,
                 boundaries: {
                     max: Math.round(memTotal),
                 },

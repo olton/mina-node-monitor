@@ -26,16 +26,8 @@ const networkChart = chart.areaChart("#net-load", [
     },
 ], chartConfig);
 
-const getNetInfo = async () => {
-    return await getInfo('net-stat')
-}
-
-const getNetConnections = async () => {
-    return await getInfo('net-conn')
-}
-
 export const processNetInfo = async () => {
-    let net = await getNetInfo()
+    let net = await getInfo('net-stat')
 
     if (net) {
         networkChart.addPoint(0, [datetime().time(), Math.round(net[0].tx_sec)])
@@ -48,7 +40,7 @@ export const processNetInfo = async () => {
 }
 
 export const processNetConnections = async () => {
-    let net = await getNetConnections()
+    let net = await getInfo('net-conn')
     const elLog = $("#log-net")
 
     elLog.html(imgStop)

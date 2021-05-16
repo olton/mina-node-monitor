@@ -1,13 +1,8 @@
 import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
-import {imgOk, imgStop} from "./helpers/const"
-
-const getBlockChainInfo = async () => {
-    return await getInfo('blockchain')
-}
 
 export const processBlockchainInfo = async () => {
-    let blockchainInfo = await getBlockChainInfo()
+    let blockchainInfo = await getInfo('blockchain')
 
     if (blockchainInfo && blockchainInfo.data && Array.isArray(blockchainInfo.data.bestChain) && blockchainInfo.data.bestChain.length) {
         const {

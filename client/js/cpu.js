@@ -6,7 +6,7 @@ import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
 const chartConfig = merge({}, defaultChartConfig, {
-    colors: ['#00AFF0', '#aa00ff'],
+    colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
     boundaries: {
         maxY: 100
     },
@@ -18,45 +18,35 @@ const chartConfig = merge({}, defaultChartConfig, {
     }
 })
 
-const cpuChart = chart.lineChart("#cpu-load", [
+const cpuChart = chart.areaChart("#cpu-load", [
     {
-        name: "User",
-        data: getFakeData(40)
-    },
-    {
-        name: "System",
+        name: "CPU usage",
         data: getFakeData(40)
     }
 ], chartConfig);
 
-let cpuGauge
-
-const loadCPUData = async () => {
-    return await getInfo('cpu-load')
-}
+let cpuGauge = chart.gauge('#cpu-use', [0], {
+    ...defaultGaugeConfig,
+    padding: 0,
+    onDrawValue: (v, p) => {
+        return +p.toFixed(0) + "%"
+    }
+})
 
 export const processCPUData = async () => {
-    let cpu = await loadCPUData()
+    let cpu = await getInfo('cpu-load')
     const elLog = $("#log-cpu")
 
     elLog.html(imgStop)
     if (cpu) {
 
-        let {currentLoad = 0, currentLoadUser = 0, currentLoadSystem = 0} = cpu
+        let {load = 0, user = 0, sys = 0, loadavg = [0, 0, 0]} = cpu
 
-        cpuChart.addPoint(0, [datetime().time(), currentLoadUser])
-        cpuChart.addPoint(1, [datetime().time(), currentLoadSystem])
+        cpuChart.addPoint(0, [datetime().time(), load])
 
-        if (!cpuGauge) {
-            cpuGauge = chart.gauge('#cpu-use', [currentLoad], {
-                ...defaultGaugeConfig,
-                onDrawValue: (v, p) => {
-                    return +p.toFixed(0) + "%"
-                }
-            })
-        } else {
-            cpuGauge.setData([currentLoad])
-        }
+        cpuGauge.setData([load])
+
+        $("#loadavg").html(`<span class="fg-white">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
 
         // console.log("CPU (re)loaded!")
         elLog.html(imgOk)
