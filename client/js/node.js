@@ -22,6 +22,14 @@ let peersChart = chart.histogramChart('#peers-load', [
         minY: 0
     },
     graphSize,
+    legend: false,
+    padding: {
+        left: 30,
+        top: 5,
+        right: 0,
+        bottom: 10
+    },
+    height: 160,
     onDrawLabelX: (v) => {
         return ""
     },
@@ -45,10 +53,10 @@ const processBalance = async () => {
 }
 
 const processExplorerSummary = async () => {
-    let explorerSummary = await getExplorerSummary()
     const elLog = $("#log-explorer")
-
     elLog.html(imgStop)
+
+    let explorerSummary = await getExplorerSummary()
 
     if (!explorerSummary || isNaN(explorerSummary.blockchainLength)) {
         return
@@ -69,14 +77,15 @@ const processExplorerSummary = async () => {
 }
 
 export const processNodeStatus = async () => {
+    const elLog = $("#log-mina")
+    elLog.html(imgStop)
+
     let status = await getNodeStatus()
     let reload = globalThis.config.intervals.node
     const UNKNOWN = "UNKNOWN"
-    const elLog = $("#log-mina")
     const secondsInEpoch = 1285200000 / 1000
     const genesisStart = "2021-03-17 02:00:00.000000+02:00"
 
-    elLog.html(imgStop)
 
     const elements = [
         "peers-count",

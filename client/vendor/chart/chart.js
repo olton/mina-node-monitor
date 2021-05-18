@@ -65,7 +65,7 @@
       font: labelFont,
       border: defaultBorder,
       dash: [],
-      color: '#fff',
+      background: '#fff',
       vertical: false,
       position: 'top-left' // top-left, top-right, bottom-left, bottom-right, top-center, bottom-center
 
@@ -555,7 +555,7 @@
         }
 
         drawBox(ctx, [x, y, textBoxWidth, textBoxHeight], {
-          color: legend.color,
+          color: legend.background,
           dash: legend.dash,
           size: legend.border.width,
           borderColor: legend.border.color
@@ -570,8 +570,8 @@
             fill: color
           });
           drawText(ctx, name, [x + box + magic, y + 1], {
-            color: o.font.color,
-            stroke: o.font.color,
+            color: legend.font.color,
+            stroke: legend.font.color,
             font: legend.font
           });
           y += lh;
@@ -2785,7 +2785,7 @@
           textVal = o.onDrawValue.apply(null, [v, p]);
         }
 
-        drawArc(ctx, [x, y, r, min, max], {
+        drawArc(ctx, [x, y, r, 0, 2 * PI], {
           size: o.backWidth,
           stroke: o.backStyle
         });
@@ -2802,35 +2802,12 @@
           translate: [x + o.value.shift.x, y + o.value.shift.y],
           angle: o.value.angle
         });
-
-        if (o.label.min) {
-          drawText(ctx, o.boundaries.min, [0, 0], {
-            align: "left",
-            baseLine: "middle",
-            color: o.label.min.color,
-            stroke: o.label.min.color,
-            font: o.label.min.font || o.font,
-            translate: [x + r * Math.cos(min) + o.backWidth + o.label.min.shift.x, y + r * Math.sin(min) + o.label.min.shift.y],
-            angle: 0
-          });
-        }
-
-        if (o.label.max) {
-          drawText(ctx, o.boundaries.max, [0, 0], {
-            align: "right",
-            baseLine: "middle",
-            color: o.label.max.color,
-            stroke: o.label.max.color,
-            font: o.label.max.font || o.font,
-            translate: [x + r * Math.cos(max) - o.backWidth + o.label.max.shift.x, y + r * Math.sin(max) + o.label.max.shift.y],
-            angle: 0
-          });
-        }
       }
 
       draw() {
         super.draw();
         this.gauge();
+        this.legend();
       }
 
     }

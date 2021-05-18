@@ -12,7 +12,7 @@ export const defaultChartConfig = {
     padding: {
         left: 40,
         right: 10,
-        top: 20,
+        top: 10,
         bottom: 50
     },
     colors: ['#00AFF0', '#7dc37b',  '#aa00ff'],

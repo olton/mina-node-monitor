@@ -7,10 +7,10 @@ import {imgOk, imgStop} from "./helpers/const";
 let memoryChart, memoryGauge
 
 export const processMemInfo = async () => {
-    let mem = await getInfo('mem')
     const elLog = $("#log-mem")
-
     elLog.html(imgStop)
+
+    let mem = await getInfo('mem')
 
     if (mem) {
         const memUsage = mem.used / (1024 ** 3)
@@ -31,6 +31,25 @@ export const processMemInfo = async () => {
                 }
             ], {
                 ...defaultChartConfig,
+                legend: {
+                    position: 'top-left',
+                    vertical: true,
+                    background: "#22272e",
+                    font: {
+                        color: "#fff"
+                    },
+                    margin: 0,
+                    border: {
+                        color: "#22272e"
+                    },
+                    padding: 5
+                },
+                padding: {
+                    left: 30,
+                    top: 5,
+                    right: 0,
+                    bottom: 10
+                },
                 boundaries: {
                     maxY: memTotal,
                     minY: 0

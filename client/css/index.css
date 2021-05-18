@@ -17,6 +17,9 @@
 .bd-system {
   border-color: var(--border-color) !important;
 }
+.bg-system {
+  background: var(--body-background) !important;
+}
 body {
   background: var(--body-background);
   color: var(--text-color);
@@ -142,6 +145,7 @@ hr {
   font-size: 18px;
   color: #fff;
   font-weight: 500;
+  line-height: 1.2;
 }
 #sidecar-position,
 #sidecar-uptime {

@@ -12,6 +12,25 @@ const cpuChart = chart.areaChart("#cpu-load", [
 ], {
     ...defaultChartConfig,
     colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
+    legend: {
+        position: 'top-left',
+        vertical: true,
+        background: "#22272e",
+        font: {
+            color: "#fff"
+        },
+        margin: 0,
+        border: {
+            color: "#22272e"
+        },
+        padding: 5
+    },
+    padding: {
+        left: 35,
+        top: 5,
+        right: 0,
+        bottom: 10
+    },
     boundaries: {
         maxY: 100
     },
@@ -26,10 +45,11 @@ const cpuChart = chart.areaChart("#cpu-load", [
 let cpuGauge
 
 export const processCPUData = async () => {
-    let cpu = await getInfo('cpu-load')
     const elLog = $("#log-cpu")
-
     elLog.html(imgStop)
+
+    let cpu = await getInfo('cpu-load')
+
     if (cpu) {
 
         let {load = 0, user = 0, sys = 0, loadavg = [0, 0, 0]} = cpu
