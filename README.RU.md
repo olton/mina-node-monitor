@@ -18,7 +18,7 @@
 - клиент - JavaScript, HTML, CSS
 
 ### Использованы компоненты
-+ [x] [Mina Node Monitor]() by [Serhii Pimenov](https://github.com/olton)
++ [x] [Mina Node Monitor](https://github.com/olton/mina-node-monitor) by [Serhii Pimenov](https://github.com/olton)
 + [x] [Metro 4](https://github.com/olton/Metro-UI-CSS) by [Serhii Pimenov](https://github.com/olton)
 + [x] [ChartJS](https://github.com/olton/chartjs) by [Serhii Pimenov](https://github.com/olton)
 + [x] [SystemInformation](https://github.com/sebhildebrandt/systeminformation) by [Sebastian Hildebrandt](https://github.com/sebhildebrandt)
