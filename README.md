@@ -3,7 +3,8 @@
 </p> 
 
 # Mina Node Monitor
-**Mina Node Monitor** is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
+**Mina Node Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
+This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
 ## Key Features
 1. Track the status of a node in real time
