@@ -3,7 +3,7 @@
 </p> 
 
 # Mina Node Monitor
-**Mina Node Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
+**Mina Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
 This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
 ## Key Features
@@ -18,7 +18,7 @@ This is a `client-server` application for visual monitoring of the validator nod
 - client - JavaScript, HTML, CSS
 
 ### Credits
-+ [x] [Mina Node Monitor]() by [Serhii Pimenov](https://github.com/olton)
++ [x] [Mina Monitor](https://github.com/olton/mina-node-monitor) by [Serhii Pimenov](https://github.com/olton)
 + [x] [Metro 4](https://github.com/olton/Metro-UI-CSS) by [Serhii Pimenov](https://github.com/olton)
 + [x] [ChartJS](https://github.com/olton/chartjs) by [Serhii Pimenov](https://github.com/olton)
 + [x] [SystemInformation](https://github.com/sebhildebrandt/systeminformation) by [Sebastian Hildebrandt](https://github.com/sebhildebrandt)
@@ -52,7 +52,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
 ```json
 {
     "hosts": {
-        "node1": "192.168.1.2:3085"
+        "node1": "xxx.xxx.xxx.xxx:xxxx"
     },
     "useHost": "node1",
     "intervals": {
@@ -103,8 +103,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "canRestartNode": true,
     "restartAfter": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "192.168.1.2:3085",
-    "graphql": "localhost:3085"
+    "host": "xxx.xxx.xxx.xxx:xxxx",
+    "graphql": "xxx.xxx.xxx.xxx:xxxx"
 }
 ```
 
@@ -118,7 +118,7 @@ where
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
 - `host` - IP and PORT on which the server will run
-- `graphql` - Mina node GraphQL address
+- `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `canRestartNode` - if true, server can restart mina node
 - `restartAfter` - value in minutes, if node synced and height is lower from Mina Explorer within the specified time, node will restart after this interval
 - `restartCmd` - command for restart mina node
