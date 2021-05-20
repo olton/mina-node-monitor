@@ -136,7 +136,7 @@ export const processNodeStatus = async () => {
         const elMaxBlock = $("#max-block")
         const elMaxUnvalidated = $("#max-unvalidated")
         const elNodeUptime = $("#node-uptime")
-        const elIpAddress = $("#ip-address")
+        const elIpAddress = $(".ip-address")
         const elBindIp = $("#bind-ip")
         const elP2PPort = $("#p2p-port")
         const elClientPort = $("#client-port")
@@ -202,15 +202,10 @@ export const processNodeStatus = async () => {
         elNodeUptime.html(`${uptime.d}d, ${uptime.h}h ${uptime.m}m`)
 
         // ip address
-        elIpAddress.text(addrsAndPorts.externalIp)
-        elBindIp.text(addrsAndPorts.bindIp)
+        elIpAddress.text(config.showIp ? addrsAndPorts.externalIp : "127.0.0.1")
+        elBindIp.text(config.showIp ? addrsAndPorts.bindIp : "0.0.0.0")
         elP2PPort.text(addrsAndPorts.libp2pPort)
         elClientPort.text(addrsAndPorts.clientPort)
-        if (!config.showIp) {
-            elIpAddress.hide()
-        } else {
-            elIpAddress.show()
-        }
 
         // producer and snark worker
         const noBlockProducer = 'No running block producer'

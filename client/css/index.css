@@ -148,7 +148,8 @@ hr {
   line-height: 1.2;
 }
 #sidecar-position,
-#sidecar-uptime {
+#sidecar-uptime,
+#sidecar-score {
   color: #fff000;
 }
 canvas {

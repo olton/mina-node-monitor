@@ -40,7 +40,6 @@
                     </div>
                     <div class="text-small no-wrap">
                         <span id="cpu-info"></span>
-                        <span id="cpu-cores"></span> Cores
                     </div>
                 </div>
             </div>
@@ -53,6 +52,7 @@
                 <div data-role="panel" data-title-caption="HOSTNAME">
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="hostname" style="line-height: 1">UNKNOWN</div>
+                        <div class="text-small ip-address fg-white">---.---.---.---</div>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,8 @@
                     <div class="fg-stroke d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-uptime" class="text-center fg-stroke">0</div>
                         <div class="text-small text-center fg-white">
-                            position: <span id="sidecar-position">0</span>
+                            pos: <span id="sidecar-position">0</span>
+                            score: <span id="sidecar-score">0</span>
                             rate: <span id="sidecar-uptime">0</span>
                         </div>
                     </div>
@@ -189,7 +190,7 @@
                         <table class="table text-small info-table">
                             <tr>
                                 <td>IP address</td>
-                                <td class="text-right"><span id="ip-address">---.---.---.---</span></td>
+                                <td class="text-right"><span class="ip-address" id="ip-address">---.---.---.---</span></td>
                             </tr>
                             <tr>
                                 <td>Bind IP</td>

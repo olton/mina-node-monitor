@@ -9,8 +9,10 @@ export const processUptime = async () => {
     let time = await getInfo("uptime")
 
     if (time && Array.isArray(time) && time.length) {
-        $("#sidecar-position").text(time[0])
-        $("#sidecar-uptime").text(Math.floor(parseFloat(time[2])) + "%")
+        const [position, publicKey, score, rate] = time
+        $("#sidecar-position").text(position)
+        $("#sidecar-uptime").text(Math.floor(parseFloat(rate)) + "%")
+        $("#sidecar-score").text(score)
 
         elLog.html(imgOk)
     }

@@ -32,7 +32,8 @@ const cpuChart = chart.areaChart("#cpu-load", [
         bottom: 10
     },
     boundaries: {
-        maxY: 100
+        maxY: 100,
+        minY: 0
     },
     onDrawLabelX: (v) => {
         return `${datetime(+v).format("HH:mm:ss")}`

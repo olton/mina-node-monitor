@@ -13,7 +13,6 @@ export const processSystemInfo = async () => {
 
 
     $("#cpu-info").text(cpuInfo.model)
-    $("#cpu-cores").text(cpuInfo.cores)
     $("#ram-total").text(Math.round(memInfo.total / (1024 ** 3)))
     $("#os-distro").text(platformInfo.osVersion)
     $("#hostname").text(platformInfo.hostname)
