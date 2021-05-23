@@ -9,16 +9,16 @@
   --chart-fill-color: rgba(125, 195, 123, 0.3);
 }
 .fg-normal {
-  color: var(--text-color) !important;
+  color: var(--text-color);
 }
 .fg-stroke {
   color: var(--chart-stroke-color);
 }
 .bd-system {
-  border-color: var(--border-color) !important;
+  border-color: var(--border-color);
 }
 .bg-system {
-  background: var(--body-background) !important;
+  background: var(--body-background);
 }
 body {
   background: var(--body-background);
