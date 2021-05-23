@@ -39,6 +39,7 @@ const requestListener = async (req, res) => {
         case '/mem': response = await sysInfo('mem'); break;
         case '/cpu': response = await sysInfo('cpu'); break;
         case '/cpu-load': response = await sysInfo('cpu-load'); break;
+        case '/cpu-load-all': response = await sysInfo('cpu-load-all'); break;
 
         case '/consensus': response = await nodeInfo('consensus', config); break;
         case '/blockchain': response = await nodeInfo('blockchain', config); break;

@@ -33,6 +33,26 @@ const getCpuAverage = () => {
     }
 }
 
+const getCpuLoadAll = () => {
+    const startMeasure = os.cpus()
+
+    return new Promise((resolve) => {
+        setTimeout( () => {
+            const endMeasure = os.cpus()
+            const result = []
+
+            endMeasure.forEach( (cpu, i) => {
+                let totalDiff = (cpu.times.user + cpu.times.nice + cpu.times.sys + cpu.times.irq + cpu.times.idle) - (startMeasure[i].times.user + startMeasure[i].times.nice + startMeasure[i].times.sys + startMeasure[i].times.irq + startMeasure[i].times.idle)
+                let idleDiff = cpu.times.idle - startMeasure[i].times.idle
+
+                result.push(100 - ~~(100 * idleDiff / totalDiff))
+            })
+
+            resolve(result)
+        }, 200)
+    })
+}
+
 const getCpuLoad = () => {
     const startMeasure = getCpuAverage()
 
@@ -101,8 +121,8 @@ export const sysInfo = async (obj) => {
         case 'platform': return getPlatform()
         case 'time': return getServerTime()
         case 'cpu-load': return await getCpuLoad()
+        case 'cpu-load-all': return await getCpuLoadAll()
 
-        // case 'cpu-load': return await si.currentLoad()
         case 'net-stat': return si.networkStats()
         case 'net-conn': return si.networkConnections()
     }

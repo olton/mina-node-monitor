@@ -15,7 +15,7 @@ export const processSystemInfo = async () => {
     $("#cpu-info").text(cpuInfo.model)
     $("#ram-total").text(Math.round(memInfo.total / (1024 ** 3)))
     $("#os-distro").text(platformInfo.osVersion)
-    $("#hostname").text(platformInfo.hostname)
+    $("#hostname").text(platformInfo.hostname.split(".")[0])
     $("#vcpu").text(cpuInfo.cores)
     $("title").text(platformInfo.hostname + " :: Mona Node Monitor")
 

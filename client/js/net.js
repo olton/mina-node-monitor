@@ -23,7 +23,10 @@ let networkChart = chart.areaChart("#net-load", [
         font: {
             color: "#fff"
         },
-        margin: 0,
+        margin: {
+            left:24,
+            top: 0
+        },
         border: {
             color: "#22272e"
         },

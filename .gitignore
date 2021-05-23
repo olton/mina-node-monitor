@@ -1,6 +1,7 @@
 .idea
 output
 dist
+private
 packages/**/lib
 packages/**/dist
 node_modules

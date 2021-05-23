@@ -483,8 +483,8 @@
         x = padding.left + legendPadding.left + legendMargin.left;
 
         for (var i = 0; i < items.length; i++) {
-          var [name] = items[i];
-          offset += getTextBoxWidth(ctx, [[name]], {
+          var [name, _, value] = items[i];
+          offset += getTextBoxWidth(ctx, [[legend.showValue ? "".concat(name, " - ").concat(value) : name]], {
             font: legend.font
           }) + box * 2 + magic;
         }
@@ -492,8 +492,8 @@
         offset = (this.viewWidth - offset) / 2;
 
         for (var _i = 0; _i < items.length; _i++) {
-          var [_name, color] = items[_i];
-          var nameWidth = getTextBoxWidth(ctx, [[_name]], {
+          var [_name, color, _value] = items[_i];
+          var nameWidth = getTextBoxWidth(ctx, [[legend.showValue ? "".concat(_name, " - ").concat(_value) : _name]], {
             font: legend.font
           });
 
@@ -506,7 +506,7 @@
             color,
             fill: color
           });
-          drawText(ctx, _name, [offset + x + box + magic, y + box / 2], {
+          drawText(ctx, legend.showValue ? "".concat(_name, " - ").concat(_value) : _name, [offset + x + box + magic, y + box / 2], {
             color: legend.font.color,
             stroke: legend.font.color,
             font: o.font
@@ -541,17 +541,17 @@
         textBoxHeight = items.length * lh + legendPadding.top + legendPadding.bottom + magic;
 
         if (legend.position === 'top-left') {
-          x = padding.left + legendMargin.left;
-          y = padding.top + legendMargin.top;
+          x = legendPadding.left + legendMargin.left;
+          y = legendPadding.top + legendMargin.top;
         } else if (legend.position === 'top-right') {
           x = this.dpiWidth - textBoxWidth - legendMargin.right - padding.right;
-          y = padding.top + legendMargin.top;
+          y = legendPadding.top + legendMargin.top;
         } else if (legend.position === 'bottom-left') {
-          x = padding.left + legendMargin.left;
-          y = this.dpiHeight - textBoxHeight - padding.bottom + legendMargin.bottom;
+          x = legendPadding.left + legendMargin.left;
+          y = this.dpiHeight - textBoxHeight - legendPadding.bottom + legendMargin.bottom;
         } else {
-          x = this.dpiWidth - textBoxWidth - legendMargin.right - padding.right;
-          y = this.dpiHeight - textBoxHeight - padding.bottom + legendMargin.bottom;
+          x = this.dpiWidth - textBoxWidth - legendMargin.right - legendPadding.right;
+          y = this.dpiHeight - textBoxHeight - legendPadding.bottom + legendMargin.bottom;
         }
 
         drawBox(ctx, [x, y, textBoxWidth, textBoxHeight], {
@@ -564,12 +564,12 @@
         y += box + magic + legendPadding.top;
 
         for (var i = 0; i < items.length; i++) {
-          var [name, color] = items[i];
+          var [name, color, value] = items[i];
           drawSquare(ctx, [x, y, box], {
             color,
             fill: color
           });
-          drawText(ctx, name, [x + box + magic, y + 1], {
+          drawText(ctx, legend.showValue ? "".concat(name, " - ").concat(value) : name, [x + box + magic, y + 1], {
             color: legend.font.color,
             stroke: legend.font.color,
             font: legend.font
@@ -688,8 +688,9 @@
         height = o.height.toString().includes('%') ? elHeight / 100 * parseInt(o.height) : +o.height;
         this.width = width;
         this.height = height;
-        this.dpiHeight = o.dpi * height;
-        this.dpiWidth = o.dpi * width;
+        this.dpi = o.dpi;
+        this.dpiHeight = this.dpi * height;
+        this.dpiWidth = this.dpi * width;
         this.viewHeight = this.dpiHeight - (padding.top + padding.bottom);
         this.viewWidth = this.dpiWidth - (padding.left + padding.right);
         this.center = [this.dpiWidth / 2, this.dpiHeight / 2];
@@ -744,13 +745,31 @@
       }
 
       setData(data, index) {
+        var redraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
         if (typeof index !== "undefined") {
           this.data[index].data = data;
         } else {
           this.data = data;
         }
 
-        this.draw();
+        if (redraw) this.resize();
+      }
+
+      setBoundaries(obj) {
+        var redraw = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var grantedKeys = ["minX", "minY", "minZ", "maxX", "maxY", "maxZ", "min", "max"];
+
+        for (var k in obj) {
+          if (grantedKeys.includes(k)) {
+            this[k] = obj[k];
+            this.options.boundaries[k] = obj[k];
+          }
+        }
+
+        if (redraw) {
+          this.draw();
+        }
       }
 
       mouseMove(e) {
@@ -2265,10 +2284,7 @@
         color: '#fff'
       },
       showValue: false,
-      holeSize: 0,
-      legend: {
-        vertical: true
-      },
+      padding: 0,
       onDrawValue: null
     };
 
@@ -2296,12 +2312,13 @@
     class PieChart extends Chart {
       constructor(el, data, options) {
         super(el, data, merge({}, defaultPieChartOptions, options), 'pie');
-        this.total = this.data.reduce((acc, curr) => acc + curr.data, 0);
+        this.total = this.data.reduce((acc, curr) => acc + curr, 0);
         this.legendItems = [];
+        var legend = this.options.legend;
 
-        if (this.options.legend && this.data.length) {
-          for (var i = 0; i < this.data.length; i++) {
-            this.legendItems.push([this.data[i].name, this.options.colors[i]]);
+        if (legend && legend.titles && legend.titles.length) {
+          for (var i = 0; i < legend.titles.length; i++) {
+            this.legendItems.push([legend.titles[i], this.options.colors[i], this.data[i]]);
           }
         }
 
@@ -2311,21 +2328,19 @@
       sectors() {
         var ctx = this.ctx,
             o = this.options;
-            expandPadding(o.padding);
         var [x, y] = this.center;
         var radius = this.radius;
         var startAngle = 0,
             endAngle = 360,
             offset = 0,
-            val = '',
             textVal = '';
         var textX, textY;
         if (!this.data || !this.data.length) return;
 
         for (var i = 0; i < this.data.length; i++) {
-          var sector = this.data[i];
+          var _val = this.data[i];
           var color = o.colors[i];
-          endAngle = 2 * Math.PI * sector.data / this.total;
+          endAngle = 2 * Math.PI * _val / this.total;
           drawSector(ctx, [x, y, radius, startAngle, startAngle + endAngle], {
             fill: color,
             color: color
@@ -2333,29 +2348,26 @@
           startAngle += endAngle;
         }
 
-        if (o.holeSize) {
-          drawCircle(ctx, [x, y, o.holeSize], {
-            color: '#fff'
-          });
-        }
-
         startAngle = 0;
 
         for (var _i = 0; _i < this.data.length; _i++) {
-          var _sector = this.data[_i],
+          var _ref;
+
+          var _val2 = this.data[_i],
               percent = void 0;
-          endAngle = 2 * Math.PI * _sector.data / this.total;
-          offset = o.holeSize / 2;
-          percent = Math.round(_sector.data * 100 / this.total);
-          textVal = o.showValue ? _sector.data : percent + "%";
+          var name = (_ref = this.legendItems[_i] && this.legendItems[_i][0]) !== null && _ref !== void 0 ? _ref : "";
+          endAngle = 2 * Math.PI * _val2 / this.total;
+          offset = 0;
+          percent = Math.round(_val2 * 100 / this.total);
+          textVal = o.showValue ? _val2 : percent + "%";
 
           if (typeof o.onDrawValue === 'function') {
-            textVal = o.onDrawValue.apply(null, [_sector.name, _sector.data, percent]);
+            textVal = o.onDrawValue.apply(null, [name, _val2, percent]);
           }
 
           textX = x + (radius / 2 + offset) * Math.cos(startAngle + endAngle / 2);
           textY = y + (radius / 2 + offset) * Math.sin(startAngle + endAngle / 2);
-          var textW = getTextBoxWidth(ctx, [val + "%"], {
+          var textW = getTextBoxWidth(ctx, [_val2 + "%"], {
             font: o.labels.font
           });
           drawText(ctx, textVal, [textX - textW / 2, textY + o.labels.font.size / 2], {
@@ -2656,26 +2668,28 @@
       ctx.closePath();
     };
 
+    var getFillColor = (p, colors) => {
+      var res = '#fff',
+          min = 0;
+
+      for (var i = 0; i < colors.length; i++) {
+        var c = colors[i][0];
+
+        if (p >= min && p <= c) {
+          res = colors[i][1];
+          min = colors[i][0];
+        }
+      }
+
+      return res;
+    };
+
     class Gauge extends Chart {
       constructor(el, data, options) {
         super(el, data, merge({}, defaultGaugeOptions, options), 'gauge');
+        this.min = this.options.boundaries.min;
+        this.max = this.options.boundaries.max;
         this.resize();
-      }
-
-      _getFillColor(p, colors) {
-        var res = '#fff',
-            min = 0;
-
-        for (var i = 0; i < colors.length; i++) {
-          var c = colors[i][0];
-
-          if (p > min && p <= c) {
-            res = colors[i][1];
-            min = colors[i][0];
-          }
-        }
-
-        return res;
       }
 
       gauge() {
@@ -2690,7 +2704,7 @@
             max = PI * (2 + o.endFactor);
         var r = o.radius * this.radius / 100 - o.backWidth;
         var v = this.data[0],
-            p = Math.round(Math.abs(100 * (v - o.boundaries.min) / (o.boundaries.max - o.boundaries.min)));
+            p = Math.round(Math.abs(100 * (v - this.min) / (this.max - this.min)));
         var val = min + (max - min) * p / 100;
         var textVal = p;
         var colors = [];
@@ -2714,7 +2728,7 @@
 
         drawArc(ctx, [x, y, r, min, val], {
           size: o.valueWidth,
-          stroke: this._getFillColor(p, colors)
+          stroke: getFillColor(p, colors)
         });
         drawText(ctx, textVal, [0, 0], {
           align: "center",
@@ -2759,49 +2773,93 @@
     }
     var gauge = (el, data, options) => new Gauge(el, data, options);
 
+    var donutLabel = {
+      font: defaultFont,
+      fixed: false,
+      color: "#000",
+      angle: 0,
+      shift: {
+        x: 0,
+        y: 0
+      }
+    };
+    var defaultDonutOptions = {
+      backStyle: "#a7a7a7",
+      fillStyle: "#8f8",
+      backWidth: 100,
+      valueWidth: 100,
+      radius: 100,
+      boundaries: {
+        min: 0,
+        max: 100
+      },
+      label: donutLabel,
+      padding: 0
+    };
+
     class Donut extends Chart {
       constructor(el, data, options) {
-        super(el, data, merge({}, defaultGaugeOptions, options), 'gauge');
+        super(el, data, merge({}, defaultDonutOptions, options), 'donut');
+        this.total = this.data.reduce((acc, curr) => acc + curr, 0);
+        this.min = this.options.boundaries.min;
+        this.max = this.options.boundaries.max;
+        this.legendItems = [];
+        var legend = this.options.legend;
+
+        if (legend && legend.titles && legend.titles.length) {
+          for (var i = 0; i < legend.titles.length; i++) {
+            this.legendItems.push([legend.titles[i], this.options.colors[i], this.data[i]]);
+          }
+        }
+
         this.resize();
       }
 
       gauge() {
         var ctx = this.ctx,
-            o = this.options,
-            padding = expandPadding(o.padding);
+            o = this.options;
         var [x, y] = this.center;
-        x += padding.left;
-        y += padding.top;
-        var PI = Math.PI,
-            min = PI * o.startFactor,
-            max = PI * (2 + o.endFactor);
-        var r = o.radius * this.radius / 100 - o.backWidth;
-        var v = this.data[0],
-            p = Math.abs(100 * (v - o.boundaries.min) / (o.boundaries.max - o.boundaries.min));
-        var val = min + (max - min) * p / 100;
-        var textVal = p.toFixed(0);
-
-        if (typeof o.onDrawValue === 'function') {
-          textVal = o.onDrawValue.apply(null, [v, p]);
-        }
-
-        drawArc(ctx, [x, y, r, 0, 2 * PI], {
+        var PI = Math.PI;
+        var radius = this.radius - o.backWidth / 2;
+        drawArc(ctx, [x, y, radius, 0, 2 * PI], {
           size: o.backWidth,
           stroke: o.backStyle
         });
-        drawArc(ctx, [x, y, r, min, val], {
-          size: o.valueWidth,
-          stroke: o.fillStyle
-        });
-        drawText(ctx, textVal, [0, 0], {
-          align: "center",
-          baseLine: "middle",
-          color: o.value.color,
-          stroke: o.value.color,
-          font: o.value.font || o.font,
-          translate: [x + o.value.shift.x, y + o.value.shift.y],
-          angle: o.value.angle
-        });
+        var startAngle = 0,
+            endAngle = 0;
+
+        for (var i = 0; i < this.data.length; i++) {
+          var color = o.colors[i];
+          var val = this.data[i];
+          endAngle = 2 * Math.PI * val / this.total;
+          drawArc(ctx, [x, y, radius, startAngle, startAngle + endAngle], {
+            size: o.valueWidth,
+            stroke: color
+          });
+
+          if (o.label) {
+            var _ref;
+
+            var name = (_ref = this.legendItems[i] && this.legendItems[i][0]) !== null && _ref !== void 0 ? _ref : "";
+            var percent = Math.round(val * 100 / this.total);
+            var textVal = o.showValue ? val : percent + "%";
+            var textX = void 0,
+                textY = void 0;
+
+            if (typeof o.onDrawValue === 'function') {
+              textVal = o.onDrawValue.apply(null, [name, val, percent]);
+            }
+
+            textX = x + radius * Math.cos(startAngle + endAngle / 2);
+            textY = y + radius * Math.sin(startAngle + endAngle / 2);
+            drawText(ctx, textVal, [textX, textY], {
+              color: o.label.color,
+              font: o.label.font
+            });
+          }
+
+          startAngle += endAngle;
+        }
       }
 
       draw() {
@@ -2810,8 +2868,164 @@
         this.legend();
       }
 
+      resize() {
+        super.resize();
+        this.center = [this.dpiWidth / 2, this.dpiHeight / 2];
+      }
+
     }
     var donut = (el, data, options) => new Donut(el, data, options);
+
+    var defaultSegmentOptions = {
+      segment: {
+        count: 100,
+        distance: 4,
+        rowDistance: 4,
+        height: 10,
+        radius: 0
+      },
+      ghost: {
+        color: "#f1f1f1"
+      },
+      colors: [[70, '#60a917'], [90, '#f0a30a'], [100, '#a20025']],
+      padding: 0,
+      margin: 0
+    };
+
+    var drawRoundedRect = function drawRoundedRect(ctx, _ref) {
+      var [x, y, width, height] = _ref;
+      var {
+        color = '#000',
+        fill = '#fff',
+        size = 1,
+        dash = [],
+        radius = 4
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      if (typeof radius === 'number') {
+        radius = {
+          tl: radius,
+          tr: radius,
+          br: radius,
+          bl: radius
+        };
+      } else {
+        var defaultRadius = {
+          tl: 0,
+          tr: 0,
+          br: 0,
+          bl: 0
+        };
+
+        for (var side in defaultRadius) {
+          radius[side] = radius[side] || defaultRadius[side];
+        }
+      }
+
+      ctx.beginPath();
+      ctx.fillStyle = fill;
+      ctx.strokeStyle = color;
+      ctx.moveTo(x + radius.tl, y);
+      ctx.lineTo(x + width - radius.tr, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+      ctx.lineTo(x + width, y + height - radius.br);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+      ctx.lineTo(x + radius.bl, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+      ctx.lineTo(x, y + radius.tl);
+      ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
+    };
+
+    class Segment extends Chart {
+      constructor(el, data, options) {
+        var values = Array.isArray(data) ? data : [data];
+        var opt = merge({}, defaultOptions, defaultSegmentOptions, options);
+        var padding = expandPadding(opt.padding);
+        var {
+          height,
+          distance,
+          rowDistance
+        } = opt.segment;
+        var canvasHeight = ((height + rowDistance) * values.length - rowDistance + (padding.top + padding.bottom)) * opt.dpi + rowDistance;
+        super(el, data, _objectSpread2(_objectSpread2({}, opt), {}, {
+          height: canvasHeight
+        }), 'segment');
+        this.min = 0;
+        this.max = 100;
+        this.values = values;
+        this.resize();
+      }
+
+      segments() {
+        var ctx = this.ctx,
+            o = this.options,
+            s = o.segment;
+        var count = s.count ? s.count : 20;
+        var distance = s.distance * o.dpi;
+        var rowDistance = s.rowDistance * o.dpi;
+        var width = this.viewWidth / count - distance;
+        var height = s.height;
+        var colors = [];
+        var padding = expandPadding(o.padding);
+        var x,
+            y = padding.top + distance;
+
+        if (typeof o.colors === "string") {
+          colors.push([100, o.colors]);
+        } else if (Array.isArray(o.colors)) {
+          for (var c of o.colors) {
+            colors.push(c);
+          }
+        }
+
+        for (var k = 0; k < this.values.length; k++) {
+          var value = this.values[k];
+          var limit = count * value / 100;
+          x = padding.left - distance / 2;
+
+          for (var i = 0; i < count; i++) {
+            var color = getFillColor(i * 100 / count, colors);
+
+            if (i <= limit) {
+              drawRoundedRect(ctx, [x, y, width, height], {
+                color,
+                fill: color,
+                radius: s.radius
+              });
+            } else {
+              if (o.ghost) {
+                drawRoundedRect(ctx, [x, y, width, height], {
+                  color: o.ghost.color,
+                  fill: o.ghost.color,
+                  radius: s.radius
+                });
+              }
+            }
+
+            x += width + distance;
+          }
+
+          y += height + rowDistance;
+        }
+      }
+
+      setData(data) {
+        var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+        var redraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+        this.values[index] = data;
+        if (redraw) this.resize();
+      }
+
+      draw() {
+        super.draw();
+        this.segments();
+      }
+
+    }
+    var segment = (el, data, options) => new Segment(el, data, options);
 
     globalThis.chart = {
       areaChart,
@@ -2822,7 +3036,8 @@
       pieChart,
       stackedBarChart,
       gauge,
-      donut
+      donut,
+      segment
     };
 
 }());

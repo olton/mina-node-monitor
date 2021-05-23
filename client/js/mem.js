@@ -38,11 +38,14 @@ export const processMemInfo = async () => {
                     font: {
                         color: "#fff"
                     },
-                    margin: 0,
+                    margin: {
+                        left:24,
+                        top: 0
+                    },
                     border: {
                         color: "#22272e"
                     },
-                    padding: 5
+                    padding: 5,
                 },
                 padding: {
                     left: 30,
@@ -77,6 +80,7 @@ export const processMemInfo = async () => {
         memoryGauge.setData([memUsage])
 
         $("#free-ram").text(memFree.toFixed(0))
+        $("#used-ram").text(memUsage.toFixed(0))
 
         elLog.html(imgOk)
         // console.log("Mem (re)loaded!")
