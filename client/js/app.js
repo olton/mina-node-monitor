@@ -8,6 +8,14 @@ import {processNodeStatus} from "./node";
 import {processConsensus} from "./consensus"
 import {processUptime} from "./uptime"
 
+const body = $("body")
+
+if ($.dark) {
+    body.removeClass("light-mode")
+} else {
+    body.addClass("light-mode")
+}
+
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     globalThis.config = config
 
@@ -24,3 +32,5 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
 }).catch( reason => {
     //
 })
+
+console.log($.dark)

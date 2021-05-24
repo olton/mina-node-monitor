@@ -34,16 +34,13 @@ export const processMemInfo = async () => {
                 legend: {
                     position: 'top-left',
                     vertical: true,
-                    background: "#22272e",
-                    font: {
-                        color: "#fff"
-                    },
+                    background: $.dark ? "#22272e" : "#fff",
                     margin: {
-                        left:24,
+                        left: 32,
                         top: 0
                     },
                     border: {
-                        color: "#22272e"
+                        color: $.dark ? "#22272e" : "#fafbfc"
                     },
                     padding: 5,
                 },

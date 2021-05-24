@@ -71,11 +71,12 @@ export const processCPUData = async () => {
                     count: 40,
                     height: height / (cpuLoad.threads.length) - 6
                 },
+                colors: [ [70, '#60a917'], [90, '#f0a30a'], [100, '#a20025'] ],
                 border: {
                     color: "transparent"
                 },
                 ghost: {
-                    color: "rgba(125, 195, 123, .1)"
+                    color: $.dark ? "rgba(125, 195, 123, .1)" : "#f0f6fc"
                 }
             })
         } else {

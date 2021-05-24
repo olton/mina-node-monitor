@@ -1,0 +1,131 @@
+:root {
+  --body-background-light: #f6f8fa;
+  --text-color-light: #24292e;
+  --border-color-light: #e1e4e8;
+  --panel-background-light: #ffffff;
+  --accent-color-light: #444c56;
+  --alert-color-light: #ea0b0b;
+  --warning-color-light: #ff8330;
+  --info-color1-light: #7dc37b;
+  --info-color2-light: #1ba1e2;
+  --info-color3-light: #ffe725;
+  --fill-color-light: rgba(125, 195, 123, .3);
+}
+
+body.light-mode {
+  background: var(--body-background-light);
+  color: var(--text-color-light);
+
+  .fg-normal {
+    color: var(--text-color-light);
+  }
+
+  .fg-accent {
+    color: var(--accent-color-light);
+  }
+
+  .fg-warning {
+    color: var(--warning-color-light);
+  }
+
+  .fg-alert {
+    color: var(--alert-color-light);
+  }
+
+  .fg-stroke {
+    color: var(--info-color1-light);
+  }
+
+  .fg-fill {
+    color: var(--fill-color-light);
+  }
+
+  .fg-info1 {
+    color: var(--info-color1-light);
+  }
+
+  .fg-info2 {
+    color: var(--info-color2-light);
+  }
+
+  .fg-info3 {
+    color: var(--accent-color-light);
+  }
+
+
+  .bd-system {
+    border-color: var(--border-color-light);
+  }
+
+  .bg-system {
+    background: var(--body-background-light);
+  }
+
+  hr {
+    background: var(--border-color-light);
+  }
+
+  #max-block {color: var(--accent-color-light);}
+  #max-unvalidated {color: var(--alert-color-light);}
+  #explorer-height {color: var(--info-color2-light);}
+
+  .panel {
+    background: var(--panel-background-light);
+    color: var(--text-color-light);
+    border-color: var(--border-color-light)!important;
+
+    .panel-title {
+      border-color: var(--border-color-light);
+      color: var(--accent-color-light);
+    }
+
+    &.alert, &.warning{
+      background: var(--alert-color-light);
+      color: #fff;
+
+      .panel-title {
+        color: #fff;
+      }
+      #node-status {
+        color: #fff;
+      }
+      #max-block, #max-unvalidated, #explorer-height, .fg-stroke, .fg-normal, .fg-accent {
+        color: #fff;
+      }
+    }
+    &.warning{
+      background: var(--warning-color-light);
+    }
+  }
+
+  .info-table {
+    tr:not(:last-child) {
+      border-color: var(--border-color-light);
+    }
+
+    tbody td {
+      &:nth-child(2) {
+        color: var(--accent-color-light);
+      }
+    }
+  }
+
+  .progress {
+    border-color: var(--border-color-light);
+  }
+  .progress-back {
+    background: var(--body-background-light);
+  }
+  .progress-bar {
+    background: var(--info-color1-light);
+  }
+
+  #ip-address, #bind-ip, #p2p-port, #client-port {
+    color: var(--accent-color-light);
+  }
+
+  #sidecar-position, #sidecar-uptime, #sidecar-score {
+    color: var(--accent-color-light);
+  }
+
+}

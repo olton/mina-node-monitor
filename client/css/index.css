@@ -3,16 +3,40 @@
   --text-color: #adbaa9;
   --border-color: #444c56;
   --panel-background: #22272e;
+  --accent-color: #fff;
   --alert-color: #ea0b0b;
   --warning-color: #ff8330;
-  --chart-stroke-color: #7dc37b;
-  --chart-fill-color: rgba(125, 195, 123, 0.3);
+  --info-color1: #7dc37b;
+  --info-color2: #1ba1e2;
+  --info-color3: #ffdb10;
+  --fill-color: rgba(125, 195, 123, 0.3);
 }
 .fg-normal {
   color: var(--text-color);
 }
+.fg-accent {
+  color: var(--accent-color);
+}
+.fg-warning {
+  color: var(--warning-color);
+}
+.fg-alert {
+  color: var(--alert-color);
+}
 .fg-stroke {
-  color: var(--chart-stroke-color);
+  color: var(--info-color1);
+}
+.fg-fill {
+  color: var(--fill-color);
+}
+.fg-info1 {
+  color: var(--info-color1);
+}
+.fg-info2 {
+  color: var(--info-color2);
+}
+.fg-info3 {
+  color: var(--info-color3);
 }
 .bd-system {
   border-color: var(--border-color);
@@ -31,28 +55,30 @@ body {
   height: 36px;
 }
 hr {
-  background: var(--border-color) !important;
+  background: var(--border-color);
 }
 #max-block {
-  color: #fff000;
+  color: var(--info-color3);
 }
 #max-unvalidated {
-  color: #ff0000;
+  color: var(--alert-color);
 }
 #explorer-height {
-  color: #0b98da;
+  color: var(--info-color2);
 }
 .panel {
   height: 100%;
   background: var(--panel-background);
   color: var(--text-color);
-  border: 1px solid var(--border-color);
+  border-color: var(--border-color) !important;
+  border: 1px solid;
   padding: 0 10px;
 }
 .panel .panel-title {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid;
+  border-color: var(--border-color);
   text-align: center;
-  color: darkorange;
+  color: var(--warning-color);
   font-size: 12px;
   font-weight: bold;
 }
@@ -68,16 +94,16 @@ hr {
 .panel.alert,
 .panel.warning {
   background: var(--alert-color);
-  color: #fff !important;
+  color: var(--accent-color);
 }
 .panel.alert .panel-title,
 .panel.warning .panel-title {
   border: none;
-  color: #fff !important;
+  color: var(--accent-color);
 }
 .panel.alert #node-status,
 .panel.warning #node-status {
-  color: #fff !important;
+  color: var(--accent-color);
 }
 .panel.alert #max-block,
 .panel.warning #max-block,
@@ -85,7 +111,7 @@ hr {
 .panel.warning #max-unvalidated,
 .panel.alert #explorer-height,
 .panel.warning #explorer-height {
-  color: #fff;
+  color: var(--accent-color);
 }
 .panel.warning {
   background: var(--warning-color);
@@ -116,16 +142,18 @@ hr {
   margin-top: 8px;
 }
 .info-table tr:not(:last-child) {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid;
+  border-color: var(--border-color);
 }
 .info-table tbody td {
   padding: 4px 0;
 }
 .info-table tbody td:nth-child(2) {
-  color: #fff;
+  color: var(--accent-color);
 }
 .progress {
-  border: 1px solid var(--border-color);
+  border: 1px solid;
+  border-color: var(--border-color);
   overflow: visible;
 }
 .progress .value {
@@ -136,23 +164,150 @@ hr {
   background: var(--body-background);
 }
 .progress-bar {
-  background: var(--chart-stroke-color) !important;
+  background: var(--info-color1) !important;
 }
 #ip-address,
 #bind-ip,
 #p2p-port,
 #client-port {
   font-size: 18px;
-  color: #fff;
+  color: var(--accent-color);
   font-weight: 500;
   line-height: 1.2;
 }
 #sidecar-position,
 #sidecar-uptime,
 #sidecar-score {
-  color: #fff000;
+  color: var(--info-color3);
 }
 canvas {
   max-width: 100%;
+}
+:root {
+  --body-background-light: #f6f8fa;
+  --text-color-light: #24292e;
+  --border-color-light: #e1e4e8;
+  --panel-background-light: #ffffff;
+  --accent-color-light: #444c56;
+  --alert-color-light: #ea0b0b;
+  --warning-color-light: #ff8330;
+  --info-color1-light: #7dc37b;
+  --info-color2-light: #1ba1e2;
+  --info-color3-light: #ffe725;
+  --fill-color-light: rgba(125, 195, 123, 0.3);
+}
+body.light-mode {
+  background: var(--body-background-light);
+  color: var(--text-color-light);
+}
+body.light-mode .fg-normal {
+  color: var(--text-color-light);
+}
+body.light-mode .fg-accent {
+  color: var(--accent-color-light);
+}
+body.light-mode .fg-warning {
+  color: var(--warning-color-light);
+}
+body.light-mode .fg-alert {
+  color: var(--alert-color-light);
+}
+body.light-mode .fg-stroke {
+  color: var(--info-color1-light);
+}
+body.light-mode .fg-fill {
+  color: var(--fill-color-light);
+}
+body.light-mode .fg-info1 {
+  color: var(--info-color1-light);
+}
+body.light-mode .fg-info2 {
+  color: var(--info-color2-light);
+}
+body.light-mode .fg-info3 {
+  color: var(--accent-color-light);
+}
+body.light-mode .bd-system {
+  border-color: var(--border-color-light);
+}
+body.light-mode .bg-system {
+  background: var(--body-background-light);
+}
+body.light-mode hr {
+  background: var(--border-color-light);
+}
+body.light-mode #max-block {
+  color: var(--accent-color-light);
+}
+body.light-mode #max-unvalidated {
+  color: var(--alert-color-light);
+}
+body.light-mode #explorer-height {
+  color: var(--info-color2-light);
+}
+body.light-mode .panel {
+  background: var(--panel-background-light);
+  color: var(--text-color-light);
+  border-color: var(--border-color-light) !important;
+}
+body.light-mode .panel .panel-title {
+  border-color: var(--border-color-light);
+  color: var(--accent-color-light);
+}
+body.light-mode .panel.alert,
+body.light-mode .panel.warning {
+  background: var(--alert-color-light);
+  color: #fff;
+}
+body.light-mode .panel.alert .panel-title,
+body.light-mode .panel.warning .panel-title {
+  color: #fff;
+}
+body.light-mode .panel.alert #node-status,
+body.light-mode .panel.warning #node-status {
+  color: #fff;
+}
+body.light-mode .panel.alert #max-block,
+body.light-mode .panel.warning #max-block,
+body.light-mode .panel.alert #max-unvalidated,
+body.light-mode .panel.warning #max-unvalidated,
+body.light-mode .panel.alert #explorer-height,
+body.light-mode .panel.warning #explorer-height,
+body.light-mode .panel.alert .fg-stroke,
+body.light-mode .panel.warning .fg-stroke,
+body.light-mode .panel.alert .fg-normal,
+body.light-mode .panel.warning .fg-normal,
+body.light-mode .panel.alert .fg-accent,
+body.light-mode .panel.warning .fg-accent {
+  color: #fff;
+}
+body.light-mode .panel.warning {
+  background: var(--warning-color-light);
+}
+body.light-mode .info-table tr:not(:last-child) {
+  border-color: var(--border-color-light);
+}
+body.light-mode .info-table tbody td:nth-child(2) {
+  color: var(--accent-color-light);
+}
+body.light-mode .progress {
+  border-color: var(--border-color-light);
+}
+body.light-mode .progress-back {
+  background: var(--body-background-light);
+}
+body.light-mode .progress-bar {
+  background: var(--info-color1-light);
+}
+body.light-mode #ip-address,
+body.light-mode #bind-ip,
+body.light-mode #p2p-port,
+body.light-mode #client-port {
+  color: var(--accent-color-light);
+}
+body.light-mode #sidecar-position,
+body.light-mode #sidecar-uptime,
+body.light-mode #sidecar-score {
+  color: var(--accent-color-light);
 }
 /*# sourceMappingURL=index.css.map */

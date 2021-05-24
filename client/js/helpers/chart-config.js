@@ -5,8 +5,8 @@ export const defaultChartConfig = {
             top: 25
         },
         font: {
-            color: '#fff'
-        }
+            color: $.dark ? "#fff" : "#000"
+        },
     },
     margin: 0,
     padding: {
@@ -25,11 +25,11 @@ export const defaultChartConfig = {
         x: {
             line: {
                 count: 10,
-                color: '#444c56'
+                color: $.dark ? '#444c56' : "#f0f6fc"
             },
             label: {
                 count: 3,
-                color: '#fff',
+                color: $.dark ? "#fff" : "#000",
                 font: {
                     size: 10
                 },
@@ -43,11 +43,11 @@ export const defaultChartConfig = {
         y: {
             line: {
                 count: 10,
-                color: '#444c56'
+                color: $.dark ? '#444c56' : "#f0f6fc"
             },
             label: {
                 fixed: 0,
-                color: '#fff',
+                color: $.dark ? "#fff" : "#000",
                 font: {
                     size: 10
                 }
@@ -62,7 +62,7 @@ export const defaultChartConfig = {
 
 export const defaultGaugeConfig = {
     border: false,
-    backStyle: '#1e2228',
+    backStyle: $.dark ? '#1e2228' : '#f0f6fc',
     fillStyle: [
         [30, '#00fa9a'],
         [60, '#60a917'],

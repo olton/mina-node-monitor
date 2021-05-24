@@ -19,16 +19,9 @@ let networkChart = chart.areaChart("#net-load", [
     legend: {
         position: 'top-left',
         vertical: true,
-        background: "#22272e",
-        font: {
-            color: "#fff"
-        },
         margin: {
-            left:24,
+            left:32,
             top: 0
-        },
-        border: {
-            color: "#22272e"
         },
         padding: 5
     },
