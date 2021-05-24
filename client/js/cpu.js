@@ -39,60 +39,53 @@ let cpuGauge = chart.gauge('#cpu-use', [0], {
     }
 })
 
+let cpuSegment
+
 export const processCPUData = async () => {
     const elLog = $("#log-cpu")
     elLog.html(imgStop)
 
-    let cpu = await getInfo('cpu-load')
+    let container = $("#cpu-load-all")
+    let height = 208
+    let cpuLoad = await getInfo('cpu-load')
 
-    if (cpu) {
+    if (cpuLoad) {
 
-        let {load = 0, user = 0, sys = 0, loadavg = [0, 0, 0]} = cpu
+        let {load = 0, user = 0, sys = 0, loadavg = [0, 0, 0], threads = []} = cpuLoad
 
         cpuChart.addPoint(0, [datetime().time(), load])
         cpuGauge.setData([load])
 
         $("#loadavg").html(`<span class="fg-white">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
 
-        // console.log("CPU (re)loaded!")
+        if (!container.children().length) {
+            cpuSegment = chart.segment("#cpu-load-all", cpuLoad.threads, {
+                padding: {
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0
+                },
+                segment: {
+                    rowDistance: 6,
+                    count: 40,
+                    height: height / (cpuLoad.threads.length) - 6
+                },
+                border: {
+                    color: "transparent"
+                },
+                ghost: {
+                    color: "rgba(125, 195, 123, .1)"
+                }
+            })
+        } else {
+            cpuLoad.threads.forEach( (v, i) => {
+                cpuSegment.setData(v, i)
+            })
+        }
+
         elLog.html(imgOk)
     }
 
     setTimeout( () => processCPUData(), globalThis.config.intervals.cpu )
-}
-
-let cpuSegment
-
-export const processCPUDataAll = async () => {
-    let cpus = await getInfo('cpu-load-all')
-    let container = $("#cpu-load-all")
-    let height = 208
-
-    if (!container.children().length) {
-        cpuSegment = chart.segment("#cpu-load-all", cpus, {
-            padding: {
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0
-            },
-            segment: {
-                rowDistance: 6,
-                count: 40,
-                height: height / (cpus.length) - 6
-            },
-            border: {
-                color: "transparent"
-            },
-            ghost: {
-                color: "rgba(125, 195, 123, .1)"
-            }
-        })
-    } else {
-        cpus.forEach( (v, i) => {
-            cpuSegment.setData(v, i)
-        })
-    }
-
-    setTimeout( () => processCPUDataAll(), globalThis.config.intervals.cpu )
 }

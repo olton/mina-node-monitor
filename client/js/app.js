@@ -14,7 +14,6 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processSystemInfo(), 0)
     setTimeout(() => processServerTime(), 0)
     setTimeout(() => processCPUData(), 0)
-    setTimeout(() => processCPUDataAll(), 0)
     setTimeout(() => processMemInfo(), 0)
     setTimeout(() => processNetInfo(), 0)
     setTimeout(() => processNetConnections(), 0)
