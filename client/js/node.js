@@ -59,7 +59,7 @@ export const processNodeStatus = async () => {
         ], {
             ...defaultChartConfig,
             bars: {
-                stroke: '#22272e'
+                stroke: globalThis.darkMode ? '#22272e' : '#fff'
             },
             boundaries: {
                 maxY: 200,
