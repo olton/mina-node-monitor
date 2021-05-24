@@ -72,7 +72,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
 ```
 
 Section `hosts` contain information about your servers addresses. 
-Each address must be an opened network interface on the mina node server.
+Each address must be an opened network interface/ip and port on the mina node server.
 Parameter `useHost` defines host where client retrieves data.
 
 Section `intervals` contain information about intervals (in milliseconds), with which data will be retrieve.
