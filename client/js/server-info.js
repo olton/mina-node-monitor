@@ -17,7 +17,7 @@ export const processSystemInfo = async () => {
     $("#os-distro").text(platformInfo.osVersion)
     $("#hostname").text(platformInfo.hostname.split(".")[0])
     $("#vcpu").text(cpuInfo.cores)
-    $("title").text(platformInfo.hostname + " :: Mona Node Monitor")
+    $("title").text(platformInfo.hostname + " :: Mina Monitor")
 
     elLog.html(imgOk)
 
