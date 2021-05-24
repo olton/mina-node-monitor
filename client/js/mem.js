@@ -10,6 +10,82 @@ export const processMemInfo = async () => {
     const elLog = $("#log-mem")
     elLog.html(imgStop)
 
+    if (!memoryChart) {
+        const _data = getFakeData(40)
+
+        memoryChart = chart.lineChart("#memory-load", [
+            {
+                name: "Used",
+                data: _data
+            },
+            {
+                name: "Free",
+                data: _data
+            }
+        ], {
+            ...defaultChartConfig,
+            legend: {
+                position: 'top-left',
+                vertical: true,
+                background: globalThis.darkMode ? "#22272e" : "#fff",
+                margin: {
+                    left: 32,
+                    top: 0
+                },
+                border: {
+                    color: globalThis.darkMode ? "#22272e" : "#fafbfc"
+                },
+                padding: 5,
+                font: {
+                    color: globalThis.darkMode ? "#fff" : "#000"
+                },
+            },
+            axis: {
+                x: {
+                    line: {
+                        count: 10,
+                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                    },
+                    label: {
+                        color: globalThis.darkMode ? "#fff" : "#000",
+                    },
+                    arrow: {
+                        color: '#22272e'
+                    }
+                },
+                y: {
+                    line: {
+                        count: 10,
+                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                    },
+                    label: {
+                        fixed: 0,
+                        color: globalThis.darkMode ? "#fff" : "#000",
+                        font: {
+                            size: 10
+                        }
+                    },
+                    arrow: {
+                        color: '#22272e'
+                    }
+                }
+            },
+            padding: {
+                left: 35,
+                top: 5,
+                right: 0,
+                bottom: 10
+            },
+            boundaries: {
+                maxY: 0,
+                minY: 0
+            },
+            onDrawLabelX: (v) => {
+                return `${datetime(+v).format("HH:mm:ss")}`
+            }
+        });
+    }
+
     let mem = await getInfo('mem')
 
     if (mem) {
@@ -17,54 +93,16 @@ export const processMemInfo = async () => {
         const memFree = mem.free / (1024 ** 3)
         const memTotal = mem.total / (1024 ** 3)
 
-        if (!memoryChart) {
-            const _data = getFakeData(40)
-
-            memoryChart = chart.lineChart("#memory-load", [
-                {
-                    name: "Used",
-                    data: _data
-                },
-                {
-                    name: "Free",
-                    data: _data
-                }
-            ], {
-                ...defaultChartConfig,
-                legend: {
-                    position: 'top-left',
-                    vertical: true,
-                    background: $.dark ? "#22272e" : "#fff",
-                    margin: {
-                        left: 32,
-                        top: 0
-                    },
-                    border: {
-                        color: $.dark ? "#22272e" : "#fafbfc"
-                    },
-                    padding: 5,
-                },
-                padding: {
-                    left: 30,
-                    top: 5,
-                    right: 0,
-                    bottom: 10
-                },
-                boundaries: {
-                    maxY: memTotal,
-                    minY: 0
-                },
-                onDrawLabelX: (v) => {
-                    return `${datetime(+v).format("HH:mm:ss")}`
-                }
-            });
-        }
+        memoryChart.setBoundaries({
+            maxY: memTotal
+        })
         memoryChart.addPoint(0, [datetime().time(), memUsage])
         memoryChart.addPoint(1, [datetime().time(), memFree])
 
         if (!memoryGauge) {
             memoryGauge = chart.gauge('#memory-use', [0], {
                 ...defaultGaugeConfig,
+                backStyle: globalThis.darkMode ? '#1e2228' : '#f0f6fc',
                 padding: 0,
                 boundaries: {
                     max: Math.round(memTotal),

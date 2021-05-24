@@ -1,6 +1,7 @@
+import "./init";
 import {processSystemInfo} from "./server-info";
 import {processServerTime} from "./server-time";
-import {processCPUData, processCPUDataAll} from "./cpu";
+import {processCPUData} from "./cpu";
 import {processMemInfo} from "./mem";
 import {processNetConnections, processNetInfo} from "./net";
 import {processBlockchainInfo} from "./blockchain";
@@ -8,16 +9,24 @@ import {processNodeStatus} from "./node";
 import {processConsensus} from "./consensus"
 import {processUptime} from "./uptime"
 
-const body = $("body")
-
-if ($.dark) {
-    body.removeClass("light-mode")
-} else {
-    body.addClass("light-mode")
-}
-
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
+    const body = $("body")
+
     globalThis.config = config
+
+    if (config.theme === "auto") {
+        if ($.dark) {
+            body.removeClass("light-mode")
+        } else {
+            body.addClass("light-mode")
+        }
+    } else {
+        globalThis.darkMode = config.theme !== "light"
+
+        if (config.theme === "light") {
+            body.addClass("light-mode")
+        }
+    }
 
     setTimeout(() => processSystemInfo(), 0)
     setTimeout(() => processServerTime(), 0)
@@ -25,12 +34,10 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processMemInfo(), 0)
     setTimeout(() => processNetInfo(), 0)
     setTimeout(() => processNetConnections(), 0)
-    setTimeout( () => processBlockchainInfo(), 0 )
+    setTimeout(() => processBlockchainInfo(), 0 )
     setTimeout(() => processNodeStatus(), 0)
     setTimeout(() => processConsensus(), 0)
     setTimeout(() => processUptime(), 0)
 }).catch( reason => {
     //
 })
-
-console.log($.dark)

@@ -4,42 +4,7 @@ import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
-const cpuChart = chart.areaChart("#cpu-load", [
-    {
-        name: "CPU usage",
-        data: getFakeData(40)
-    }
-], {
-    ...defaultChartConfig,
-    colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
-    legend: false,
-    padding: {
-        left: 35,
-        top: 5,
-        right: 0,
-        bottom: 10
-    },
-    boundaries: {
-        maxY: 100,
-        minY: 0
-    },
-    onDrawLabelX: (v) => {
-        return `${datetime(+v).format("HH:mm:ss")}`
-    },
-    onDrawLabelY: (v) => {
-        return `${+v}%`
-    }
-});
-
-let cpuGauge = chart.gauge('#cpu-use', [0], {
-    ...defaultGaugeConfig,
-    padding: 0,
-    onDrawValue: (v, p) => {
-        return +p.toFixed(0) + "%"
-    }
-})
-
-let cpuSegment
+let cpuChart, cpuGauge, cpuSegment
 
 export const processCPUData = async () => {
     const elLog = $("#log-cpu")
@@ -47,6 +12,76 @@ export const processCPUData = async () => {
 
     let container = $("#cpu-load-all")
     let height = 208
+
+    if (!cpuGauge) {
+        cpuGauge = chart.gauge('#cpu-use', [0], {
+            ...defaultGaugeConfig,
+            backStyle: globalThis.darkMode ? '#1e2228' : '#f0f6fc',
+            padding: 0,
+            onDrawValue: (v, p) => {
+                return +p.toFixed(0) + "%"
+            }
+        })
+    }
+
+    if (!cpuChart) {
+        cpuChart = chart.areaChart("#cpu-load", [
+            {
+                name: "CPU usage",
+                data: getFakeData(40)
+            }
+        ], {
+            ...defaultChartConfig,
+            colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
+            legend: false,
+            axis: {
+                x: {
+                    line: {
+                        count: 10,
+                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                    },
+                    label: {
+                        color: globalThis.darkMode ? "#fff" : "#000",
+                    },
+                    arrow: {
+                        color: '#22272e'
+                    }
+                },
+                y: {
+                    line: {
+                        count: 10,
+                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                    },
+                    label: {
+                        color: globalThis.darkMode ? "#fff" : "#000",
+                        font: {
+                            size: 10
+                        }
+                    },
+                    arrow: {
+                        color: '#22272e'
+                    }
+                }
+            },
+            padding: {
+                left: 35,
+                top: 5,
+                right: 0,
+                bottom: 10
+            },
+            boundaries: {
+                maxY: 100,
+                minY: 0
+            },
+            onDrawLabelX: (v) => {
+                return `${datetime(+v).format("HH:mm:ss")}`
+            },
+            onDrawLabelY: (v) => {
+                return `${+v}%`
+            }
+        })
+    }
+
     let cpuLoad = await getInfo('cpu-load')
 
     if (cpuLoad) {
@@ -76,7 +111,7 @@ export const processCPUData = async () => {
                     color: "transparent"
                 },
                 ghost: {
-                    color: $.dark ? "rgba(125, 195, 123, .1)" : "#f0f6fc"
+                    color: globalThis.darkMode ? "rgba(125, 195, 123, .1)" : "#f0f6fc"
                 }
             })
         } else {
