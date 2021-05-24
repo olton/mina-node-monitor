@@ -65,6 +65,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "cpu": 2000,
         "uptime": 600000
     },
+    "theme": "auto",
     "useProxy": false,
     "proxy": "https://server/proxy.php"
 }
@@ -84,6 +85,7 @@ Section `intervals` contain information about intervals (in milliseconds), with 
 - `mem` - interval for retrieve information about server memory
 - `cpu` - interval for retrieve information about server CPU(s)
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
+- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light` 
   
 Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server

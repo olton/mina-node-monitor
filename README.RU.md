@@ -66,6 +66,7 @@ npm i
         "cpu": 2000,
         "uptime": 600000
     },
+    "theme": "auto",
     "useProxy": false,
     "proxy": "https://server/proxy.php"
 }
@@ -90,6 +91,7 @@ npm i
 - `mem` - интервал обновления информации о загрузке оперативной памяти сервера
 - `cpu` - интервал обновления информации о загрузке CPU(s)
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
+- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
 
 Section for using proxy (читайте про прокси-сервер ниже)
 - `useProxy` - use or not proxy server
