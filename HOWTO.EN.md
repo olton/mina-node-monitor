@@ -198,6 +198,7 @@ Copy the files from the `server` folder of the repository to a convenient place 
 Next, we have two options:
 1) We open a port on the Mina server to access GraphQL for the Monitor server side
 2) We forward the GraphQL port using SSH from the Mina server to the Monitor server
+3) We forward the Monitor Server port using SSH from the Mina server to your local computer
 
 **Option 1**
 Open the GraphQL port (flag `-insecure-rest-server` when starting Mina).
@@ -253,3 +254,31 @@ In the client's configuration file, we write:
 ```
 
 Compile and run with any of the options listed above.
+
+**Option 3**
+Let you start the monitor server on a computer with an ip address of `1.1.1.1` and port` 8000`.
+The server config states
+
+```json
+{
+"host": "1.1.1.1:8000"
+}
+```
+
+We forward the Monitor Server with the command
+```shell
+ssh -L 8000: 1.1.1.1: 8000 your_user_name@1.1.1.1
+```
+
+After executing this command, the server side of the monitor will work locally on port 8000.
+Now you can specify in the settings:
+
+For client:
+
+```json
+{
+    "hosts": {
+        "node1": "localhost: 8000"
+    }
+}
+```
