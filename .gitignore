@@ -16,3 +16,4 @@ packages/**/coverage
 client/config.json
 server/config.mjs
 server/config.json
+server/cert

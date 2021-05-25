@@ -67,7 +67,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
     },
     "theme": "auto",
     "useProxy": false,
-    "proxy": "https://server/proxy.php"
+    "proxy": "https://server/proxy.php",
 }
 ```
 
@@ -91,6 +91,8 @@ Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server
 - `proxy` - proxy server address
 
+
+
 #### Config file for server 
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.
 ```json
@@ -106,7 +108,11 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "restartAfter": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "xxx.xxx.xxx.xxx:xxxx",
-    "graphql": "xxx.xxx.xxx.xxx:xxxx"
+    "graphql": "xxx.xxx.xxx.xxx:xxxx",
+    "https": {
+        "key": "",
+        "cert": ""
+    }
 }
 ```
 
@@ -124,6 +130,7 @@ where
 - `canRestartNode` - if true, server can restart mina node
 - `restartAfter` - value in minutes, if node synced and height is lower from Mina Explorer within the specified time, node will restart after this interval
 - `restartCmd` - command for restart mina node
+- `https` - contains paths to cert and key to create https server
 
 ### Build web client
 To build client use command: 

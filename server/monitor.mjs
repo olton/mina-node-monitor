@@ -4,6 +4,7 @@ import fs from "fs"
 import path, {dirname} from "path"
 import { fileURLToPath } from 'url'
 import http from "http"
+import https from "https"
 import {sysInfo} from "./system.mjs"
 import {nodeInfo} from "./node.mjs"
 import {getExplorerSummary} from "./explorer.mjs"
@@ -60,10 +61,20 @@ const requestListener = async (req, res) => {
     res.end(JSON.stringify(response))
 }
 
-const server = http.createServer(requestListener)
+let server, useHttps = config.https && (config.https.cert && config.https.key)
+
+if (useHttps) {
+    const ssl_options = {
+        key: fs.readFileSync(__dirname + '/' + config.https.key),
+        cert: fs.readFileSync(__dirname + '/' + config.https.cert)
+    };
+    server = https.createServer(ssl_options, requestListener)
+} else {
+    server = http.createServer(requestListener)
+}
 
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
-    console.log(`Mina Node Server Monitor is running on http://${SERVER_HOST}:${SERVER_PORT}`)
+    console.log(`Mina Node Server Monitor is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
 setTimeout( () => processHello(config), 0)
