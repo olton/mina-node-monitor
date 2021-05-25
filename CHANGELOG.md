@@ -2,6 +2,7 @@
 + [x] Added cpu threads load chart
 + [x] Re-disposition RAM and CPU panels content
 + [x] Added https server creation. Use server conf option `https` to set paths to cert and key
++ [x] Added dark/light modes
 
 ### 1.0.1
 + [x] Added php proxy server
