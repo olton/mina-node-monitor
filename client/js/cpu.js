@@ -91,7 +91,7 @@ export const processCPUData = async () => {
         cpuChart.addPoint(0, [datetime().time(), load])
         cpuGauge.setData([load])
 
-        $("#loadavg").html(`<span class="fg-white">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
+        $("#loadavg").html(`<span class="text-bold">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
 
         if (!container.children().length) {
             cpuSegment = chart.segment("#cpu-load-all", cpuLoad.threads, {

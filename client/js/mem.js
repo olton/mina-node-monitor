@@ -24,6 +24,7 @@ export const processMemInfo = async () => {
             }
         ], {
             ...defaultChartConfig,
+            colors: ['#aa00ff', '#7dc37b'],
             legend: {
                 position: 'top-left',
                 vertical: true,

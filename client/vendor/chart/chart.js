@@ -2984,7 +2984,7 @@
         for (var k = 0; k < this.values.length; k++) {
           var value = this.values[k];
           var limit = count * value / 100;
-          x = padding.left - distance / 2;
+          x = padding.left + 1;
 
           for (var i = 0; i < count; i++) {
             var color = getFillColor(i * 100 / count, colors);

@@ -22,7 +22,7 @@ export const processNetInfo = async () => {
             },
         ], {
             ...defaultChartConfig,
-            colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#7dc37b', .5)],
+            colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
             legend: {
                 position: 'top-left',
                 vertical: true,
