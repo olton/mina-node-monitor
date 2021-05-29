@@ -37,37 +37,35 @@ export const processCPUData = async () => {
             axis: {
                 x: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor,
+                        shortLineSize: 0
                     },
                     label: {
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        count: 10,
+                        color: globalThis.chartLabelColor,
                     },
-                    arrow: {
-                        color: '#22272e'
-                    }
+                    arrow: false
                 },
                 y: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor
                     },
                     label: {
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        count: 10,
+                        color: globalThis.chartLabelColor,
                         font: {
                             size: 10
-                        }
+                        },
+                        skip: 2
                     },
-                    arrow: {
-                        color: '#22272e'
-                    }
+                    arrow: false
                 }
             },
             padding: {
                 left: 35,
                 top: 5,
-                right: 0,
-                bottom: 10
+                right: 1,
+                bottom: 5
             },
             boundaries: {
                 maxY: 100,

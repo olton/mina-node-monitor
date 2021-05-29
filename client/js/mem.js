@@ -30,7 +30,7 @@ export const processMemInfo = async () => {
                 vertical: true,
                 background: globalThis.darkMode ? "#22272e" : "#fff",
                 margin: {
-                    left: 32,
+                    left: 40,
                     top: 0
                 },
                 border: {
@@ -38,51 +38,54 @@ export const processMemInfo = async () => {
                 },
                 padding: 5,
                 font: {
-                    color: globalThis.darkMode ? "#fff" : "#000"
+                    color: globalThis.chartLabelColor
                 },
             },
             axis: {
                 x: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor,
+                        shortLineSize: 0
                     },
                     label: {
-                        color: globalThis.darkMode ? "#fff" : "#000",
-                    },
-                    arrow: {
-                        color: '#22272e'
-                    }
-                },
-                y: {
-                    line: {
                         count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
-                    },
-                    label: {
                         fixed: 0,
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        color: globalThis.chartLabelColor,
                         font: {
                             size: 10
                         }
                     },
-                    arrow: {
-                        color: '#22272e'
+                    skip: 2,
+                    arrow: false
+                },
+                y: {
+                    arrow: false,
+                    line: {
+                        color: globalThis.chartLineColor
+                    },
+                    label: {
+                        count: 10,
+                        fixed: 0,
+                        color: globalThis.chartLabelColor,
+                        font: {
+                            size: 10
+                        },
+                        skip: 2
                     }
                 }
             },
             padding: {
-                left: 35,
+                left: 25,
                 top: 5,
-                right: 0,
-                bottom: 10
+                right: 1,
+                bottom: 5
             },
             boundaries: {
                 maxY: 0,
                 minY: 0
             },
             onDrawLabelX: (v) => {
-                return `${datetime(+v).format("HH:mm:ss")}`
+                return ``
             }
         });
     }

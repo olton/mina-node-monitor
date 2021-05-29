@@ -11,6 +11,8 @@ export const processNetInfo = async () => {
     elLog.html(imgStop)
 
     if (!networkChart) {
+        const chartLineColor = globalThis.darkMode ? '#3c424b' : "#e5e5e5"
+        const chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
         networkChart = chart.areaChart("#net-load", [
             {
                 name: "Transfer",
@@ -36,43 +38,41 @@ export const processNetInfo = async () => {
                 },
                 padding: 5,
                 font: {
-                    color: globalThis.darkMode ? "#fff" : "#000"
+                    color: globalThis.chartLabelColor
                 },
             },
             axis: {
                 x: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor,
+                        shortLineSize: 0
                     },
                     label: {
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        count: 10,
+                        color: globalThis.chartLabelColor,
                     },
-                    arrow: {
-                        color: '#22272e'
-                    }
+                    arrow: false
                 },
                 y: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor
                     },
                     label: {
+                        count: 10,
                         fixed: 0,
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        color: globalThis.chartLabelColor,
                         font: {
                             size: 10
-                        }
+                        },
+                        skip: 2
                     },
-                    arrow: {
-                        color: '#22272e'
-                    }
+                    arrow: false
                 }
             },
             padding: {
                 left: 35,
                 top: 5,
-                right: 0,
+                right: 1,
                 bottom: 10
             },
             height: 160,

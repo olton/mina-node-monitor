@@ -28,6 +28,9 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
         }
     }
 
+    globalThis.chartLineColor = globalThis.darkMode ? '#3c424b' : "#e5e5e5"
+    globalThis.chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
+
     setTimeout(() => processSystemInfo(), 0)
     setTimeout(() => processServerTime(), 0)
     setTimeout(() => processCPUData(), 0)

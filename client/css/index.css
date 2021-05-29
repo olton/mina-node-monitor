@@ -161,7 +161,7 @@ hr {
   transform: none;
 }
 .progress-back {
-  background: var(--body-background);
+  background: var(--alert-color);
 }
 .progress-bar {
   background: var(--info-color1) !important;
@@ -291,10 +291,10 @@ body.light-mode .info-table tbody td:nth-child(2) {
   color: var(--accent-color-light);
 }
 body.light-mode .progress {
-  border-color: var(--border-color-light);
+  border-color: var(--panel-background-light);
 }
 body.light-mode .progress-back {
-  background: var(--body-background-light);
+  background: var(--alert-color-light);
 }
 body.light-mode .progress-bar {
   background: var(--info-color1-light);

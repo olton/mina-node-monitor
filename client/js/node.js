@@ -62,7 +62,7 @@ export const processNodeStatus = async () => {
                 stroke: globalThis.darkMode ? '#22272e' : '#fff'
             },
             boundaries: {
-                maxY: 200,
+                maxY: 100,
                 minY: 0
             },
             graphSize,
@@ -70,36 +70,34 @@ export const processNodeStatus = async () => {
             axis: {
                 x: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor,
+                        shortLineSize: 0
                     },
                     label: {
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        count: 10,
+                        color: globalThis.chartLabelColor,
                     },
-                    arrow: {
-                        color: '#22272e'
-                    }
+                    arrow: false
                 },
                 y: {
                     line: {
-                        count: 10,
-                        color: globalThis.darkMode ? '#444c56' : "#f0f6fc"
+                        color: globalThis.chartLineColor
                     },
                     label: {
+                        count: 10,
                         font: {
                             size: 10
                         },
-                        color: globalThis.darkMode ? "#fff" : "#000",
+                        color: globalThis.chartLabelColor,
+                        skip: 2
                     },
-                    arrow: {
-                        color: '#22272e'
-                    }
+                    arrow: false,
                 }
             },
             padding: {
                 left: 30,
                 top: 5,
-                right: 0,
+                right: 1,
                 bottom: 10
             },
             height: 160,
