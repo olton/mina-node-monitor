@@ -56,10 +56,13 @@
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="STATUS" id="status-panel">
+                <div data-role="panel" data-title-caption="DAEMON STATUS" id="status-panel">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-status" class="text-center fg-stroke">UNKNOWN</div>
-                        <div id="network-status" class="text-small fg-accent text-bold">UNKNOWN</div>
+                        <div>
+                            <span class="fg-normal text-small">network: </span>
+                            <span id="network-status" class="text-small fg-accent text-bold">UNKNOWN</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -139,8 +142,8 @@
                         <div class="cell-lg-6">
                             <div id="memory-use"></div>
                             <div class="text-small text-center mt-10-minus">
-                                <span class="fg-normal">FREE:</span> <span id="free-ram" class="fg-info1 text-bold"></span> GiB
-                                <span class="fg-normal">USED:</span> <span id="used-ram" class="fg-warning text-bold"></span> GiB
+                                <span class="fg-normal">free:</span> <span id="free-ram" class="fg-info1 text-bold"></span> GiB
+                                <span class="fg-normal">used:</span> <span id="used-ram" class="fg-warning text-bold"></span> GiB
                             </div>
                         </div>
                     </div>
