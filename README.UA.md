@@ -18,7 +18,7 @@
 - кліент - JavaScript, HTML, CSS
 
 ### Використано компоненти
-+ [x] [Mina Node Monitor]() by [Serhii Pimenov](https://github.com/olton)
++ [x] [Mina Node Monitor](https://github.com/olton/mina-node-monitor) by [Serhii Pimenov](https://github.com/olton)
 + [x] [Metro 4](https://github.com/olton/Metro-UI-CSS) by [Serhii Pimenov](https://github.com/olton)
 + [x] [ChartJS](https://github.com/olton/chartjs) by [Serhii Pimenov](https://github.com/olton)
 + [x] [SystemInformation](https://github.com/sebhildebrandt/systeminformation) by [Sebastian Hildebrandt](https://github.com/sebhildebrandt)
@@ -54,7 +54,7 @@ npm i
 ```json
 {
     "hosts": {
-        "node1": "192.168.1.2:3085"
+        "node1": "xxx.xxx.xxx.xxx:xxxxx"
     },
     "useHost": "node1",
     "intervals": {
@@ -67,13 +67,14 @@ npm i
         "cpu": 2000,
         "uptime": 600000
     },
+    "theme": "auto",
     "useProxy": false,
     "proxy": "https://server/proxy.php"
 }
 ```
 
 Секція `hosts` містить інформацію про сервери, на яких встановлена серверна частина Монітору.
-Кожна адреса повинна визначати мережевий інтерфейс та його порт.
+Кожна адреса повинна визначати мережевий інтерфейс/ip та його порт.
 Параметр `useHost` визначає який сервер зі списку в секції` hosts` буде використовуватись.
 Параметр `showIp` визначає показувати чи ні IP адресу в блоці ** Addresses ** (іноді не варто світити IP адресу).
 
@@ -91,6 +92,7 @@ npm i
 - `mem` - інтервал оновлення інформації про завантаження оперативної пам'яті сервера
 - `cpu` - інтервал оновлення інформації про завантаження CPU (s)
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
+- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
 
 Section for using proxy (інформацію про проксі-сервер викладено нижче)
 - `useProxy` - use or not proxy server
@@ -113,7 +115,11 @@ Section for using proxy (інформацію про проксі-сервер �
     "restartAfter": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "192.168.1.2:3085",
-    "graphql": "localhost:3085"
+    "graphql": "localhost:3085",
+    "https": {
+        "key": "",
+        "cert": ""
+    }
 }
 ```
 
@@ -131,6 +137,7 @@ Section for using proxy (інформацію про проксі-сервер �
 - `canRestartNode` - Якщо значення цього ключа **true**, сервер може перезапустити вузол міни
 - `restartAfter` - значення в хвилинах, якщо вузол синхронізований, але при цьому відстає по висоті блоків від Mina Explorer протягом зазначеного часу, вузол буде перезапущений
 - `restartCmd` - Команда для перезапуска вузла Mina
+- `https` - contains paths to cert and key to create https server
 
 ### Збірка клієнтського додатка
 

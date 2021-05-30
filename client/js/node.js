@@ -7,36 +7,7 @@ import {imgOk, imgStop} from "./helpers/const";
 const graphSize = 20
 let START_NODE_MON = datetime()
 let START_NODE_POINTS = 200
-let peersChart = chart.histogramChart('#peers-load', [
-    {
-        name: "Peers",
-        data: getFakeTriplets(20, 40, 60, 0)
-    },
-], {
-    ...defaultChartConfig,
-    bars: {
-        stroke: '#22272e'
-    },
-    boundaries: {
-        maxY: 200,
-        minY: 0
-    },
-    graphSize,
-    legend: false,
-    padding: {
-        left: 30,
-        top: 5,
-        right: 0,
-        bottom: 10
-    },
-    height: 160,
-    onDrawLabelX: (v) => {
-        return ""
-    },
-    onDrawLabelY: (v) => {
-        return `${v}`
-    }
-})
+let peersChart
 
 const getNodeStatus = async () => await getInfo('node-status')
 const getExplorerSummary = async () => await getInfo('explorer')
@@ -73,12 +44,71 @@ const processExplorerSummary = async () => {
         elBlockHeightPanel.addClass('alert')
     }
     elLog.html(imgOk)
-    // console.log("Block height from explorer (re)loaded!")
 }
 
 export const processNodeStatus = async () => {
     const elLog = $("#log-mina")
     elLog.html(imgStop)
+
+    if (!peersChart) {
+        peersChart = chart.histogramChart('#peers-load', [
+            {
+                name: "Peers",
+                data: getFakeTriplets(20, 40, 60, 0)
+            },
+        ], {
+            ...defaultChartConfig,
+            bars: {
+                stroke: globalThis.darkMode ? '#22272e' : '#fff'
+            },
+            boundaries: {
+                maxY: 100,
+                minY: 0
+            },
+            graphSize,
+            legend: false,
+            axis: {
+                x: {
+                    line: {
+                        color: globalThis.chartLineColor,
+                        shortLineSize: 0
+                    },
+                    label: {
+                        count: 10,
+                        color: globalThis.chartLabelColor,
+                    },
+                    arrow: false
+                },
+                y: {
+                    line: {
+                        color: globalThis.chartLineColor
+                    },
+                    label: {
+                        count: 10,
+                        font: {
+                            size: 10
+                        },
+                        color: globalThis.chartLabelColor,
+                        skip: 2
+                    },
+                    arrow: false,
+                }
+            },
+            padding: {
+                left: 30,
+                top: 5,
+                right: 1,
+                bottom: 10
+            },
+            height: 160,
+            onDrawLabelX: (v) => {
+                return ""
+            },
+            onDrawLabelY: (v) => {
+                return `${v}`
+            }
+        })
+    }
 
     let status = await getNodeStatus()
     let reload = globalThis.config.intervals.node

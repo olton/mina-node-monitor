@@ -29,27 +29,39 @@ const getCpuAverage = () => {
         sys,
         user,
         idle,
-        total
+        total,
+        cpus
     }
 }
 
 const getCpuLoad = () => {
     const startMeasure = getCpuAverage()
+    const startCPU = startMeasure.cpus
 
     return new Promise((resolve) => {
         setTimeout( () => {
             const endMeasure = getCpuAverage()
+            const endCPU = endMeasure.cpus
+            const threads = []
 
             let idleDiff = endMeasure.idle - startMeasure.idle
             let totalDiff = endMeasure.total - startMeasure.total
             let userDiff = endMeasure.user - startMeasure.user
             let sysDiff = endMeasure.sys - startMeasure.sys
 
+            endCPU.forEach( (cpu, i) => {
+                let totalDiff = (cpu.times.user + cpu.times.nice + cpu.times.sys + cpu.times.irq + cpu.times.idle) - (startCPU[i].times.user + startCPU[i].times.nice + startCPU[i].times.sys + startCPU[i].times.irq + startCPU[i].times.idle)
+                let idleDiff = cpu.times.idle - startCPU[i].times.idle
+
+                threads.push(100 - ~~(100 * idleDiff / totalDiff))
+            })
+
             resolve({
                 load: 100 - ~~(100 * idleDiff / totalDiff),
                 user: 100 - (100 - ~~(100 * userDiff / totalDiff)),
                 sys: 100 - (100 - ~~(100 * sysDiff / totalDiff)),
-                loadavg: os.loadavg()
+                loadavg: os.loadavg(),
+                threads
             })
         }, 200)
     })
@@ -102,7 +114,6 @@ export const sysInfo = async (obj) => {
         case 'time': return getServerTime()
         case 'cpu-load': return await getCpuLoad()
 
-        // case 'cpu-load': return await si.currentLoad()
         case 'net-stat': return si.networkStats()
         case 'net-conn': return si.networkConnections()
     }

@@ -4,50 +4,87 @@ import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
-let networkChart = chart.areaChart("#net-load", [
-    {
-        name: "Transfer",
-        data: getFakeData(40)
-    },
-    {
-        name: "Receive",
-        data: getFakeData(40)
-    },
-], {
-    ...defaultChartConfig,
-    colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#7dc37b', .5)],
-    legend: {
-        position: 'top-left',
-        vertical: true,
-        background: "#22272e",
-        font: {
-            color: "#fff"
-        },
-        margin: 0,
-        border: {
-            color: "#22272e"
-        },
-        padding: 5
-    },
-    padding: {
-        left: 30,
-        top: 5,
-        right: 0,
-        bottom: 10
-    },
-    height: 160,
-    onDrawLabelX: (v) => {
-        return ``
-        // return `${datetime(+v).format("HH:mm:ss")}`
-    },
-    onDrawLabelY: (v) => {
-        return `${(+v / 1024 ** 2).toFixed(2)}`
-    }
-});
+let networkChart
 
 export const processNetInfo = async () => {
     const elLog = $("#log-explorer")
     elLog.html(imgStop)
+
+    if (!networkChart) {
+        const chartLineColor = globalThis.darkMode ? '#3c424b' : "#e5e5e5"
+        const chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
+        networkChart = chart.areaChart("#net-load", [
+            {
+                name: "Transfer",
+                data: getFakeData(40)
+            },
+            {
+                name: "Receive",
+                data: getFakeData(40)
+            },
+        ], {
+            ...defaultChartConfig,
+            colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
+            legend: {
+                position: 'top-left',
+                vertical: true,
+                background: globalThis.darkMode ? "#22272e" : "#fff",
+                margin: {
+                    left: 32,
+                    top: 0
+                },
+                border: {
+                    color: globalThis.darkMode ? "#22272e" : "#fafbfc"
+                },
+                padding: 5,
+                font: {
+                    color: globalThis.chartLabelColor
+                },
+            },
+            axis: {
+                x: {
+                    line: {
+                        color: globalThis.chartLineColor,
+                        shortLineSize: 0
+                    },
+                    label: {
+                        count: 10,
+                        color: globalThis.chartLabelColor,
+                    },
+                    arrow: false
+                },
+                y: {
+                    line: {
+                        color: globalThis.chartLineColor
+                    },
+                    label: {
+                        count: 10,
+                        fixed: 0,
+                        color: globalThis.chartLabelColor,
+                        font: {
+                            size: 10
+                        },
+                        skip: 2
+                    },
+                    arrow: false
+                }
+            },
+            padding: {
+                left: 35,
+                top: 5,
+                right: 1,
+                bottom: 10
+            },
+            height: 160,
+            onDrawLabelX: (v) => {
+                return ``
+                // return `${datetime(+v).format("HH:mm:ss")}`
+            },
+            onDrawLabelY: (v) => {
+                return `${(+v / 1024 ** 2).toFixed(2)}`
+            }
+        })
+    }
 
     let net = await getInfo('net-stat')
 

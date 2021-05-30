@@ -1,15 +1,15 @@
 {
     "name": "@olton/mina-monitor",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": "MIT",
     "type": "module",
     "scripts": {
         "serve": "rimraf -rf output & mkdir output & xcopy client\\config.json output\\*.* /Y && parcel serve --open -d output -p 2222 client/index.html",
-        "serve_x": "rimraf -rf output & mkdir output & cp -a client/config.json output && parcel serve --open -d output -p 2222 --no-cache client/index.html",
+        "serve_x": "rm -rf output & mkdir output & cp -a client/config.json output && parcel serve --open -d output -p 2222 --no-cache client/index.html",
         "build_site": "xcopy client\\config.json dist\\*.* /Y /I && parcel build -d dist --public-url . --no-minify client/index.html",
         "build_site_x": "cp -a client/config.json dist && parcel build -d dist --public-url . --no-minify client/index.html",
         "build": "rimraf -rf dist & mkdir dist & npm run build_site",
-        "build_x": "rimraf -rf dist & mkdir dist & npm run build_site_x"
+        "build_x": "rm -rf dist & mkdir dist & npm run build_site_x"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.16",
@@ -24,6 +24,7 @@
         "eslint": "^7.26.0",
         "glob": "^7.1.7",
         "jest": "^26.6.3",
+        "less": "^4.1.1",
         "parcel-bundler": "^1.12.5",
         "rimraf": "^3.0.2"
     },

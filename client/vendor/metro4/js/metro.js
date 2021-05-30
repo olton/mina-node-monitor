@@ -1,7 +1,7 @@
 /*
  * Metro 4 Components Library v4.5.0  (https://metroui.org.ua)
  * Copyright 2012-2021 Sergey Pimenov
- * Built at 08/04/2021 16:25:25
+ * Built at 17/05/2021 12:24:52
  * Licensed under MIT
  */
 /*!
@@ -2818,7 +2818,7 @@
 // Source: src/func.js
 
 /* global dataSet */
-/* exported isTouch, isSimple, isHidden, isPlainObject, isEmptyObject, isArrayLike, str2arr, parseUnit, getUnit, setStyleProp, acceptData, dataAttr, normName, strip, dashedName, isLocalhost */
+/* exported isDark, isTouch, isSimple, isHidden, isPlainObject, isEmptyObject, isArrayLike, str2arr, parseUnit, getUnit, setStyleProp, acceptData, dataAttr, normName, strip, dashedName, isLocalhost */
 
 var numProps = ['opacity', 'zIndex', "order", "zoom"];
 
@@ -2960,6 +2960,11 @@ function isTouch() {
     return (('ontouchstart' in window)
         || (navigator.maxTouchPoints > 0)
         || (navigator.msMaxTouchPoints > 0));
+}
+
+function isDark(){
+    var prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)")
+    return prefersDarkScheme.matches
 }
 
 // Source: src/setimmediate.js
@@ -3104,7 +3109,7 @@ function isTouch() {
 
 /* global hasProp */
 
-var m4qVersion = "v1.1.0. Built at 27/03/2021 21:47:36";
+var m4qVersion = "v1.1.0. Built at 05/05/2021 22:47:56";
 
 /* eslint-disable-next-line */
 var matches = Element.prototype.matches
@@ -4042,7 +4047,7 @@ $.fn.extend({
 
 // Source: src/utils.js
 
-/* global $, not, camelCase, dashedName, isPlainObject, isEmptyObject, isArrayLike, acceptData, parseUnit, getUnit, isVisible, isHidden, matches, strip, normName, hasProp, isLocalhost, isTouch */
+/* global $, not, isDark, camelCase, dashedName, isPlainObject, isEmptyObject, isArrayLike, acceptData, parseUnit, getUnit, isVisible, isHidden, matches, strip, normName, hasProp, isLocalhost, isTouch */
 
 $.extend({
 
@@ -4050,6 +4055,7 @@ $.extend({
     localhost: isLocalhost(),
     isLocalhost: isLocalhost,
     touchable: isTouch(),
+    dark: isDark(),
 
     uniqueId: function (prefix) {
         var d = new Date().getTime();
@@ -7191,7 +7197,7 @@ $.noConflict = function() {
     var Metro = {
 
         version: "4.5.0",
-        compileTime: "08/04/2021 16:25:25",
+        compileTime: "17/05/2021 12:24:52",
         buildNumber: "@@build",
         isTouchable: isTouch,
         fullScreenEnabled: document.fullscreenEnabled,
@@ -7955,6 +7961,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8009,6 +8019,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8066,6 +8080,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8123,6 +8141,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8180,6 +8202,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8237,6 +8263,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "Dodaj uzorcima",
                 userColorsTitle: "Korisničke boje"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8292,6 +8322,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8349,6 +8383,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8406,6 +8444,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8463,6 +8505,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ДОБАВИТЬ В ОБРАЗЦЫ",
                 userColorsTitle: "ЦВЕТА ПОЛЬЗОВАТЕЛЯ"
+            },
+            "switch": {
+                on: "вкл",
+                off: "выкл"
             }
         }
     });
@@ -8520,6 +8566,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8577,6 +8627,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ДОДАТИ В ЗРАЗКИ",
                 userColorsTitle: "КОЛІРИ КОРИСТУВАЧА"
+            },
+            "switch": {
+                on: "увм",
+                off: "вім"
             }
         }
     });
@@ -8634,6 +8688,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -8691,6 +8749,10 @@ $.noConflict = function() {
             "colorSelector": {
                 addUserColorButton: "ADD TO SWATCHES",
                 userColorsTitle: "USER COLORS"
+            },
+            "switch": {
+                on: "on",
+                off: "off"
             }
         }
     });
@@ -9102,7 +9164,8 @@ $.noConflict = function() {
         },
 
         arrayDelete: function(arr, val){
-            if (arr.indexOf(val) > -1) arr.splice(arr.indexOf(val), 1);
+            var i = arr.indexOf(val);
+            if (i > -1) arr.splice(i, 1);
         },
 
         arrayDeleteByKey: function(arr, key){
@@ -9509,6 +9572,13 @@ $.noConflict = function() {
         activeFrameClass: "",
         activeHeadingClass: "",
         activeContentClass: "",
+        clsFrame: "",
+        clsHeading: "",
+        clsContent: "",
+        clsAccordion: "",
+        clsActiveFrame: "",
+        clsActiveFrameHeading: "",
+        clsActiveFrameContent: "",
         onFrameOpen: Metro.noop,
         onFrameBeforeOpen: Metro.noop_true,
         onFrameClose: Metro.noop,
@@ -9547,7 +9617,19 @@ $.noConflict = function() {
             var active = element.children(".frame.active");
             var frame_to_open;
 
-            element.addClass("accordion");
+            element
+                .addClass("accordion")
+                .addClass(o.clsAccordion)
+            ;
+
+            frames
+                .addClass(o.clsFrame)
+                .each(function(){
+                    var $el = $(this);
+                    $el.children(".heading").addClass(o.clsHeading);
+                    $el.children(".content").addClass(o.clsContent);
+                })
+            ;
 
             if (o.showMarker === true) {
                 element.addClass("marker-on");
@@ -9613,9 +9695,9 @@ $.noConflict = function() {
                 this._closeAll(frame[0]);
             }
 
-            frame.addClass("active " + o.activeFrameClass);
-            frame.children(".heading").addClass(o.activeHeadingClass);
-            frame.children(".content").addClass(o.activeContentClass).slideDown(o.duration);
+            frame.addClass("active " + o.activeFrameClass).addClass(o.clsActiveFrame);
+            frame.children(".heading").addClass(o.activeHeadingClass).addClass(o.clsActiveFrameHeading);
+            frame.children(".content").addClass(o.activeContentClass).addClass(o.clsActiveFrameContent).slideDown(o.duration);
 
             this._fireEvent("frameOpen", {
                 frame: frame[0]
@@ -9634,9 +9716,9 @@ $.noConflict = function() {
                 return ;
             }
 
-            frame.removeClass("active " + o.activeFrameClass);
-            frame.children(".heading").removeClass(o.activeHeadingClass);
-            frame.children(".content").removeClass(o.activeContentClass).slideUp(o.duration);
+            frame.removeClass("active " + o.activeFrameClass).removeClass(o.clsActiveFrame);
+            frame.children(".heading").removeClass(o.activeHeadingClass).removeClass(o.clsActiveFrameHeading);
+            frame.children(".content").removeClass(o.activeContentClass).removeClass(o.clsActiveFrameContent).slideUp(o.duration);
 
             this._fireEvent("frameClose", {
                 frame: frame[0]
@@ -9671,8 +9753,13 @@ $.noConflict = function() {
             });
         },
 
+        open: function(i){
+            var frame = this.element.children(".frame").eq(i);
+            this._openFrame(frame);
+        },
+
         /* eslint-disable-next-line */
-        changeAttribute: function(attributeName){
+        changeAttribute: function(attr, newVal){
         },
 
         destroy: function(){
@@ -32224,6 +32311,10 @@ $.noConflict = function() {
         clsSwitch: "",
         clsCheck: "",
         clsCaption: "",
+        textOn: "",
+        textOff: "",
+        locale: METRO_LOCALE,
+        showOnOff: false,
         onSwitchCreate: Metro.noop
     };
 
@@ -32237,7 +32328,9 @@ $.noConflict = function() {
 
     Metro.Component('switch', {
         init: function( options, elem ) {
-            this._super(elem, options, SwitchDefaultConfig);
+            this._super(elem, options, SwitchDefaultConfig, {
+                locale: null
+            });
 
             return this;
         },
@@ -32263,9 +32356,6 @@ $.noConflict = function() {
             check.appendTo(container);
             caption.appendTo(container);
 
-            if (element.attr("data-on")) check.attr("data-on", element.attr("data-on"));
-            if (element.attr("data-off")) check.attr("data-off", element.attr("data-off"));
-
             if (o.transition === true) {
                 container.addClass("transition-on");
             }
@@ -32286,6 +32376,7 @@ $.noConflict = function() {
                 this.enable();
             }
 
+            this.i18n(o.locale);
             this._fireEvent("switch-create");
         },
 
@@ -32319,9 +32410,42 @@ $.noConflict = function() {
             return this;
         },
 
-        changeAttribute: function(attributeName){
-            switch (attributeName) {
+        changeLocale: function(where, val){
+            var element = this.element, o = this.options;
+            var check = element.siblings(".check");
+
+            o["text"+Cake.capitalize(where)] = val
+
+            check.attr("data-"+where, val);
+        },
+
+        i18n: function(locale){
+            var element = this.element, o = this.options;
+            var check = element.siblings(".check");
+            var on, off;
+
+            o.locale = locale;
+            this.locale = Metro.locales[o.locale] !== undefined ? Metro.locales[o.locale] : Metro.locales["en-US"];
+
+            if (o.showOnOff) {
+                on = element.attr("data-on") || o.textOn || this.locale.switch.on;
+                off = element.attr("data-off") || o.textOff || this.locale.switch.off;
+
+                check.attr("data-on", on);
+                check.attr("data-off", off);
+            } else {
+                check.removeAttr("data-on");
+                check.removeAttr("data-off");
+            }
+        },
+
+        changeAttribute: function(attr, newVal){
+            switch (attr) {
                 case 'disabled': this.toggleState(); break;
+                case 'data-on':
+                case 'data-text-on': this.changeLocale('on', newVal); break;
+                case 'data-off':
+                case 'data-text-off': this.changeLocale('off', newVal); break;
             }
         },
 
@@ -32336,6 +32460,7 @@ $.noConflict = function() {
 
     var Utils = Metro.utils;
     var TableDefaultConfig = {
+        useCurrentSlice: false,
         showInspectorButton: false,
         inspectorButtonIcon: "<span class='default-icon-equalizer'>",
         tableDeferred: 0,
@@ -32515,6 +32640,7 @@ $.noConflict = function() {
                 items: [],
                 foots: [],
                 filteredItems: [],
+                currentSlice: [],
                 index: {}
             });
 
@@ -33377,18 +33503,38 @@ $.noConflict = function() {
             });
 
             element.on(Metro.events.click, ".table-service-check-all input", function(){
-                var status = $(this).is(":checked");
+                var checked = $(this).is(":checked");
                 var store_key = o.checkStoreKey.replace("$1", id);
-                var data = [];
                 var storage = Metro.storage;
+                var data, stored_keys;
 
-                if (status) {
-                    $.each(that.filteredItems, function(){
-                        if (data.indexOf(this[o.checkColIndex]) !== -1) return ;
-                        data.push(""+this[o.checkColIndex]);
-                    });
+                if (o.useCurrentSlice === true) {
+                    stored_keys = storage.getItem(store_key, []);
+
+                    if (checked) {
+                        $.each(that.currentSlice, function(){
+                            if (stored_keys.indexOf(""+this[o.checkColIndex]) === -1) {
+                                stored_keys.push(""+this[o.checkColIndex])
+                            }
+                        });
+                    } else {
+                        $.each(that.currentSlice, function(){
+                            var key = ""+this[o.checkColIndex];
+                            if (stored_keys.indexOf(key) !== -1) {
+                                Metro.utils.arrayDelete(stored_keys, key)
+                            }
+                        });
+                    }
+                    data = stored_keys
                 } else {
-                    data = [];
+                    if (checked) {
+                        $.each(that.filteredItems, function () {
+                            if (data.indexOf(this[o.checkColIndex]) !== -1) return;
+                            data.push("" + this[o.checkColIndex]);
+                        });
+                    } else {
+                        data = [];
+                    }
                 }
 
                 storage.setItem(store_key, data);
@@ -33397,7 +33543,7 @@ $.noConflict = function() {
 
                 that._fireEvent("check-click-all", {
                     check: this,
-                    status: status,
+                    status: checked,
                     data: data
                 });
             });
@@ -33645,27 +33791,6 @@ $.noConflict = function() {
                             post_data: post_data
                         });
                     });
-                //
-                // $.post(viewPath, post_data)
-                //     .then(function(data){
-                //
-                //         that._fireEvent("view-save", {
-                //             target: "server",
-                //             path: o.viewSavePath,
-                //             view: view,
-                //             post_data: post_data,
-                //             response: data
-                //         });
-                //
-                //     }, function(xhr){
-                //
-                //         that._fireEvent("data-save-error", {
-                //             source: o.viewSavePath,
-                //             xhr: xhr,
-                //             post_data: post_data
-                //         });
-                //
-                //     });
             }
         },
 
@@ -33783,7 +33908,7 @@ $.noConflict = function() {
             var i, j, tr, td, check, cells, tds, is_even_row;
             var start = parseInt(o.rows) === -1 ? 0 : o.rows * (this.currentPage - 1),
                 stop = parseInt(o.rows) === -1 ? this.items.length - 1 : start + o.rows - 1;
-            var items;
+            var items, checkedItems = [];
             var stored_keys = Metro.storage.getItem(o.checkStoreKey.replace("$1", element.attr('id')));
 
             var view = o.staticView ? this.viewDefault : this.view;
@@ -33796,6 +33921,9 @@ $.noConflict = function() {
             }
 
             items = this._filter();
+
+            this.currentSlice = items.slice(start, stop + 1);
+            checkedItems = [];
 
             if (items.length > 0) {
                 for (i = start; i <= stop; i++) {
@@ -33825,6 +33953,7 @@ $.noConflict = function() {
 
                     if (Utils.isValue(stored_keys) && Array.isArray(stored_keys) && stored_keys.indexOf(""+items[i][o.checkColIndex]) > -1) {
                         check.prop("checked", true);
+                        checkedItems.push(cells)
                     }
 
                     check.addClass("table-service-check");
@@ -33838,6 +33967,7 @@ $.noConflict = function() {
                         td.addClass(that.service[1].clsColumn);
                     }
                     td.appendTo(tr);
+                    // End of check
 
                     for (j = 0; j < cells.length; j++){
                         tds[j] = null;
@@ -33908,6 +34038,7 @@ $.noConflict = function() {
                     });
                 }
 
+                $(this.component).find(".table-service-check-all input").prop("checked", checkedItems.length);
             } else {
                 j = 0;
                 $.each(view, function(){
@@ -33954,7 +34085,7 @@ $.noConflict = function() {
 
                 switch (format) {
                     case "date": result = formatMask ? Datetime.from(result, formatMask, o.locale) : datetime(result); break;
-                    case "number": result = Number(result); break;
+                    case "number": result = +result; break;
                     case "int": result = parseInt(result); break;
                     case "float": result = parseFloat(result); break;
                     case "money": result = Utils.parseMoney(result); break;
@@ -34250,34 +34381,6 @@ $.noConflict = function() {
                                 error: error
                             });
                         })
-                    // $.json(o.source).then(function(data){
-                    //     that.activity.hide();
-                    //     that.items = [];
-                    //     that.heads = [];
-                    //     that.foots = [];
-                    //
-                    //     that._fireEvent("data-loaded", {
-                    //         source: o.source,
-                    //         data: data
-                    //     });
-                    //
-                    //     if (Array.isArray(o.head)) {
-                    //         that.heads = o.head;
-                    //     }
-                    //
-                    //     if (Array.isArray(o.body)) {
-                    //         that.items = o.body;
-                    //     }
-                    //
-                    //     that._createItemsFromJSON(data);
-                    //     that._rebuild(review);
-                    // }, function(xhr){
-                    //     that.activity.hide();
-                    //     that._fireEvent("data-load-error", {
-                    //         source: o.source,
-                    //         xhr: xhr
-                    //     });
-                    // });
                 });
 
             }

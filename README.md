@@ -3,7 +3,7 @@
 </p> 
 
 # Mina Node Monitor
-**Mina Node Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
+**Mina Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
 This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
 ## Key Features
@@ -18,7 +18,7 @@ This is a `client-server` application for visual monitoring of the validator nod
 - client - JavaScript, HTML, CSS
 
 ### Credits
-+ [x] [Mina Node Monitor]() by [Serhii Pimenov](https://github.com/olton)
++ [x] [Mina Monitor](https://github.com/olton/mina-node-monitor) by [Serhii Pimenov](https://github.com/olton)
 + [x] [Metro 4](https://github.com/olton/Metro-UI-CSS) by [Serhii Pimenov](https://github.com/olton)
 + [x] [ChartJS](https://github.com/olton/chartjs) by [Serhii Pimenov](https://github.com/olton)
 + [x] [SystemInformation](https://github.com/sebhildebrandt/systeminformation) by [Sebastian Hildebrandt](https://github.com/sebhildebrandt)
@@ -52,7 +52,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
 ```json
 {
     "hosts": {
-        "node1": "192.168.1.2:3085"
+        "node1": "xxx.xxx.xxx.xxx:xxxx"
     },
     "useHost": "node1",
     "intervals": {
@@ -65,13 +65,14 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "cpu": 2000,
         "uptime": 600000
     },
+    "theme": "auto",
     "useProxy": false,
-    "proxy": "https://server/proxy.php"
+    "proxy": "https://server/proxy.php",
 }
 ```
 
 Section `hosts` contain information about your servers addresses. 
-Each address must be an opened network interface on the mina node server.
+Each address must be an opened network interface/ip and port on the mina node server.
 Parameter `useHost` defines host where client retrieves data.
 
 Section `intervals` contain information about intervals (in milliseconds), with which data will be retrieve.
@@ -84,10 +85,13 @@ Section `intervals` contain information about intervals (in milliseconds), with 
 - `mem` - interval for retrieve information about server memory
 - `cpu` - interval for retrieve information about server CPU(s)
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
+- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light` 
   
 Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server
 - `proxy` - proxy server address
+
+
 
 #### Config file for server 
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.
@@ -103,8 +107,12 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "canRestartNode": true,
     "restartAfter": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "192.168.1.2:3085",
-    "graphql": "localhost:3085"
+    "host": "xxx.xxx.xxx.xxx:xxxx",
+    "graphql": "xxx.xxx.xxx.xxx:xxxx",
+    "https": {
+        "key": "",
+        "cert": ""
+    }
 }
 ```
 
@@ -118,10 +126,11 @@ where
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
 - `host` - IP and PORT on which the server will run
-- `graphql` - Mina node GraphQL address
+- `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `canRestartNode` - if true, server can restart mina node
 - `restartAfter` - value in minutes, if node synced and height is lower from Mina Explorer within the specified time, node will restart after this interval
 - `restartCmd` - command for restart mina node
+- `https` - contains paths to cert and key to create https server
 
 ### Build web client
 To build client use command: 

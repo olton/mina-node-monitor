@@ -1,6 +1,7 @@
 .idea
 output
 dist
+private
 packages/**/lib
 packages/**/dist
 node_modules
@@ -15,3 +16,4 @@ packages/**/coverage
 client/config.json
 server/config.mjs
 server/config.json
+server/cert
