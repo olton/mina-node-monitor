@@ -1,3 +1,6 @@
+### 1.0.3
++ [x] Removed Explorer comparison. The node will not restart is block height different from Explorer.
+
 ### 1.0.2
 + [x] Added cpu threads load chart
 + [x] Re-disposition RAM and CPU panels content

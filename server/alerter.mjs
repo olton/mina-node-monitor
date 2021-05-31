@@ -4,11 +4,13 @@ import {getExplorerSummary} from "./explorer.mjs"
 import {TELEGRAM_BOT_URL} from "./telegram.mjs"
 import {exec} from "child_process"
 import {parseTelegramChatIDs} from "./helpers.mjs"
+import {hostname} from "os"
 
 export const processAlerter = async (config) => {
     const {telegramToken, telegramChatIDAlert, blockDiff, restartAfter, restartAfterNotSynced, canRestartNode, restartCmd, alertInterval} = config
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
     const ids = parseTelegramChatIDs(telegramChatIDAlert)
+    const host = hostname()
 
     let status = await nodeInfo('node-status', config)
 
@@ -33,7 +35,7 @@ export const processAlerter = async (config) => {
                     result = 'OK'
                 }
 
-                message = `Restart command executed for ${ip}. With result ${result}`
+                message = `Restart command executed for ${host} ${ip}. With result ${result}`
 
                 for (const id of ids) {
                     await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
@@ -42,7 +44,7 @@ export const processAlerter = async (config) => {
         }
 
         if (!SYNCED) {
-            const message = `Node not synced, status ${syncStatus}! IP: ${ip}`
+            const message = `Node not synced, status ${syncStatus}! ${host} IP: ${ip}`
 
             for (const id of ids) {
                 await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
@@ -50,7 +52,7 @@ export const processAlerter = async (config) => {
 
             OK_SYNCED = false
 
-            if (globalThis.restartTimerNotSynced / 60000 >= restartAfter && globalThis.currentHeight === blockchainLength) {
+            if (globalThis.restartTimerNotSynced / 60000 >= restartAfterNotSynced && globalThis.currentHeight === blockchainLength) {
                 globalThis.restartTimerNotSynced = 0
                 if (canRestartNode && restartCmd) {
                     restart()
@@ -60,22 +62,14 @@ export const processAlerter = async (config) => {
             }
         }
 
-        let explorer = await getExplorerSummary()
+        if (+blockchainLength && +highestUnvalidatedBlockLengthReceived) {
 
-        if (explorer && explorer.blockchainLength && blockchainLength) {
-
-            const eHeight = +explorer.blockchainLength
             const nHeight = +blockchainLength
             const uHeight = +highestUnvalidatedBlockLengthReceived
-            const DIFF = Math.abs(eHeight - nHeight) > blockDiff
-            const U_DIFF = Math.abs(uHeight - nHeight) >= blockDiff
+            const DIFF = Math.abs(uHeight - nHeight)
 
-            if (DIFF || U_DIFF) {
-                const message = U_DIFF
-                    ? `Current height different from unvalidated block length, in value ${nHeight} of ${uHeight}!\nIP: ${ip}`
-                    : eHeight > nHeight
-                    ? `The Node lags behind Explorer, in value ${nHeight} of ${eHeight}!\nIP: ${ip}`
-                    : `The Explorer lags behind Node, in value ${eHeight} of ${nHeight}!\nIP: ${ip}`
+            if (DIFF >= blockDiff) {
+                const message = `Current height different from unvalidated block length on ${DIFF}, in value ${nHeight} of ${uHeight}!\n${host} IP: ${ip}`
 
                 for (const id of ids) {
                     await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))

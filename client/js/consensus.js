@@ -17,7 +17,10 @@ export const processConsensus = async () => {
         } = consensusConfiguration
 
         const epochDurationProgress = (+consensusTimeNow.slot * +slotDuration * 100) / epochDuration
-        Metro.getPlugin('#epoch-progress', 'progress').val(epochDurationProgress)
+        const progress = Metro.getPlugin('#epoch-progress', 'progress')
+
+        progress.val(epochDurationProgress)
+        progress.buff(epochDurationProgress)
     }
 
     setTimeout( () => processConsensus(), config.intervals.node)

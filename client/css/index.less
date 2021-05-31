@@ -161,7 +161,7 @@ hr {
 
 .progress {
   border: 1px solid;
-  border-color: var(--border-color);
+  border-color: var(--panel-background);
   overflow: visible;
 
   .value {
@@ -170,7 +170,10 @@ hr {
   }
 }
 .progress-back {
-  background: var(--alert-color);
+  background: transparent;
+}
+.progress .load {
+  background: radial-gradient(var(--alert-color) 0%, var(--alert-color) 16%, transparent 42%);
 }
 .progress-bar {
   background: var(--info-color1)!important;
