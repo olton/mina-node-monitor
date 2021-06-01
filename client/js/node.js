@@ -40,9 +40,9 @@ const processExplorerSummary = async () => {
 
     elExplorerHeight.text(blockchainLength)
 
-    elBlockHeightPanel.removeClass('alert')
+    elBlockHeightPanel.removeClass('alert warning')
     if (Math.abs(+globalThis.blockchainLength - +blockchainLength) >= 2) {
-        elBlockHeightPanel.addClass('alert')
+        elBlockHeightPanel.addClass('warning')
     }
     elLog.html(imgOk)
 }

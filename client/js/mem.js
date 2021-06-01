@@ -4,14 +4,14 @@ import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
-let memoryChart, memoryGauge, memoryFreeChart, memoryUsageChart
+let memoryGauge, memoryFreeChart, memoryUsageChart
 
 export const processMemInfo = async () => {
     const elLog = $("#log-mem")
     elLog.html(imgStop)
     const chartOptions = {
         ...defaultChartConfig,
-        height: 100,
+        height: 90,
         colors: ['#aa00ff', '#7dc37b'],
         legend: {
             position: 'top-left',
