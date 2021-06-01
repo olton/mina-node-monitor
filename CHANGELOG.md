@@ -1,5 +1,7 @@
 ### 1.0.3
 + [x] Removed Explorer comparison. The node will not restart is block height different from Explorer.
++ [x] Split RAM usage chart to two separate charts: free, usage.
++ [x] Block producer and snark worker now have a short name, you can click on these to copy to clipboard full name.
 
 ### 1.0.2
 + [x] Added cpu threads load chart

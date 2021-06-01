@@ -3,6 +3,7 @@ import {getInfo} from "./helpers/get-info"
 import {getFakeTriplets} from "./helpers/get-fake-data"
 import {defaultChartConfig} from "./helpers/chart-config"
 import {imgOk, imgStop} from "./helpers/const";
+import {copy2clipboard} from "./helpers/clipboard";
 
 const graphSize = 20
 let START_NODE_MON = datetime()
@@ -115,6 +116,7 @@ export const processNodeStatus = async () => {
     const UNKNOWN = "UNKNOWN"
     const secondsInEpoch = 1285200000 / 1000
     const genesisStart = "2021-03-17 02:00:00.000000+02:00"
+    const partLength = 7
 
 
     const elements = [
@@ -132,7 +134,7 @@ export const processNodeStatus = async () => {
         "snark-worker-fee"
     ]
 
-    elements.forEach( id => $("#"+id).text(UNKNOWN))
+    elements.forEach( id => $("#"+id).html(UNKNOWN))
 
     if (status && status.data && status.data.daemonStatus) {
         globalThis.blockchainLength = 0
@@ -171,15 +173,14 @@ export const processNodeStatus = async () => {
         const elP2PPort = $("#p2p-port")
         const elClientPort = $("#client-port")
         const elBlockProducerName = $("#block-producer")
-        const elBlockProducerNameFull = $("#block-producer-full")
         const elSnarkWorkerName = $("#snark-worker")
-        const elSnarkWorkerNameFull = $("#snark-worker-full")
         const elSnarkWorkerFee = $("#snark-worker-fee")
         const elEndOfEpoch = $("#end-of-epoch")
         const elEpochDuration = $("#epoch-duration")
         const elNodeVersion = $("#node-version")
 
-        elNodeVersion.text(version)
+        const shortVersion = version.substring(0, partLength) + ' ... ' + version.substring(version.length - partLength)
+        elNodeVersion.text(shortVersion).attr("data-full-name", version)
 
         // node status
         elNetStatus.text(netStatus)
@@ -240,14 +241,14 @@ export const processNodeStatus = async () => {
         // producer and snark worker
         const noBlockProducer = 'No running block producer'
         const noSnarkWorker = 'No running snark worker'
-        const blockProducerName = !blockProductionKeys.length ? noBlockProducer : blockProductionKeys[0].substring(0, 5) + ' ... ' + blockProductionKeys[0].substring(blockProductionKeys[0].length - 5)
-        const snarkWorkerName = !snarkWorker ? noSnarkWorker : snarkWorker.substring(0, 5) + '...' + snarkWorker.substring(snarkWorker.length - 5)
+        const blockProducerName = blockProductionKeys.length ? blockProductionKeys[0] : ""
+        const snarkWorkerName = snarkWorker ?? ""
+        const shortBlockProducerName = blockProducerName.substring(0, partLength) + ' ... ' + blockProducerName.substring(blockProducerName.length - partLength)
+        const shortSnarkWorkerName = snarkWorkerName.substring(0, partLength) + ' ... ' + snarkWorkerName.substring(snarkWorkerName.length - partLength)
         const snarkWorkerFeeValue = !snarkWorkFee ? '' : ` [ <span class="fg-gray">fee</span> ${(snarkWorkFee / 10**9).toFixed(4)} ]`
 
-        elBlockProducerName.text(blockProducerName)
-        elBlockProducerNameFull.text(blockProductionKeys.length ? blockProductionKeys[0] : noBlockProducer)
-        elSnarkWorkerName.text(snarkWorkerName)
-        elSnarkWorkerNameFull.text(snarkWorker ? snarkWorker : noSnarkWorker)
+        elBlockProducerName.text(blockProducerName ? shortBlockProducerName : noBlockProducer).attr("data-full-name", blockProducerName)
+        elSnarkWorkerName.text(snarkWorkerName ? shortSnarkWorkerName : noSnarkWorker).attr("data-full-name", snarkWorkerName)
         elSnarkWorkerFee.html(snarkWorkerFeeValue)
 
         elLog.html(imgOk)
@@ -262,3 +263,7 @@ export const processNodeStatus = async () => {
     setTimeout(() => processNodeStatus(), reload)
 }
 
+$("#node-version, #block-producer, #snark-worker").on("click", function(){
+    let val = $(this).attr("data-full-name")
+    copy2clipboard(val)
+})

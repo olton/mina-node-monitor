@@ -14,7 +14,7 @@
             <div class="cell-md-3">
                 <div class="logo-container h-100 d-flex flex-align-center flex-justify-center flex-justify-start-md">
                     <div class="h5 text-light no-wrap">
-                        <img class="logo" src="images/logo.png"> <span class="fg-accent">MINA</span><span class="fg-warning">MONITOR</span> <small class="fg-normal">v1.0.2</small>
+                        <span class="fg-accent text-bold">MINA</span><span class="fg-warning">MONITOR</span> <small class="fg-normal">v1.0.2</small>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,10 @@
                 <div data-role="panel" data-title-caption="RAM <span id='ram-total' class='enlarge-4 text-bold fg-cyan'>0</span> GiB">
                     <div class="row">
                         <div class="cell-lg-6">
-                            <div id="memory-load"></div>
+                            <div class="h-100">
+                                <div id="memory-usage"></div>
+                                <div id="memory-free"></div>
+                            </div>
                         </div>
                         <div class="cell-lg-6">
                             <div id="memory-use"></div>
@@ -271,23 +274,18 @@
         </div>
 
         <div class="row">
-            <div class="cell-lg-6">
+            <div class="cell-lg-4">
                 <div data-role="panel" data-title-caption="BLOCK PRODUCER">
-                    <div id="block-producer" class="text-center d-none-md">No data</div>
-                    <div id="block-producer-full" class="text-center d-none d-block-md">No data</div>
+                    <div id="block-producer" class="text-center">No data</div>
                 </div>
             </div>
-            <div class="cell-lg-6">
+            <div class="cell-lg-4">
                 <div data-role="panel" data-title-caption="SNARK WORKER <span id='snark-worker-fee' class='fg-accent'>">
-                    <div id="snark-worker" class="text-center d-none-md">No data</div>
-                    <div id="snark-worker-full" class="text-center d-none d-block-md">No data</div>
+                    <div id="snark-worker" class="text-center">No data</div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="cell-12">
-                <div data-role="panel" data-title-caption="NODE VERSION">
+            <div class="cell-lg-4">
+                <div data-role="panel" data-title-caption="MINA VERSION">
                     <div id="node-version" class="text-center fg-normal">unknown</div>
                 </div>
             </div>
