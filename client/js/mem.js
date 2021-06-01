@@ -11,8 +11,6 @@ export const processMemInfo = async () => {
     elLog.html(imgStop)
     const chartOptions = {
         ...defaultChartConfig,
-        height: 90,
-        colors: [Metro.colors.toRGBA('#aa00ff', .5), Metro.colors.toRGBA('#7dc37b', .5)],
         legend: {
             position: 'top-left',
             vertical: true,
@@ -84,23 +82,16 @@ export const processMemInfo = async () => {
 
         memoryUsageChart = chart.areaChart("#memory-usage", [
             {
+                name: "Free",
+                data: _data
+            },
+            {
                 name: "Used",
                 data: _data
             },
         ], {
             ...chartOptions,
-            colors: [Metro.colors.toRGBA('#aa00ff', .5)]
-        });
-    }
-    if (!memoryFreeChart) {
-        memoryFreeChart = chart.areaChart("#memory-free", [
-            {
-                name: "Free",
-                data: _data
-            }
-        ], {
-            ...chartOptions,
-            colors: [Metro.colors.toRGBA('#7dc37b', .5)]
+            colors: [Metro.colors.toRGBA('#7dc37b', .5), Metro.colors.toRGBA('#aa00ff', .5)]
         });
     }
 
@@ -111,10 +102,9 @@ export const processMemInfo = async () => {
         const memFree = mem.free / (1024 ** 3)
         const memTotal = mem.total / (1024 ** 3)
 
-        memoryFreeChart.setBoundaries({maxY: memTotal})
         memoryUsageChart.setBoundaries({maxY: memTotal})
-        memoryUsageChart.addPoint(0, [datetime().time(), memUsage])
-        memoryFreeChart.addPoint(0, [datetime().time(), memFree])
+        memoryUsageChart.addPoint(0, [datetime().time() - 2000, memTotal])
+        memoryUsageChart.addPoint(1, [datetime().time() - 2000, memUsage])
 
         if (!memoryGauge) {
             memoryGauge = chart.gauge('#memory-use', [0], {
