@@ -16,11 +16,19 @@ export const processBlockchainInfo = async () => {
 
         const total = (totalCurrency / 10**9)
 
-        $("#currency-total").text(total.format(2, null, ",", "."))
+        $("#currency-total").text(total.format(0, null, " ", "."))
         $("#epoch-number").text(epoch)
         $("#slot-number").text(slot)
         $("#slot-since-genesis").text(slotSinceGenesis)
     }
 
     setTimeout( () => processBlockchainInfo(), globalThis.config.intervals.blockchain )
+}
+
+export const processBlockSpeed = async () => {
+    let blockSpeed = await getInfo('block-speed')
+
+    $("#block-speed").html(`<span class="text-bold fg-accent">${blockSpeed / 60000}</span> minutes`)
+
+    setTimeout( () => processBlockSpeed(), blockSpeed ? blockSpeed : 300000 )
 }

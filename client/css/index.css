@@ -161,10 +161,7 @@ hr {
   transform: none;
 }
 .progress-back {
-  background: transparent;
-}
-.progress .load {
-  background: radial-gradient(var(--alert-color) 0%, var(--alert-color) 16%, transparent 42%);
+  background: #1e2228;
 }
 .progress-bar {
   background: var(--info-color1) !important;
@@ -297,7 +294,7 @@ body.light-mode .progress {
   border-color: var(--panel-background-light);
 }
 body.light-mode .progress-back {
-  background: transparent;
+  background: #f0f6fc;
 }
 body.light-mode .progress-bar {
   background: var(--info-color1-light);

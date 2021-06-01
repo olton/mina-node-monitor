@@ -102,6 +102,22 @@ query MyQuery {
 }
 `;
 
+const queryBlockSpeed = `
+query MyQuery {
+  version
+  bestChain(maxLength: %LENGTH%) {
+    protocolState {
+      blockchainState {
+        date
+      }
+      consensusState {
+        blockHeight
+      }
+    }
+  }
+}
+`;
+
 async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = {}) {
     try {
         const result = await fetch(
@@ -126,6 +142,19 @@ async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = 
     }
 }
 
+async function getBlockSpeed(graphql, length){
+    let blocks = await fetchGraphQL(graphql, queryBlockSpeed.replace("%LENGTH%", length))
+    let chain, speed, begin, end
+    if (!blocks) {
+        return 0
+    }
+    chain = blocks.data.bestChain
+    begin = +chain[0]["protocolState"]["blockchainState"]["date"]
+    end = +chain[chain.length - 1]["protocolState"]["blockchainState"]["date"]
+    speed = (end - begin) / length
+    return speed
+}
+
 export const nodeInfo = async (obj, config) => {
     const {graphql, publicKey} = config
 
@@ -134,5 +163,6 @@ export const nodeInfo = async (obj, config) => {
         case 'balance': return publicKey ? await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey)) : 0
         case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
         case 'consensus': return await fetchGraphQL(graphql, queryConsensus)
+        case 'block-speed': return await getBlockSpeed(graphql, 10)
     }
 }
