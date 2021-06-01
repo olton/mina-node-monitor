@@ -12,7 +12,7 @@ export const processMemInfo = async () => {
     const chartOptions = {
         ...defaultChartConfig,
         height: 90,
-        colors: ['#aa00ff', '#7dc37b'],
+        colors: [Metro.colors.toRGBA('#aa00ff', .5), Metro.colors.toRGBA('#7dc37b', .5)],
         legend: {
             position: 'top-left',
             vertical: true,
@@ -82,25 +82,25 @@ export const processMemInfo = async () => {
 
     if (!memoryUsageChart) {
 
-        memoryUsageChart = chart.lineChart("#memory-usage", [
+        memoryUsageChart = chart.areaChart("#memory-usage", [
             {
                 name: "Used",
                 data: _data
             },
         ], {
             ...chartOptions,
-            colors: ['#aa00ff']
+            colors: [Metro.colors.toRGBA('#aa00ff', .5)]
         });
     }
     if (!memoryFreeChart) {
-        memoryFreeChart = chart.lineChart("#memory-free", [
+        memoryFreeChart = chart.areaChart("#memory-free", [
             {
                 name: "Free",
                 data: _data
             }
         ], {
             ...chartOptions,
-            colors: ['#7dc37b']
+            colors: [Metro.colors.toRGBA('#7dc37b', .5)]
         });
     }
 

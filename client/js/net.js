@@ -11,8 +11,6 @@ export const processNetInfo = async () => {
     elLog.html(imgStop)
 
     if (!networkChart) {
-        const chartLineColor = globalThis.darkMode ? '#3c424b' : "#e5e5e5"
-        const chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
         networkChart = chart.areaChart("#net-load", [
             {
                 name: "Transfer",
