@@ -51,13 +51,15 @@ export const processAlerter = async (config) => {
 
             OK_SYNCED = false
 
-            if (globalThis.restartTimerNotSynced / 60000 >= restartAfterNotSynced && globalThis.currentHeight === blockchainLength) {
-                globalThis.restartTimerNotSynced = 0
-                if (canRestartNode && restartCmd) {
-                    restart()
+            if (syncStatus !== 'BOOTSTRAP') {
+                if (globalThis.restartTimerNotSynced / 60000 >= restartAfterNotSynced && globalThis.currentHeight === blockchainLength) {
+                    globalThis.restartTimerNotSynced = 0
+                    if (canRestartNode && restartCmd) {
+                        restart()
+                    }
+                } else {
+                    globalThis.restartTimerNotSynced += alertInterval
                 }
-            } else {
-                globalThis.restartTimerNotSynced += alertInterval
             }
         }
 
