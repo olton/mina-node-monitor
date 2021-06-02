@@ -1,6 +1,5 @@
 import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
-import {getExplorerSummary} from "./explorer.mjs"
 import {TELEGRAM_BOT_URL} from "./telegram.mjs"
 import {exec} from "child_process"
 import {parseTelegramChatIDs} from "./helpers.mjs"
