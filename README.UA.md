@@ -57,6 +57,8 @@ npm i
         "node1": "xxx.xxx.xxx.xxx:xxxxx"
     },
     "useHost": "node1",
+    "showIp": true,
+    "useHttps": false,
     "intervals": {
         "info": 60000,
         "time": 60000,
@@ -113,6 +115,7 @@ Section for using proxy (інформацію про проксі-сервер �
     "blockDiff": 2,
     "canRestartNode": true,
     "restartAfter": 30,
+    "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "192.168.1.2:3085",
     "graphql": "localhost:3085",

@@ -55,6 +55,8 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "node1": "xxx.xxx.xxx.xxx:xxxx"
     },
     "useHost": "node1",
+    "showIp": true,
+    "useHttps": false,
     "intervals": {
         "info": 60000,
         "time": 60000,
@@ -106,6 +108,7 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "blockDiff": 2,
     "canRestartNode": true,
     "restartAfter": 30,
+    "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "xxx.xxx.xxx.xxx:xxxx",
     "graphql": "xxx.xxx.xxx.xxx:xxxx",
