@@ -230,11 +230,17 @@ export const processNodeStatus = async () => {
 
         const blockDiff = Math.abs(+blockchainLength - +highestUnvalidatedBlockLengthReceived)
         elBlockHeight.closest(".panel").removeClass('alert warning')
-        if (blockDiff === 2) {
-            elBlockHeight.closest(".panel").addClass('warning')
-        }
-        if (blockDiff > 2) {
+        if (syncStatus === 'BOOTSTRAP' || syncStatus === 'OFFLINE' || syncStatus === 'CONNECTING') {
             elBlockHeight.closest(".panel").addClass('alert')
+        } else if (syncStatus === 'CATCHUP') {
+            elBlockHeight.closest(".panel").addClass('warning')
+        } else {
+            if (blockDiff === 2) {
+                elBlockHeight.closest(".panel").addClass('warning')
+            }
+            if (blockDiff > 2) {
+                elBlockHeight.closest(".panel").addClass('alert')
+            }
         }
 
 
