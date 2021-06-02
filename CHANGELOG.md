@@ -1,5 +1,6 @@
 ### 1.0.3
 + [x] The node will don't more restart is the block height different from Explorer.
++ [x] For restart in not SYNCED now uses parameter `restartAfterNotSynced` from config file.  
 + [x] Split RAM usage chart to two separate charts: free, usage.
 + [x] Block producer and snark worker now have a short name, you can click on these to copy to clipboard full name.
 + [x] Added block speed, showed in BLOCK HEIGHT panel

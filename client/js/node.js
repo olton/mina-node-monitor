@@ -228,6 +228,16 @@ export const processNodeStatus = async () => {
         elMaxBlock.text(highestBlockLengthReceived)
         elMaxUnvalidated.text(highestUnvalidatedBlockLengthReceived)
 
+        const blockDiff = Math.abs(+blockchainLength - +highestUnvalidatedBlockLengthReceived)
+        elBlockHeight.closest(".panel").removeClass('alert warning')
+        if (blockDiff === 2) {
+            elBlockHeight.closest(".panel").addClass('warning')
+        }
+        if (blockDiff > 2) {
+            elBlockHeight.closest(".panel").addClass('alert')
+        }
+
+
         // uptime
         const uptime = Metro.utils.secondsToTime(uptimeSecs)
         elNodeUptime.html(`${uptime.d}d, ${uptime.h}h ${uptime.m}m`)
