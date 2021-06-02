@@ -12,16 +12,18 @@ export const processNetInfo = async () => {
 
     if (!networkChart) {
         networkChart = chart.areaChart("#net-load", [
-            {
-                name: "Transfer",
-                data: getFakeData(40)
-            },
-            {
-                name: "Receive",
-                data: getFakeData(40)
-            },
+            getFakeData(40),
+            getFakeData(40)
         ], {
             ...defaultChartConfig,
+            areas: [
+                {
+                    name: "Transfer",
+                },
+                {
+                    name: "Receive",
+                },
+            ],
             colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
             legend: {
                 position: 'top-left',
@@ -49,7 +51,6 @@ export const processNetInfo = async () => {
                         count: 10,
                         color: globalThis.chartLabelColor,
                     },
-                    arrow: false
                 },
                 y: {
                     line: {
@@ -64,9 +65,9 @@ export const processNetInfo = async () => {
                         },
                         skip: 2
                     },
-                    arrow: false
                 }
             },
+            arrows: false,
             padding: {
                 left: 35,
                 top: 5,
@@ -87,10 +88,9 @@ export const processNetInfo = async () => {
     let net = await getInfo('net-stat')
 
     if (net) {
-        networkChart.addPoint(0, [datetime().time(), Math.round(net[0].tx_sec)])
-        networkChart.addPoint(1, [datetime().time(), Math.round(net[0].rx_sec)])
+        networkChart.add(0, [datetime().time(), Math.round(net[0].tx_sec)], true, {maxX: true, maxY: true})
+        networkChart.add(1, [datetime().time(), Math.round(net[0].rx_sec)], true, {maxX: true, maxY: true})
 
-        $("#net-traffic").text( ((Math.round(net[0].rx_sec) + Math.round(net[0].tx_sec)) / 1024 / 1024).toFixed(2) )
         $("#all-traffic").text( ((Math.round(net[0].rx_sec) + Math.round(net[0].tx_sec)) / 1024 / 1024).toFixed(2) )
 
         elLog.html(imgOk)

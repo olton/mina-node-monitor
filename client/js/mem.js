@@ -42,10 +42,8 @@ export const processMemInfo = async () => {
                     }
                 },
                 skip: 2,
-                arrow: false
             },
             y: {
-                arrow: false,
                 line: {
                     color: globalThis.chartLineColor
                 },
@@ -61,6 +59,7 @@ export const processMemInfo = async () => {
                 }
             }
         },
+        arrows: false,
         padding: {
             left: 5,
             top: 5,
@@ -76,22 +75,22 @@ export const processMemInfo = async () => {
         }
     }
 
-    const _data = getFakeData(40)
-
     if (!memoryUsageChart) {
 
         memoryUsageChart = chart.areaChart("#memory-usage", [
-            {
-                name: "Free",
-                data: _data
-            },
-            {
-                name: "Used",
-                data: _data
-            },
+            getFakeData(40),
+            getFakeData(40)
         ], {
             ...chartOptions,
-            colors: [Metro.colors.toRGBA('#7dc37b', .5), Metro.colors.toRGBA('#aa00ff', .5)]
+            colors: [Metro.colors.toRGBA('#7dc37b', .5), Metro.colors.toRGBA('#aa00ff', .5)],
+            areas: [
+                {
+                    name: "Free"
+                },
+                {
+                    name: "Used"
+                }
+            ]
         });
     }
 
@@ -103,8 +102,8 @@ export const processMemInfo = async () => {
         const memTotal = mem.total / (1024 ** 3)
 
         memoryUsageChart.setBoundaries({maxY: memTotal})
-        memoryUsageChart.addPoint(0, [datetime().time() - 2000, memTotal])
-        memoryUsageChart.addPoint(1, [datetime().time() - 2000, memUsage])
+        memoryUsageChart.add(0, [datetime().time() - 2000, memTotal], true)
+        memoryUsageChart.add(1, [datetime().time() - 2000, memUsage], true)
 
         if (!memoryGauge) {
             memoryGauge = chart.gauge('#memory-use', [0], {

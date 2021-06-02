@@ -53,15 +53,14 @@ export const processNodeStatus = async () => {
 
     if (!peersChart) {
         peersChart = chart.histogramChart('#peers-load', [
-            {
-                name: "Peers",
-                data: getFakeTriplets(20, 40, 60, 0)
-            },
+                getFakeTriplets(20, 40, 60, 0)
         ], {
             ...defaultChartConfig,
-            bars: {
-                stroke: globalThis.darkMode ? '#22272e' : '#fff'
-            },
+            bars: [{
+                name: "Peers",
+                stroke: globalThis.darkMode ? '#22272e' : '#fff',
+                color: Metro.colors.toRGBA('#00AFF0', .5)
+            }],
             boundaries: {
                 maxY: 100,
                 minY: 0
@@ -193,7 +192,7 @@ export const processNodeStatus = async () => {
         }
 
         START_NODE_POINTS += 10
-        peersChart.addTriplet(0, [START_NODE_POINTS - 10, START_NODE_POINTS, peers.length])
+        peersChart.add(0, [START_NODE_POINTS - 10, START_NODE_POINTS, peers.length], true)
 
         // peers
         // peersChart.addPoint(0, [datetime().time(), peers.length])

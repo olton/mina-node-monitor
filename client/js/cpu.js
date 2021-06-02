@@ -26,12 +26,14 @@ export const processCPUData = async () => {
 
     if (!cpuChart) {
         cpuChart = chart.areaChart("#cpu-load", [
-            {
-                name: "CPU usage",
-                data: getFakeData(40)
-            }
+            getFakeData(40)
         ], {
             ...defaultChartConfig,
+            areas: [
+                {
+                    name: "CPU usage"
+                }
+            ],
             colors: [Metro.colors.toRGBA('#00AFF0', .5), Metro.colors.toRGBA('#aa00ff', .5)],
             legend: false,
             axis: {
@@ -44,7 +46,6 @@ export const processCPUData = async () => {
                         count: 10,
                         color: globalThis.chartLabelColor,
                     },
-                    arrow: false
                 },
                 y: {
                     line: {
@@ -58,9 +59,9 @@ export const processCPUData = async () => {
                         },
                         skip: 2
                     },
-                    arrow: false
                 }
             },
+            arrows: false,
             padding: {
                 left: 35,
                 top: 5,
@@ -86,7 +87,7 @@ export const processCPUData = async () => {
 
         let {load = 0, user = 0, sys = 0, loadavg = [0, 0, 0], threads = []} = cpuLoad
 
-        cpuChart.addPoint(0, [datetime().time(), load])
+        cpuChart.add(0, [datetime().time(), load], true)
         cpuGauge.setData([load])
 
         $("#loadavg").html(`<span class="text-bold">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)

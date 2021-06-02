@@ -48,20 +48,24 @@
       }
     };
 
+    var defaultMargin = {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    };
+
+    var defaultPadding = {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    };
+
     var defaultLegend = {
       rtl: false,
-      margin: {
-        top: 20,
-        left: 0,
-        right: 0,
-        bottom: 0
-      },
-      padding: {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
-      },
+      margin: defaultMargin,
+      padding: defaultPadding,
       font: labelFont,
       border: defaultBorder,
       dash: [],
@@ -90,20 +94,6 @@
         stretch: 0,
         color: 'rgba(0,0,0,.5)'
       }
-    };
-
-    var defaultPadding = {
-      top: 40,
-      bottom: 40,
-      left: 40,
-      right: 40
-    };
-
-    var defaultMargin = {
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0
     };
 
     var defaultColors = {
@@ -254,7 +244,12 @@
       dpi: 1,
       height: 200,
       width: "100%",
-      padding: defaultPadding,
+      padding: {
+        top: 40,
+        left: 40,
+        right: 40,
+        bottom: 40
+      },
       margin: defaultMargin,
       background: '#fff',
       color: '#000',
@@ -478,7 +473,7 @@
         var offset = 0;
         box = legend.font.size / 2;
         lh = legend.font.size * legend.font.lineHeight;
-        y = padding.top + padding.bottom + this.viewHeight - (legend.font.size + legendPadding.top + legendMargin.top);
+        y = padding.top + this.viewHeight + (legend.font.size + legendPadding.top + legendMargin.top);
         x = padding.left + legendPadding.left + legendMargin.left;
 
         for (var i = 0; i < items.length; i++) {
@@ -547,10 +542,10 @@
           y = legendPadding.top + legendMargin.top;
         } else if (legend.position === 'bottom-left') {
           x = legendPadding.left + legendMargin.left;
-          y = this.dpiHeight - textBoxHeight - legendPadding.bottom + legendMargin.bottom;
+          y = this.dpiHeight - textBoxHeight - legendPadding.bottom - legendMargin.bottom;
         } else {
           x = this.dpiWidth - textBoxWidth - legendMargin.right - legendPadding.right;
-          y = this.dpiHeight - textBoxHeight - legendPadding.bottom + legendMargin.bottom;
+          y = this.dpiHeight - textBoxHeight - legendPadding.bottom - legendMargin.bottom;
         }
 
         drawBox(ctx, [x, y, textBoxWidth, textBoxHeight], {
@@ -870,14 +865,6 @@
       return target;
     }
 
-    var arrow = {
-      color: '#7d7d7d',
-      size: 1,
-      dash: [],
-      factorX: 5,
-      factorY: 5,
-      outside: 0
-    };
     var line = {
       color: '#e3e3e3',
       size: 1,
@@ -902,7 +889,6 @@
       showMin: true
     };
     var axis = {
-      arrow,
       line,
       label
     };
@@ -921,11 +907,25 @@
       dash: [5, 3]
     };
 
+    var defaultArrow = {
+      color: '#7d7d7d',
+      size: 1,
+      dash: [],
+      factorX: 5,
+      factorY: 5,
+      outside: 0
+    };
+    var defaultArrows = {
+      x: defaultArrow,
+      y: defaultArrow
+    };
+
     var defaultAreaChartOptions = {
       axis: defaultAxis,
       cross: defaultCross,
       showDots: true,
-      accuracy: 2
+      accuracy: 2,
+      arrows: defaultArrows
     };
 
     var minMax = function minMax() {
@@ -1091,27 +1091,6 @@
 
     };
 
-    var drawArrowX = function drawArrowX(ctx, _ref) {
-      var [x1, y1, x2, y2, factorX, factorY] = _ref;
-      var {
-        color = '#000',
-        dash = [],
-        size = 1
-      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      ctx.beginPath();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = size;
-      ctx.setLineDash(dash);
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.moveTo(x2, y2);
-      ctx.lineTo(x2 - factorX, y2 - factorY);
-      ctx.moveTo(x2, y2);
-      ctx.lineTo(x2 - factorX, y2 + factorY);
-      ctx.stroke();
-      ctx.closePath();
-    };
-
     var drawVector = function drawVector(ctx, _ref) {
       var [x1, y1, x2, y2] = _ref;
       var {
@@ -1131,45 +1110,7 @@
       ctx.closePath();
     };
 
-    var drawArrowY = function drawArrowY(ctx, _ref) {
-      var [x1, y1, x2, y2, factorX, factorY] = _ref;
-      var {
-        color = '#000',
-        dash = [],
-        size = 1
-      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      ctx.beginPath();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = size;
-      ctx.setLineDash(dash);
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.moveTo(x2, y2);
-      ctx.lineTo(x2 - factorX, y2 + factorY);
-      ctx.moveTo(x2, y2);
-      ctx.lineTo(x2 + factorX, y2 + factorY);
-      ctx.stroke();
-      ctx.closePath();
-    };
-
     var MixinAxis = {
-      arrowX() {
-        var o = this.options,
-            ctx = this.ctx;
-        var padding = expandPadding(o.padding);
-        if (!o.axis.x.arrow) return;
-        var arrow = o.axis.x.arrow;
-        var x1 = padding.left,
-            y1 = this.viewHeight + padding.top;
-        var x2 = padding.left + this.viewWidth + arrow.outside,
-            y2 = y1;
-        drawArrowX(ctx, [x1, y1, x2, y2, arrow.factorX, arrow.factorY], {
-          color: arrow.color,
-          size: arrow.size,
-          dash: arrow.dash
-        });
-      },
-
       axisX() {
         var _ref, _line$shortLineSize;
 
@@ -1239,23 +1180,6 @@
         }
       },
 
-      arrowY() {
-        var o = this.options,
-            ctx = this.ctx;
-        var padding = expandPadding(o.padding);
-        if (!o.axis.y.arrow) return;
-        var arrow = o.axis.y.arrow;
-        var x1 = padding.left,
-            y1 = this.viewHeight + padding.top;
-        var x2 = x1,
-            y2 = padding.top - arrow.outside;
-        drawArrowY(ctx, [x1, y1, x2, y2, arrow.factorX, arrow.factorY], {
-          color: arrow.color,
-          size: arrow.size,
-          dash: arrow.dash
-        });
-      },
-
       axisY() {
         var _ref2, _line$shortLineSize2;
 
@@ -1286,7 +1210,7 @@
           shortLineX = x - shortLineSize;
         }
 
-        for (var i = 0; i <= label.count + 1; i++) {
+        for (var i = 0; i < label.count + 1; i++) {
           labelValue = typeof label.fixed === "number" ? value.toFixed(label.fixed) : value;
 
           if (typeof o.onDrawLabelY === "function") {
@@ -1331,24 +1255,29 @@
       axisXY() {
         if (!this.options.axis) return;
         this.axisX();
-        this.arrowX();
         this.axisY();
-        this.arrowY();
         return this;
       }
 
     };
 
     var MixinAddPoint = {
-      addPoint(index, _ref) {
-        var [x, y] = _ref;
-        var shift = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      addPoint(index, point) {
+        var shift = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         var o = this.options;
         var data;
-        if (!this.data || !this.data.length) return;
-        data = this.data[index].data;
 
-        if (shift) {
+        if (!this.data) {
+          this.data = [];
+
+          for (var i = 0; i < index + 1; i++) {
+            this.data[i] = [];
+          }
+        }
+
+        data = this.data[index];
+
+        if (shift && data.length) {
           if (!o.graphSize) {
             data = data.slice(1);
           } else {
@@ -1358,13 +1287,8 @@
           }
         }
 
-        this.data[index].data = data;
-        this.data[index].data.push([x, y]);
-        this.minX = data[0][0];
-        this.maxX = x;
-        if (y < this.minY) this.minY = y;
-        if (y > this.maxY) this.maxY = y;
-        this.resize();
+        this.data[index] = data;
+        this.data[index].push(point);
       }
 
     };
@@ -1390,6 +1314,91 @@
       ctx.closePath();
     };
 
+    var drawArrowX = function drawArrowX(ctx, _ref) {
+      var [x1, y1, x2, y2, factorX, factorY] = _ref;
+      var {
+        color = '#000',
+        dash = [],
+        size = 1
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = size;
+      ctx.setLineDash(dash);
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - factorX, y2 - factorY);
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - factorX, y2 + factorY);
+      ctx.stroke();
+      ctx.closePath();
+    };
+
+    var drawArrowY = function drawArrowY(ctx, _ref) {
+      var [x1, y1, x2, y2, factorX, factorY] = _ref;
+      var {
+        color = '#000',
+        dash = [],
+        size = 1
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = size;
+      ctx.setLineDash(dash);
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - factorX, y2 + factorY);
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 + factorX, y2 + factorY);
+      ctx.stroke();
+      ctx.closePath();
+    };
+
+    var MixinArrows = {
+      arrowX() {
+        var o = this.options,
+            ctx = this.ctx;
+        var padding = expandPadding(o.padding);
+        if (!o.arrows.x) return;
+        var arrow = o.arrows.x;
+        var x1 = padding.left,
+            y1 = this.viewHeight + padding.top;
+        var x2 = padding.left + this.viewWidth + arrow.outside,
+            y2 = y1;
+        drawArrowX(ctx, [x1, y1, x2, y2, arrow.factorX, arrow.factorY], {
+          color: arrow.color,
+          size: arrow.size,
+          dash: arrow.dash
+        });
+      },
+
+      arrowY() {
+        var o = this.options,
+            ctx = this.ctx;
+        var padding = expandPadding(o.padding);
+        if (!o.arrows.y) return;
+        var arrow = o.arrows.y;
+        var x = padding.left,
+            y1 = this.viewHeight + padding.top;
+        var y2 = padding.top - arrow.outside;
+        drawArrowY(ctx, [x, y1, x, y2, arrow.factorX, arrow.factorY], {
+          color: arrow.color,
+          size: arrow.size,
+          dash: arrow.dash
+        });
+      },
+
+      arrows() {
+        if (!this.options.arrows) return;
+        this.arrowX();
+        this.arrowY();
+        return this;
+      }
+
+    };
+
     class AreaChart extends Chart {
       constructor(el) {
         var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -1402,10 +1411,12 @@
         this.maxY = 0;
         this.legendItems = [];
         var legend = this.options.legend;
+        var areas = this.options.areas;
+        var colors = this.options.colors;
 
         if (legend) {
           for (var i = 0; i < this.data.length; i++) {
-            this.legendItems.push([this.data[i].name, this.options.colors[i]]);
+            this.legendItems.push([areas[i].name, colors[i]]);
           }
         }
 
@@ -1417,8 +1428,7 @@
         var o = this.options;
         var a = [];
 
-        for (var k in this.data) {
-          var _data = this.data[k].data;
+        for (var _data of this.data) {
           if (!Array.isArray(_data)) continue;
 
           for (var [x, y] of _data) {
@@ -1453,15 +1463,16 @@
         if (!this.data || !this.data.length) return;
 
         var _loop = function _loop(i) {
-          var _graph$color, _graph$fill, _dots$color, _dots$fill, _dots$size;
+          var _area$color, _area$fill, _dots$color, _dots$fill, _dots$size;
 
-          var graph = _this.data[i];
-          var color = (_graph$color = graph.color) !== null && _graph$color !== void 0 ? _graph$color : o.colors[i];
-          var fill = (_graph$fill = graph.fill) !== null && _graph$fill !== void 0 ? _graph$fill : color;
+          var area = o.areas[i];
+          var data = _this.data[i];
+          var color = (_area$color = area.color) !== null && _area$color !== void 0 ? _area$color : o.colors[i];
+          var fill = (_area$fill = area.fill) !== null && _area$fill !== void 0 ? _area$fill : color;
           coords = [];
           coords.push([padding.left, _this.viewHeight + padding.top, 0, 0]);
 
-          for (var [x, y] of graph.data) {
+          for (var [x, y] of data) {
             var _x = Math.floor((x - _this.minX) * _this.ratioX + padding.left);
 
             var _y = Math.floor(_this.viewHeight + padding.top - (y - _this.minY) * _this.ratioY);
@@ -1473,9 +1484,9 @@
           drawArea(ctx, coords, {
             color,
             fill,
-            size: graph.size
+            size: area.size
           });
-          var dots = graph.dots ? graph.dots : {
+          var dots = area.dots ? area.dots : {
             type: 'dot' // dot, square, triangle
 
           };
@@ -1503,15 +1514,15 @@
               drawPointFn = drawCircle;
           }
 
-          if (graph.dots && o.showDots !== false) {
+          if (area.dots && o.showDots !== false) {
             coords.map((_ref) => {
               var [x, y] = _ref;
               drawPointFn(ctx, [x, y, opt.radius], opt);
             });
           }
 
-          _this.coords[graph.name] = {
-            graph,
+          _this.coords[area.name] = {
+            area,
             coords,
             drawPointFn,
             opt
@@ -1519,11 +1530,11 @@
           coords.shift();
           coords.pop();
 
-          if (graph.showLines !== false) {
+          if (area.showLines !== false) {
             drawLine(ctx, coords, {
               color,
               fill,
-              size: graph.size
+              size: area.size
             });
           }
         };
@@ -1588,10 +1599,54 @@
         }
       }
 
+      add(index, _ref2, shift, align) {
+        var [x, y] = _ref2;
+        this.addPoint(index, [x, y], shift);
+        this.minX = this.data[index][0][0];
+        this.maxX = x;
+
+        if (align) {
+          if (isObject(align)) {
+            this.align(align);
+          }
+        } else {
+          if (y < this.minY) this.minY = y;
+          if (y > this.maxY) this.maxY = y;
+        }
+
+        this.resize();
+      }
+
+      align(_ref3) {
+        var {
+          minX,
+          maxX,
+          minY,
+          maxY
+        } = _ref3;
+        var a = [];
+
+        for (var _data of this.data) {
+          if (!Array.isArray(_data)) continue;
+
+          for (var [x, y] of _data) {
+            a.push([x, y]);
+          }
+        }
+
+        var [_minX, _maxX] = minMax(a, 'x');
+        var [_minY, _maxY] = minMax(a, 'y');
+        if (minX) this.minX = _minX;
+        if (minY) this.minY = _minY;
+        if (maxX) this.maxX = _maxX;
+        if (maxY) this.maxY = _maxY;
+      }
+
       draw() {
         super.draw();
         this.calcRatio();
         this.axisXY();
+        this.arrows();
         this.areas();
         this.floatPoint();
         this.cross();
@@ -1602,6 +1657,7 @@
     Object.assign(AreaChart.prototype, MixinCross);
     Object.assign(AreaChart.prototype, MixinAxis);
     Object.assign(AreaChart.prototype, MixinAddPoint);
+    Object.assign(AreaChart.prototype, MixinArrows);
     var areaChart = (el, data, options) => new AreaChart(el, data, options);
 
     var defaultBarChartOptions = {
@@ -1613,6 +1669,7 @@
         font: labelFont,
         color: '#000'
       },
+      arrows: defaultArrows,
       onDrawLabel: null
     };
 
@@ -1662,19 +1719,13 @@
 
       calcMinMax() {
         var o = this.options;
-        var a = [],
-            length = 0;
+        var a = [];
 
         for (var k in this.data) {
-          var data = this.data[k].data;
-          a = [].concat(a, data);
+          a = [].concat(a, this.data[k]);
         }
 
-        for (var _k in this.data) {
-          length += this.data[_k].data.length;
-          this.groups++;
-        }
-
+        this.groups = this.data.length;
         var [, max] = minMaxLinear(a);
         this.maxX = this.maxY = o.boundaries && !isNaN(o.boundaries.max) ? o.boundaries.max : max;
         if (isNaN(this.maxX)) this.maxX = 100;
@@ -1682,15 +1733,15 @@
       }
 
       calcRatio() {
-        this.ratio = (this.options.dataAxisX ? this.viewWidth : this.viewHeight) / (this.maxY === this.minY ? this.maxY : this.maxY - this.minY);
+        this.ratioX = this.ratioY = this.ratio = (this.options.dataAxisX ? this.viewWidth : this.viewHeight) / (this.maxY === this.minY ? this.maxY : this.maxY - this.minY);
       }
 
       calcBarWidth() {
         var o = this.options;
         var bars = 0;
 
-        for (var g of this.data) {
-          bars += g.data.length;
+        for (var i = 0; i < this.data.length; i++) {
+          bars += Array.isArray(this.data[i]) ? this.data[i].length : 1;
         }
 
         var availableSpace = (o.dataAxisX ? this.viewHeight : this.viewWidth) - (this.data.length + 1) * o.groupDistance // space between groups
@@ -1701,7 +1752,8 @@
 
       bars() {
         var axisX = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        var o = this.options;
+        var o = this.options,
+            bars = o.bars;
         var padding = expandPadding(o.padding);
         var ctx = this.ctx;
         var rect = this.canvas.getBoundingClientRect();
@@ -1722,9 +1774,9 @@
 
         for (var g = 0; g < this.data.length; g++) {
           var graph = this.data[g];
-          var data = graph.data;
+          var data = Array.isArray(graph) ? graph : [graph];
           var labelColor = o.labels.color;
-          var name = graph.name;
+          var name = bars[g];
           var groupWidth = 0;
 
           for (var i = 0; i < data.length; i++) {
@@ -1776,7 +1828,7 @@
             color: labelColor,
             stroke: labelColor,
             font: o.font,
-            angle: axisX ? Math.PI / 2 : 0,
+            angle: axisX ? 90 : 0,
             translate: axisX ? [px - 20, py - groupWidth / 2] : [px - groupWidth / 2, py + 20]
           });
 
@@ -1808,18 +1860,19 @@
         }
 
         this.bars(o.dataAxisX);
-        this.arrowY();
-        this.arrowX();
+        this.arrows();
         this.legend();
       }
 
     }
     Object.assign(BarChart.prototype, MixinAxis);
+    Object.assign(BarChart.prototype, MixinArrows);
     var barChart = (el, data, options) => new BarChart(el, data, options);
 
     var defaultBubbleChartOptions = {
       axis: defaultAxis,
-      cross: defaultCross
+      cross: defaultCross,
+      arrows: defaultArrows
     };
 
     class BubbleChart extends Chart {
@@ -1878,7 +1931,7 @@
         this.ratioZ = this.maxZ / (this.maxZ === this.minZ ? this.maxZ : this.maxZ - this.minZ);
       }
 
-      lines() {
+      bubbles() {
         var o = this.options,
             padding = expandPadding(o.padding);
         var ctx = this.ctx;
@@ -1906,11 +1959,25 @@
         if (!this.data || !this.data.length) return;
       }
 
+      add(index, _ref) {
+        var [x, y, z] = _ref;
+        var shift = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+        this.addPoint(index, [x, y, z], shift);
+        if (x < this.minX) this.minX = x;
+        if (x > this.maxX) this.maxX = x;
+        if (y < this.minY) this.minY = y;
+        if (y > this.maxY) this.maxY = y;
+        if (z < this.minZ) this.minZ = z;
+        if (z > this.maxZ) this.maxZ = z;
+        this.resize();
+      }
+
       draw() {
         super.draw();
         this.calcRatio();
         this.axisXY();
-        this.lines();
+        this.arrows();
+        this.bubbles();
         this.floatPoint();
         this.cross();
         this.legend();
@@ -1919,42 +1986,24 @@
     }
     Object.assign(BubbleChart.prototype, MixinCross);
     Object.assign(BubbleChart.prototype, MixinAxis);
+    Object.assign(BubbleChart.prototype, MixinArrows);
     var bubbleChart = (el, data, options) => new BubbleChart(el, data, options);
 
     var defaultHistogramOptions = {
       barWidth: 10,
-      axis: defaultAxis,
+      axis: _objectSpread2(_objectSpread2({}, defaultAxis), {}, {
+        x: _objectSpread2(_objectSpread2({}, defaultAxis.x), {}, {
+          arrow: false
+        }),
+        y: _objectSpread2(_objectSpread2({}, defaultAxis.y), {}, {
+          arrow: false
+        })
+      }),
       cross: defaultCross,
       graphSize: 40,
       bars: {
         stroke: '#fff'
       }
-    };
-
-    var MixinAddTriplet = {
-      addTriplet(index, _ref) {
-        var [a, b, c] = _ref;
-        var shift = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-        var o = this.options;
-        var data;
-        if (!this.data || !this.data.length) return;
-        data = this.data[index].data;
-
-        if (shift) {
-          if (o.graphSize && data.length === o.graphSize) {
-            data = data.slice(1);
-          } else {
-            data = data.slice(1);
-          }
-        }
-
-        this.data[index].data = data;
-        this.data[index].data.push([a, b, c]);
-        this.calcMinMax();
-        this.calcRatio();
-        this.resize();
-      }
-
     };
 
     class HistogramChart extends Chart {
@@ -1969,10 +2018,12 @@
         this.maxY = 0;
         this.legendItems = [];
         var legend = this.options.legend;
+        var bars = this.options.bars;
+        var colors = this.options.colors;
 
         if (legend) {
           for (var i = 0; i < this.data.length; i++) {
-            this.legendItems.push([this.data[i].name, this.options.colors[i]]);
+            this.legendItems.push([bars[i].name, colors[i]]);
           }
         }
 
@@ -1984,8 +2035,7 @@
         var o = this.options;
         var a = [];
 
-        for (var k in this.data) {
-          var _data = this.data[k].data;
+        for (var _data of this.data) {
           if (!Array.isArray(_data)) continue;
 
           for (var [x1, x2, y] of _data) {
@@ -2018,25 +2068,37 @@
         if (!this.data || !this.data.length) return;
 
         for (var i = 0; i < this.data.length; i++) {
-          var graph = this.data[i];
-          var color = o.colors[i];
-          var stroke = graph.stroke || o.bars.stroke;
+          var bar = o.bars[i];
+          var data = this.data[i];
+          var color = bar.color || o.colors[i] || "#000";
+          var stroke = bar.stroke || '#fff';
 
-          for (var [x1, x2, y] of graph.data) {
-            var _x1 = Math.floor((x1 - this.minX) * this.ratioX + padding.left);
+          for (var [x1, x2, y] of data) {
+            var _x = Math.floor((x1 - this.minX) * this.ratioX + padding.left);
 
-            var _x2 = Math.floor((x2 - this.minX) * this.ratioX + padding.left);
+            var _w = Math.floor((x2 - this.minX) * this.ratioX + padding.left) - _x;
 
             var _h = (y - this.minY) * this.ratioY;
 
             var _y = Math.floor(this.viewHeight + padding.top - _h);
 
-            drawRect(ctx, [_x1, _y, _x2 - _x1, _h], {
+            drawRect(ctx, [_x, _y, _w, _h], {
               fill: color,
               color: stroke
             });
           }
         }
+      }
+
+      add(index, _ref) {
+        var [x1, x2, y] = _ref;
+        var shift = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+        this.addPoint(index, [x1, x2, y], shift);
+        this.minX = this.data[index][0][0];
+        this.maxX = x2;
+        if (y < this.minY) this.minY = y;
+        if (y > this.maxY) this.maxY = y;
+        this.resize();
       }
 
       draw() {
@@ -2051,7 +2113,7 @@
     }
     Object.assign(HistogramChart.prototype, MixinCross);
     Object.assign(HistogramChart.prototype, MixinAxis);
-    Object.assign(HistogramChart.prototype, MixinAddTriplet);
+    Object.assign(HistogramChart.prototype, MixinAddPoint);
     var histogramChart = (el, data, options) => new HistogramChart(el, data, options);
 
     var defaultLineChartOptions = {
@@ -2062,7 +2124,9 @@
       showDots: true,
       type: 'line',
       // line, curve
-      accuracy: 2
+      accuracy: 2,
+      lines: [],
+      arrows: defaultArrows
     };
 
     var drawCurve = function drawCurve(ctx) {
@@ -2127,10 +2191,12 @@
         this.maxY = 0;
         this.legendItems = [];
         var legend = this.options.legend;
+        var lines = this.options.lines;
+        var colors = this.options.colors;
 
         if (legend) {
-          for (var i = 0; i < this.data.length; i++) {
-            this.legendItems.push([this.data[i].name, this.options.colors[i]]);
+          for (var i = 0; i < lines.length; i++) {
+            this.legendItems.push([lines[i].name, colors[i]]);
           }
         }
 
@@ -2142,8 +2208,7 @@
         var o = this.options;
         var a = [];
 
-        for (var k in this.data) {
-          var _data = this.data[k].data;
+        for (var _data of this.data) {
           if (!Array.isArray(_data)) continue;
 
           for (var [x, y] of _data) {
@@ -2180,12 +2245,13 @@
         var _loop = function _loop(i) {
           var _dots$color, _dots$fill, _dots$size;
 
-          var graph = _this.data[i];
+          var line = o.lines[i];
+          var data = _this.data[i];
           var color = o.colors[i];
-          var type = graph.type || o.type || DEFAULT_LINE_TYPE;
+          var type = line.type || o.type || DEFAULT_LINE_TYPE;
           coords = [];
 
-          for (var [x, y] of graph.data) {
+          for (var [x, y] of data) {
             var _x = Math.floor((x - _this.minX) * _this.ratioX + padding.left);
 
             var _y = Math.floor(_this.viewHeight + padding.top - (y - _this.minY) * _this.ratioY);
@@ -2193,23 +2259,23 @@
             coords.push([_x, _y, x, y]);
           }
 
-          if (graph.showLine !== false) {
+          if (line.showLine !== false) {
             if (type !== DEFAULT_LINE_TYPE) {
               drawCurve(ctx, coords, {
                 color: color,
-                size: graph.size
+                size: line.size
               });
             } else {
               drawLine(ctx, coords, {
                 color: color,
-                size: graph.size
+                size: line.size
               });
             }
           }
 
           var dots = mergeProps({
             type: DEFAULT_DOT_TYPE
-          }, o.dots, graph.dots);
+          }, o.dots, line.dots);
           var opt = {
             color: (_dots$color = dots.color) !== null && _dots$color !== void 0 ? _dots$color : color,
             fill: (_dots$fill = dots.fill) !== null && _dots$fill !== void 0 ? _dots$fill : color,
@@ -2234,15 +2300,15 @@
               drawPointFn = drawCircle;
           }
 
-          if (graph.dots && o.showDots !== false) {
+          if (line.dots && o.showDots !== false) {
             coords.map((_ref) => {
               var [x, y] = _ref;
               drawPointFn(ctx, [x, y, opt.radius], opt);
             });
           }
 
-          _this.coords[graph.name] = {
-            graph,
+          _this.coords[line.name] = {
+            line,
             coords,
             drawPointFn,
             opt
@@ -2309,10 +2375,54 @@
         }
       }
 
+      add(index, _ref2, shift, align) {
+        var [x, y] = _ref2;
+        this.addPoint(index, [x, y], shift);
+        this.minX = this.data[index][0][0];
+        this.maxX = x;
+
+        if (align) {
+          if (isObject(align)) {
+            this.align(align);
+          }
+        } else {
+          if (y < this.minY) this.minY = y;
+          if (y > this.maxY) this.maxY = y;
+        }
+
+        this.resize();
+      }
+
+      align(_ref3) {
+        var {
+          minX,
+          maxX,
+          minY,
+          maxY
+        } = _ref3;
+        var a = [];
+
+        for (var _data of this.data) {
+          if (!Array.isArray(_data)) continue;
+
+          for (var [x, y] of _data) {
+            a.push([x, y]);
+          }
+        }
+
+        var [_minX, _maxX] = minMax(a, 'x');
+        var [_minY, _maxY] = minMax(a, 'y');
+        if (minX) this.minX = _minX;
+        if (minY) this.minY = _minY;
+        if (maxX) this.maxX = _maxX;
+        if (maxY) this.maxY = _maxY;
+      }
+
       draw() {
         super.draw();
         this.calcRatio();
         this.axisXY();
+        this.arrows();
         this.lines();
         this.floatPoint();
         this.cross();
@@ -2323,6 +2433,7 @@
     Object.assign(LineChart.prototype, MixinCross);
     Object.assign(LineChart.prototype, MixinAxis);
     Object.assign(LineChart.prototype, MixinAddPoint);
+    Object.assign(LineChart.prototype, MixinArrows);
     var lineChart = (el, data, options) => new LineChart(el, data, options);
 
     var defaultPieChartOptions = {
@@ -2444,8 +2555,9 @@
 
     var defaultStackedBarChartOptions = {
       groupDistance: 0,
-      axis: _objectSpread2({}, defaultAxis),
+      axis: defaultAxis,
       dataAxisX: false,
+      arrows: defaultArrows,
       onDrawLabel: null
     };
 
@@ -2458,6 +2570,8 @@
         this.minY = 0;
         this.minX = 0;
         this.viewAxis = this.options.dataAxisX ? this.viewHeight : this.viewWidth;
+        this.ratioX = 0;
+        this.ratioY = 0;
         this.legendItems = [];
         var legend = this.options.legend;
 
@@ -2487,7 +2601,7 @@
       }
 
       calcRatio() {
-        this.ratio = (this.options.dataAxisX ? this.viewWidth : this.viewHeight) / (this.maxY === this.minY ? this.maxY : this.maxY - this.minY);
+        this.ratio = this.ratioY = this.ratioX = (this.options.dataAxisX ? this.viewWidth : this.viewHeight) / (this.maxY === this.minY ? this.maxY : this.maxY - this.minY);
       }
 
       calcBarWidth() {
@@ -2561,7 +2675,7 @@
             stroke: labelColor,
             font: o.font,
             translate: [px - 20, py - this.barWidth / 2],
-            angle: Math.PI / 2
+            angle: 90
           });
         }
 
@@ -2632,7 +2746,8 @@
             color: labelColor,
             stroke: labelColor,
             font: o.font,
-            translate: [px - o.groupDistance - this.barWidth / 2, py + 20]
+            translate: [px - o.groupDistance - this.barWidth / 2, py + 20],
+            angle: 0
           });
         }
 
@@ -2656,13 +2771,13 @@
           this.barsY();
         }
 
-        this.arrowY();
-        this.arrowX();
+        this.arrows();
         this.legend();
       }
 
     }
     Object.assign(StackedBarChart.prototype, MixinAxis);
+    Object.assign(StackedBarChart.prototype, MixinArrows);
     var stackedBarChart = (el, data, options) => new StackedBarChart(el, data, options);
 
     var gaugeLabel = {
@@ -3077,6 +3192,258 @@
     }
     var segment = (el, data, options) => new Segment(el, data, options);
 
+    var defaultCandlestickOptions = {
+      axis: defaultAxis,
+      boundaries: {
+        minY: 0
+      },
+      candle: {
+        size: 1,
+        width: 'auto',
+        white: 'green',
+        black: 'red',
+        distance: 4,
+        cutoff: false
+      },
+      ghost: {
+        stroke: "#e3e3e3",
+        fill: "#e3e3e3"
+      },
+      arrows: defaultArrows
+    };
+
+    var drawCandle = function drawCandle(ctx, _ref) {
+      var [x, y, h, by, bw, bh] = _ref;
+      var {
+        color = 'red',
+        size = 1,
+        leg = false
+      } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      ctx.beginPath();
+      ctx.save();
+      ctx.setLineDash([]);
+      ctx.lineWidth = size;
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.moveTo(x, y);
+      ctx.lineTo(x, y + h);
+
+      if (leg) {
+        ctx.moveTo(x - bw / 2, y);
+        ctx.lineTo(x + bw / 2, y);
+        ctx.moveTo(x - bw / 2, y + h);
+        ctx.lineTo(x + bw / 2, y + h);
+      }
+
+      ctx.rect(x - bw / 2, by, bw, bh);
+      ctx.stroke();
+      ctx.fill();
+      ctx.restore();
+      ctx.closePath();
+    };
+
+    class CandlestickChart extends Chart {
+      constructor(el, data, options) {
+        super(el, data, merge({}, defaultCandlestickOptions, options), 'candlesticks');
+        this.minY = 0;
+        this.maxY = 0;
+        this.labels = [];
+        this.coords = [];
+        this.calcMinMax();
+        this.resize();
+      }
+
+      calcMinMax() {
+        var o = this.options;
+        var a = [];
+        this.labels.length = 0;
+
+        for (var k in this.data) {
+          var [x, hi, low] = this.data[k];
+          a.push([0, hi]);
+          a.push([0, low]);
+          this.labels.push(x);
+        }
+
+        var [minY, maxY] = minMax(a, 'y');
+        this.minY = o.boundaries && !isNaN(o.boundaries.minY) ? o.boundaries.minY : minY;
+        this.maxY = o.boundaries && !isNaN(o.boundaries.maxY) ? o.boundaries.maxY : maxY;
+      }
+
+      calcRatio() {
+        this.ratioY = this.viewHeight / (this.maxY === this.minY ? this.maxY : this.maxY - this.minY);
+      }
+
+      getCandleSize() {
+        var candle = this.options.candle;
+        var dataLength = this.data.length;
+        return candle.width === 'auto' ? (this.viewWidth - candle.distance * 2 - candle.distance * (dataLength - 1)) / dataLength : candle.width;
+      }
+
+      candlesticks() {
+        // data [x, hi, low, open, close]
+        var ctx = this.ctx,
+            o = this.options,
+            candle = o.candle,
+            ghost = o.ghost;
+        var padding = expandPadding(o.padding);
+        var dataLength = this.data.length;
+        var rect = this.canvas.getBoundingClientRect();
+        var candleSize = this.getCandleSize();
+        var mx,
+            my,
+            tooltip = false;
+
+        if (this.proxy.mouse) {
+          mx = this.proxy.mouse.x - rect.left;
+          my = this.proxy.mouse.y - rect.top;
+        }
+
+        var x = padding.left + candleSize / 2 + candle.distance;
+        this.coords.length = 0;
+
+        for (var i = 0; i < dataLength; i++) {
+          var y = void 0,
+              y2 = void 0,
+              o1 = void 0,
+              c1 = void 0,
+              [xv, hi, low, open, close] = this.data[i];
+          var whiteCandle = close > open;
+          var candleColor = whiteCandle ? candle.white : candle.black;
+          var bx1 = x - candleSize / 2 - candle.distance / 2,
+              bx2 = x + candleSize / 2 + candle.distance / 2;
+          y = padding.top + this.viewHeight - (hi - this.minY) * this.ratioY;
+          y2 = padding.top + this.viewHeight - (low - this.minY) * this.ratioY;
+          o1 = padding.top + this.viewHeight - (open - this.minY) * this.ratioY;
+          c1 = padding.top + this.viewHeight - (close - this.minY) * this.ratioY;
+
+          if (mx >= bx1 && mx <= bx2) {
+            drawRect(ctx, [bx1, padding.top, candleSize + candle.distance, this.viewHeight], {
+              color: ghost.stroke,
+              fill: ghost.fill
+            });
+          }
+
+          drawCandle(ctx, [x, y, y2 - y, o1, candleSize, c1 - o1], {
+            color: candleColor,
+            size: candle.size,
+            leg: candle.leg
+          });
+
+          if (mx >= bx1 && mx <= bx2 && my >= y && my <= y2) {
+            if (o.tooltip) {
+              this.showTooltip(this.data[i], {
+                type: whiteCandle
+              });
+              tooltip = true;
+            }
+          }
+
+          this.coords.push(x);
+          x += candleSize + candle.distance;
+        }
+
+        if (!tooltip && this.tooltip) {
+          this.tooltip.remove();
+          this.tooltip = null;
+        }
+      }
+
+      axis() {
+        var _ref, _line$shortLineSize;
+
+        // draw default axis Y
+        this.axisY(); // draw axis X
+
+        var ctx = this.ctx,
+            o = this.options,
+            candle = o.candle;
+        var padding = expandPadding(o.padding);
+        var axis = o.axis.x,
+            label = axis.label,
+            line = axis.line,
+            arrow = axis.arrow;
+        var font = (_ref = label && label.font) !== null && _ref !== void 0 ? _ref : o.font;
+        var shortLineSize = (_line$shortLineSize = line.shortLineSize) !== null && _line$shortLineSize !== void 0 ? _line$shortLineSize : 0;
+        var candleSize = this.getCandleSize();
+        var x = padding.left + candleSize / 2 + candle.distance,
+            y = padding.top + this.viewHeight;
+        var k = 0;
+
+        for (var i = 0; i < this.labels.length; i++) {
+          var value = this.labels[i];
+          var labelValue = value;
+
+          if (typeof o.onDrawLabelX === "function") {
+            labelValue = o.onDrawLabelX.apply(null, [value]);
+          }
+
+          if (i !== 0 && label.skip && k !== label.skip) {
+            k++;
+          } else {
+            var _label$color, _label$shift$x, _label$shift$y;
+
+            k = 1; // short line
+
+            drawVector(ctx, [x, y - shortLineSize, x, y + shortLineSize], {
+              color: arrow && arrow.color ? arrow.color : line.color
+            }); // label
+
+            drawText(ctx, labelValue.toString(), [0, 0], {
+              color: (_label$color = label.color) !== null && _label$color !== void 0 ? _label$color : o.color,
+              align: label.align,
+              font,
+              translate: [x + ((_label$shift$x = label.shift.x) !== null && _label$shift$x !== void 0 ? _label$shift$x : 0), y + font.size + 5 + ((_label$shift$y = label.shift.y) !== null && _label$shift$y !== void 0 ? _label$shift$y : 0)],
+              angle: label.angle
+            });
+          }
+
+          x += candleSize + candle.distance;
+        }
+      }
+
+      add(_ref2) {
+        var [x, hi, low, open, close] = _ref2;
+        var shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var o = this.options;
+        var data;
+
+        if (!this.data) {
+          this.data = [];
+        }
+
+        data = this.data;
+
+        if (shift && data.length) {
+          if (!o.graphSize) {
+            data = data.slice(1);
+          } else {
+            if (data.length >= o.graphSize) {
+              data = data.slice(1);
+            }
+          }
+        }
+
+        this.data = data;
+        this.data.push([x, hi, low, open, close]);
+        this.calcMinMax();
+        this.resize();
+      }
+
+      draw() {
+        super.draw();
+        this.calcRatio();
+        this.axis();
+        this.arrows();
+        this.candlesticks();
+      }
+
+    }
+    Object.assign(CandlestickChart.prototype, MixinAxis);
+    Object.assign(CandlestickChart.prototype, MixinTooltip);
+    Object.assign(CandlestickChart.prototype, MixinArrows);
+    var candlestickChart = (el, data, options) => new CandlestickChart(el, data, options);
+
     globalThis.chart = {
       areaChart,
       barChart,
@@ -3087,7 +3454,8 @@
       stackedBarChart,
       gauge,
       donut,
-      segment
+      segment,
+      candlestickChart
     };
 
 }());

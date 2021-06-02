@@ -6,6 +6,7 @@
 + [x] Block producer and snark worker now have a short name, you can click on these to copy to clipboard full name.
 + [x] Added block speed, showed in BLOCK HEIGHT panel
 + [x] Fixed client to work with server if one started on https. To config added key `useHttps` with `true` or `false` values.
++ [x] Fixed network chart for align max value
 
 ### 1.0.2
 + [x] Added cpu threads load chart
