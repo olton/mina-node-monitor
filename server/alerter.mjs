@@ -73,10 +73,8 @@ export const processAlerter = async (config) => {
             const nHeight = +blockchainLength
             const mHeight = +highestBlockLengthReceived
             const uHeight = +highestUnvalidatedBlockLengthReceived
-            const pHeight = +globalThis.currentHeight
             const DIFF_MAX = mHeight - nHeight
             const DIFF_UNVALIDATED = uHeight - nHeight
-            const DIFF_PREVIOUS_HEIGHT = pHeight - nHeight
             let message
 
             if (DIFF_MAX >= blockDiff) {
@@ -113,29 +111,37 @@ export const processAlerter = async (config) => {
                 }
             }
 
-            if (globalThis.currentHeightCounter % 2 === 0 && DIFF_PREVIOUS_HEIGHT === 0) {
-                OK_PREV = false
-                message = `Hanging node detected! BLock height ${nHeight} equal to previous value at ${alertInterval * 2 / 60000} minutes! ${sign}`
-                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+            if (globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
+                if (nHeight - globalThis.currentControlHeight === 0) {
+                    OK_PREV = false
+                    message = `Hanging node detected! Block height ${nHeight} equal to previous value! ${sign}`
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
-                if (restartStateSyncedRules.includes("PREV")) {
-                    if (globalThis.restartTimerPrev / 60000 >= restartAfterPrev) {
-                        globalThis.restartTimerPrev = 0
-                        if (canRestartNode && restartCmd) {
-                            restart('Long time equal to previous length!')
+                    if (restartStateSyncedRules.includes("PREV")) {
+                        if (globalThis.restartTimerPrev / 60000 >= restartAfterPrev) {
+                            globalThis.restartTimerPrev = 0
+                            if (canRestartNode && restartCmd) {
+                                restart('Long time equal to previous length!')
+                            }
+                        } else {
+                            globalThis.restartTimerPrev += alertInterval
                         }
-                    } else {
-                        globalThis.restartTimerPrev += alertInterval
                     }
+                } else {
+                    globalThis.currentControlHeight = globalThis.currentHeight
                 }
+            }
+
+            globalThis.currentHeight = +blockchainLength
+            if (globalThis.currentControlHeight === 0) {
+                globalThis.currentControlHeight = globalThis.currentHeight
             }
         }
 
-        globalThis.currentHeight = +blockchainLength
-        if (globalThis.currentHeightCounter === Number.MAX_SAFE_INTEGER) {
-            globalThis.currentHeightCounter = 1
+        if (globalThis.controlCounter === Number.MAX_SAFE_INTEGER) {
+            globalThis.controlCounter = 1
         } else {
-            globalThis.currentHeightCounter++
+            globalThis.controlCounter++
         }
 
         if (OK_MAX) globalThis.restartTimerMax = 0
@@ -143,9 +149,9 @@ export const processAlerter = async (config) => {
         if (OK_PREV) globalThis.restartTimerPrev = 0
         if (OK_SYNCED) globalThis.restartTimerNotSynced = 0
 
-        if (observeExplorer) {
+        if (globalThis.currentHeight > 0 && observeExplorer) {
             const explorer = await getExplorerSummary()
-            if (globalThis.currentHeight > 0 && explorer && explorer.blockchainLength && blockchainLength) {
+            if (explorer && explorer.blockchainLength && blockchainLength) {
                 const DIFF_EXPLORER = +globalThis.currentHeight - explorer.blockchainLength
                 let message
                 if (Math.abs(DIFF_EXPLORER) >= blockDiff) {
