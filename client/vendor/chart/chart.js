@@ -3046,7 +3046,7 @@
         count: 100,
         distance: 4,
         rowDistance: 4,
-        height: 10,
+        height: "auto",
         radius: 0
       },
       ghost: {
@@ -3106,21 +3106,17 @@
 
     class Segment extends Chart {
       constructor(el, data, options) {
-        var values = Array.isArray(data) ? data : [data];
-        var opt = merge({}, defaultOptions, defaultSegmentOptions, options);
-        var padding = expandPadding(opt.padding);
-        var {
-          height,
-          distance,
-          rowDistance
-        } = opt.segment;
-        var canvasHeight = ((height + rowDistance) * values.length - rowDistance + (padding.top + padding.bottom)) * opt.dpi + rowDistance;
-        super(el, data, _objectSpread2(_objectSpread2({}, opt), {}, {
-          height: canvasHeight
-        }), 'segment');
+        super(el, data, merge({}, defaultSegmentOptions, options), 'segment');
         this.min = 0;
         this.max = 100;
-        this.values = values;
+
+        if (this.options.segment.height !== "auto") {
+          var o = this.options;
+          var s = o.segment;
+          var rowDistance = s.rowDistance * o.dpi;
+          this.options.height = this.data.length * (rowDistance + 1 + s.height);
+        }
+
         this.resize();
       }
 
@@ -3132,11 +3128,17 @@
         var distance = s.distance * o.dpi;
         var rowDistance = s.rowDistance * o.dpi;
         var width = this.viewWidth / count - distance;
-        var height = s.height;
         var colors = [];
         var padding = expandPadding(o.padding);
         var x,
             y = padding.top + distance;
+        var height;
+
+        if (s.height === 'auto') {
+          height = (o.height - rowDistance * this.data.length) / this.data.length;
+        } else {
+          height = s.height;
+        }
 
         if (typeof o.colors === "string") {
           colors.push([100, o.colors]);
@@ -3146,8 +3148,8 @@
           }
         }
 
-        for (var k = 0; k < this.values.length; k++) {
-          var value = this.values[k];
+        for (var k = 0; k < this.data.length; k++) {
+          var value = this.data[k];
           var limit = count * value / 100;
           x = padding.left + 1;
 
@@ -3180,7 +3182,7 @@
       setData(data) {
         var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var redraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-        this.values[index] = data;
+        this.data[index] = data;
         if (redraw) this.resize();
       }
 

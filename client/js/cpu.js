@@ -10,9 +10,6 @@ export const processCPUData = async () => {
     const elLog = $("#log-cpu")
     elLog.html(imgStop)
 
-    let container = $("#cpu-load-all")
-    let height = 208
-
     if (!cpuGauge) {
         cpuGauge = chart.gauge('#cpu-use', [0], {
             ...defaultGaugeConfig,
@@ -29,6 +26,7 @@ export const processCPUData = async () => {
             getFakeData(40)
         ], {
             ...defaultChartConfig,
+            height: 100,
             areas: [
                 {
                     name: "CPU usage"
@@ -90,24 +88,23 @@ export const processCPUData = async () => {
         cpuChart.add(0, [datetime().time(), load], true)
         cpuGauge.setData([load])
 
-        $("#loadavg").html(`<span class="text-bold">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
-
-        if (!container.children().length) {
+        if ($("#cpu-load-all").children().length === 0) {
             cpuSegment = chart.segment("#cpu-load-all", cpuLoad.threads, {
+                height: 100,
                 padding: {
+                    left: 2,
+                    right: 2,
                     top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0
+                    bottom: 0
                 },
+                margin: 0,
                 segment: {
-                    rowDistance: 6,
-                    count: 40,
-                    height: height / (cpuLoad.threads.length) - 6
+                    rowDistance: 4,
+                    count: 40
                 },
                 colors: [ [70, '#60a917'], [90, '#f0a30a'], [100, '#a20025'] ],
                 border: {
-                    color: "transparent"
+                    // color: "transparent"
                 },
                 ghost: {
                     color: globalThis.darkMode ? "rgba(125, 195, 123, .1)" : "#f0f6fc"
@@ -118,6 +115,8 @@ export const processCPUData = async () => {
                 cpuSegment.setData(v, i)
             })
         }
+
+        $("#loadavg").html(`<span class="text-bold">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
 
         elLog.html(imgOk)
     }
