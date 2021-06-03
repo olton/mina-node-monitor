@@ -106,7 +106,7 @@ export const processCPUData = async () => {
                 },
                 colors: [ [70, '#60a917'], [90, '#f0a30a'], [100, '#a20025'] ],
                 border: {
-                    // color: "transparent"
+                    color: globalThis.chartLineColor
                 },
                 ghost: {
                     color: globalThis.darkMode ? "rgba(125, 195, 123, .1)" : "#f0f6fc"
