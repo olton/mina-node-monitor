@@ -55,16 +55,16 @@ export const processCPUData = async () => {
                         font: {
                             size: 10
                         },
-                        skip: 2
+                        skip: 2,
                     },
                 }
             },
             arrows: false,
             padding: {
-                left: 35,
-                top: 5,
+                left: 1,
+                top: 1,
                 right: 1,
-                bottom: 5
+                bottom: 1
             },
             boundaries: {
                 maxY: 100,
@@ -87,6 +87,8 @@ export const processCPUData = async () => {
 
         cpuChart.add(0, [datetime().time(), load], true)
         cpuGauge.setData([load])
+
+        $("#threads-count").html(`${cpuLoad.threads.length} THREADS`)
 
         if ($("#cpu-load-all").children().length === 0) {
             cpuSegment = chart.segment("#cpu-load-all", cpuLoad.threads, {
