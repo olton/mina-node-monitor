@@ -107,22 +107,27 @@ Section for using proxy (інформацію про проксі-сервер �
 ```json
 {
     "publicKey": "B62qr...",
-    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-    "telegramChatID": "XXXXXXXXX, XXXXXXXXX",
-    "telegramChatIDAlert": "XXXXXXXXX, XXXXXXXXX",
-    "balanceSendInterval": 86400000,
-    "alertInterval": 60000,
+    "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "telegramChatID": "XXXXXXXXX",
+    "telegramChatIDAlert": "XXXXXXXXX",
+    "balanceSendInterval": 300000,
+    "alertInterval": 300000,
     "blockDiff": 2,
     "canRestartNode": true,
-    "restartAfter": 30,
+    "restartAfterMax": 30,
+    "restartAfterUnv": 30,
+    "restartAfterPrev": 30,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "192.168.1.2:3085",
+    "host": "you_ip_address:port",
     "graphql": "localhost:3085",
     "https": {
         "key": "",
         "cert": ""
-    }
+    },
+    "observeExplorer": true,
+    "restartStateException": ["BOOTSTRAP"],
+    "restartStateSyncedRules": ["MAX", "UNV", "PREV"]
 }
 ```
 
@@ -138,9 +143,14 @@ Section for using proxy (інформацію про проксі-сервер �
 - `host` - IP і PORT на якому буде працювати сервер монітора
 - `graphql` - Адреса на якому працює GraphQL вузла
 - `canRestartNode` - Якщо значення цього ключа **true**, сервер може перезапустити вузол міни
-- `restartAfter` - значення в хвилинах, якщо вузол синхронізований, але при цьому відстає по висоті блоків від Mina Explorer протягом зазначеного часу, вузол буде перезапущений
+- `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
+- `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
+- `restartAfterPrev` - value in minutes, if node synced and height is equal to previous retrieved height, node will restart after this interval
 - `restartCmd` - Команда для перезапуска вузла Mina
 - `https` - contains paths to cert and key to create https server
+- `observeExplorer` - observe Explorer block height and alerts if height difference
+- `restartStateException` - exceptions for states to restart node in non-sync
+- `restartStateSyncedRules` - enabled rules to restart in synced
 
 ### Збірка клієнтського додатка
 

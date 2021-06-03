@@ -100,22 +100,27 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
 ```json
 {
     "publicKey": "B62qr...",
-    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-    "telegramChatID": "XXXXXXXXX, XXXXXXXXX",
-    "telegramChatIDAlert": "XXXXXXXXX, XXXXXXXXX",
-    "balanceSendInterval": 86400000,
-    "alertInterval": 60000,
+    "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "telegramChatID": "XXXXXXXXX",
+    "telegramChatIDAlert": "XXXXXXXXX",
+    "balanceSendInterval": 300000,
+    "alertInterval": 300000,
     "blockDiff": 2,
     "canRestartNode": true,
-    "restartAfter": 30,
+    "restartAfterMax": 30,
+    "restartAfterUnv": 30,
+    "restartAfterPrev": 30,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "xxx.xxx.xxx.xxx:xxxx",
-    "graphql": "xxx.xxx.xxx.xxx:xxxx",
+    "host": "you_ip_address:port",
+    "graphql": "localhost:3085",
     "https": {
         "key": "",
         "cert": ""
-    }
+    },
+    "observeExplorer": true,
+    "restartStateException": ["BOOTSTRAP"],
+    "restartStateSyncedRules": ["MAX", "UNV", "PREV"]
 }
 ```
 
@@ -131,9 +136,14 @@ where
 - `host` - IP and PORT on which the server will run
 - `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `canRestartNode` - if true, server can restart mina node
-- `restartAfter` - value in minutes, if node synced and height is lower from Mina Explorer within the specified time, node will restart after this interval
+- `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
+- `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
+- `restartAfterPrev` - value in minutes, if node synced and height is equal to previous retrieved height, node will restart after this interval
 - `restartCmd` - command for restart mina node
 - `https` - contains paths to cert and key to create https server
+- `observeExplorer` - observe Explorer block height and alerts if height difference
+- `restartStateException` - exceptions for states to restart node in non-sync 
+- `restartStateSyncedRules` - enabled rules to restart in synced
 
 ### Build web client
 To build client use command: 

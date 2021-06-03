@@ -104,22 +104,27 @@ Section for using proxy (читайте про прокси-сервер ниж�
 ```json
 {
     "publicKey": "B62qr...",
-    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-    "telegramChatID": "XXXXXXXXX, XXXXXXXXX",
-    "telegramChatIDAlert": "XXXXXXXXX, XXXXXXXXX",
-    "balanceSendInterval": 86400000,
-    "alertInterval": 60000,
+    "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "telegramChatID": "XXXXXXXXX",
+    "telegramChatIDAlert": "XXXXXXXXX",
+    "balanceSendInterval": 300000,
+    "alertInterval": 300000,
     "blockDiff": 2,
     "canRestartNode": true,
-    "restartAfter": 30,
+    "restartAfterMax": 30,
+    "restartAfterUnv": 30,
+    "restartAfterPrev": 30,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "192.168.1.2:3085",
+    "host": "you_ip_address:port",
     "graphql": "localhost:3085",
     "https": {
         "key": "",
         "cert": ""
-    }
+    },
+    "observeExplorer": true,
+    "restartStateException": ["BOOTSTRAP"],
+    "restartStateSyncedRules": ["MAX", "UNV", "PREV"]
 }
 ```
 
@@ -135,9 +140,14 @@ where
 - `host` - IP и PORT на котором будет работать сервер монитора
 - `graphql` - Адрес на котором работает GraphQL сервер узла
 - `canRestartNode` - Если значение этого ключа **true**, сервер может перезапустить узел мины
-- `restartAfter` - значение в минутах, если узел синхронизирован, но при этом отстает по высоте блоков от Mina Explorer в течении указанного времени, узел будет перезапущен
+- `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
+- `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
+- `restartAfterPrev` - value in minutes, if node synced and height is equal to previous retrieved height, node will restart after this interval
 - `restartCmd` - Команда для перезапуска узла Mina
 - `https` - contains paths to cert and key to create https server
+- `observeExplorer` - observe Explorer block height and alerts if height difference
+- `restartStateException` - exceptions for states to restart node in non-sync
+- `restartStateSyncedRules` - enabled rules to restart in synced
 
 ### Сборка клиентского приложения
 

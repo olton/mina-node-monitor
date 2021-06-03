@@ -17,8 +17,8 @@ export const processAlerter = async (config) => {
         restartCmd,
         alertInterval,
         observeExplorer,
-        restartStateException,
-        restartStateSyncedRules
+        restartStateException = [],
+        restartStateSyncedRules = []
     } = config
     const host = hostname()
 

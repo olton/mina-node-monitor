@@ -1,10 +1,12 @@
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.
++ [x] Server: Alert for difference height to Explorer height now enabled/disabled with config parameter `observeExplorer`
 + [x] Server: For restart in not SYNCED now uses parameter `restartAfterNotSynced` from config file.
 + [x] Server: The Node will not restart when non-synced for states defined in config parameter `restartStateException`. This is an array. Recommended set it to `["BOOTSTRAP"]`.
 + [x] Server: Changed rules for restart node in `synced`. Added rules for difference with max block length, unvalidated block length, and equal to previous block height     
 + [x] Server: Removed config parameter `redtartAfter`, use parameters `restartAfterMax`, `restartAfterUnv`, `restartAfterPrev` (all parameters must have value in minutes)
-+ [x] Server: You can enable restart rules for synced mode with the config parameter `restartStateSyncedRules`. This parameter must have value as an array and can contain the next values: `['MAX', 'UNV', 'PREV']`     
++ [x] Server: You can enable restart rules for synced mode with the config parameter `restartStateSyncedRules`. This parameter must have value as an array and can contain the next values: `['MAX', 'UNV', 'PREV']`
++ [x] Server: Added alerts to telegram for: difference block height from max block and unvalidated block, and equals to previous retrieved block height
 
 + [x] Client: Split RAM usage chart to two separate charts: free, usage.
 + [x] Client: Block producer and snark worker now have a short name, you can click on these to copy to clipboard full name.
