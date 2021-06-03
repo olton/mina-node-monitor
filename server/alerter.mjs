@@ -31,6 +31,7 @@ export const processAlerter = async (config) => {
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
         let OK_SYNCED = true, OK_MAX = true, OK_UNV = true, OK_PREV = true
+        const sign = `\nHost: ${host}\nIP: ${ip}`
 
         const restart = (reason) => {
             exec(restartCmd, async (error, stdout, stderr) => {
@@ -45,14 +46,14 @@ export const processAlerter = async (config) => {
                     result = 'OK'
                 }
 
-                message = `Restart command executed for\nHost ${host}\nIP: ${ip}.\nWith result ${result}\nReason: ${reason}`
+                message = `Restart command executed for ${sign}.\nWith result ${result}\nReason: ${reason}`
 
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
             })
         }
 
         if (!SYNCED) {
-            const message = `Node not synced, status ${syncStatus}!\nHost: ${host}\nIP: ${ip}`
+            const message = `Node not synced, status ${syncStatus}!${sign}`
 
             await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
@@ -80,7 +81,7 @@ export const processAlerter = async (config) => {
 
             if (DIFF_MAX >= blockDiff) {
                 OK_MAX = false
-                message = `Height ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${DIFF_MAX}`
+                message = `Difference block height detected! Height ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${DIFF_MAX} ${sign}`
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                 if (restartStateSyncedRules.includes("MAX")) {
@@ -97,7 +98,7 @@ export const processAlerter = async (config) => {
 
             if (DIFF_UNVALIDATED >= blockDiff) {
                 OK_UNV = false
-                message = `Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${DIFF_UNVALIDATED}`
+                message = `Difference block height detected! Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${DIFF_UNVALIDATED} ${sign}`
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                 if (restartStateSyncedRules.includes("UNV")) {
@@ -112,9 +113,9 @@ export const processAlerter = async (config) => {
                 }
             }
 
-            if (DIFF_PREVIOUS_HEIGHT === 0) {
+            if (globalThis.currentHeightCounter % 2 === 0 && DIFF_PREVIOUS_HEIGHT === 0) {
                 OK_PREV = false
-                message = `Height equal to previous value!`
+                message = `Hanging node detected! BLock height ${nHeight} equal to previous value at ${alertInterval * 2 / 60000} minutes! ${sign}`
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                 if (restartStateSyncedRules.includes("PREV")) {
@@ -131,6 +132,11 @@ export const processAlerter = async (config) => {
         }
 
         globalThis.currentHeight = +blockchainLength
+        if (globalThis.currentHeightCounter === Number.MAX_SAFE_INTEGER) {
+            globalThis.currentHeightCounter = 1
+        } else {
+            globalThis.currentHeightCounter++
+        }
 
         if (OK_MAX) globalThis.restartTimerMax = 0
         if (OK_UNV) globalThis.restartTimerUnv = 0

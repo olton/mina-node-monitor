@@ -30,6 +30,7 @@ globalThis.restartTimerPrev = 0
 globalThis.restartTimerNotSynced = 0
 globalThis.currentBalance = 0
 globalThis.currentHeight = 0
+globalThis.currentHeightCounter = 1
 
 const requestListener = async (req, res) => {
     let response
