@@ -82,6 +82,7 @@ export const processMemInfo = async () => {
             getFakeData(40)
         ], {
             ...chartOptions,
+            height: 220,
             colors: [Metro.colors.toRGBA('#7dc37b', .5), Metro.colors.toRGBA('#aa00ff', .5)],
             areas: [
                 {
