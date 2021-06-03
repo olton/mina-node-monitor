@@ -1,27 +1,38 @@
-import fetch from "node-fetch"
 import {nodeInfo} from "./node.mjs"
-import {TELEGRAM_BOT_URL} from "./telegram.mjs"
+import {telegram} from "./telegram.mjs"
 import {exec} from "child_process"
-import {parseTelegramChatIDs} from "./helpers.mjs"
 import {hostname} from "os"
+import {getExplorerSummary} from "./explorer.mjs";
 
 export const processAlerter = async (config) => {
-    const {telegramToken, telegramChatIDAlert, blockDiff, restartAfter, restartAfterNotSynced, canRestartNode, restartCmd, alertInterval} = config
-    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
-    const ids = parseTelegramChatIDs(telegramChatIDAlert)
+    const {
+        telegramToken,
+        telegramChatIDAlert,
+        blockDiff,
+        restartAfterMax,
+        restartAfterUnv,
+        restartAfterPrev,
+        restartAfterNotSynced,
+        canRestartNode,
+        restartCmd,
+        alertInterval,
+        observeExplorer,
+        restartStateException,
+        restartStateSyncedRules
+    } = config
     const host = hostname()
-
-    let status = await nodeInfo('node-status', config)
 
     if (!config || !telegramToken || !telegramChatIDAlert) return
 
+    let status = await nodeInfo('node-status', config)
+
     if (status && status.data && status.data.daemonStatus) {
-        const {syncStatus, blockchainLength, highestUnvalidatedBlockLengthReceived, addrsAndPorts} = status.data.daemonStatus
+        const {syncStatus, blockchainLength, highestBlockLengthReceived, highestUnvalidatedBlockLengthReceived, addrsAndPorts} = status.data.daemonStatus
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
-        let OK = true, OK_SYNCED = true
+        let OK_SYNCED = true, OK_MAX = true, OK_UNV = true, OK_PREV = true
 
-        const restart = () => {
+        const restart = (reason) => {
             exec(restartCmd, async (error, stdout, stderr) => {
                 let message, result
 
@@ -34,67 +45,110 @@ export const processAlerter = async (config) => {
                     result = 'OK'
                 }
 
-                message = `Restart command executed for ${host} ${ip}. With result ${result}`
+                message = `Restart command executed for\nHost ${host}\nIP: ${ip}.\nWith result ${result}\nReason: ${reason}`
 
-                for (const id of ids) {
-                    await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
-                }
+                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
             })
         }
 
         if (!SYNCED) {
-            const message = `Node not synced, status ${syncStatus}! ${host} IP: ${ip}`
+            const message = `Node not synced, status ${syncStatus}!\nHost: ${host}\nIP: ${ip}`
 
-            for (const id of ids) {
-                await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
-            }
+            await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
             OK_SYNCED = false
 
-            if (syncStatus !== 'BOOTSTRAP') {
-                if (globalThis.restartTimerNotSynced / 60000 >= restartAfterNotSynced && globalThis.currentHeight === blockchainLength) {
+            if (!restartStateException.includes(syncStatus)) {
+                if (globalThis.restartTimerNotSynced / 60000 >= restartAfterNotSynced) {
                     globalThis.restartTimerNotSynced = 0
                     if (canRestartNode && restartCmd) {
-                        restart()
+                        restart('Long non-sync!')
                     }
                 } else {
                     globalThis.restartTimerNotSynced += alertInterval
                 }
             }
-        }
-
-        if (+blockchainLength && +highestUnvalidatedBlockLengthReceived) {
-
+        } else /*SYNCED*/ {
             const nHeight = +blockchainLength
+            const mHeight = +highestBlockLengthReceived
             const uHeight = +highestUnvalidatedBlockLengthReceived
-            const DIFF = Math.abs(uHeight - nHeight)
+            const pHeight = +globalThis.currentHeight
+            const DIFF_MAX = mHeight - nHeight
+            const DIFF_UNVALIDATED = uHeight - nHeight
+            const DIFF_PREVIOUS_HEIGHT = pHeight - nHeight
+            let message
 
-            if (DIFF >= blockDiff) {
-                const message = `Current height different from unvalidated block length on ${DIFF}, in value ${nHeight} of ${uHeight}!\n${host} IP: ${ip}`
+            if (DIFF_MAX >= blockDiff) {
+                OK_MAX = false
+                message = `Height ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${DIFF_MAX}`
+                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
-                for (const id of ids) {
-                    await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
-                }
-
-                OK = false
-
-                if (SYNCED) {
-                    if (globalThis.restartTimer / 60000 >= restartAfter) {
-                        globalThis.restartTimer = 0
+                if (restartStateSyncedRules.includes("MAX")) {
+                    if (globalThis.restartTimerMax / 60000 >= restartAfterMax) {
+                        globalThis.restartTimerMax = 0
                         if (canRestartNode && restartCmd) {
-                            restart()
+                            restart('Difference to max block length!')
                         }
                     } else {
-                        globalThis.restartTimer += alertInterval
+                        globalThis.restartTimerMax += alertInterval
+                    }
+                }
+            }
+
+            if (DIFF_UNVALIDATED >= blockDiff) {
+                OK_UNV = false
+                message = `Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${DIFF_UNVALIDATED}`
+                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                if (restartStateSyncedRules.includes("UNV")) {
+                    if (globalThis.restartTimerUnv / 60000 >= restartAfterUnv) {
+                        globalThis.restartTimerUnv = 0
+                        if (canRestartNode && restartCmd) {
+                            restart('Difference to unvalidated block length!')
+                        }
+                    } else {
+                        globalThis.restartTimerUnv += alertInterval
+                    }
+                }
+            }
+
+            if (DIFF_PREVIOUS_HEIGHT === 0) {
+                OK_PREV = false
+                message = `Height equal to previous value!`
+                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                if (restartStateSyncedRules.includes("PREV")) {
+                    if (globalThis.restartTimerPrev / 60000 >= restartAfterPrev) {
+                        globalThis.restartTimerPrev = 0
+                        if (canRestartNode && restartCmd) {
+                            restart('Long time equal to previous length!')
+                        }
+                    } else {
+                        globalThis.restartTimerPrev += alertInterval
                     }
                 }
             }
         }
 
-        globalThis.currentHeight = blockchainLength
+        globalThis.currentHeight = +blockchainLength
 
-        if (OK) globalThis.restartTimer = 0
+        if (OK_MAX) globalThis.restartTimerMax = 0
+        if (OK_UNV) globalThis.restartTimerUnv = 0
+        if (OK_PREV) globalThis.restartTimerPrev = 0
         if (OK_SYNCED) globalThis.restartTimerNotSynced = 0
+
+        if (observeExplorer) {
+            const explorer = await getExplorerSummary()
+            if (globalThis.currentHeight > 0 && explorer && explorer.blockchainLength && blockchainLength) {
+                const DIFF_EXPLORER = +globalThis.currentHeight - explorer.blockchainLength
+                let message
+                if (Math.abs(DIFF_EXPLORER) >= blockDiff) {
+                    message = DIFF_EXPLORER < 0 ? `Node lags behind the Explorer in block height.` : `Node leads the Explorer by block height.`
+                    message += `\nDifference: ${DIFF_EXPLORER}\nNode: ${globalThis.currentHeight}\nExplorer: ${explorer.blockchainLength}`
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                }
+            }
+        }
     }
 
     setTimeout(() => processAlerter(config), alertInterval)

@@ -1,1 +1,1 @@
-export const parseTelegramChatIDs = s => s.split(",").map( v => v.trim() )
+export const parseTelegramChatIDs = s => s ? s.split(",").map( v => v.trim() ) : ""

@@ -1,12 +1,16 @@
 ### 1.0.3
-+ [x] The node will don't more restart is the block height different from Explorer.
-+ [x] For restart in not SYNCED now uses parameter `restartAfterNotSynced` from config file.
-+ [x] The Node will not restart when a sync status is `BOOTSTRAP`.  
-+ [x] Split RAM usage chart to two separate charts: free, usage.
-+ [x] Block producer and snark worker now have a short name, you can click on these to copy to clipboard full name.
-+ [x] Added block speed, showed in BLOCK HEIGHT panel
-+ [x] Fixed client to work with server if one started on https. To config added key `useHttps` with `true` or `false` values.
-+ [x] Fixed network chart for align max value
++ [x] Server: The node will don't more restart is the block height different from Explorer.
++ [x] Server: For restart in not SYNCED now uses parameter `restartAfterNotSynced` from config file.
++ [x] Server: The Node will not restart when non-synced for states defined in config parameter `restartStateException`. This is an array. Recommended set it to `["BOOTSTRAP"]`.
++ [x] Server: Changed rules for restart node in `synced`. Added rules for difference with max block length, unvalidated block length, and equal to previous block height     
++ [x] Server: Removed config parameter `redtartAfter`, use parameters `restartAfterMax`, `restartAfterUnv`, `restartAfterPrev` (all parameters must have value in minutes)
++ [x] Server: You can enable restart rules for synced mode with the config parameter `restartStateSyncedRules`. This parameter must have value as an array and can contain the next values: `['MAX', 'UNV', 'PREV']`     
+
++ [x] Client: Split RAM usage chart to two separate charts: free, usage.
++ [x] Client: Block producer and snark worker now have a short name, you can click on these to copy to clipboard full name.
++ [x] Client: Added block speed, showed in BLOCK HEIGHT panel
++ [x] Client: Fixed work with server if one started on https. To config added key `useHttps` with `true` or `false` values.
++ [x] Client: Fixed network chart for align max value and split to two different charts
 
 ### 1.0.2
 + [x] Added cpu threads load chart
