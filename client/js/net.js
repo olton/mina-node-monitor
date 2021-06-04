@@ -78,7 +78,7 @@ export const processNetInfo = async () => {
             colors: [Metro.colors.toRGBA('#aa00ff', .5)],
             areas: [
                 {
-                    name: "Receive",
+                    name: "Rx",
                 },
             ],
         })
@@ -91,7 +91,7 @@ export const processNetInfo = async () => {
             colors: [Metro.colors.toRGBA('#00AFF0', .5)],
             areas: [
                 {
-                    name: "Transfer",
+                    name: "Tx",
                 },
             ],
         })
