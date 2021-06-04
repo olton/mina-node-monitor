@@ -80,7 +80,7 @@ if (useHttps) {
 }
 
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
-    console.log(`Mina Node Server Monitor is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
+    console.log(`Mina Monitor Server is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
 setTimeout( () => processHello(config), 0)
