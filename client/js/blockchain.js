@@ -28,7 +28,7 @@ export const processBlockchainInfo = async () => {
 export const processBlockSpeed = async () => {
     let blockSpeed = await getInfo('block-speed')
 
-    $("#block-speed").html(`<span class="text-bold fg-accent">${blockSpeed / 60000}</span> minutes`)
+    $("#block-speed").html(`<span class="text-bold fg-accent">${(blockSpeed / 60000).toFixed(2)}</span> minutes`)
 
     setTimeout( () => processBlockSpeed(), blockSpeed ? blockSpeed : 300000 )
 }
