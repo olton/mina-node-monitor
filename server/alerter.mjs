@@ -80,7 +80,7 @@ export const processAlerter = async (config) => {
 
             if (DIFF_MAX >= blockDiff) {
                 OK_MAX = false
-                message = `Difference block height detected! Height ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${Math.abs(DIFF_MAX)}\nNode: ${nHeight}\nMax: ${mHeight} ${sign}`
+                message = `Difference block height detected!\nHeight ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${Math.abs(DIFF_MAX)}\nNode: ${nHeight}\nMax: ${mHeight} ${sign}`
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                 if (restartStateSyncedRules.includes("MAX")) {
@@ -97,7 +97,7 @@ export const processAlerter = async (config) => {
 
             if (DIFF_UNVALIDATED >= blockDiff) {
                 OK_UNV = false
-                message = `Difference block height detected! Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                message = `Difference block height detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                 if (restartStateSyncedRules.includes("UNV")) {
@@ -115,7 +115,7 @@ export const processAlerter = async (config) => {
             if (globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
                 if (nHeight - globalThis.currentControlHeight === 0) {
                     OK_PREV = false
-                    message = `Hanging node detected! Block height ${nHeight} equal to previous value! ${sign}`
+                    message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                     if (restartStateSyncedRules.includes("PREV")) {
