@@ -106,7 +106,7 @@ hr {
     }
   }
 
-  &.alert, &.warning{
+  &.alert, &.warning, &.catchup {
     background: var(--alert-color);
     color: var(--accent-color);
 
@@ -123,6 +123,10 @@ hr {
   }
   &.warning{
     background: var(--warning-color);
+  }
+
+  &.catchup {
+    background: var(--info-color2);
   }
 }
 
@@ -189,6 +193,45 @@ hr {
 
 canvas {
   max-width: 100%;
+}
+
+.catchup-process-right, .catchup-process-left {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 20px;
+  display: none;
+  justify-content: center;
+
+  span {
+    position: absolute;
+    top: 100%;
+    animation: catchup 1s infinite;
+  }
+}
+
+.catchup-process-left {
+  right: auto;
+  left: 0;
+}
+
+.panel.catchup {
+  .catchup-process-right, .catchup-process-left {
+    display: flex;
+  }
+}
+
+@keyframes catchup {
+  0% {
+    top: 100%;
+  }
+
+  100% {
+    top: 0;
+  }
 }
 
 @import "light";

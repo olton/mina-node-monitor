@@ -92,29 +92,38 @@ hr {
   width: 100%;
 }
 .panel.alert,
-.panel.warning {
+.panel.warning,
+.panel.catchup {
   background: var(--alert-color);
   color: var(--accent-color);
 }
 .panel.alert .panel-title,
-.panel.warning .panel-title {
+.panel.warning .panel-title,
+.panel.catchup .panel-title {
   border: none;
   color: var(--accent-color);
 }
 .panel.alert #node-status,
-.panel.warning #node-status {
+.panel.warning #node-status,
+.panel.catchup #node-status {
   color: var(--accent-color);
 }
 .panel.alert #max-block,
 .panel.warning #max-block,
+.panel.catchup #max-block,
 .panel.alert #max-unvalidated,
 .panel.warning #max-unvalidated,
+.panel.catchup #max-unvalidated,
 .panel.alert #explorer-height,
-.panel.warning #explorer-height {
+.panel.warning #explorer-height,
+.panel.catchup #explorer-height {
   color: var(--accent-color);
 }
 .panel.warning {
   background: var(--warning-color);
+}
+.panel.catchup {
+  background: var(--info-color2);
 }
 #hostname,
 #node-status,
@@ -182,6 +191,40 @@ hr {
 }
 canvas {
   max-width: 100%;
+}
+.catchup-process-right,
+.catchup-process-left {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 20px;
+  display: none;
+  justify-content: center;
+}
+.catchup-process-right span,
+.catchup-process-left span {
+  position: absolute;
+  top: 100%;
+  animation: catchup 1s infinite;
+}
+.catchup-process-left {
+  right: auto;
+  left: 0;
+}
+.panel.catchup .catchup-process-right,
+.panel.catchup .catchup-process-left {
+  display: flex;
+}
+@keyframes catchup {
+  0% {
+    top: 100%;
+  }
+  100% {
+    top: 0;
+  }
 }
 :root {
   --body-background-light: #f6f8fa;
@@ -255,34 +298,46 @@ body.light-mode .panel .panel-title {
   color: var(--accent-color-light);
 }
 body.light-mode .panel.alert,
-body.light-mode .panel.warning {
+body.light-mode .panel.warning,
+body.light-mode .panel.catchup {
   background: var(--alert-color-light);
   color: #fff;
 }
 body.light-mode .panel.alert .panel-title,
-body.light-mode .panel.warning .panel-title {
+body.light-mode .panel.warning .panel-title,
+body.light-mode .panel.catchup .panel-title {
   color: #fff;
 }
 body.light-mode .panel.alert #node-status,
-body.light-mode .panel.warning #node-status {
+body.light-mode .panel.warning #node-status,
+body.light-mode .panel.catchup #node-status {
   color: #fff;
 }
 body.light-mode .panel.alert #max-block,
 body.light-mode .panel.warning #max-block,
+body.light-mode .panel.catchup #max-block,
 body.light-mode .panel.alert #max-unvalidated,
 body.light-mode .panel.warning #max-unvalidated,
+body.light-mode .panel.catchup #max-unvalidated,
 body.light-mode .panel.alert #explorer-height,
 body.light-mode .panel.warning #explorer-height,
+body.light-mode .panel.catchup #explorer-height,
 body.light-mode .panel.alert .fg-stroke,
 body.light-mode .panel.warning .fg-stroke,
+body.light-mode .panel.catchup .fg-stroke,
 body.light-mode .panel.alert .fg-normal,
 body.light-mode .panel.warning .fg-normal,
+body.light-mode .panel.catchup .fg-normal,
 body.light-mode .panel.alert .fg-accent,
-body.light-mode .panel.warning .fg-accent {
+body.light-mode .panel.warning .fg-accent,
+body.light-mode .panel.catchup .fg-accent {
   color: #fff;
 }
 body.light-mode .panel.warning {
   background: var(--warning-color-light);
+}
+body.light-mode .panel.catchup {
+  background: var(--info-color2-light);
 }
 body.light-mode .info-table tr:not(:last-child) {
   border-color: var(--border-color-light);

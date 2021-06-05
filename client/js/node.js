@@ -177,16 +177,17 @@ export const processNodeStatus = async () => {
         const elEndOfEpoch = $("#end-of-epoch")
         const elEpochDuration = $("#epoch-duration")
         const elNodeVersion = $("#node-version")
+        const elCatchupProcess = $(".catchup-process")
 
         const shortVersion = version.substring(0, partLength) + ' ... ' + version.substring(version.length - partLength)
         elNodeVersion.text(shortVersion).attr("data-full-name", version)
 
         // node status
         elNetStatus.text(netStatus)
-        elNodeStatus.closest(".panel").removeClass("alert warning")
+        elNodeStatus.closest(".panel").removeClass("alert warning catchup")
         elNodeStatus.text(syncStatus)
         if (syncStatus === 'CATCHUP') {
-            elNodeStatus.closest(".panel").addClass("warning")
+            elNodeStatus.closest(".panel").addClass("catchup")
         } else if (syncStatus !== 'SYNCED') {
             elNodeStatus.closest(".panel").addClass("alert")
         }
@@ -229,15 +230,17 @@ export const processNodeStatus = async () => {
 
         const blockDiff = Math.abs(+blockchainLength - +highestUnvalidatedBlockLengthReceived)
         elBlockHeight.closest(".panel").removeClass('alert warning')
-        if (syncStatus === 'BOOTSTRAP' || syncStatus === 'OFFLINE' || syncStatus === 'CONNECTING') {
-            elBlockHeight.closest(".panel").addClass('alert')
-        } else if (syncStatus === 'CATCHUP') {
-            elBlockHeight.closest(".panel").addClass('warning')
-        } else {
+        if (syncStatus === 'SYNCED') {
             if (blockDiff === 2) {
                 elBlockHeight.closest(".panel").addClass('warning')
             }
             if (blockDiff > 2) {
+                elBlockHeight.closest(".panel").addClass('alert')
+            }
+        } else {
+            if (syncStatus === 'CATCHUP') {
+                elBlockHeight.closest(".panel").addClass('warning')
+            } else {
                 elBlockHeight.closest(".panel").addClass('alert')
             }
         }
