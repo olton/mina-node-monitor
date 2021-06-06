@@ -89,7 +89,8 @@ export const processNodeStatus = async () => {
                             size: 10
                         },
                         color: globalThis.chartLabelColor,
-                        skip: 2
+                        skip: 2,
+                        fixed: 0
                     },
                     arrow: false,
                 }
