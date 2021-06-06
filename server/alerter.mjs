@@ -119,13 +119,13 @@ export const processAlerter = async (config) => {
                     await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                     if (restartStateSyncedRules.includes("PREV")) {
-                        if (globalThis.restartTimerPrev / 60000 >= restartAfterPrev) {
+                        if (globalThis.restartTimerPrev >= restartAfterPrev) {
                             globalThis.restartTimerPrev = 0
                             if (canRestartNode && restartCmd) {
                                 restart('Long time equal to previous length!')
                             }
                         } else {
-                            globalThis.restartTimerPrev += alertInterval
+                            globalThis.restartTimerPrev++
                         }
                     }
                 } else {

@@ -113,7 +113,7 @@ Section for using proxy (читайте про прокси-сервер ниж�
     "canRestartNode": true,
     "restartAfterMax": 30,
     "restartAfterUnv": 30,
-    "restartAfterPrev": 30,
+    "restartAfterPrev": 4,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "you_ip_address:port",
@@ -142,7 +142,7 @@ where
 - `canRestartNode` - Если значение этого ключа **true**, сервер может перезапустить узел мины
 - `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
 - `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
-- `restartAfterPrev` - value in minutes, if node synced and height is equal to previous retrieved height, node will restart after this interval
+- `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval**.
 - `restartCmd` - Команда для перезапуска узла Mina
 - `https` - contains paths to cert and key to create https server
 - `observeExplorer` - observe Explorer block height and alerts if height difference
