@@ -138,7 +138,7 @@ where
 - `canRestartNode` - if true, server can restart mina node
 - `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
 - `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
-- `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval**. 
+- `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval * 2**. 
 - `restartCmd` - command for restart mina node
 - `https` - contains paths to cert and key to create https server
 - `observeExplorer` - observe Explorer block height and alerts if height difference
