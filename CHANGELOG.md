@@ -1,3 +1,5 @@
+### 1.0.4
+
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.
 + [x] Server: Alert for difference height to Explorer height now enabled/disabled with config parameter `observeExplorer`

@@ -1,3 +1,5 @@
+### 1.0.4
+
 ### 1.0.3
 + [x] Five types of alert: `Long-non-sync`, `Diff-with-max`, `Diff-with-unvalidated`, `Hanging-state`, `Diff-with-Explorer`
 + [x] Four events to restart: `Long-non-sync`, `Diff-with-max`, `Diff-with-unvalidated`, `Hanging-state`
