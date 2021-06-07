@@ -178,7 +178,6 @@ export const processNodeStatus = async () => {
         const elEndOfEpoch = $("#end-of-epoch")
         const elEpochDuration = $("#epoch-duration")
         const elNodeVersion = $("#node-version")
-        const elCatchupProcess = $(".catchup-process")
 
         const shortVersion = version.substring(0, partLength) + ' ... ' + version.substring(version.length - partLength)
         elNodeVersion.text(shortVersion).attr("data-full-name", version)
@@ -220,7 +219,9 @@ export const processNodeStatus = async () => {
         const epochHours = blockLeft.h ? blockLeft.h + 'h' : ''
         const epochMinutes = blockLeft.m ? blockLeft.m + 'm' : ''
         elEndOfEpoch.html(`${epochDays} ${epochHours} ${epochMinutes}`)
-        elEpochDuration.html(`epoch will end in ${epochDays} ${epochHours} ${epochMinutes}`)
+        elEpochDuration.html(`${epochDays} ${epochHours} ${epochMinutes}`)
+
+        // globalThis.marques[1] = `epoch will end in ${epochDays} ${epochHours} ${epochMinutes}`
 
 
         // block height

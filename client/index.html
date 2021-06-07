@@ -7,6 +7,11 @@
     <title>Mina Node Monitor v1.0.0</title>
     <link rel="stylesheet" href="vendor/metro4/css/metro-all.css">
     <link rel="stylesheet" href="css/index.css">
+    <script>
+        window.marquees = [
+            `<span>Welcome to Mina Monitor v1.0.4</span>`
+        ]
+    </script>
 </head>
 <body>
     <div class="container-fluid">
@@ -30,9 +35,9 @@
             <div class="cell-md-6">
                 <div class="h-100 d-flex flex-align-center flex-justify-center flex-column">
                     <div class="text-small fg-normal">the next block will be produced on</div>
-                    <span id="next-block-time" class="h3 m-0 fg-accent text-bold">Calculating...</span>
-                    <div class="text-small"><span id="next-block-left" class="fg-info3"></span></div>
-                    <div class="text-small"><span id="epoch-duration" class="fg-warning">calculating...</span></div>
+                    <span id="next-block-time" class="h3 m-0 fg-accent text-bold">calculating...</span>
+                    <div class="text-small"><span id="next-block-left" class="fg-info3 text-bold"></span></div>
+                    <div class="text-small">epoch will end in <span id="epoch-duration" class="fg-accent text-bold">calculating...</span></div>
                 </div>
             </div>
             <div class="cell-md-3">
@@ -50,6 +55,14 @@
                         <span id="cpu-info" class="fg-normal"></span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div data-role="panel">
+            <div class="text-center text-small">
+                Total supply: <span class="text-bold fg-accent" id="currency-total">calculating...</span>
             </div>
         </div>
     </div>
@@ -101,10 +114,10 @@
                 <div data-role="panel" data-title-caption="UPTIME">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-uptime" class="text-center fg-stroke">0</div>
-                        <div class="text-small text-center fg-accent">
-                            pos: <span id="sidecar-position" class="text-bold">0</span>
-                            score: <span id="sidecar-score" class="text-bold">0</span>
-                            rate: <span id="sidecar-uptime" class="text-bold">0</span>
+                        <div class="text-small text-center fg-normal">
+                            pos: <span id="sidecar-position" class="fg-accent text-bold">0</span>
+                            score: <span id="sidecar-score" class="fg-accent text-bold">0</span>
+                            rate: <span id="sidecar-uptime" class="fg-accent text-bold">0</span>
                         </div>
                     </div>
                 </div>
@@ -118,7 +131,7 @@
                         <div id="balance-total" class="text-center h2 m-0 fg-info2">0</div>
                         <div class="text-small fg-normal">
                             <span>liquid: </span>
-                            <span id="balance-liquid" class="fg-warning text-center text-bold">0</span>
+                            <span id="balance-liquid" class="fg-accent text-center text-bold">0</span>
                         </div>
                     </div>
                 </div>
@@ -128,9 +141,8 @@
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="delegators-total" class="text-center h3 m-0 fg-info2">0</div>
                         <div class="text-small fg-normal">
-                            <span id="delegators-stack" class="fg-warning text-center text-bold">0</span>
+                            <span id="delegators-stack" class="fg-accent text-center text-bold">0</span>
                         </div>
-<!--                        <div id="currency-total" class="text-center h3 m-0 fg-info2">0</div>-->
                     </div>
                 </div>
             </div>
@@ -138,7 +150,7 @@
                 <div data-role="panel" data-title-caption="EPOCH">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="epoch-number" class="text-center h2 m-0 fg-info2">0</div>
-                        <div class="text-small fg-normal">time <span id="end-of-epoch" class="fg-warning text-bold">calculating...</span> left</div>
+                        <div class="text-small fg-normal">time <span id="end-of-epoch" class="fg-accent text-bold">calculating...</span> left</div>
                         <div class="w-100 pl-10 pr-10 mt-1">
                             <div data-role="progress" id="epoch-progress" data-small="false" data-cls-back="progress-back" data-cls-bar="progress-bar"></div>
                         </div>
@@ -149,7 +161,7 @@
                 <div data-role="panel" data-title-caption="SLOT">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="slot-number" class="text-center h2 m-0 fg-info2">0</div>
-                        <div id="slot-since-genesis" class="text-small text-center fg-warning text-bold">0</div>
+                        <div id="slot-since-genesis" class="text-small text-center fg-accent text-bold">0</div>
                     </div>
                 </div>
             </div>

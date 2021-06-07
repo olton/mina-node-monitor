@@ -139,9 +139,6 @@ hr {
 #node-uptime {
   white-space: nowrap;
 }
-#currency-total {
-  font-size: 28px;
-}
 #block-producer-full,
 #snark-worker-full {
   font-size: 0.9em;
@@ -182,11 +179,6 @@ hr {
   color: var(--accent-color);
   font-weight: 500;
   line-height: 1.2;
-}
-#sidecar-position,
-#sidecar-uptime,
-#sidecar-score {
-  color: var(--info-color3);
 }
 canvas {
   max-width: 100%;
@@ -371,11 +363,6 @@ body.light-mode #ip-address,
 body.light-mode #bind-ip,
 body.light-mode #p2p-port,
 body.light-mode #client-port {
-  color: var(--accent-color-light);
-}
-body.light-mode #sidecar-position,
-body.light-mode #sidecar-uptime,
-body.light-mode #sidecar-score {
   color: var(--accent-color-light);
 }
 body.light-mode a {

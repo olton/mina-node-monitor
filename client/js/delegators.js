@@ -13,8 +13,6 @@ export const processDelegators = async () => {
         const delegators = account.delegators
         const stake = delegators.reduce((acc, delegator) => acc + +delegator.balance.total, 0)
 
-        console.log(stake)
-
         $("#delegators-total").text(delegators.length)
         $("#delegators-stack").text((stake / 10**9).format(2, null, ",", "."))
 

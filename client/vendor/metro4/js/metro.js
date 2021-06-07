@@ -1,7 +1,7 @@
 /*
  * Metro 4 Components Library v4.5.0  (https://metroui.org.ua)
  * Copyright 2012-2021 Sergey Pimenov
- * Built at 17/05/2021 12:24:52
+ * Built at 07/06/2021 16:21:14
  * Licensed under MIT
  */
 /*!
@@ -5183,7 +5183,7 @@ $.fn.extend({
                 });
             } else {
                 el.setAttribute(name, val);
-                // 
+                // console.log(name, val);
             }
         });
     },
@@ -7197,7 +7197,7 @@ $.noConflict = function() {
     var Metro = {
 
         version: "4.5.0",
-        compileTime: "17/05/2021 12:24:52",
+        compileTime: "07/06/2021 16:21:14",
         buildNumber: "@@build",
         isTouchable: isTouch,
         fullScreenEnabled: document.fullscreenEnabled,
@@ -7466,7 +7466,7 @@ $.noConflict = function() {
                         }
 
                     } else  {
-                        //
+                        //console.log(mutation);
                     }
                 });
             };
@@ -7795,7 +7795,7 @@ $.noConflict = function() {
                 _fireEvent: function(eventName, data, log, noFire){
                     var element = this.element, o = this.options;
                     var _data;
-                    var event = ""+cake(eventName).camelCase().capitalize();
+                    var event = $.camelCase(eventName).capitalize();
 
                     data = $.extend({}, data, {__this: element[0]});
 
@@ -7891,11 +7891,6 @@ $.noConflict = function() {
             }
         });
     });
-
-    Metro.Cake = Cake;
-    Metro.cake = cake;
-    Metro.Datetime = Datetime;
-    Metro.datetime = datetime;
 
     window.Metro = Metro;
 
@@ -8848,6 +8843,11 @@ $.noConflict = function() {
             return result;
         });
     };
+
+    String.prototype.capitalize = function(){
+        var str = this;
+        return str.substr(0, 1).toUpperCase() + str.substr(1)
+    }
 }());
 
 (function(Metro, $) {
@@ -25893,8 +25893,6 @@ $.noConflict = function() {
 
         _createStructure: function(){
             var element = this.element, o = this.options;
-            var dir = o.direction.toLowerCase(), items, Utils = Metro.utils;
-            var h;
 
             element.addClass("marquee").addClass(o.clsMarquee);
 
@@ -25908,18 +25906,32 @@ $.noConflict = function() {
                 borderColor: Metro.colors.isColor(o.borderColor) ? o.borderColor : MarqueeDefaultConfig.borderColor
             });
 
-            if (o.items) {
-                items = Utils.isObject(o.items);
-                if (items !== false) {
-                    $.each(items, function(){
-                        var el = $(this);
+            this.setItems(Metro.utils.isObject(o.items));
 
-                        if (el.length)
-                            el.appendTo(element);
-                        else
-                            element.append( $("<div>").html(this) );
-                    })
-                }
+            if (this.items.length) {
+                this.current = 0;
+            }
+
+            if (this.items.length) this.start();
+        },
+
+        setItems: function(items){
+            var element = this.element, o = this.options;
+            var dir = o.direction.toLowerCase(), h;
+
+            if (!Array.isArray(items)) items = []
+
+            element.clear()
+
+            if (items !== false) {
+                $.each(items, function(){
+                    var el = $(this);
+
+                    if (el.length)
+                        el.appendTo(element);
+                    else
+                        element.append( $("<div>").html(this) );
+                })
             }
 
             this.items = element.children("*").addClass("marquee__item").addClass(o.clsMarqueeItem).items();
@@ -25939,12 +25951,27 @@ $.noConflict = function() {
                 });
                 element.height(h);
             }
+        },
 
-            if (this.items.length) {
-                this.current = 0;
+
+        setItem: function(index, value){
+            var target = $(this.items[index]), h, o = this.options, element = this.element;
+
+            if (!target.length) {
+                return;
             }
 
-            if (this.items.length) this.start();
+            target.html(value)
+
+            if (o.height === "auto") {
+                h = 0;
+                $(this.items).each(function(){
+                    if ( +$(this).outerHeight(true) > h) {
+                        h = +$(this).outerHeight(true);
+                    }
+                });
+                element.height(h);
+            }
         },
 
         _createEvents: function(){
@@ -29630,6 +29657,7 @@ $.noConflict = function() {
         duration: METRO_ANIMATION_DURATION,
         static: null,
         menuItemClick: true,
+        closeOutside: true,
         onOpen: Metro.noop,
         onClose: Metro.noop,
         onToggle: Metro.noop,
@@ -29755,6 +29783,12 @@ $.noConflict = function() {
             element.on(Metro.events.click, function(e){
                 e.stopPropagation();
             });
+
+            $(document).on(Metro.events.click, function(){
+                if (o.closeOutside === true) {
+                    if (that.isOpen()) that.close()
+                }
+            })
         },
 
         _checkStatic: function(){
