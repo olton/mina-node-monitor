@@ -131,4 +131,22 @@ body.light-mode {
     color: var(--accent-color-light);
   }
 
+  a {
+    color: var(--info-color2-light)!important;
+  }
+
+}
+
+html.light-mode[class*=scrollbar-type] {
+  ::-webkit-scrollbar-thumb {
+    background-color: #d0d0d0 !important;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f6f8fa;
+  }
+
+  * {
+    scrollbar-color: var(--info-color2-light) #1e2228!important;
+  }
 }

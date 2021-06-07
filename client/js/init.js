@@ -1,1 +1,0 @@
-globalThis.darkMode = $.dark

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scrollbar-type-1 sb-lightBlue">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="vendor/metro4/css/metro-all.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
-<body class="">
+<body>
     <div class="container-fluid">
         <div class="row">
             <div class="cell-md-3">
                 <div class="logo-container h-100 d-flex flex-align-center flex-align-start-md flex-justify-center flex-justify-start-md flex-column">
                     <div class="h5 text-light no-wrap m-0">
-                        <span class="fg-accent text-bold">MINA</span><span class="fg-warning">MONITOR</span> <small class="fg-normal">v1.0.3</small>
+                        <span class="fg-accent text-bold">MINA</span><span class="fg-warning">MONITOR</span> <small class="fg-normal">v1.0.4</small>
                     </div>
                     <div class="text-small text-upper" style="line-height: 1">
                         Convenient monitoring of your Mina node!
@@ -22,7 +22,7 @@
                     <div class="text-small" style="line-height: 1">
                         <span class="reduce-2">
                             Copyright &copy; 2021 by <a href="https://pimenov.com.ua">Serhii Pimenov</a>.
-                            Special for MINA community.
+                            <br>Special for MINA community.
                         </span>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="HOSTNAME">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
-                        <div id="hostname" class="fg-stroke" style="line-height: 1">UNKNOWN</div>
+                        <div id="hostname" class="fg-stroke">UNKNOWN</div>
                         <div class="text-small ip-address fg-accent text-bold">---.---.---.---</div>
                     </div>
                 </div>
@@ -68,9 +68,9 @@
                 <div data-role="panel" data-title-caption="DAEMON STATUS" id="status-panel">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-status" class="text-center fg-stroke">UNKNOWN</div>
-                        <div>
-                            <span class="fg-normal text-small">network: </span>
-                            <span id="network-status" class="text-small fg-accent text-bold">UNKNOWN</span>
+                        <div class="fg-normal text-small">
+                            <span>network: </span>
+                            <span id="network-status" class="fg-accent text-bold">UNKNOWN</span>
                         </div>
                         <div class="catchup-process catchup-process-left">
                             <span class="mif-arrow-up"></span>
@@ -116,17 +116,21 @@
                 <div data-role="panel" data-title-caption="BALANCE">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="balance-total" class="text-center h2 m-0 fg-info2">0</div>
-                        <div>
-                            <span class="text-small fg-normal">liquid: </span>
-                            <span id="balance-liquid" class="fg-warning text-small text-center text-bold">0</span>
+                        <div class="text-small fg-normal">
+                            <span>liquid: </span>
+                            <span id="balance-liquid" class="fg-warning text-center text-bold">0</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="TOTAL SUPPLY">
+                <div data-role="panel" data-title-caption="DELEGATORS">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
-                        <div id="currency-total" class="text-center h3 m-0 fg-info2">0</div>
+                        <div id="delegators-total" class="text-center h3 m-0 fg-info2">0</div>
+                        <div class="text-small fg-normal">
+                            <span id="delegators-stack" class="fg-warning text-center text-bold">0</span>
+                        </div>
+<!--                        <div id="currency-total" class="text-center h3 m-0 fg-info2">0</div>-->
                     </div>
                 </div>
             </div>
@@ -279,6 +283,10 @@
                             <tr>
                                 <td>Uptime</td>
                                 <td id="log-uptime" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Delegators</td>
+                                <td id="log-delegators" class="text-right"><span class="mif-stop fg-alert"></span></td>
                             </tr>
                         </table>
                     </div>

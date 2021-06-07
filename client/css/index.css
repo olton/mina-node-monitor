@@ -131,8 +131,7 @@ hr {
 #node-uptime,
 #epoch-number,
 #slot-number,
-#balance-total,
-#currency-total {
+#balance-total {
   font-size: 28px;
   font-weight: bold;
   line-height: 1;
@@ -225,6 +224,20 @@ canvas {
   100% {
     top: 0;
   }
+}
+html[class*=scrollbar-type] ::-webkit-scrollbar-thumb {
+  background-color: #444c56 !important;
+}
+html[class*=scrollbar-type] ::-webkit-scrollbar-track {
+  background-color: #22272e;
+}
+html[class*=scrollbar-type] * {
+  scrollbar-color: #22272e #1e2228 !important;
+}
+a {
+  color: #fff !important;
+  text-decoration: none!important;
+  font-size: 1.1em;
 }
 :root {
   --body-background-light: #f6f8fa;
@@ -364,5 +377,17 @@ body.light-mode #sidecar-position,
 body.light-mode #sidecar-uptime,
 body.light-mode #sidecar-score {
   color: var(--accent-color-light);
+}
+body.light-mode a {
+  color: var(--info-color2-light) !important;
+}
+html.light-mode[class*=scrollbar-type] ::-webkit-scrollbar-thumb {
+  background-color: #d0d0d0 !important;
+}
+html.light-mode[class*=scrollbar-type] ::-webkit-scrollbar-track {
+  background-color: #f6f8fa;
+}
+html.light-mode[class*=scrollbar-type] * {
+  scrollbar-color: var(--info-color2-light) #1e2228 !important;
 }
 /*# sourceMappingURL=index.css.map */

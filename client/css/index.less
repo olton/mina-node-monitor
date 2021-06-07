@@ -130,7 +130,7 @@ hr {
   }
 }
 
-#hostname, #node-status, #block-height, #node-uptime, #epoch-number, #slot-number, #balance-total, #currency-total {
+#hostname, #node-status, #block-height, #node-uptime, #epoch-number, #slot-number, #balance-total {
   font-size: 28px;
   font-weight: bold;
   line-height: 1;
@@ -232,6 +232,26 @@ canvas {
   100% {
     top: 0;
   }
+}
+
+html[class*=scrollbar-type] {
+  ::-webkit-scrollbar-thumb {
+    background-color: #444c56!important;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #22272e;
+  }
+
+  * {
+    scrollbar-color: #22272e #1e2228!important;
+  }
+}
+
+a {
+  color: #fff!important;
+  text-decoration: none!important;
+  font-size: 1.1em
 }
 
 @import "light";

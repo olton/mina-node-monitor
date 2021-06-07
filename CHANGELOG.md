@@ -1,4 +1,8 @@
 ### 1.0.4
++ [x] Server: added request for delegators
+  
++ [x] Client: Show delegators count and total stack
++ [x] Client: change style for scrollbars
 
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.
