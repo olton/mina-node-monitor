@@ -60,18 +60,26 @@
     </div>
 
     <div class="container-fluid">
-        <div data-role="panel">
-            <div id="marquee" class="text-center text-small">
-                <div data-role="marquee" data-on-marquee-item="marqueeBeforeAnimateItem">
-                    <div>
-                        Welcome to <span class="text-bold">Mina Monitor</span>  <small>v1.0.4</small>!
-                    </div>
-                    <div>
-                        Today is <span class="text-bold" id="today"></span>
-                    </div>
-                    <div>
-                        <span>Total Mina Supply: </span><span class="text-bold" id="currency-total">0</span>
-                    </div>
+        <div class="row text-small">
+            <div class="cell-md-3">
+                <div data-role="panel">
+                    SUPPLY:&nbsp;<span id="total-supply" class="fg-accent text-bold">0</span>
+                </div>
+            </div>
+            <div class="cell-md-3">
+                <div data-role="panel">
+                    PRICE:&nbsp;<span id="current-price" class="fg-accent text-bold">0</span>&nbsp;USD
+                </div>
+            </div>
+            <div class="cell-md-3">
+                <div data-role="panel">
+                    CHANGE:&nbsp;<span id="price-change" class="fg-accent text-bold">0</span>%
+                </div>
+            </div>
+            <div class="cell-md-3">
+                <div data-role="panel">
+                    HIGH:&nbsp;<span id="price-high" class="fg-accent text-bold">0</span>&nbsp;USD,
+                    LOW:&nbsp;<span id="price-low" class="fg-accent text-bold">0</span>&nbsp;USD
                 </div>
             </div>
         </div>
@@ -338,17 +346,5 @@
     <script src="vendor/metro4/js/metro.js"></script>
     <script src="vendor/chart/chart.js"></script>
     <script src="js/app.js"></script>
-    <script>
-        setInterval( ()=>{
-            $("#today").text(datetime().format("dddd, DD MMM, YYYY"))
-        }, 1000)
-
-        function marqueeBeforeAnimateItem(item){
-            const el = $(item.el)
-            item.draw = {
-                left: [el.closest(".marquee").width(), -el.width() - 20]
-            }
-        }
-    </script>
 </body>
 </html>

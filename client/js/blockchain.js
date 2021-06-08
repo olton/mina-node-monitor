@@ -16,7 +16,7 @@ export const processBlockchainInfo = async () => {
 
         const total = (totalCurrency / 10**9)
 
-        $("#currency-total").text(total.format(0, null, " ", "."))
+        $("#total-supply").text(total.format(0, null, " ", "."))
         $("#epoch-number").text(epoch)
         $("#slot-number").text(slot)
         $("#slot-since-genesis").text(slotSinceGenesis)

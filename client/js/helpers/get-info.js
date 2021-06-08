@@ -10,3 +10,13 @@ export const getInfo = async (path, parse = true) => {
         return null
     }
 }
+
+export const getAPIData = async (url, parse = true) => {
+    try {
+        const result = await fetch(`${url}`)
+        if (!result.ok) return null
+        return parse ? await result.json() : await result.text()
+    } catch (e) {
+        return null
+    }
+}

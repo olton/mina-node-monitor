@@ -8,6 +8,7 @@ import {processNodeStatus} from "./node"
 import {processConsensus} from "./consensus"
 import {processUptime} from "./uptime"
 import {processDelegators} from "./delegators"
+import {processCoingecko} from "./coingecko";
 
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     const body = $("body")
@@ -47,6 +48,7 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processConsensus(), 0)
     setTimeout(() => processUptime(), 0)
     setTimeout(() => processDelegators(), 0)
+    setTimeout(() => processCoingecko(), 0)
 }).catch( reason => {
     //
 })
