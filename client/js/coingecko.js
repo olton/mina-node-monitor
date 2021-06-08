@@ -4,6 +4,7 @@ const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=
 
 export const processCoingecko = async () => {
     const data = await getAPIData(url)
+    const {price: interval = 60000} = globalThis.config.intervals
 
     if (data) {
         const mina = data[0]
@@ -16,5 +17,5 @@ export const processCoingecko = async () => {
         $("#price-low").html(mina.low_24h)
     }
 
-    setTimeout(() => processCoingecko(), globalThis.config.intervals.price)
+    setTimeout(() => processCoingecko(), interval)
 }

@@ -5,6 +5,7 @@ import {imgOk, imgStop} from "./helpers/const";
 export const processDelegators = async () => {
     const elLog = $("#log-delegators")
     elLog.html(imgStop)
+    const {delegators: interval = 60000} = globalThis.config.intervals
 
     const delegatorsInfo = await getInfo('delegators')
 
@@ -19,5 +20,5 @@ export const processDelegators = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout(()=> processDelegators(), globalThis.config.intervals.delegators)
+    setTimeout(()=> processDelegators(), interval)
 }
