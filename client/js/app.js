@@ -35,7 +35,10 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
 
     globalThis.chartLineColor = globalThis.darkMode ? '#3c424b' : "#e5e5e5"
     globalThis.chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
+    globalThis.balance = 0
+    globalThis.price = 0
 
+    setTimeout(() => processCoingecko(), 0)
     setTimeout(() => processSystemInfo(), 0)
     setTimeout(() => processServerTime(), 0)
     setTimeout(() => processMemInfo(), 0)
@@ -48,7 +51,6 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processConsensus(), 0)
     setTimeout(() => processUptime(), 0)
     setTimeout(() => processDelegators(), 0)
-    setTimeout(() => processCoingecko(), 0)
 }).catch( reason => {
     //
 })

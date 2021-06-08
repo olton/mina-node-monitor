@@ -170,12 +170,12 @@ async function getBlockSpeed(graphql, length){
 }
 
 export const nodeInfo = async (obj, config) => {
-    const {graphql, publicKey} = config
+    const {graphql, publicKey, publicKeyDelegators} = config
 
     switch (obj) {
         case 'node-status': return await fetchGraphQL(graphql, queryNodeStatus)
         case 'balance': return publicKey ? await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey)) : 0
-        case 'delegators': return publicKey ? await fetchGraphQL(graphql, queryDelegators.replace("%PUBLIC_KEY%", publicKey)) : 0
+        case 'delegators': return publicKey ? await fetchGraphQL(graphql, queryDelegators.replace("%PUBLIC_KEY%", publicKeyDelegators ?? publicKey)) : 0
         case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
         case 'consensus': return await fetchGraphQL(graphql, queryConsensus)
         case 'block-speed': return await getBlockSpeed(graphql, 10)

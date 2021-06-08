@@ -14,10 +14,15 @@ export const processCoingecko = async () => {
         const sign = mina.price_change_percentage_24h
         const symbol = `<span class="mif-${sign === 0 ? '' : sign <= 0 ? 'arrow-down fg-red' : 'arrow-up fg-green'}"></span>`
 
+        globalThis.price = +mina.current_price
+
         $("#current-price").html(mina.current_price)
         $("#price-change").html(symbol + ' ' + +(mina.price_change_percentage_24h).toFixed(2))
         $("#price-high").html(mina.high_24h)
         $("#price-low").html(mina.low_24h)
+
+
+        $("#balance-usd").text((globalThis.balance * globalThis.price).format(2, null, ",", "."))
 
         elLog.html(imgOk)
     }

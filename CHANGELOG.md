@@ -1,9 +1,11 @@
 ### 1.0.4
 + [x] Server: added request for delegators
++ [x] Server: new config props `publicKeyDelegators`
   
 + [x] Client: show delegators count and total stack
 + [x] Client: added price data from coingecko.com   
 + [x] Client: change style for scrollbars
++ [x] Client: new config props `intervals.price`
 
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.

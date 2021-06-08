@@ -66,7 +66,6 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "mem": 2000,
         "cpu": 2000,
         "uptime": 600000,
-        "delegators": 60000,
         "price": 60000        
     },
     "theme": "auto",
@@ -102,6 +101,7 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
 ```json
 {
     "publicKey": "B62qr...",
+    "publicKeyDelegators": "B62qr...",
     "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "telegramChatID": "XXXXXXXXX",
     "telegramChatIDAlert": "XXXXXXXXX",

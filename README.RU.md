@@ -67,7 +67,6 @@ npm i
         "mem": 2000,
         "cpu": 2000,
         "uptime": 600000,
-        "delegators": 60000,
         "price": 60000
     },
     "theme": "auto",
@@ -106,6 +105,7 @@ Section for using proxy (читайте про прокси-сервер ниж�
 ```json
 {
     "publicKey": "B62qr...",
+    "publicKeyDelegators": "B62qr...",
     "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "telegramChatID": "XXXXXXXXX",
     "telegramChatIDAlert": "XXXXXXXXX",
