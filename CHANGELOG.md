@@ -1,7 +1,8 @@
 ### 1.0.4
 + [x] Server: added request for delegators
   
-+ [x] Client: Show delegators count and total stack
++ [x] Client: show delegators count and total stack
++ [x] Client: added price data from coingecko.com   
 + [x] Client: change style for scrollbars
 
 ### 1.0.3
