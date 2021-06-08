@@ -231,6 +231,16 @@ a {
   text-decoration: none!important;
   font-size: 1.1em;
 }
+#explorer-alert {
+  position: absolute;
+  right: 5px;
+  top: 12px;
+  display: none;
+  font-size: 1.5em;
+}
+.panel.explorer-alert #explorer-alert {
+  display: block;
+}
 :root {
   --body-background-light: #f6f8fa;
   --text-color-light: #24292e;

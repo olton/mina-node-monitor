@@ -1,7 +1,7 @@
 /*
  * Metro 4 Components Library v4.5.0  (https://metroui.org.ua)
  * Copyright 2012-2021 Sergey Pimenov
- * Built at 07/06/2021 16:21:14
+ * Built at 08/06/2021 12:46:30
  * Licensed under MIT
  */
 /*!
@@ -5183,7 +5183,7 @@ $.fn.extend({
                 });
             } else {
                 el.setAttribute(name, val);
-                // console.log(name, val);
+                // 
             }
         });
     },
@@ -7197,7 +7197,7 @@ $.noConflict = function() {
     var Metro = {
 
         version: "4.5.0",
-        compileTime: "07/06/2021 16:21:14",
+        compileTime: "08/06/2021 12:46:30",
         buildNumber: "@@build",
         isTouchable: isTouch,
         fullScreenEnabled: document.fullscreenEnabled,
@@ -7466,7 +7466,7 @@ $.noConflict = function() {
                         }
 
                     } else  {
-                        //console.log(mutation);
+                        //
                     }
                 });
             };
@@ -25906,7 +25906,7 @@ $.noConflict = function() {
                 borderColor: Metro.colors.isColor(o.borderColor) ? o.borderColor : MarqueeDefaultConfig.borderColor
             });
 
-            this.setItems(Metro.utils.isObject(o.items));
+            this.setItems(o.items);
 
             if (this.items.length) {
                 this.current = 0;
@@ -25915,13 +25915,15 @@ $.noConflict = function() {
             if (this.items.length) this.start();
         },
 
-        setItems: function(items){
+        setItems: function(items, replace){
             var element = this.element, o = this.options;
             var dir = o.direction.toLowerCase(), h;
 
-            if (!Array.isArray(items)) items = []
+            items = Metro.utils.isObject(items);
 
-            element.clear()
+            if (items && replace) {
+                element.clear();
+            }
 
             if (items !== false) {
                 $.each(items, function(){
@@ -25951,6 +25953,7 @@ $.noConflict = function() {
                 });
                 element.height(h);
             }
+            return this
         },
 
 
@@ -25972,6 +25975,26 @@ $.noConflict = function() {
                 });
                 element.height(h);
             }
+            return this
+        },
+
+        addItem: function(item, index){
+            var element = this.element;
+            var ins, $item = $(item), trg;
+
+            ins = $item.length ? $item : $("<div>").html(item);
+
+            if (Metro.utils.isNull(index)) {
+                element.append(ins);
+            } else {
+                trg = this.items[index]
+                if (trg) {
+                    ins.insertBefore(trg);
+                } else {
+                    element.append(ins);
+                }
+            }
+            return this
         },
 
         _createEvents: function(){
@@ -26087,11 +26110,13 @@ $.noConflict = function() {
                 onChainItemComplete: Metro.utils.isFunc(o.onMarqueeItemComplete),
                 onChainComplete: Metro.utils.isFunc(o.onMarqueeComplete)
             });
+            return this
         },
 
         stop: function(){
             this.running = false;
             $.stopAll(this.items);
+            return this
         },
 
         changeAttribute: function(){

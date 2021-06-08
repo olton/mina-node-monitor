@@ -61,8 +61,18 @@
 
     <div class="container-fluid">
         <div data-role="panel">
-            <div class="text-center text-small">
-                Total supply: <span class="text-bold fg-accent" id="currency-total">calculating...</span>
+            <div id="marquee" class="text-center text-small">
+                <div data-role="marquee" data-on-marquee-item="marqueeBeforeAnimateItem">
+                    <div>
+                        Welcome to <span class="text-bold">Mina Monitor</span>  <small>v1.0.4</small>!
+                    </div>
+                    <div>
+                        Today is <span class="text-bold" id="today"></span>
+                    </div>
+                    <div>
+                        <span>Total Mina Supply: </span><span class="text-bold" id="currency-total">0</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -95,7 +105,7 @@
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="BLOCK HEIGHT">
+                <div data-role="panel" data-title-caption="BLOCK HEIGHT <span id='explorer-alert' class='mif-bell ani-ring'></span>">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="block-height" class="text-center fg-stroke" style="line-height: 1">0</div>
                         <div class="text-small text-center fg-accent">
@@ -328,5 +338,17 @@
     <script src="vendor/metro4/js/metro.js"></script>
     <script src="vendor/chart/chart.js"></script>
     <script src="js/app.js"></script>
+    <script>
+        setInterval( ()=>{
+            $("#today").text(datetime().format("dddd, DD MMM, YYYY"))
+        }, 1000)
+
+        function marqueeBeforeAnimateItem(item){
+            const el = $(item.el)
+            item.draw = {
+                left: [el.closest(".marquee").width(), -el.width() - 20]
+            }
+        }
+    </script>
 </body>
 </html>

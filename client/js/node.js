@@ -40,9 +40,9 @@ const processExplorerSummary = async () => {
 
     elExplorerHeight.text(blockchainLength)
 
-    elBlockHeightPanel.removeClass('alert warning')
+    elBlockHeightPanel.removeClass('explorer-alert')
     if (Math.abs(+globalThis.blockchainLength - +blockchainLength) >= 2) {
-        elBlockHeightPanel.addClass('warning')
+        elBlockHeightPanel.addClass('explorer-alert')
     }
     elLog.html(imgOk)
 }
@@ -233,10 +233,9 @@ export const processNodeStatus = async () => {
         const blockDiff = Math.abs(+blockchainLength - +highestUnvalidatedBlockLengthReceived)
         elBlockHeight.closest(".panel").removeClass('alert warning')
         if (syncStatus === 'SYNCED') {
-            if (blockDiff === 2) {
+            if (+highestUnvalidatedBlockLengthReceived === 0 || blockDiff === 2) {
                 elBlockHeight.closest(".panel").addClass('warning')
-            }
-            if (blockDiff > 2) {
+            } else if (blockDiff > 2) {
                 elBlockHeight.closest(".panel").addClass('alert')
             }
         } else {
