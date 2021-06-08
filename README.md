@@ -65,7 +65,9 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "net": 2000,
         "mem": 2000,
         "cpu": 2000,
-        "uptime": 600000
+        "uptime": 600000,
+        "delegators": 60000,
+        "price": 60000        
     },
     "theme": "auto",
     "useProxy": false,

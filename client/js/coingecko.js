@@ -16,5 +16,5 @@ export const processCoingecko = async () => {
         $("#price-low").html(mina.low_24h)
     }
 
-    setTimeout(() => processCoingecko(), 60000)
+    setTimeout(() => processCoingecko(), globalThis.config.intervals.price)
 }
