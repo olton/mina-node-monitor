@@ -1,4 +1,7 @@
 ### 1.0.4
++ [x] Delegators info
++ [x] Mina price info
++ [x] Calculate balance in USD
 
 ### 1.0.3
 + [x] Five types of alert: `Long-non-sync`, `Diff-with-max`, `Diff-with-unvalidated`, `Hanging-state`, `Diff-with-Explorer`
