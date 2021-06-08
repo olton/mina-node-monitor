@@ -11,7 +11,7 @@ export const processCoingecko = async () => {
         const symbol = `<span class="mif-${sign === 0 ? '' : sign <= 0 ? 'arrow-down fg-red' : 'arrow-up fg-green'}"></span>`
 
         $("#current-price").html(mina.current_price)
-        $("#price-change").html(symbol + ' ' + mina.price_change_percentage_24h)
+        $("#price-change").html(symbol + ' ' + +(mina.price_change_percentage_24h).toFixed(2))
         $("#price-high").html(mina.high_24h)
         $("#price-low").html(mina.low_24h)
     }
