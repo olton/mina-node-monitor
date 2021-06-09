@@ -1,6 +1,7 @@
 ### 1.0.4
 + [x] Server: added request for delegators
-+ [x] Server: new config props `publicKeyDelegators`
++ [x] Server: added new config props `publicKeyDelegators`
++ [x] Server: added check for chain exist in `node.mjs:getBlockSpeed()`
   
 + [x] Client: show delegators count and total stack
 + [x] Client: added price data from coingecko.com   

@@ -144,11 +144,14 @@ async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = 
 
 async function getBlockSpeed(graphql, length){
     let blocks = await fetchGraphQL(graphql, queryBlockSpeed.replace("%LENGTH%", length))
-    let chain, speed, begin, end
-    if (!blocks) {
+    if (!blocks && !blocks.data) {
         return 0
     }
-    chain = blocks.data.bestChain
+    const {bestChain: chain = []} = blocks.data
+    if (!chain.length) {
+        return 0
+    }
+    let speed, begin, end
     begin = +chain[0]["protocolState"]["blockchainState"]["date"]
     end = +chain[chain.length - 1]["protocolState"]["blockchainState"]["date"]
     speed = (end - begin) / length
