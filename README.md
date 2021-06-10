@@ -269,3 +269,10 @@ In the client config file, define 2 parameters `useProxy`,` proxy`:
     "proxy": "https://server/proxy.php"
 }
 ```
+
+### CPU Temperature
+If your Monitor server-side part installed on Linux, you can get `CPU temperature` (of course, if you have CPU temperature sensors on the server).
+If you are sure that there are sensors, but the client does not show the CPU temperature, try installing the `lm-sensors` package:
+```shell
+sudo apt install lm-sensors
+```
