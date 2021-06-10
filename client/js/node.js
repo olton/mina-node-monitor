@@ -15,6 +15,8 @@ const getExplorerSummary = async () => await getInfo('explorer')
 const getBalance = async () => await getInfo('balance')
 
 const processBalance = async () => {
+    const {currency = 'usd'} = globalThis.config.price
+
     let status = await getBalance()
 
     if (status && status.data && status.data.account && status.data.account.balance) {
@@ -25,10 +27,7 @@ const processBalance = async () => {
         $("#balance-total").text((total/10**9).format(2, null, ",", "."))
         $("#balance-liquid").text((liquid/10**9).format(2, null, ",", "."))
 
-        console.log(globalThis.balance, globalThis.price)
-
-        $("#balance-usd").text((globalThis.balance * globalThis.price).format(2, null, ",", "."))
-
+        $("#balance-usd").text((globalThis.balance * globalThis.price).format(2, null, ",", ".") + " " + currency.toUpperCase())
     }
 }
 

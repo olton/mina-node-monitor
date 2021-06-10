@@ -67,8 +67,11 @@ npm i
         "net": 2000,
         "mem": 2000,
         "cpu": 2000,
-        "uptime": 600000,
-        "price": 60000
+        "uptime": 600000
+    },
+    "price": {
+        "currency": "usd",
+        "update_interval": 60000
     },
     "theme": "auto",
     "useProxy": false,
