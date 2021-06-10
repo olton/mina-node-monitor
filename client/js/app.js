@@ -1,6 +1,6 @@
 import {processSystemInfo} from "./server-info"
 import {processServerTime} from "./server-time"
-import {processCPUData} from "./cpu"
+import {processCPUData, processCPUTemp} from "./cpu"
 import {processMemInfo} from "./mem"
 import {processNetConnections, processNetInfo} from "./net"
 import {processBlockchainInfo, processBlockSpeed} from "./blockchain"
@@ -43,6 +43,7 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processServerTime(), 0)
     setTimeout(() => processMemInfo(), 0)
     setTimeout(() => processCPUData(), 0)
+    setTimeout(() => processCPUTemp(), 0)
     setTimeout(() => processNetInfo(), 0)
     setTimeout(() => processNetConnections(), 0)
     setTimeout(() => processBlockchainInfo(), 0 )

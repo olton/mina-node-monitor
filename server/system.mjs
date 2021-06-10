@@ -1,6 +1,7 @@
-import {networkStats, networkConnections, cpuTemperature} from "systeminformation"
+import {networkStats, networkConnections} from "systeminformation"
 import os from "os"
-import {execSync} from "child_process"
+import {execSync, exec} from "child_process"
+import {stat, readFile} from "fs"
 
 const getMem = () => {
     const total = os.totalmem()
@@ -106,6 +107,139 @@ const getPlatform = () => {
     }
 }
 
+const getCpuTemperature = () => {
+    return new Promise((resolve) => {
+        process.nextTick(()=>{
+            let result = {
+                main: null,
+                cores: [],
+                max: null
+            }
+            if (process.platform === 'linux') {
+                const cmd = 'for mon in /sys/class/hwmon/hwmon*; do for label in "$mon"/temp*_label; do if [ -f $label ]; then value=$(echo $label | rev | cut -c 7- | rev)_input; if [ -f "$value" ]; then echo $(cat "$label")___$(cat "$value");  fi; fi; done; done;'
+                try {
+                    exec(cmd, function (error, stdout) {
+                        let lines = stdout.toString().split('\n')
+                        lines.forEach(line => {
+                            const parts = line.split('___')
+                            const label = parts[0]
+                            const value = parts.length > 1 && parts[1] ? parts[1] : '0'
+                            if (value && (label === undefined || (label && label.toLowerCase().startsWith('core')))) {
+                                result.cores.push(Math.round(parseInt(value, 10) / 100) / 10)
+                            } else if (value && label && result.main === null) {
+                                result.main = Math.round(parseInt(value, 10) / 100) / 10
+                            }
+                        })
+
+                        if (result.cores.length > 0) {
+                            if (result.main === null) {
+                                result.main = Math.round(result.cores.reduce((a, b) => a + b, 0) / result.cores.length)
+                            }
+                            let maxtmp = Math.max.apply(Math, result.cores)
+                            result.max = (maxtmp > result.main) ? maxtmp : result.main
+                        }
+                        if (result.main !== null) {
+                            if (result.max === null) {
+                                result.max = result.main
+                            }
+                            resolve(result)
+                            return
+                        }
+                        exec('sensors', function (error, stdout) {
+                            if (!error) {
+                                let lines = stdout.toString().split('\n')
+                                let tdieTemp = null
+                                let newSectionStarts = true
+                                let section = ''
+                                lines.forEach(function (line) {
+                                    // determine section
+                                    if (line.trim() === '') {
+                                        newSectionStarts = true
+                                    } else if (newSectionStarts) {
+                                        if (line.trim().toLowerCase().startsWith('acpi')) { section = 'acpi'  }
+                                        if (line.trim().toLowerCase().startsWith('pch')) { section = 'pch'  }
+                                        if (line.trim().toLowerCase().startsWith('core')) { section = 'core'  }
+                                        newSectionStarts = false
+                                    }
+                                    let regex = /[+-]([^°]*)/g
+                                    let temps = line.match(regex)
+                                    let firstPart = line.split(':')[0].toUpperCase()
+                                    if (section === 'acpi') {
+                                        // socket temp
+                                        if (firstPart.indexOf('TEMP') !== -1) {
+                                            result.socket.push(parseFloat(temps))
+                                        }
+                                    } else if (section === 'pch') {
+                                        // chipset temp
+                                        if (firstPart.indexOf('TEMP') !== -1) {
+                                            result.chipset = parseFloat(temps)
+                                        }
+                                    }
+                                    // cpu temp
+                                    if (firstPart.indexOf('PHYSICAL') !== -1 || firstPart.indexOf('PACKAGE') !== -1) {
+                                        result.main = parseFloat(temps)
+                                    }
+                                    if (firstPart.indexOf('CORE ') !== -1) {
+                                        result.cores.push(parseFloat(temps))
+                                    }
+                                    if (firstPart.indexOf('TDIE') !== -1 && tdieTemp === null) {
+                                        tdieTemp = parseFloat(temps)
+                                    }
+                                })
+                                if (result.cores.length > 0) {
+                                    if (result.main === null) {
+                                        result.main = Math.round(result.cores.reduce((a, b) => a + b, 0) / result.cores.length)
+                                    }
+                                    let maxtmp = Math.max.apply(Math, result.cores)
+                                    result.max = (maxtmp > result.main) ? maxtmp : result.main
+                                } else {
+                                    if (result.main === null && tdieTemp !== null) {
+                                        result.main = tdieTemp
+                                        result.max = tdieTemp
+                                    }
+                                }
+                                if (result.main !== null || result.max !== null) {
+                                    resolve(result)
+                                    return
+                                }
+                            }
+                            stat('/sys/class/thermal/thermal_zone0/temp', function (err) {
+                                if (err === null) {
+                                    readFile('/sys/class/thermal/thermal_zone0/temp', function (error, stdout) {
+                                        if (!error) {
+                                            let lines = stdout.toString().split('\n')
+                                            if (lines.length > 0) {
+                                                result.main = parseFloat(lines[0]) / 1000.0
+                                                result.max = result.main
+                                            }
+                                        }
+                                        resolve(result)
+                                    })
+                                } else {
+                                    exec('/opt/vc/bin/vcgencmd measure_temp', function (error, stdout) {
+                                        if (!error) {
+                                            let lines = stdout.toString().split('\n')
+                                            if (lines.length > 0 && lines[0].indexOf('=')) {
+                                                result.main = parseFloat(lines[0].split('=')[1])
+                                                result.max = result.main
+                                            }
+                                        }
+                                        resolve(result)
+                                    })
+                                }
+                            })
+                        })
+                    })
+                } catch (er) {
+                    resolve(result)
+                }
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
+
 export const sysInfo = async (obj) => {
     switch (obj) {
         case 'cpu': return getCpuInfo()
@@ -113,7 +247,7 @@ export const sysInfo = async (obj) => {
         case 'platform': return getPlatform()
         case 'time': return getServerTime()
         case 'cpu-load': return await getCpuLoad()
-        case 'temperature': return await cpuTemperature()
+        case 'cpu-temp': return await getCpuTemperature()
 
         case 'net-stat': return await networkStats()
         case 'net-conn': return await networkConnections()

@@ -125,3 +125,23 @@ export const processCPUData = async () => {
 
     setTimeout( () => processCPUData(), globalThis.config.intervals.cpu )
 }
+
+
+export const processCPUTemp = async () => {
+    const temp = await getInfo("cpu-temp")
+
+    if (temp) {
+        let tempColor = "fg-cyan"
+
+        if (temp.main >= 65 && temp.main < 85) {
+            tempColor = "fg-orange"
+        } else if (temp.main >= 85) {
+            tempColor = "fg-red"
+        }
+        $("#cpu-temp").html(`${temp.main}<span>&#8451;</span>`).clearClasses().addClass(tempColor)
+        $("#cpu-temp-main").html(`${temp.main}<span>&#8451;</span>`)
+        $("#cpu-temp-cores").html(`[${temp.cores.join(", ")}]`)
+    }
+
+    setTimeout( () => processCPUTemp(), globalThis.config.intervals.cpu )
+}

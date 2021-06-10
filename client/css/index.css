@@ -241,6 +241,12 @@ a {
 .panel.explorer-alert #explorer-alert {
   display: block;
 }
+#cpu-temp {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  font-size: 38px;
+}
 :root {
   --body-background-light: #f6f8fa;
   --text-color-light: #24292e;
