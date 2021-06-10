@@ -6,7 +6,7 @@
 + [x] Client: show delegators count and total stack
 + [x] Client: added price data from coingecko.com   
 + [x] Client: change style for scrollbars
-+ [x] Client: new config props `intervals.price`
++ [x] Client: new config props `price: {currency, interval}`
 
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.
