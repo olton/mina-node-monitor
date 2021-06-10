@@ -103,6 +103,18 @@ Section for using proxy (читайте про прокси-сервер ниж�
 - `useProxy` - use or not proxy server
 - `proxy` - proxy server address
 
+For `price.currency` you can use one of the next values:
+```
+"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
+"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
+"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
+"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
+"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
+"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
+"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
+"bits",  "sats"
+```
+
 #### Конфигурационный файл для сервера 
 Создайте в папке `server` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.
 ```json

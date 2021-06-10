@@ -97,7 +97,17 @@ Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server
 - `proxy` - proxy server address
 
-
+For `price.currency` you can use one of the next values:
+```
+"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
+"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
+"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
+"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
+"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
+"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
+"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
+"bits",  "sats"
+```
 
 #### Config file for server 
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.
