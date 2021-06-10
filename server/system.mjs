@@ -156,25 +156,13 @@ const getCpuTemperature = () => {
                                     if (line.trim() === '') {
                                         newSectionStarts = true
                                     } else if (newSectionStarts) {
-                                        if (line.trim().toLowerCase().startsWith('acpi')) { section = 'acpi'  }
-                                        if (line.trim().toLowerCase().startsWith('pch')) { section = 'pch'  }
                                         if (line.trim().toLowerCase().startsWith('core')) { section = 'core'  }
                                         newSectionStarts = false
                                     }
                                     let regex = /[+-]([^°]*)/g
                                     let temps = line.match(regex)
                                     let firstPart = line.split(':')[0].toUpperCase()
-                                    if (section === 'acpi') {
-                                        // socket temp
-                                        if (firstPart.indexOf('TEMP') !== -1) {
-                                            result.socket.push(parseFloat(temps))
-                                        }
-                                    } else if (section === 'pch') {
-                                        // chipset temp
-                                        if (firstPart.indexOf('TEMP') !== -1) {
-                                            result.chipset = parseFloat(temps)
-                                        }
-                                    }
+
                                     // cpu temp
                                     if (firstPart.indexOf('PHYSICAL') !== -1 || firstPart.indexOf('PACKAGE') !== -1) {
                                         result.main = parseFloat(temps)

@@ -130,7 +130,7 @@ export const processCPUData = async () => {
 export const processCPUTemp = async () => {
     const temp = await getInfo("cpu-temp")
 
-    if (temp) {
+    if (temp && temp.main) {
         let tempColor = "fg-cyan"
 
         if (temp.main >= 65 && temp.main < 85) {
