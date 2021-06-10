@@ -1,4 +1,4 @@
-import si from "systeminformation"
+import {networkStats, networkConnections, cpuTemperature} from "systeminformation"
 import os from "os"
 import {execSync} from "child_process"
 
@@ -113,8 +113,9 @@ export const sysInfo = async (obj) => {
         case 'platform': return getPlatform()
         case 'time': return getServerTime()
         case 'cpu-load': return await getCpuLoad()
+        case 'temperature': return await cpuTemperature()
 
-        case 'net-stat': return si.networkStats()
-        case 'net-conn': return si.networkConnections()
+        case 'net-stat': return await networkStats()
+        case 'net-conn': return await networkConnections()
     }
 }
