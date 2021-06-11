@@ -3,8 +3,8 @@
 + [x] Server: added new config props `publicKeyDelegators`
 + [x] Server: added check for chain exist in `node.mjs:getBlockSpeed()`
   
-+ [x] Client: show delegators count and total stack
-+ [x] Client: added price data from coingecko.com   
++ [x] Client: show `delegations` count and total stack for `current` and `next` epoch
++ [x] Client: added price data from `coingecko.com`  
 + [x] Client: change style for scrollbars
 + [x] Client: new config props `price: {currency, interval}`
 
