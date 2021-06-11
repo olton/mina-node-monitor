@@ -97,14 +97,31 @@ export const processAlerter = async (config) => {
 
             if (DIFF_UNVALIDATED >= blockDiff) {
                 OK_UNV = false
-                message = `Difference block height detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
 
                 if (restartStateSyncedRules.includes("UNV")) {
                     if (globalThis.restartTimerUnv / 60000 >= restartAfterUnv) {
                         globalThis.restartTimerUnv = 0
                         if (canRestartNode && restartCmd) {
-                            restart('Difference to unvalidated block length!')
+                            restart('Node in fork!')
+                        }
+                    } else {
+                        globalThis.restartTimerUnv += alertInterval
+                    }
+                }
+            }
+
+            if (DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
+                OK_UNV = false
+                message = `Forward fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                if (restartStateSyncedRules.includes("UNV")) {
+                    if (globalThis.restartTimerUnv / 60000 >= restartAfterUnv) {
+                        globalThis.restartTimerUnv = 0
+                        if (canRestartNode && restartCmd) {
+                            restart('Node in forward fork!')
                         }
                     } else {
                         globalThis.restartTimerUnv += alertInterval

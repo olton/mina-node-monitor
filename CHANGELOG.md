@@ -2,6 +2,7 @@
 + [x] Server: added request for delegators
 + [x] Server: added new config props `publicKeyDelegators`
 + [x] Server: added check for chain exist in `node.mjs:getBlockSpeed()`
++ [x] Server: added check for forward fork (block height more than unvalidated)
   
 + [x] Client: show `delegations` count and total stack for `current` and `next` epoch
 + [x] Client: added price data from `coingecko.com`  
