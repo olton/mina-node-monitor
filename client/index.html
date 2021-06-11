@@ -25,10 +25,12 @@
                         Convenient monitoring of your Mina node!
                     </div>
                     <div class="text-small" style="line-height: 1">
-                        <span class="reduce-2">
+                        <div class="reduce-2 no-wrap text-center text-left-md">
                             Copyright &copy; 2021 by <a href="https://pimenov.com.ua">Serhii Pimenov</a>.
-                            <br>Special for MINA community.
-                        </span>
+                        </div>
+                        <div class="reduce-2 no-wrap text-center text-left-md">
+                            Special for MINA community.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,11 +161,29 @@
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="DELEGATORS">
-                    <div class="d-flex flex-justify-center flex-align-center flex-column">
-                        <div id="delegators-total" class="text-center h3 m-0 fg-info2">0</div>
-                        <div class="text-small fg-normal">
-                            <span id="delegators-stack" class="fg-accent text-center text-bold">0</span>
+                <div data-role="panel" data-title-caption="DELEGATIONS">
+                    <div class="row">
+                        <div class="cell-6">
+                            <div class="d-flex flex-justify-center flex-align-center flex-column">
+                                <div id="delegators-total" class="text-center h3 m-0 fg-info2">0</div>
+                                <div class="text-small fg-normal">
+                                    <span id="delegators-stack" class="fg-accent text-center text-bold">0</span>
+                                </div>
+                                <div class="text-small fg-normal border-top bd-system w-100 text-center mt-1">
+                                    <span>current</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell-6 border-left bd-system">
+                            <div class="d-flex flex-justify-center flex-align-center flex-column">
+                                <div id="delegators-total-next" class="text-center h3 m-0 fg-info2">0</div>
+                                <div class="text-small fg-normal">
+                                    <span id="delegators-stack-next" class="fg-accent text-center text-bold">0</span>
+                                </div>
+                                <div class="text-small fg-normal border-top bd-system w-100 text-center mt-1">
+                                    <span>next</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

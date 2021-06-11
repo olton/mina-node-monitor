@@ -52,7 +52,7 @@ const requestListener = async (req, res) => {
         case '/blockchain': response = await nodeInfo('blockchain', config); break;
         case '/node-status': response = await nodeInfo('node-status', config); break;
         case '/balance': response = await nodeInfo('balance', config); break;
-        case '/delegators': response = await getLedgerInfo("delegators", config); break;
+        case '/delegations': response = await getLedgerInfo("delegations", config); break;
         case '/block-speed': response = await nodeInfo('block-speed', config); break;
         case '/explorer': response = await getExplorerSummary(); break;
         case '/uptime': response = await getUptime(config.publicKey); break;

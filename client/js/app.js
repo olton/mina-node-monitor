@@ -7,7 +7,7 @@ import {processBlockchainInfo, processBlockSpeed} from "./blockchain"
 import {processNodeStatus} from "./node"
 import {processConsensus} from "./consensus"
 import {processUptime} from "./uptime"
-import {processDelegators} from "./delegators"
+import {processDelegations} from "./delegations"
 import {processCoingecko} from "./coingecko";
 
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
@@ -51,7 +51,7 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processNodeStatus(), 0)
     setTimeout(() => processConsensus(), 0)
     setTimeout(() => processUptime(), 0)
-    setTimeout(() => processDelegators(), 0)
+    setTimeout(() => processDelegations(), 0)
 }).catch( reason => {
     //
 })
