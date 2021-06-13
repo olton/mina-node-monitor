@@ -12,6 +12,7 @@ import {processCoingecko} from "./coingecko";
 
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     const html = $("html")
+    const body = $("body")
 
     globalThis.config = config
 
@@ -19,13 +20,16 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
         globalThis.darkMode = $.dark
         if (globalThis.darkMode) {
             html.removeClass("light-mode")
+            body.removeClass("light-mode")
         } else {
             html.addClass("light-mode")
+            body.addClass("light-mode")
         }
     } else {
         globalThis.darkMode = config.theme !== "light"
         if (config.theme === "light") {
             html.addClass("light-mode")
+            body.addClass("light-mode")
         }
     }
 
