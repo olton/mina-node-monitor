@@ -10,15 +10,17 @@ export const processUptime = async () => {
 
     if (time && Array.isArray(time) && time.length) {
         const [position, publicKey, score, rate] = time
-        let color = "label-success"
+        let color = "fg-accent"
 
-        if (Metro.utils.between(position, 75, 100)) {
+        if (Metro.utils.between(position, 0, 75)) {
+            color = 'label-success'
+        } else if (Metro.utils.between(position, 75, 100, true)) {
             color = 'label-warning'
-        } else if (Metro.utils.between(position, 100, 120, true)) {
+        } else if (Metro.utils.between(position, 101, 120, true)) {
             color = 'label-alert'
         }
 
-        $("#sidecar-position").text(position).removeClassBy("label-").addClass(color)
+        $("#sidecar-position").text(position).removeClass("fg-accent").removeClassBy("label-").addClass(color)
         $("#sidecar-uptime").text((parseFloat(rate)) + "%")
         $("#sidecar-score").text(score)
 
