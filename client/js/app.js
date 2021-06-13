@@ -11,24 +11,20 @@ import {processDelegations} from "./delegations"
 import {processCoingecko} from "./coingecko";
 
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
-    const body = $("body")
     const html = $("html")
 
     globalThis.config = config
 
     if (config.theme === "auto") {
-        if ($.dark) {
-            body.removeClass("light-mode")
+        globalThis.darkMode = $.dark
+        if (globalThis.darkMode) {
             html.removeClass("light-mode")
         } else {
-            body.addClass("light-mode")
             html.addClass("light-mode")
         }
     } else {
         globalThis.darkMode = config.theme !== "light"
-
         if (config.theme === "light") {
-            body.addClass("light-mode")
             html.addClass("light-mode")
         }
     }

@@ -260,128 +260,128 @@ a {
   --info-color3-light: #ffe725;
   --fill-color-light: rgba(125, 195, 123, 0.3);
 }
-body.light-mode {
+.light-mode {
   background: var(--body-background-light);
   color: var(--text-color-light);
 }
-body.light-mode .fg-normal {
+.light-mode .fg-normal {
   color: var(--text-color-light);
 }
-body.light-mode .fg-accent {
+.light-mode .fg-accent {
   color: var(--accent-color-light);
 }
-body.light-mode .fg-warning {
+.light-mode .fg-warning {
   color: var(--warning-color-light);
 }
-body.light-mode .fg-alert {
+.light-mode .fg-alert {
   color: var(--alert-color-light);
 }
-body.light-mode .fg-stroke {
+.light-mode .fg-stroke {
   color: var(--info-color1-light);
 }
-body.light-mode .fg-fill {
+.light-mode .fg-fill {
   color: var(--fill-color-light);
 }
-body.light-mode .fg-info1 {
+.light-mode .fg-info1 {
   color: var(--info-color1-light);
 }
-body.light-mode .fg-info2 {
+.light-mode .fg-info2 {
   color: var(--info-color2-light);
 }
-body.light-mode .fg-info3 {
+.light-mode .fg-info3 {
   color: var(--accent-color-light);
 }
-body.light-mode .bd-system {
+.light-mode .bd-system {
   border-color: var(--border-color-light);
 }
-body.light-mode .bg-system {
+.light-mode .bg-system {
   background: var(--body-background-light);
 }
-body.light-mode hr {
+.light-mode hr {
   background: var(--border-color-light);
 }
-body.light-mode #max-block {
+.light-mode #max-block {
   color: var(--accent-color-light);
 }
-body.light-mode #max-unvalidated {
+.light-mode #max-unvalidated {
   color: var(--alert-color-light);
 }
-body.light-mode #explorer-height {
+.light-mode #explorer-height {
   color: var(--info-color2-light);
 }
-body.light-mode .panel {
+.light-mode .panel {
   background: var(--panel-background-light);
   color: var(--text-color-light);
   border-color: var(--border-color-light) !important;
 }
-body.light-mode .panel .panel-title {
+.light-mode .panel .panel-title {
   border-color: var(--border-color-light);
   color: var(--accent-color-light);
 }
-body.light-mode .panel.alert,
-body.light-mode .panel.warning,
-body.light-mode .panel.catchup {
+.light-mode .panel.alert,
+.light-mode .panel.warning,
+.light-mode .panel.catchup {
   background: var(--alert-color-light);
   color: #fff;
 }
-body.light-mode .panel.alert .panel-title,
-body.light-mode .panel.warning .panel-title,
-body.light-mode .panel.catchup .panel-title {
+.light-mode .panel.alert .panel-title,
+.light-mode .panel.warning .panel-title,
+.light-mode .panel.catchup .panel-title {
   color: #fff;
 }
-body.light-mode .panel.alert #node-status,
-body.light-mode .panel.warning #node-status,
-body.light-mode .panel.catchup #node-status {
+.light-mode .panel.alert #node-status,
+.light-mode .panel.warning #node-status,
+.light-mode .panel.catchup #node-status {
   color: #fff;
 }
-body.light-mode .panel.alert #max-block,
-body.light-mode .panel.warning #max-block,
-body.light-mode .panel.catchup #max-block,
-body.light-mode .panel.alert #max-unvalidated,
-body.light-mode .panel.warning #max-unvalidated,
-body.light-mode .panel.catchup #max-unvalidated,
-body.light-mode .panel.alert #explorer-height,
-body.light-mode .panel.warning #explorer-height,
-body.light-mode .panel.catchup #explorer-height,
-body.light-mode .panel.alert .fg-stroke,
-body.light-mode .panel.warning .fg-stroke,
-body.light-mode .panel.catchup .fg-stroke,
-body.light-mode .panel.alert .fg-normal,
-body.light-mode .panel.warning .fg-normal,
-body.light-mode .panel.catchup .fg-normal,
-body.light-mode .panel.alert .fg-accent,
-body.light-mode .panel.warning .fg-accent,
-body.light-mode .panel.catchup .fg-accent {
+.light-mode .panel.alert #max-block,
+.light-mode .panel.warning #max-block,
+.light-mode .panel.catchup #max-block,
+.light-mode .panel.alert #max-unvalidated,
+.light-mode .panel.warning #max-unvalidated,
+.light-mode .panel.catchup #max-unvalidated,
+.light-mode .panel.alert #explorer-height,
+.light-mode .panel.warning #explorer-height,
+.light-mode .panel.catchup #explorer-height,
+.light-mode .panel.alert .fg-stroke,
+.light-mode .panel.warning .fg-stroke,
+.light-mode .panel.catchup .fg-stroke,
+.light-mode .panel.alert .fg-normal,
+.light-mode .panel.warning .fg-normal,
+.light-mode .panel.catchup .fg-normal,
+.light-mode .panel.alert .fg-accent,
+.light-mode .panel.warning .fg-accent,
+.light-mode .panel.catchup .fg-accent {
   color: #fff;
 }
-body.light-mode .panel.warning {
+.light-mode .panel.warning {
   background: var(--warning-color-light);
 }
-body.light-mode .panel.catchup {
+.light-mode .panel.catchup {
   background: var(--info-color2-light);
 }
-body.light-mode .info-table tr:not(:last-child) {
+.light-mode .info-table tr:not(:last-child) {
   border-color: var(--border-color-light);
 }
-body.light-mode .info-table tbody td:nth-child(2) {
+.light-mode .info-table tbody td:nth-child(2) {
   color: var(--accent-color-light);
 }
-body.light-mode .progress {
+.light-mode .progress {
   border-color: var(--panel-background-light);
 }
-body.light-mode .progress-back {
+.light-mode .progress-back {
   background: #f0f6fc;
 }
-body.light-mode .progress-bar {
+.light-mode .progress-bar {
   background: var(--info-color1-light);
 }
-body.light-mode #ip-address,
-body.light-mode #bind-ip,
-body.light-mode #p2p-port,
-body.light-mode #client-port {
+.light-mode #ip-address,
+.light-mode #bind-ip,
+.light-mode #p2p-port,
+.light-mode #client-port {
   color: var(--accent-color-light);
 }
-body.light-mode a {
+.light-mode a {
   color: var(--info-color2-light) !important;
 }
 html.light-mode[class*=scrollbar-type] ::-webkit-scrollbar-thumb {
