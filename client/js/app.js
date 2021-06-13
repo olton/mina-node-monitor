@@ -41,6 +41,7 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     globalThis.blockSpeed = 0
     globalThis.blockHeight = 0
     globalThis.epoch = 0
+    globalThis.noSlots = false
 
     setTimeout(() => processCoingecko(), 0)
     setTimeout(() => processSystemInfo(), 0)

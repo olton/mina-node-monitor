@@ -216,6 +216,9 @@ export const processNodeStatus = async () => {
         } else {
             elNextBlockTime.text(syncStatus === 'BOOTSTRAP' ? 'No data available' : 'None this epoch :(')
             elNextBlockLeft.text('')
+            if (syncStatus !== 'BOOTSTRAP') {
+                globalThis.noSlots = true
+            }
         }
 
         // Epoch end
