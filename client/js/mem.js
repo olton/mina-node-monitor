@@ -4,7 +4,7 @@ import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
 
-let memoryGauge, memoryFreeChart, memoryUsageChart
+let memoryGauge, memoryUsageChart
 
 export const processMemInfo = async () => {
     const elLog = $("#log-mem")

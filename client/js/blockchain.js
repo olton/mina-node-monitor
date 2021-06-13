@@ -14,6 +14,8 @@ export const processBlockchainInfo = async () => {
             slotSinceGenesis,
         } = blockchainInfo.data.bestChain[0].protocolState.consensusState
 
+        globalThis.epoch = epoch
+
         const total = (totalCurrency / 10**9)
 
         $("#total-supply").text(total.format(0, null, " ", "."))
@@ -30,5 +32,9 @@ export const processBlockSpeed = async () => {
 
     $("#block-speed").html(`<span class="text-bold fg-accent">${(blockSpeed / 60000).toFixed(2)}</span> minutes`)
 
-    setTimeout( () => processBlockSpeed(), blockSpeed ? blockSpeed : 300000 )
+    if (blockSpeed) {
+        globalThis.blockSpeed = blockSpeed
+    }
+
+    setTimeout( () => processBlockSpeed(), blockSpeed ? blockSpeed : 180000 )
 }

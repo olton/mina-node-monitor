@@ -237,6 +237,8 @@ export const processNodeStatus = async () => {
         elMaxBlock.text(highestBlockLengthReceived)
         elMaxUnvalidated.text(highestUnvalidatedBlockLengthReceived)
 
+        globalThis.blockHeight = blockchainLength
+
         const blockDiff = Math.abs(+blockchainLength - +highestUnvalidatedBlockLengthReceived)
         elBlockHeight.closest(".panel").removeClass('alert warning')
         if (syncStatus === 'SYNCED') {

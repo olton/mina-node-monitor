@@ -9,6 +9,7 @@ import {processConsensus} from "./consensus"
 import {processUptime} from "./uptime"
 import {processDelegations} from "./delegations"
 import {processCoingecko} from "./coingecko";
+import {processBlocks} from "./explorer";
 
 fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     const html = $("html")
@@ -37,6 +38,9 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     globalThis.chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
     globalThis.balance = 0
     globalThis.price = 0
+    globalThis.blockSpeed = 0
+    globalThis.blockHeight = 0
+    globalThis.epoch = 0
 
     setTimeout(() => processCoingecko(), 0)
     setTimeout(() => processSystemInfo(), 0)
@@ -52,6 +56,7 @@ fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
     setTimeout(() => processConsensus(), 0)
     setTimeout(() => processUptime(), 0)
     setTimeout(() => processDelegations(), 0)
+    setTimeout(() => processBlocks(), 0)
 }).catch( reason => {
     //
 })

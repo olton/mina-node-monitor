@@ -5,9 +5,10 @@ import path, {dirname} from "path"
 import { fileURLToPath } from 'url'
 import http from "http"
 import https from "https"
+import url from "url"
 import {sysInfo} from "./system.mjs"
 import {nodeInfo} from "./node.mjs"
-import {getExplorerSummary} from "./explorer.mjs"
+import {getBlocks, getExplorerSummary} from "./explorer.mjs"
 import {processAlerter} from "./alerter.mjs"
 import {processBalanceSend} from "./balance-sender.mjs"
 import {processHello} from "./hello.mjs"
@@ -34,14 +35,16 @@ globalThis.currentHeight = 0
 globalThis.currentControlHeight = 0
 globalThis.controlCounter = 0
 
+let server, useHttps = config.https && (config.https.cert && config.https.key)
+
 const requestListener = async (req, res) => {
-    let response
+    let response, _url = new URL(`${config.useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}${req.url}`)
 
     res.setHeader("Content-Type", "application/json")
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.writeHead(200)
 
-    switch (req.url) {
+    switch (_url.pathname) {
         case '/platform': response = await sysInfo('platform'); break;
         case '/mem': response = await sysInfo('mem'); break;
         case '/cpu': response = await sysInfo('cpu'); break;
@@ -54,6 +57,12 @@ const requestListener = async (req, res) => {
         case '/balance': response = await nodeInfo('balance', config); break;
         case '/delegations': response = await getLedgerInfo("delegations", config); break;
         case '/block-speed': response = await nodeInfo('block-speed', config); break;
+        case '/blocks': response = await getBlocks({
+            creator: config.publicKeyDelegators ?? config.publicKey,
+            epoch: _url.searchParams.get('epoch') ?? 0,
+            blockHeightMin: _url.searchParams.get('blockHeightMin') ?? 0,
+            blockHeightMax: _url.searchParams.get('blockHeightMax') ?? 0
+        }); break;
         case '/explorer': response = await getExplorerSummary(); break;
         case '/uptime': response = await getUptime(config.publicKey); break;
         case '/time': response = await sysInfo('time'); break;
@@ -69,8 +78,6 @@ const requestListener = async (req, res) => {
 
     res.end(JSON.stringify(response))
 }
-
-let server, useHttps = config.https && (config.https.cert && config.https.key)
 
 if (useHttps) {
     const ssl_options = {

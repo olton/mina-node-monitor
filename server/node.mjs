@@ -41,8 +41,8 @@ query MyQuery {
 `;
 
 const queryBalance = `
-query MyQuery {
-  account(publicKey: "%PUBLIC_KEY%") {
+query ($publicKey: String!) {
+  account(publicKey: $publicKey) {
     balance {
       total
       blockHeight
@@ -103,9 +103,9 @@ query MyQuery {
 `;
 
 const queryBlockSpeed = `
-query MyQuery {
+query ($maxLength: Int) {
   version
-  bestChain(maxLength: %LENGTH%) {
+  bestChain(maxLength: $maxLength) {
     protocolState {
       blockchainState {
         date
@@ -118,7 +118,7 @@ query MyQuery {
 }
 `;
 
-async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = {}) {
+async function fetchGraphQL(addr, query, variables = {}) {
     try {
         const result = await fetch(
             `http://${addr}/graphql`,
@@ -129,8 +129,7 @@ async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = 
                 },
                 body: JSON.stringify({
                     query,
-                    operationName: operationName,
-                    variables: variables,
+                    variables,
                 })
             }
         )
@@ -143,7 +142,7 @@ async function fetchGraphQL(addr, query, operationName = "MyQuery", variables = 
 }
 
 async function getBlockSpeed(graphql, length){
-    let blocks = await fetchGraphQL(graphql, queryBlockSpeed.replace("%LENGTH%", length))
+    let blocks = await fetchGraphQL(graphql, queryBlockSpeed, {maxLength: length})
     if (!blocks && !blocks.data) {
         return 0
     }
@@ -163,7 +162,7 @@ export const nodeInfo = async (obj, config) => {
 
     switch (obj) {
         case 'node-status': return await fetchGraphQL(graphql, queryNodeStatus)
-        case 'balance': return publicKey ? await fetchGraphQL(graphql, queryBalance.replace("%PUBLIC_KEY%", publicKey)) : 0
+        case 'balance': return publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
         case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
         case 'consensus': return await fetchGraphQL(graphql, queryConsensus)
         case 'block-speed': return await getBlockSpeed(graphql, 10)

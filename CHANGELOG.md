@@ -3,6 +3,7 @@
 + [x] Server: added new config props `publicKeyDelegators`
 + [x] Server: added check for chain exist in `node.mjs:getBlockSpeed()`
 + [x] Server: added check for forward fork (block height more than unvalidated)
++ [x] Server: added request to Explorer GraphQL to get won blocks for current epoch
   
 + [x] Client: show `delegations` count and total stack for `current` and `next` epoch
 + [x] Client: added price data from `coingecko.com`  
@@ -10,6 +11,7 @@
 + [x] Client: new config props `price: {currency, interval}`
 + [x] Client: updated uptime, the position value now more pronounced
 + [x] Client: fixed using dark theme
++ [x] Client: added won blocks for current epoch into EPOCH panel
 
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.
