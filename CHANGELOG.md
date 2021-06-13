@@ -8,6 +8,7 @@
 + [x] Client: added price data from `coingecko.com`  
 + [x] Client: change style for scrollbars
 + [x] Client: new config props `price: {currency, interval}`
++ [x] Client: updated uptime, the position value now more pronounced
 
 ### 1.0.3
 + [x] Server: The node will don't more restart is the block height different from Explorer.
