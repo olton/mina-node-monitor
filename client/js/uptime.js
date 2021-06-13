@@ -11,6 +11,7 @@ export const processUptime = async () => {
     if (time && Array.isArray(time) && time.length) {
         const [position, publicKey, score, rate] = time
         $("#sidecar-position").text(position)
+        $("#sidecar-position-big").text(position)
         $("#sidecar-uptime").text((parseFloat(rate)) + "%")
         $("#sidecar-score").text(score)
 

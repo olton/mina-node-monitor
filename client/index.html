@@ -133,12 +133,21 @@
             </div>
             <div class="cell-md-6 cell-lg-3">
                 <div data-role="panel" data-title-caption="UPTIME">
-                    <div class="d-flex flex-justify-center flex-align-center flex-column">
-                        <div id="node-uptime" class="text-center fg-stroke">0</div>
-                        <div class="text-small text-center fg-normal">
-                            pos: <span id="sidecar-position" class="fg-accent text-bold">0</span>
-                            score: <span id="sidecar-score" class="fg-accent text-bold">0</span>
-                            rate: <span id="sidecar-uptime" class="fg-accent text-bold">0</span>
+                    <div class="row m-0">
+                        <div class="cell-3 border-right bd-system text-center d-flex flex-column flex-justify-center flex-align-center">
+                            <span id="sidecar-position-big" class="h3 fg-accent text-bold m-0" style="line-height: 1">0</span>
+                            <div class="text-small fg-normal border-top bd-system w-100 text-center mt-1">
+                                <span>position</span>
+                            </div>
+                        </div>
+                        <div class="cell-9">
+                            <div class="d-flex flex-justify-center flex-align-center flex-column">
+                                <div id="node-uptime" class="text-center fg-stroke">0</div>
+                                <div class="text-small text-center fg-normal">
+                                    score: <span id="sidecar-score" class="fg-accent text-bold">0</span>
+                                    rate: <span id="sidecar-uptime" class="fg-accent text-bold">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
