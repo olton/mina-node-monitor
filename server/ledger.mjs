@@ -7,7 +7,6 @@ const delegations = async (key) => {
 }
 
 export const getLedgerInfo = async (path, config) => {
-    const publicKey = config.publicKey
     const delegateKey = config.publicKeyDelegators ?? config.publicKey
 
     switch (path) {

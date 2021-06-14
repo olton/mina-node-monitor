@@ -198,25 +198,21 @@
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="EPOCH">
-                    <div class="row m-0">
-                        <div class="cell-6 pl-0">
-                            <div class="d-flex flex-justify-center flex-align-center flex-column">
+                <div data-role="panel" data-title-caption="REWARDS IN EPOCH">
+                    <div class="row h-100">
+                        <div class="cell-6">
+                            <div class="h-100 d-flex flex-justify-center flex-align-center flex-column">
                                 <div id="blocks-in-epoch" class="text-center h3 m-0 fg-info2">0</div>
-                                <div class="text-small fg-normal">
-                                    <span id="rewards-in-epoch" class="fg-accent text-center text-bold">0</span>
-                                </div>
-                                <div class="text-small fg-normal border-top bd-system w-100 text-center mt-1">
-                                    <span>rewards</span>
+                                <div class="text-small fg-normal border-top bd-system w-100 text-center mt-auto">
+                                    <span>blocks</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="cell-6 border-left bd-system pr-0">
-                            <div class="d-flex flex-justify-center flex-align-center flex-column">
-                                <div id="epoch-number" class="text-center h2 m-0 fg-info2">0</div>
-                                <div class="text-small fg-normal">time <span id="end-of-epoch" class="fg-accent text-bold">calculating...</span> left</div>
-                                <div class="w-100 pl-1 pr-1 mt-3">
-                                    <div data-role="progress" id="epoch-progress" data-small="false" data-cls-back="progress-back" data-cls-bar="progress-bar"></div>
+                        <div class="cell-6 border-left bd-system">
+                            <div class="h-100 d-flex flex-justify-center flex-align-center flex-column">
+                                <div id="rewards-in-epoch" class="text-center h3 m-0 fg-info2">0</div>
+                                <div class="text-small fg-normal border-top bd-system w-100 text-center mt-auto">
+                                    <span>mina</span>
                                 </div>
                             </div>
                         </div>
@@ -224,10 +220,26 @@
                 </div>
             </div>
             <div class="cell-md-6 cell-lg-3">
-                <div data-role="panel" data-title-caption="SLOT">
-                    <div class="d-flex flex-justify-center flex-align-center flex-column">
-                        <div id="slot-number" class="text-center h2 m-0 fg-info2">0</div>
-                        <div id="slot-since-genesis" class="text-small text-center fg-accent text-bold">0</div>
+                <div class="row no-gap h-100">
+                    <div class="cell-6">
+                        <div data-role="panel" data-title-caption="EPOCH">
+                            <div class="d-flex flex-justify-center flex-align-center flex-column">
+                                <div id="epoch-number" class="text-center h2 m-0 fg-info2">0</div>
+                                <div class="text-small fg-normal">time <span id="end-of-epoch" class="fg-accent text-bold">calculating...</span> left</div>
+                                <div class="w-100 mt-1">
+                                    <div data-role="progress" id="epoch-progress" data-small="false" data-cls-back="progress-back" data-cls-bar="progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cell-6">
+                        <div data-role="panel" data-title-caption="SLOT">
+                            <div class="d-flex flex-justify-center flex-align-center flex-column">
+                                <div id="slot-number" class="text-center h2 m-0 fg-info2">0</div>
+                                <div id="slot-since-genesis" class="text-small text-center fg-accent text-bold">0</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
