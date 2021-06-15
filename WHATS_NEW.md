@@ -1,5 +1,6 @@
 ### 1.0.4
 + [x] Delegations info
++ [x] Rewards in current epoch info
 + [x] Mina price info
 + [x] Calculate balance in USD
 + [x] Check for forward fork
