@@ -73,7 +73,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
     },
     "theme": "auto",
     "useProxy": false,
-    "proxy": "https://server/proxy.php",
+    "proxy": "https://server/proxy.php"
 }
 ```
 
