@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://metroui.org.ua/res/monitor-banner-1.0.4.jpg">
+    <img src="https://metroui.org.ua/res/mina-monitor-banner-1.0.4-1.jpg">
 </p> 
 
 # Mina Node Monitor
