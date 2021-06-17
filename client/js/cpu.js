@@ -26,7 +26,7 @@ export const processCPUData = async () => {
             getFakeData(40)
         ], {
             ...defaultChartConfig,
-            height: 100,
+            height: 110,
             areas: [
                 {
                     name: "CPU usage"
@@ -66,6 +66,7 @@ export const processCPUData = async () => {
                 right: 1,
                 bottom: 1
             },
+            margin: 0,
             boundaries: {
                 maxY: 100,
                 minY: 0
