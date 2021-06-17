@@ -175,10 +175,10 @@ hr {
   transform: none;
 }
 .progress-back {
-  background: #1e2228;
+  background: var(--info-color1);
 }
 .progress-bar {
-  background: var(--info-color1) !important;
+  background: #1e2228 !important;
 }
 #ip-address,
 #bind-ip,
@@ -254,7 +254,7 @@ a {
   position: absolute;
   top: 0;
   right: -8px;
-  font-size: 32px;
+  font-size: 28px;
   border-radius: 6px;
 }
 #cpu-temp #cpu-temp-avg,
@@ -395,10 +395,10 @@ a {
   border-color: var(--panel-background-light);
 }
 .light-mode .progress-back {
-  background: #c1c1c1;
+  background: var(--info-color1-light);
 }
 .light-mode .progress-bar {
-  background: var(--info-color1-light);
+  background: var(--body-background-light) !important;
 }
 .light-mode #ip-address,
 .light-mode #bind-ip,
