@@ -2,6 +2,8 @@
 + [x] Server: fixed uptime sender for using `publicKeyDelegators`
 
 + [x] Client: changed CPU temperature view
++ [x] Client: added border radius to panels 
++ [x] Client: progress bar for epoch now showing time left  
 
 ### 1.0.4
 + [x] Server: added request for delegators
