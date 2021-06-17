@@ -1,5 +1,7 @@
 ### 1.0.5
-+ [x] Server: fixed uptime sender for using `publicKeyDelegators` 
++ [x] Server: fixed uptime sender for using `publicKeyDelegators`
+
++ [x] Client: changed CPU temperature view
 
 ### 1.0.4
 + [x] Server: added request for delegators

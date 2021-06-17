@@ -253,8 +253,24 @@ a {
 #cpu-temp {
   position: absolute;
   top: 0;
-  right: 0;
-  font-size: 38px;
+  right: -8px;
+  font-size: 32px;
+  border-radius: 6px;
+}
+#cpu-temp #cpu-temp-avg,
+#cpu-temp #cpu-temp-max {
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+#cpu-temp #cpu-temp-max {
+  font-size: 0.5em;
+  margin-top: 4px;
+  padding-top: 4px;
+}
+.panel {
+  border-radius: 6px;
 }
 :root {
   --body-background-light: #f6f8fa;
