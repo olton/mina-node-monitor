@@ -4,6 +4,7 @@
 + [x] Client: changed CPU temperature view
 + [x] Client: added border radius to panels 
 + [x] Client: progress bar for epoch now showing time left  
++ [x] Client: added check for config. If config contains errors, Monitor puts to the console error message
 
 ### 1.0.4
 + [x] Server: added request for delegators

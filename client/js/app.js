@@ -11,9 +11,17 @@ import {processDelegations} from "./delegations"
 import {processCoingecko} from "./coingecko";
 import {processBlocks} from "./explorer";
 
-fetch("./config.json").then( (r) => r.ok ? r.json() : null ).then(config => {
+fetch("./config.json").then( (r) => r.ok ? r.text() : null ).then(response => {
     const html = $("html")
     const body = $("body")
+    let config
+
+    try {
+        config = JSON.parse(response)
+    } catch (e) {
+        console.error("Config is wring or contains errors!")
+        console.error(e.message)
+    }
 
     globalThis.config = config
 
