@@ -58,13 +58,13 @@ const requestListener = async (req, res) => {
         case '/delegations': response = await getLedgerInfo("delegations", config); break;
         case '/block-speed': response = await nodeInfo('block-speed', config); break;
         case '/blocks': response = await getBlocks({
-            creator: config.publicKeyDelegators ?? config.publicKey,
+            creator: config.publicKeyDelegators,
             epoch: _url.searchParams.get('epoch') ?? 0,
             blockHeightMin: _url.searchParams.get('blockHeightMin') ?? 0,
             blockHeightMax: _url.searchParams.get('blockHeightMax') ?? 0
         }); break;
         case '/explorer': response = await getExplorerSummary(); break;
-        case '/uptime': response = await getUptime(config.publicKey); break;
+        case '/uptime': response = await getUptime(config.publicKeyDelegators); break;
         case '/time': response = await sysInfo('time'); break;
 
         /* */

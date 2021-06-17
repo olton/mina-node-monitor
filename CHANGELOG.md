@@ -1,3 +1,6 @@
+### 1.0.5
++ [x] Server: fixed uptime sender for using `publicKeyDelegators` 
+
 ### 1.0.4
 + [x] Server: added request for delegators
 + [x] Server: added new config props `publicKeyDelegators`
