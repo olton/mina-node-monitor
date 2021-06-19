@@ -11,6 +11,7 @@ export const processMemInfo = async () => {
     elLog.html(imgStop)
     const chartOptions = {
         ...defaultChartConfig,
+        height: 120,
         legend: {
             position: 'top-left',
             vertical: true,
@@ -60,12 +61,8 @@ export const processMemInfo = async () => {
             }
         },
         arrows: false,
-        padding: {
-            left: 5,
-            top: 5,
-            right: 1,
-            bottom: 5
-        },
+        padding: 1,
+        margin: 0,
         boundaries: {
             maxY: 0,
             minY: 0

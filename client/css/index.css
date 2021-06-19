@@ -398,7 +398,7 @@ a {
   background: var(--info-color1-light);
 }
 .light-mode .progress-bar {
-  background: var(--body-background-light) !important;
+  background: #edf0f3 !important;
 }
 .light-mode #ip-address,
 .light-mode #bind-ip,
