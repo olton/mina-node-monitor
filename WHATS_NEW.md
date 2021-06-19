@@ -1,3 +1,6 @@
+### 1.0.5
++ [x] Reorder blocks with `config.blocks`
+
 ### 1.0.4
 + [x] Delegations info
 + [x] Rewards in current epoch info
