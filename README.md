@@ -71,6 +71,22 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "currency": "usd",
         "update_interval": 60000
     },
+    "order": [
+        "hostname",
+        "status",
+        "blockheight",
+        "uptime",
+        "balance",
+        "delegation",
+        "rewards",
+        "epoch",
+        "ram",
+        "cpu",
+        "network",
+        "peers",
+        "addresses",
+        "queries"
+    ],
     "theme": "auto",
     "useProxy": false,
     "proxy": "https://server/proxy.php"

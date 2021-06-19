@@ -51,6 +51,16 @@ fetch("./config.json").then( (r) => r.ok ? r.text() : null ).then(response => {
     globalThis.epoch = 0
     globalThis.noSlots = false
 
+    if (config.blocks) {
+        const container = $("#main-section-container")
+
+        container.children().hide()
+
+        config.blocks.forEach(b => {
+            container.append($(`#${b}-group`).show())
+        })
+    }
+
     setTimeout(() => processCoingecko(), 0)
     setTimeout(() => processSystemInfo(), 0)
     setTimeout(() => processServerTime(), 0)

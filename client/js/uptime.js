@@ -9,18 +9,22 @@ export const processUptime = async () => {
     let time = await getInfo("uptime")
 
     if (time && Array.isArray(time) && time.length) {
-        const [position, publicKey, score, rate] = time
-        let color = "fg-accent"
+        let [position, publicKey, score, rate] = time
+        let color = "neutral", icon = "infinite"
 
         if (Metro.utils.between(position, 0, 75)) {
-            color = 'label-success'
+            color = 'success'
+            icon = 'checkmark'
         } else if (Metro.utils.between(position, 75, 100, true)) {
-            color = 'label-warning'
+            color = 'warning'
+            icon = 'warning'
         } else if (Metro.utils.between(position, 101, 120, true)) {
-            color = 'label-alert'
+            color = 'alert'
+            icon = 'bin'
         }
 
-        $("#sidecar-position").text(position).removeClass("fg-accent").removeClassBy("label-").addClass(color)
+        $("#sidecar-position").text(position).removeClassBy("label-").addClass(`label-${color}`)
+        $("#position-icon").removeClassBy("label-").removeClassBy("mif-").addClass(`label-${color}`).addClass(`mif-${icon}`)
         $("#sidecar-uptime").text((parseFloat(rate)) + "%")
         $("#sidecar-score").text(score)
 
