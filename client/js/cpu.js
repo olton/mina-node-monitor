@@ -153,6 +153,8 @@ export const processCPUTemp = async () => {
         $("#cpu-temp-max").html(`<small class="fg-normal reduce-4">MAX</small> ${temp.main}<span>&#8451;</span>`).removeClassBy("fg-").addClass(tempColor)
         $("#cpu-temp-main").html(`${temp.main}<span>&#8451;</span>`)
         $("#cpu-temp-cores").html(`[${temp.cores.join(", ")}]`)
+        $("#cores-count").html(`${temp.cores.length} CORES`)
+
     }
 
     setTimeout( () => processCPUTemp(), globalThis.config.intervals.cpu )
