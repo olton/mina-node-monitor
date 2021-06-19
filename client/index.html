@@ -123,6 +123,34 @@
 
             <div class="cell-md-6 cell-lg-3" id="blockheight-group">
                 <div data-role="panel" data-title-caption="BLOCK HEIGHT <span id='explorer-alert' class='mif-bell ani-ring'></span>">
+                    <div>
+                        <div class="row m-0">
+                            <div class="cell-8">
+                                <div id="block-height" class="h-100 d-flex flex-justify-center flex-align-center fg-info2">0</div>
+                            </div>
+                            <div class="cell-4 p-0">
+                                <table class="table text-small subcompact cell-border table-border">
+                                    <tr>
+                                        <td style="width: 40px">max:</td>
+                                        <td class="text-right"><span id="max-block" class="text-bold">0</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>unv:</td>
+                                        <td class="text-right"><span id="max-unvalidated" class="text-bold">0</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>exp:</td>
+                                        <td class="text-right"><span id="explorer-height" class="text-bold">0</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-small text-center border-top bd-system mt-2 pt-1">
+                            <span>speed: </span>
+                            <span id="block-speed">0</span>
+                        </div>
+                    </div>
+<!--
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="block-height" class="text-center fg-info2">0</div>
                         <div class="text-small text-center fg-accent">
@@ -135,6 +163,7 @@
                             <span id="block-speed">0</span>
                         </div>
                     </div>
+-->
                 </div>
             </div>
 
