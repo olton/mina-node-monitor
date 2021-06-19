@@ -71,7 +71,7 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "currency": "usd",
         "update_interval": 60000
     },
-    "order": [
+    "blocks": [
         "hostname",
         "status",
         "blockheight",
@@ -80,8 +80,10 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "delegation",
         "rewards",
         "epoch",
-        "ram",
-        "cpu",
+        "ram-chart",
+        "ram-usage",
+        "cpu-usage",
+        "cpu-load",
         "network",
         "peers",
         "addresses",

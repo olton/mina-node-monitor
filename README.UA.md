@@ -73,7 +73,7 @@ npm i
         "currency": "usd",
         "update_interval": 60000
     },
-    "order": [
+    "blocks": [
         "hostname",
         "status",
         "blockheight",
@@ -82,8 +82,10 @@ npm i
         "delegation",
         "rewards",
         "epoch",
-        "ram",
-        "cpu",
+        "ram-chart",
+        "ram-usage",
+        "cpu-usage",
+        "cpu-load",
         "network",
         "peers",
         "addresses",
