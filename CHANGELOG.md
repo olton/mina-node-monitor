@@ -2,9 +2,11 @@
 + [x] Server: fixed uptime sender for using `publicKeyDelegators`
 
 + [x] Client: changed CPU temperature view
++ [x] Client: changed block height view
 + [x] Client: added border radius to panels 
 + [x] Client: progress bar for epoch now showing time left  
 + [x] Client: added config check. If config contains errors, Monitor puts to the console error message
++ [x] Client: reorder blocks with `config.blocks` option
 
 ### 1.0.4
 + [x] Server: added request for delegators

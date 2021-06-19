@@ -77,14 +77,8 @@ body {
 hr {
   background: var(--border-color);
 }
-#max-block {
-  color: var(--info-color3);
-}
 #max-unvalidated {
   color: var(--alert-color);
-}
-#explorer-height {
-  color: var(--info-color2);
 }
 .panel {
   height: 100%;
@@ -383,14 +377,8 @@ a {
 .light-mode hr {
   background: var(--border-color-light);
 }
-.light-mode #max-block {
-  color: var(--accent-color-light);
-}
 .light-mode #max-unvalidated {
   color: var(--alert-color-light);
-}
-.light-mode #explorer-height {
-  color: var(--info-color2-light);
 }
 .light-mode .panel {
   background: var(--panel-background-light);
