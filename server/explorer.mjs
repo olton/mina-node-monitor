@@ -1,9 +1,12 @@
 import fetch from "node-fetch"
 
+const EXPLORER_GRAPHQL = `https://graphql.minaexplorer.com`
+const EXPLORER_API = `https://api.minaexplorer.com`
+
 async function fetchGraphQL(query, variables = {}) {
     try {
         const result = await fetch(
-            `https://graphql.minaexplorer.com`,
+            EXPLORER_GRAPHQL,
             {
                 method: "POST",
                 headers: {
@@ -62,6 +65,6 @@ export const getBlocks = async (variables) => {
 }
 
 export const getExplorerSummary = async () => {
-    const response = await fetch("https://api.minaexplorer.com/summary")
+    const response = await fetch(`${EXPLORER_API}/summary`)
     return response.ok ? await response.json() : null
 }
