@@ -16,6 +16,8 @@ fetch("./config.json").then( (r) => r.ok ? r.text() : null ).then(response => {
     const body = $("body")
     let config
 
+    console.log("Mina Monitor - v1.0.5")
+
     try {
         config = JSON.parse(response)
     } catch (e) {

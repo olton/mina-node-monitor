@@ -134,7 +134,7 @@ async function fetchGraphQL(addr, query, variables = {}) {
             }
         )
 
-        return result.ok ? await result.json() : {}
+        return result.ok ? await result.json() : null
     } catch (error) {
         console.error("The Request to GraphQL war aborted! Reason: " + error.name)
         return null
@@ -143,13 +143,16 @@ async function fetchGraphQL(addr, query, variables = {}) {
 
 async function getBlockSpeed(graphql, length){
     let blocks = await fetchGraphQL(graphql, queryBlockSpeed, {maxLength: length})
-    if (!blocks && !blocks.data) {
+    if (!blocks || !blocks.data) {
         return 0
     }
+
     const {bestChain: chain = []} = blocks.data
-    if (!chain.length) {
+
+    if (!chain || !chain.length) {
         return 0
     }
+
     let speed, begin, end
     begin = +chain[0]["protocolState"]["blockchainState"]["date"]
     end = +chain[chain.length - 1]["protocolState"]["blockchainState"]["date"]
@@ -158,13 +161,22 @@ async function getBlockSpeed(graphql, length){
 }
 
 export const nodeInfo = async (obj, config) => {
-    const {graphql, publicKey, publicKeyDelegators} = config
+    const {graphql, publicKey} = config
 
-    switch (obj) {
-        case 'node-status': return await fetchGraphQL(graphql, queryNodeStatus)
-        case 'balance': return publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
-        case 'blockchain': return await fetchGraphQL(graphql, queryBlockChain)
-        case 'consensus': return await fetchGraphQL(graphql, queryConsensus)
-        case 'block-speed': return await getBlockSpeed(graphql, 10)
+    try {
+        switch (obj) {
+            case 'node-status':
+                return await fetchGraphQL(graphql, queryNodeStatus)
+            case 'balance':
+                return publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
+            case 'blockchain':
+                return await fetchGraphQL(graphql, queryBlockChain)
+            case 'consensus':
+                return await fetchGraphQL(graphql, queryConsensus)
+            case 'block-speed':
+                return await getBlockSpeed(graphql, 10)
+        }
+    } catch (e) {
+        return null
     }
 }

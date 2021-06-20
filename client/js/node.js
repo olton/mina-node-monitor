@@ -120,7 +120,7 @@ export const processNodeStatus = async () => {
 
     let status = await getNodeStatus()
     let reload = globalThis.config.intervals.node
-    const UNKNOWN = "UNKNOWN"
+    const UNKNOWN = "CALC..."
     const secondsInEpoch = 1285200000 / 1000
     const genesisStart = "2021-03-17 02:00:00.000000+02:00"
     const partLength = 7

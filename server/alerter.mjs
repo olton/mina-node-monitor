@@ -53,7 +53,7 @@ export const processAlerter = async (config) => {
         }
 
         if (!SYNCED) {
-            const blocks = `\nBLock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived}`
+            const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`
             const message = `Node not synced, status ${syncStatus} ${syncStatus === 'CATCHUP' ? blocks : ''} !${sign}`
 
             await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})

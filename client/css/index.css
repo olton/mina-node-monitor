@@ -119,8 +119,11 @@ hr {
 }
 .panel.alert #node-status,
 .panel.warning #node-status,
-.panel.catchup #node-status {
-  color: var(--accent-color);
+.panel.catchup #node-status,
+.panel.alert #block-height,
+.panel.warning #block-height,
+.panel.catchup #block-height {
+  color: var(--accent-color) !important;
 }
 .panel.alert #max-block,
 .panel.warning #max-block,
