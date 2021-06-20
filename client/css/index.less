@@ -315,18 +315,7 @@ a {
   }
 }
 
-.panel {
-  border-radius: 6px;
-}
-
-#position-icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: .8em;
-}
-
-#ram-total-wrapper {
+#cpu-temp, #cpu-cores-count, #ram-total-wrapper {
   position: absolute;
   top: 0;
   right: 0;
@@ -338,10 +327,37 @@ a {
   align-items: center;
   justify-content: center;
   font-size: 28px;
+  z-index: 1;
+}
 
+#cpu-cores-count {
+  left: 0;
+  right: auto;
+  #cpu-cores, #cpu-threads {
+    line-height: 1;
+    width: 70%;
+    text-align: center;
+  }
+  #cpu-threads {
+    font-size: .5em
+  }
+}
+
+#ram-total-wrapper {
   #ram-total {
     line-height: 1;
   }
+}
+
+.panel {
+  border-radius: 6px;
+}
+
+#position-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: .8em;
 }
 
 @import "light";

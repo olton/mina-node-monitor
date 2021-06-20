@@ -279,15 +279,8 @@ a {
   margin-top: 4px;
   padding-top: 4px;
 }
-.panel {
-  border-radius: 6px;
-}
-#position-icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 0.8em;
-}
+#cpu-temp,
+#cpu-cores-count,
 #ram-total-wrapper {
   position: absolute;
   top: 0;
@@ -300,9 +293,32 @@ a {
   align-items: center;
   justify-content: center;
   font-size: 28px;
+  z-index: 1;
+}
+#cpu-cores-count {
+  left: 0;
+  right: auto;
+}
+#cpu-cores-count #cpu-cores,
+#cpu-cores-count #cpu-threads {
+  line-height: 1;
+  width: 70%;
+  text-align: center;
+}
+#cpu-cores-count #cpu-threads {
+  font-size: 0.5em;
 }
 #ram-total-wrapper #ram-total {
   line-height: 1;
+}
+.panel {
+  border-radius: 6px;
+}
+#position-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.8em;
 }
 :root {
   --body-background-light: #f6f8fa;

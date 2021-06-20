@@ -281,21 +281,21 @@
             <div class="cell-md-6 cell-lg-3" id="ram-usage-group">
                 <div data-role="panel" data-title-caption="RAM USAGE">
                     <div class="d-block h-100">
+                        <div id="ram-total-wrapper" class="border bd-system p-1">
+                            <div id="ram-total" class="fg-info2">0</div>
+                            <div class="text-small border-top bd-system mt-1">GiB</div>
+                        </div>
                         <div id="memory-use" class="mt-4"></div>
                         <div class="text-small text-center mt-10-minus">
                             <span class="fg-normal">free:</span> <span id="free-ram" class="fg-info1 text-bold"></span> GiB
                             <span class="fg-normal">used:</span> <span id="used-ram" class="fg-warning text-bold"></span> GiB
-                        </div>
-                        <div id="ram-total-wrapper" class="border bd-system p-1">
-                            <div id="ram-total" class="fg-info2">0</div>
-                            <div class="text-small border-top bd-system mt-1">GiB</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="cell-md-6 cell-lg-3" id="cpu-usage-group">
-                <div data-role="panel" data-title-caption="CPU USAGE &bull; <span id='threads-count'></span>">
+                <div data-role="panel" data-title-caption="CPU <span id='cpu-threads' class='fg-info2'></span> TH'S">
                     <div class="d-block h-100">
                         <div id="cpu-load"></div>
                         <div id="cpu-load-all"></div>
@@ -304,8 +304,12 @@
             </div>
 
             <div class="cell-md-6 cell-lg-3" id="cpu-load-group">
-                <div data-role="panel" data-title-caption="CPU LOAD &bull; <span id='cores-count'></span>">
+                <div data-role="panel" data-title-caption="CPU LOAD">
                     <div class="d-block h-100">
+                        <div id="cpu-cores-count" class="border bd-system p-1">
+                            <div id="cpu-cores" class="fg-info2">0</div>
+                            <div class="text-small border-top bd-system mt-1">cores</div>
+                        </div>
                         <div id="cpu-temp" class="border bd-system p-1">
                             <div id="cpu-temp-avg"></div>
                             <div id="cpu-temp-max" class="border-top bd-system"></div>
