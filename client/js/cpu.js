@@ -121,6 +121,7 @@ export const processCPUData = async () => {
 
         $("#loadavg").html(`<span class="text-bold">${loadavg[0]}</span> <span>${loadavg[1]}</span> <span>${loadavg[2]}</span>`)
         $("#cpu-threads").html(`${threads.length}`)
+        $("#cpu-cores").html(`${globalThis.cpuCores ? globalThis.cpuCores : threads.length / 2}`)
 
         elLog.html(imgOk)
     }
@@ -154,8 +155,8 @@ export const processCPUTemp = async () => {
         $("#cpu-temp-max").html(`<small class="fg-normal reduce-4">MAX</small> ${temp.main}<span>&#8451;</span>`).removeClassBy("fg-").addClass(tempColor)
         $("#cpu-temp-main").html(`${temp.main}<span>&#8451;</span>`)
         $("#cpu-temp-cores").html(`[${temp.cores.join(", ")}]`)
-        $("#cpu-cores").html(`${temp.cores.length}`)
 
+        globalThis.cpuCores = temp.cores.length
     }
 
     setTimeout( () => processCPUTemp(), globalThis.config.intervals.cpu )

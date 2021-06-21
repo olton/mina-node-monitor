@@ -120,28 +120,13 @@ export const processNodeStatus = async () => {
 
     let status = await getNodeStatus()
     let reload = globalThis.config.intervals.node
-    const UNKNOWN = "CALC..."
     const secondsInEpoch = 1285200000 / 1000
     const genesisStart = "2021-03-17 02:00:00.000000+02:00"
     const partLength = 7
 
 
-    const elements = [
-        "peers-count",
-        "block-height",
-        "max-block",
-        "max-unvalidated",
-        "node-status",
-        "network-status",
-        "node-uptime",
-        "block-producer",
-        "block-producer-full",
-        "snark-worker",
-        "snark-worker-full",
-        "snark-worker-fee"
-    ]
-
-    elements.forEach( id => $("#"+id).html(UNKNOWN))
+    ;["peers-count", "block-height", "max-block", "max-unvalidated", "snark-worker-fee"].forEach( id => $("#"+id).text(`0`))
+    ;["node-status", "network-status", "node-uptime", "block-producer", "snark-worker"].forEach( id => $("#"+id).text(`NONE`))
 
     if (status && status.data && status.data.daemonStatus) {
         globalThis.blockchainLength = 0
@@ -231,11 +216,8 @@ export const processNodeStatus = async () => {
         elEndOfEpoch.html(`${epochDays} ${epochHours} ${epochMinutes}`)
         elEpochDuration.html(`${epochDays} ${epochHours} ${epochMinutes}`)
 
-        // globalThis.marques[1] = `epoch will end in ${epochDays} ${epochHours} ${epochMinutes}`
-
-
         // block height
-        globalThis.blockchainLength = blockchainLength
+        globalThis.blockchainLength = blockchainLength ? blockchainLength : 0
         elBlockHeight.text(blockchainLength)
         elMaxBlock.text(highestBlockLengthReceived)
         elMaxUnvalidated.text(highestUnvalidatedBlockLengthReceived)

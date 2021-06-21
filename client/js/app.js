@@ -52,6 +52,7 @@ fetch("./config.json").then( (r) => r.ok ? r.text() : null ).then(response => {
     globalThis.blockHeight = 0
     globalThis.epoch = 0
     globalThis.noSlots = false
+    globalThis.cpuCores = 0
 
     if (config.blocks) {
         const container = $("#main-section-container")

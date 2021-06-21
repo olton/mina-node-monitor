@@ -174,10 +174,6 @@ hr {
   white-space: nowrap;
 }
 
-#block-producer-full, #snark-worker-full {
-  font-size: .9em;
-}
-
 .info-table {
   margin-top: 8px;
   tr:not(:last-child) {
@@ -224,13 +220,14 @@ canvas {
 .catchup-process-right, .catchup-process-left {
   position: absolute;
   z-index: 1;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: 20px;
+  right: 10px;
+  bottom: 20px;
   overflow: hidden;
   width: 20px;
   display: none;
   justify-content: center;
+  color: #fff;
 
   span {
     position: absolute;
@@ -241,14 +238,14 @@ canvas {
 
 .catchup-process-left {
   right: auto;
-  left: 0;
+  left: 10px;
 }
 
-.panel.catchup {
-  .catchup-process-right, .catchup-process-left {
+.panel.catchup ~ .catchup-process-right,
+.panel.catchup ~ .catchup-process-left {
     display: flex;
-  }
 }
+
 
 @keyframes catchup {
   0% {
