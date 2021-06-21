@@ -11,15 +11,20 @@ import {processDelegations} from "./delegations"
 import {processCoingecko} from "./coingecko";
 import {processBlocks} from "./explorer";
 
+const version = `1.0.5`
+
+$("#version").text(version)
+
 fetch("./config.json").then( (r) => r.ok ? r.text() : null ).then(response => {
     const html = $("html")
     const body = $("body")
     let config
 
-    console.log("Mina Monitor - v1.0.5")
+    console.info(`Mina Monitor v${version}`)
 
     try {
         config = JSON.parse(response)
+        console.info(`Mina Monitor Client config load successfully!`)
     } catch (e) {
         console.error("Config is wring or contains errors!")
         console.error(e.message)
