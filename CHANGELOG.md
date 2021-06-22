@@ -1,5 +1,6 @@
 ### 1.0.5
 + [x] Server: fixed uptime sender for using `publicKeyDelegators`
++ [x] Server: fixed alerter module for forward for when unvalidated length is 0
 
 + [x] Client: changed CPU temperature view
 + [x] Client: changed block height view
