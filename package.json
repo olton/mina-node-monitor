@@ -4,32 +4,26 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "serve": "rimraf -rf output & mkdir output & xcopy client\\config.json output\\*.* /Y && parcel serve --open -d output -p 2222 client/index.html",
-        "serve_x": "rm -rf output && mkdir output && cp -a client/config.json output && parcel serve --open -d output -p 2222 --no-cache client/index.html",
-        "build_site": "xcopy client\\config.json dist\\*.* /Y /I && parcel build -d dist --public-url . --no-minify --no-source-maps client/index.html",
-        "build_site_x": "cp -a client/config.json dist && parcel build -d dist --public-url . --no-minify --no-source-maps client/index.html",
-        "build": "rimraf -rf dist & mkdir dist & npm run build_site",
-        "build_x": "rm -rf dist && mkdir dist && npm run build_site_x"
+        "serve": "rd /s /q output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html",
+        "serve_x": "rm -rf output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html",
+        "build_site": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
+        "build_site_x": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
+        "build": "rd /s /q dist & mkdir dist & npm run build_site",
+        "build_x": "rm -rf dist && mkdir dist && npm run build_site_x",
+        "start": "npm run serve"
     },
     "devDependencies": {
-        "@babel/cli": "^7.14.5",
-        "@babel/core": "^7.14.6",
-        "@babel/plugin-proposal-class-properties": "^7.14.5",
-        "@babel/plugin-transform-modules-commonjs": "^7.14.5",
-        "@babel/plugin-transform-runtime": "^7.14.5",
-        "@babel/preset-env": "^7.14.5",
-        "@babel/runtime": "^7.14.6",
-        "babel-loader": "^8.2.2",
-        "cssnano": "^5.0.6",
-        "eslint": "^7.28.0",
-        "glob": "^7.1.7",
-        "jest": "^27.0.4",
         "less": "^4.1.1",
         "parcel-bundler": "^1.12.5",
-        "rimraf": "^3.0.2"
+        "parcel-plugin-static-files-copy": "^2.6.0"
     },
     "dependencies": {
         "node-fetch": "^2.6.1",
         "systeminformation": "^5.7.7"
+    },
+    "staticFiles": {
+        "staticPath": [
+            "client/config.json"
+        ]
     }
 }

@@ -8,6 +8,7 @@
 + [x] Client: progress bar for epoch now showing time left  
 + [x] Client: added config check. If config contains errors, Monitor puts to the console error message
 + [x] Client: reorder blocks with `config.blocks` option
++ [x] Client: optimized build scripts. (Important, required `npm i`)
 
 ### 1.0.4
 + [x] Server: added request for delegators
