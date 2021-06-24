@@ -4,8 +4,8 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "serve": "rd /s /q output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html",
-        "serve_x": "rm -rf output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html",
+        "serve": "rd /s /q output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
+        "serve_x": "rm -rf output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
         "build_site": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
         "build_site_x": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
         "build": "rd /s /q dist & mkdir dist & npm run build_site",
