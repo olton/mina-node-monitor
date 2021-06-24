@@ -1,6 +1,8 @@
 ### 1.0.5
 + [x] Server: fixed uptime sender for using `publicKeyDelegators`
 + [x] Server: fixed alerter module for forward for when unvalidated length is 0
++ [x] Server: changed possible values for `config.restartStateSyncedRules` to `["MAX", "FORK", "FORWARD-FORK", "HANG"]`
++ [x] Server: config props `restartAfterMax`, `restartAfterUnv` is deprecated, use `blockDiffToRestart`
 
 + [x] Client: changed CPU temperature view
 + [x] Client: changed block height view

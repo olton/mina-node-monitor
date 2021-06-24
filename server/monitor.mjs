@@ -26,8 +26,6 @@ const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
 globalThis.restartTimer = 0
-globalThis.restartTimerMax = 0
-globalThis.restartTimerUnv = 0
 globalThis.restartTimerPrev = 0
 globalThis.restartTimerNotSynced = 0
 globalThis.currentBalance = 0

@@ -217,8 +217,8 @@ export const processNodeStatus = async () => {
         elEpochDuration.html(`${epochDays} ${epochHours} ${epochMinutes}`)
 
         // block height
-        globalThis.blockchainLength = blockchainLength ? blockchainLength : 0
-        elBlockHeight.text(blockchainLength)
+        globalThis.blockchainLength = blockchainLength
+        elBlockHeight.html(blockchainLength ? blockchainLength : `<span class="mif-infinite"></span>`)
         elMaxBlock.text(highestBlockLengthReceived)
         elMaxUnvalidated.text(highestUnvalidatedBlockLengthReceived)
 
