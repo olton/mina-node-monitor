@@ -8,10 +8,8 @@ export const processAlerter = async (config) => {
     const {
         telegramToken,
         telegramChatIDAlert,
-        blockDiff,
-        blockDiffToRestart,
-        restartAfterMax,
-        restartAfterUnv,
+        blockDiff = 2,
+        blockDiffToRestart = 4,
         restartAfterPrev,
         restartAfterNotSynced,
         canRestartNode,
