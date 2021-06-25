@@ -13,8 +13,6 @@ export const processCoingecko = async () => {
     const elPriceChange = $("#price-change")
     const elPriceHigh = $("#price-high")
     const elPriceLow = $("#price-low")
-    const elPriceATH = $("#price-ath")
-    const elPriceATL = $("#price-atl")
     const elBalance = $("#balance-usd")
     const elChangeColor = $("#change-color")
 
@@ -31,10 +29,8 @@ export const processCoingecko = async () => {
         elCurrentPrice.html(mina.current_price)
         elCurrency.html(currency.toUpperCase())
         elPriceChange.html(+(mina.price_change_percentage_24h).toFixed(2) + '% ' + symbol)
-        elPriceHigh.html(mina.high_24h)
-        elPriceLow.html(mina.low_24h)
-        elPriceATH.html(mina.ath)
-        elPriceATL.html(mina.atl)
+        elPriceHigh.html(mina.ath)
+        elPriceLow.html(mina.atl)
 
         elChangeColor.removeClass('alert success').addClass(changeColor)
 
