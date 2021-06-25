@@ -103,17 +103,14 @@ npm i
 
 **Интервалы:**
 
-- `info` - основная информация о сервер (ОС, модель процессора)
-- `time` - текущее время на сервере и его аптайм
-- `blockchain` - всего монет, информация о текущем слоте и эпохе, получение из GraphQL узла
-- `node` - интервал получения основной информации из GraphQL узла
-- `net` - интервал обновления информации о загрузке сети: speed, connections
-- `mem` - интервал обновления информации о загрузке оперативной памяти сервера
-- `cpu` - интервал обновления информации о загрузке CPU(s)
+- `system` - general information about server and server time
+- `daemon` - total currency, slot info, and epoch, node status
+- `resources` - net, cpu, and ram information
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
-- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
 
-Section for using proxy (читайте про прокси-сервер ниже)
+Parameter `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
+
+Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server
 - `proxy` - proxy server address
 
@@ -128,6 +125,8 @@ For `price.currency` you can use one of the next values:
 "twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
 "bits",  "sats"
 ```
+
+Parameter `blocks` - determines the order and display of blocks
 
 #### Конфигурационный файл для сервера 
 Создайте в папке `server` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.

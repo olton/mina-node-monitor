@@ -97,15 +97,12 @@ Parameter `useHost` defines host where client retrieves data.
 
 Section `intervals` contain information about intervals (in milliseconds), with which data will be retrieve.
 
-- `info` - general information about server
-- `time` - server time and uptime
-- `blockchain` - total currency, slot info, and epoch
-- `node` - interval for retrieve data from mina GraphQL server
-- `net` - interval for retrieve network information: speed, connections
-- `mem` - interval for retrieve information about server memory
-- `cpu` - interval for retrieve information about server CPU(s)
+- `system` - general information about server and server time
+- `daemon` - total currency, slot info, and epoch, node status
+- `resources` - net, cpu, and ram information 
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
-- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light` 
+  
+Parameter `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light` 
   
 Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server
@@ -122,6 +119,9 @@ For `price.currency` you can use one of the next values:
 "twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
 "bits",  "sats"
 ```
+
+Parameter `blocks` - determines the order and display of blocks
+
 
 #### Config file for server 
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.

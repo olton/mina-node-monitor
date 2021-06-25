@@ -104,17 +104,14 @@ npm i
 
 **Інтервали:**
 
-- `info` - основна інформація про сервер (ОС, модель процесора)
-- `time` - місцевий час на сервері і його Аптайм
-- `blockchain` - всього монет, інформація про поточний слоті і епосі, отримання з GraphQL вузла
-- `node` - інтервал отримання основної інформації з GraphQL вузла
-- `net` - інтервал оновлення інформації про завантаження мережі: speed, connections
-- `mem` - інтервал оновлення інформації про завантаження оперативної пам'яті сервера
-- `cpu` - інтервал оновлення інформації про завантаження CPU (s)
+- `system` - general information about server and server time
+- `daemon` - total currency, slot info, and epoch, node status
+- `resources` - net, cpu, and ram information
 - `uptime` - interval for retrieve information about sidecar calculating server uptime
-- `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
 
-Section for using proxy (інформацію про проксі-сервер викладено нижче)
+Parameter `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
+
+Section for using proxy (read about proxy below)
 - `useProxy` - use or not proxy server
 - `proxy` - proxy server address
 
@@ -129,6 +126,8 @@ For `price.currency` you can use one of the next values:
 "twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
 "bits",  "sats"
 ```
+
+Parameter `blocks` - determines the order and display of blocks
 
 #### Конфігураційний файл для сервера 
 
