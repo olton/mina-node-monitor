@@ -64,18 +64,36 @@
             <div class="cell-sm-6 cell-md-3">
                 <div data-role="panel">
                     PRICE:&nbsp;<span id="current-price" class="fg-accent text-bold">0</span>&nbsp;<span id="currency"></span>
+                    <div id="change-color"></div>
                 </div>
             </div>
             <div class="cell-sm-6 cell-md-3">
-                <div data-role="panel">
-                    CHANGE:&nbsp;<span id="price-change" class="fg-accent text-bold">0</span>%
+                <div data-role="panel" data-cls-content="no-overflow">
+                    CHANGE:&nbsp;<span id="price-change" class="fg-accent text-bold">0</span>
                 </div>
             </div>
             <div class="cell-sm-6 cell-md-3">
-                <div data-role="panel">
-                    HIGH&nbsp;
-                    <span id="price-high" class="fg-accent text-bold">0</span>&nbsp;-&nbsp;
-                    <span id="price-low" class="fg-accent text-bold">0</span>&nbsp;LOW
+                <div data-role="panel" class="p-0" data-cls-content="p-0">
+                    <div class="row">
+                        <div class="cell-6">
+                            <div class="d-flex flex-justify-center">
+                                ATH&nbsp;
+                                <span id="price-ath" class="fg-accent text-bold">0</span>
+                                &nbsp;-&nbsp;
+                                <span id="price-atl" class="fg-accent text-bold">0</span>
+                                &nbsp;ATL
+                            </div>
+                        </div>
+                        <div class="cell-6 border-left bd-system">
+                            <div class="d-flex flex-justify-center">
+                                HIGH&nbsp;
+                                <span id="price-high" class="fg-accent text-bold">0</span>
+                                &nbsp;-&nbsp;
+                                <span id="price-low" class="fg-accent text-bold">0</span>
+                                &nbsp;LOW
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

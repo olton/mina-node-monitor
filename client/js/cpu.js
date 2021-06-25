@@ -22,7 +22,7 @@ export const processCPUData = async () => {
     }
 
     if (!cpuChart) {
-        cpuChart = chart.areaChart("#cpu-load", [
+        cpuChart = chart.areaChart( "#cpu-load", [
             getFakeData(40)
         ], {
             ...defaultChartConfig,
