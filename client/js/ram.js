@@ -125,5 +125,5 @@ export const processRamInfo = async () => {
         // console.log("Mem (re)loaded!")
     }
 
-    setTimeout(() => processRamInfo(), globalThis.config.intervals.mem)
+    setTimeout(() => processRamInfo(), globalThis.config.intervals.resources)
 }
