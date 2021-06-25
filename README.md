@@ -58,14 +58,10 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
     "showIp": true,
     "useHttps": false,
     "intervals": {
-        "info": 60000,
-        "time": 60000,
-        "blockchain": 30000,
-        "node": 30000,
-        "net": 2000,
-        "mem": 2000,
-        "cpu": 2000,
-        "uptime": 600000      
+        "system": 60000,
+        "daemon": 30000,
+        "resources": 2000,
+        "uptime": 600000
     },
     "price": {
         "currency": "usd",

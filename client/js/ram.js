@@ -6,7 +6,7 @@ import {imgOk, imgStop} from "./helpers/const";
 
 let memoryGauge, memoryUsageChart
 
-export const processMemInfo = async () => {
+export const processRamInfo = async () => {
     const elLog = $("#log-mem")
     elLog.html(imgStop)
     const chartOptions = {
@@ -125,5 +125,5 @@ export const processMemInfo = async () => {
         // console.log("Mem (re)loaded!")
     }
 
-    setTimeout(() => processMemInfo(), globalThis.config.intervals.mem)
+    setTimeout(() => processRamInfo(), globalThis.config.intervals.mem)
 }

@@ -4,6 +4,9 @@
 + [x] Server: changed possible values for `config.restartStateSyncedRules` to `["MAX", "FORK", "FORWARD-FORK", "HANG"]`
 + [x] Server: config props `restartAfterMax`, `restartAfterUnv` is deprecated, use `blockDiffToRestart`
 
++ [x] Client: next config props deprecated and not used: `cpu`, `net`, `mem`, `blockchain`, `node`, `info`, `time`
++ [x] Client: added new config props: `system` (server info and time), `resources` (cpu, net, ram), `daemon` (data from Mina GraphQL: node info, blockchain status)
++ [x] Client: renamed `config.price` to `config.coingecko`  
 + [x] Client: changed CPU temperature view
 + [x] Client: changed block height view
 + [x] Client: added border radius to panels 

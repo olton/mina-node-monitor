@@ -10,14 +10,10 @@ let START_NODE_MON = datetime()
 let START_NODE_POINTS = 200
 let peersChart
 
-const getNodeStatus = async () => await getInfo('node-status')
-const getExplorerSummary = async () => await getInfo('explorer')
-const getBalance = async () => await getInfo('balance')
-
 const processBalance = async () => {
     const {currency = 'usd'} = globalThis.config.price
 
-    let status = await getBalance()
+    let status = await getInfo('balance')
 
     if (status && status.data && status.data.account && status.data.account.balance) {
         const {total, liquid} = status.data.account.balance
@@ -35,7 +31,7 @@ const processExplorerSummary = async () => {
     const elLog = $("#log-explorer")
     elLog.html(imgStop)
 
-    let explorerSummary = await getExplorerSummary()
+    let explorerSummary = await getInfo('explorer')
 
     if (!explorerSummary || isNaN(explorerSummary.blockchainLength)) {
         return
@@ -118,8 +114,8 @@ export const processNodeStatus = async () => {
         })
     }
 
-    let status = await getNodeStatus()
-    let reload = globalThis.config.intervals.node
+    let status = await getInfo('node-status')
+    let reload = globalThis.config.intervals.daemon
     const secondsInEpoch = 1285200000 / 1000
     const genesisStart = "2021-03-17 02:00:00.000000+02:00"
     const partLength = 7

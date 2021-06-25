@@ -1,7 +1,6 @@
 import {processSystemInfo} from "./server-info"
-import {processServerTime} from "./server-time"
 import {processCPUData, processCPUTemp} from "./cpu"
-import {processMemInfo} from "./mem"
+import {processRamInfo} from "./ram"
 import {processNetConnections, processNetInfo} from "./net"
 import {processBlockchainInfo, processBlockSpeed} from "./blockchain"
 import {processNodeStatus} from "./node"
@@ -69,8 +68,7 @@ fetch("./config.json")
 
         setTimeout(() => processCoingecko(), 0)
         setTimeout(() => processSystemInfo(), 0)
-        setTimeout(() => processServerTime(), 0)
-        setTimeout(() => processMemInfo(), 0)
+        setTimeout(() => processRamInfo(), 0)
         setTimeout(() => processCPUData(), 0)
         setTimeout(() => processCPUTemp(), 0)
         setTimeout(() => processNetInfo(), 0)

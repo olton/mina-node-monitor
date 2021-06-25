@@ -5,7 +5,7 @@ export const processCoingecko = async () => {
     const elLog = $("#log-coingecko")
     elLog.html(imgStop)
 
-    const {currency = 'usd', interval = 60000} = globalThis.config.price
+    const {currency = 'usd', interval = 60000} = globalThis.config.coingecko
     const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=%CURRENCY%&ids=mina-protocol`.replace("%CURRENCY%", currency.toLowerCase())
 
     const elCurrentPrice = $("#current-price")
