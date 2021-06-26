@@ -1,5 +1,9 @@
 ### 1.0.5
++ [x] Alert to Discord
 + [x] Reorder blocks with `config.blocks`
++ [x] Optimized config files. Configs changed! Read `readme` and `changeloag`
++ [x] New visual (soft changes)
++ [x] Changed rules to restart, now node will restart if value in block difference reached 
 
 ### 1.0.4
 + [x] Delegations info

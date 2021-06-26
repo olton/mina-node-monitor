@@ -132,12 +132,12 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "telegramChatID": "XXXXXXXXX",
     "telegramChatIDAlert": "XXXXXXXXX",
+    "discordWebHook": "https://ptb.discord.com/api/webhooks/...",
     "balanceSendInterval": 300000,
     "alertInterval": 300000,
     "blockDiff": 2,
+    "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfterMax": 30,
-    "restartAfterUnv": 30,
     "restartAfterPrev": 4,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
@@ -149,7 +149,7 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     },
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MAX", "UNV", "PREV"]
+    "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"]
 }
 ```
 
@@ -162,17 +162,17 @@ where
 - `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
+- `blockDiffToRestart` - difference in blocks when Mina will be restarted
 - `host` - IP and PORT on which the server will run
 - `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `canRestartNode` - if true, server can restart mina node
-- `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
-- `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
 - `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval * 2**. 
 - `restartCmd` - command for restart mina node
 - `https` - contains paths to cert and key to create https server
 - `observeExplorer` - observe Explorer block height and alerts if height difference
 - `restartStateException` - exceptions for states to restart node in non-sync 
 - `restartStateSyncedRules` - enabled rules to restart in synced
+- `discordWebHook` - full path to discord webhook
 
 ### Build web client
 To build client use command: 

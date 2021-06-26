@@ -1,9 +1,16 @@
 import {telegram} from "./telegram.mjs"
 import {hostname} from "os"
+import {discord} from "./discord.mjs";
 
 export const processHello = async (config) => {
-    const {telegramToken, telegramChatID, host} = config
-    const message = `Node says hello from\nHost: ${hostname()}!\nIP ${host.split(":")[0]}`
+    const {discordWebHook, telegramToken, telegramChatID, host} = config
+    const message = `Node says hello from ${hostname()} (${host.split(":")[0]})`
 
-    await telegram(message, {token: telegramToken, recipients: telegramChatID})
+    if (telegramToken) {
+        await telegram(message, {token: telegramToken, recipients: telegramChatID})
+    }
+
+    if (discordWebHook) {
+        await discord(discordWebHook, message)
+    }
 }

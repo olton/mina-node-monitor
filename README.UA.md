@@ -140,12 +140,12 @@ Parameter `blocks` - determines the order and display of blocks
     "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "telegramChatID": "XXXXXXXXX",
     "telegramChatIDAlert": "XXXXXXXXX",
+    "discordWebHook": "https://ptb.discord.com/api/webhooks/...",
     "balanceSendInterval": 300000,
     "alertInterval": 300000,
     "blockDiff": 2,
+    "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfterMax": 30,
-    "restartAfterUnv": 30,
     "restartAfterPrev": 4,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
@@ -157,30 +157,30 @@ Parameter `blocks` - determines the order and display of blocks
     },
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MAX", "UNV", "PREV"]
+    "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"]
 }
 ```
 
-**Опції**
+where
 
-- `publicKey` - Ключ, для якого буде запитуватися баланс
-- `telegramToken` - Токен вашого telegram бота (як створити і налаштувати бота шукайте в Гуглі, там все є)
-- `telegramChatID` - Ідентифікатори чатів одержувачів інформації про стан балансу, можна вказати кілька через кому
-- `telegramChatIDAlert` - Ідентифікатори чатів одержувачів інформації про помилки вузла (рассинхронизация, вихід зі статусу SYNCED), можна вказати кілька через кому
-- `balanceSendInterval` - Інтервал з яким буде відправлятися інформація про поточний баланс в телеграм
-- `alertInterval` - Інтервал з яким буде відправлятися інформація про помилки вузла в телеграм
-- `blockDiff` - Різниця в висоті блоків з [MinaExplorer](https://minaexplorer.com/) (в подальшому можливо змінеться) при якому буде вважатися, що вузол рассіхронізірован
-- `host` - IP і PORT на якому буде працювати сервер монітора
-- `graphql` - Адреса на якому працює GraphQL вузла
-- `canRestartNode` - Якщо значення цього ключа **true**, сервер може перезапустити вузол міни
-- `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
-- `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
+- `publicKey` - node key for getting balance
+- `telegramToken` - your telegram bot token
+- `telegramChatID` - chat id(s) for balance info, if there are several, must be separated by commas
+- `telegramChatIDAlert` - chat id(s) for alerting, if there are several, must be separated by commas
+- `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
+- `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
+- `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
+- `blockDiffToRestart` - difference in blocks when Mina will be restarted
+- `host` - IP and PORT on which the server will run
+- `graphql` - Mina node GraphQL address (by default `localhost:3085`)
+- `canRestartNode` - if true, server can restart mina node
 - `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval * 2**.
-- `restartCmd` - Команда для перезапуска вузла Mina
+- `restartCmd` - command for restart mina node
 - `https` - contains paths to cert and key to create https server
 - `observeExplorer` - observe Explorer block height and alerts if height difference
 - `restartStateException` - exceptions for states to restart node in non-sync
 - `restartStateSyncedRules` - enabled rules to restart in synced
+- `discordWebHook` - full path to discord webhook
 
 ### Збірка клієнтського додатка
 

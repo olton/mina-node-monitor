@@ -131,18 +131,19 @@ Parameter `blocks` - determines the order and display of blocks
 #### Конфигурационный файл для сервера 
 Создайте в папке `server` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.
 ```json
+```json
 {
     "publicKey": "B62qr...",
     "publicKeyDelegators": "B62qr...",
     "telegramToken": "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "telegramChatID": "XXXXXXXXX",
     "telegramChatIDAlert": "XXXXXXXXX",
+    "discordWebHook": "https://ptb.discord.com/api/webhooks/...",
     "balanceSendInterval": 300000,
     "alertInterval": 300000,
     "blockDiff": 2,
+    "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfterMax": 30,
-    "restartAfterUnv": 30,
     "restartAfterPrev": 4,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
@@ -154,30 +155,30 @@ Parameter `blocks` - determines the order and display of blocks
     },
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MAX", "UNV", "PREV"]
+    "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"]
 }
 ```
 
 where
 
-- `publicKey` - Ключ, для которого будет запрашиваться баланс
-- `telegramToken` - Токен вашего telegram бота (как создать и настроить бота ищите в Гугле, там все есть)
-- `telegramChatID` - Идентификаторы чатов получателей информации о состоянии баланса, можно указать несколько через запятую
-- `telegramChatIDAlert` - Идентификаторы чатов получателей информации об ошибках узла (рассинхронизация, выход из статуса SYNCED), можно указать несколько через запятую
-- `balanceSendInterval` - Интервал с которым будет отправляться информация о текущем балансе в телеграм
-- `alertInterval` - Интервал с которым будет отправляться информация об ошибках ноды в телеграм
-- `blockDiff` - Разница в высоте блоков с [MinaExplorer](https://minaexplorer.com/) при котором будет считаться, что узел рассихронизирован
-- `host` - IP и PORT на котором будет работать сервер монитора
-- `graphql` - Адрес на котором работает GraphQL сервер узла
-- `canRestartNode` - Если значение этого ключа **true**, сервер может перезапустить узел мины
-- `restartAfterMax` - value in minutes, if node synced and height is difference to max block length, node will restart after this interval
-- `restartAfterUnv` - value in minutes, if node synced and height is difference to unvalidated block height, node will restart after this interval
+- `publicKey` - node key for getting balance
+- `telegramToken` - your telegram bot token
+- `telegramChatID` - chat id(s) for balance info, if there are several, must be separated by commas
+- `telegramChatIDAlert` - chat id(s) for alerting, if there are several, must be separated by commas
+- `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
+- `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
+- `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
+- `blockDiffToRestart` - difference in blocks when Mina will be restarted
+- `host` - IP and PORT on which the server will run
+- `graphql` - Mina node GraphQL address (by default `localhost:3085`)
+- `canRestartNode` - if true, server can restart mina node
 - `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval * 2**.
-- `restartCmd` - Команда для перезапуска узла Mina
+- `restartCmd` - command for restart mina node
 - `https` - contains paths to cert and key to create https server
 - `observeExplorer` - observe Explorer block height and alerts if height difference
 - `restartStateException` - exceptions for states to restart node in non-sync
 - `restartStateSyncedRules` - enabled rules to restart in synced
+- `discordWebHook` - full path to discord webhook
 
 ### Сборка клиентского приложения
 

@@ -3,11 +3,13 @@ import {telegram} from "./telegram.mjs"
 import {exec} from "child_process"
 import {hostname} from "os"
 import {getExplorerSummary} from "./explorer.mjs";
+import {discord} from "./discord.mjs";
 
 export const processAlerter = async (config) => {
     const {
         telegramToken,
         telegramChatIDAlert,
+        discordWebHook,
         blockDiff = 2,
         blockDiffToRestart = 4,
         restartAfterPrev,
@@ -47,7 +49,13 @@ export const processAlerter = async (config) => {
 
                 message = `Restart command executed for ${sign}.\nWith result ${result}\nReason: ${reason}`
 
-                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                if (telegramToken) {
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                }
+
+                if (discordWebHook) {
+                    await discord(discordWebHook, message)
+                }
             })
         }
 
@@ -55,7 +63,13 @@ export const processAlerter = async (config) => {
             const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`
             const message = `Node not synced, status ${syncStatus} ${syncStatus === 'CATCHUP' ? blocks : ''} !${sign}`
 
-            await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+            if (telegramToken) {
+                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+            }
+
+            if (discordWebHook) {
+                await discord(discordWebHook, message)
+            }
 
             OK_SYNCED = false
 
@@ -79,7 +93,14 @@ export const processAlerter = async (config) => {
 
             if (DIFF_MAX >= blockDiff) {
                 message = `Difference block height detected!\nHeight ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${Math.abs(DIFF_MAX)}\nNode: ${nHeight}\nMax: ${mHeight} ${sign}`
-                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                if (telegramToken) {
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                }
+
+                if (discordWebHook) {
+                    await discord(discordWebHook, message)
+                }
 
                 if (restartStateSyncedRules.includes("MAX")) {
                     if (DIFF_MAX >= blockDiffToRestart) {
@@ -92,7 +113,14 @@ export const processAlerter = async (config) => {
 
             if (DIFF_UNVALIDATED >= blockDiff) {
                 message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
-                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                if (telegramToken) {
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                }
+
+                if (discordWebHook) {
+                    await discord(discordWebHook, message)
+                }
 
                 if (restartStateSyncedRules.includes("UNV") || restartStateSyncedRules.includes("FORK")) {
                     if (DIFF_UNVALIDATED >= blockDiffToRestart) {
@@ -105,7 +133,14 @@ export const processAlerter = async (config) => {
 
             if (uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
                 message = `Forward fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
-                await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                if (telegramToken) {
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                }
+
+                if (discordWebHook) {
+                    await discord(discordWebHook, message)
+                }
 
                 if (restartStateSyncedRules.includes("UNV") || restartStateSyncedRules.includes("FORWARD-FORK")) {
                     if (Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
@@ -116,11 +151,18 @@ export const processAlerter = async (config) => {
                 }
             }
 
-            if (globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
+            if (uHeight && globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
                 if (nHeight - globalThis.currentControlHeight === 0) {
                     OK_PREV = false
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
-                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                    if (telegramToken) {
+                        await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                    }
+
+                    if (discordWebHook) {
+                        await discord(discordWebHook, message)
+                    }
 
                     if (restartStateSyncedRules.includes("PREV") || restartStateSyncedRules.includes("HANG")) {
                         if (globalThis.restartTimerPrev >= restartAfterPrev) {
@@ -160,7 +202,14 @@ export const processAlerter = async (config) => {
                 if (Math.abs(DIFF_EXPLORER) >= blockDiff) {
                     message = DIFF_EXPLORER < 0 ? `Node lags behind the Explorer in block height.` : `Node leads the Explorer by block height.`
                     message += `\nDifference: ${DIFF_EXPLORER}\nNode: ${globalThis.currentHeight}\nExplorer: ${explorer.blockchainLength}${sign}`
-                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+
+                    if (telegramToken) {
+                        await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                    }
+
+                    if (discordWebHook) {
+                        await discord(discordWebHook, message)
+                    }
                 }
             }
         }

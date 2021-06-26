@@ -3,9 +3,10 @@
 + [x] Server: fixed alerter module for forward for when unvalidated length is 0
 + [x] Server: changed possible values for `config.restartStateSyncedRules` to `["MAX", "FORK", "FORWARD-FORK", "HANG"]`
 + [x] Server: config props `restartAfterMax`, `restartAfterUnv` is deprecated, use `blockDiffToRestart`
++ [x] Server: added alert to DISCORD (used **discord webhooks**) 
 
 + [x] Client: high/low price now showing **all-time** high/low  
-+ [x] Client: next config props deprecated and not used: `cpu`, `net`, `mem`, `blockchain`, `node`, `info`, `time`
++ [x] Client: next `config` props deprecated and not used: `cpu`, `net`, `mem`, `blockchain`, `node`, `info`, `time`
 + [x] Client: added new config props: `system` (server info and time), `resources` (cpu, net, ram), `daemon` (data from Mina GraphQL: node info, blockchain status)
 + [x] Client: renamed `config.price` to `config.coingecko`  
 + [x] Client: changed CPU temperature view
@@ -14,7 +15,7 @@
 + [x] Client: progress bar for epoch now showing time left  
 + [x] Client: added config check. If config contains errors, Monitor puts to the console error message
 + [x] Client: reorder blocks with `config.blocks` option
-+ [x] Client: optimized build scripts. (Important, required `npm i`)
++ [x] Client: optimized build scripts. (**Important**, required `npm i`)
 
 ### 1.0.4
 + [x] Server: added request for delegators
