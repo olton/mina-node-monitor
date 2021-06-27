@@ -1,5 +1,6 @@
 ### 1.0.5
 + [x] Alert to Discord
++ [x] Define which alerts will send to telegram or discord  
 + [x] Reorder blocks with `config.blocks`
 + [x] Optimized config files. Configs changed! Read `readme` and `changeloag`
 + [x] New visual (soft changes)

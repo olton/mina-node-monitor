@@ -181,8 +181,8 @@ where
 - `restartStateException` - exceptions for states to restart node in non-sync
 - `restartStateSyncedRules` - enabled rules to restart in synced
 - `discordWebHook` - full path to discord webhook
-- `alertToTelegram` - types of alerts witch will send to telegram
-- `alertToDiscord` - types of alerts witch will send to discord
+- `alertToTelegram` - types of alerts which will send to telegram
+- `alertToDiscord` - types of alerts which will send to discord
 
 ### Сборка клиентского приложения
 
