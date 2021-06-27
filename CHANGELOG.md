@@ -3,9 +3,11 @@
 + [x] Server: fixed alerter module for forward for when unvalidated length is 0
 + [x] Server: changed possible values for `config.restartStateSyncedRules` to `["MAX", "FORK", "FORWARD-FORK", "HANG"]`
 + [x] Server: config props `restartAfterMax`, `restartAfterUnv` is deprecated, use `blockDiffToRestart`
-+ [x] Server: added alert to DISCORD (used **discord webhooks**) 
++ [x] Server: added alert to DISCORD (used **discord webhooks**)
++ [x] Server: added config props `alertToTelegram`, `alertToDiscord`. Possible values: `["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART"]`
 
 + [x] Client: high/low price now showing **all-time** high/low  
++ [x] Client: added price change in currency, added colored arrow for indicate price change  
 + [x] Client: next `config` props deprecated and not used: `cpu`, `net`, `mem`, `blockchain`, `node`, `info`, `time`
 + [x] Client: added new config props: `system` (server info and time), `resources` (cpu, net, ram), `daemon` (data from Mina GraphQL: node info, blockchain status)
 + [x] Client: renamed `config.price` to `config.coingecko`  
