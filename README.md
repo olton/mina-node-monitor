@@ -163,6 +163,7 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
 where
 
 - `publicKey` - node key for getting balance
+- `publicKeyDelegators` - node key for getting delegations
 - `telegramToken` - your telegram bot token
 - `telegramChatID` - chat id(s) for balance info, if there are several, must be separated by commas
 - `telegramChatIDAlert` - chat id(s) for alerting, if there are several, must be separated by commas

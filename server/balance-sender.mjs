@@ -14,14 +14,10 @@ export const processBalanceSend = async (config) => {
 
     if (status && status.data && status.data.account && status.data.account.balance) {
         const {total, liquid, locked, unknown, blockHeight} = status.data.account.balance
-        const message =
-`
-Current balance info:
-Balance: ${(total / 10**9).toFixed(4)}
+        const message =`Current balance info: 
+Total: ${(total / 10**9).toFixed(4)}
 Liquid: ${(liquid / 10**9).toFixed(4)}
-Locked: ${(locked / 10**9).toFixed(4)}
-Height: ${blockHeight}
-`
+Locked: ${(locked / 10**9).toFixed(4)}`
         const ids = parseTelegramChatIDs(telegramChatID)
         let target
 

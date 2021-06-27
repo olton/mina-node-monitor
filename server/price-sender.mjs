@@ -16,7 +16,7 @@ export const processPriceSend = async (config) => {
 
     if (price && price.length) {
         const mina = price[0]
-        const message = `Current Mina price is ${mina.current_price} ${currency.toUpperCase()}. Timestamp: ${timestamp()}`
+        const message = `Current Mina price is ${mina.current_price} ${currency.toUpperCase()}`
         const ids = parseTelegramChatIDs(telegramChatID)
 
         if (telegramToken && targets.includes("TELEGRAM")) {
