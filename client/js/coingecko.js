@@ -24,7 +24,7 @@ export const processCoingecko = async () => {
         const mina = data[0]
         const sign = mina.price_change_percentage_24h
         const symbol = `<span class="ani-vertical mif-${sign === 0 ? '' : sign <= 0 ? 'arrow-down fg-red' : 'arrow-up fg-green'}"></span>`
-        const price = +mina.current_price
+        const price = (+mina.current_price).toFixed(2)
         const priceChange = +(mina.price_change_percentage_24h).toFixed(2)
         const priceDelta = (mina.price_change_24h).toFixed(2)
         const priceDeltaSign = priceDelta > 0 ? "+" : "";
