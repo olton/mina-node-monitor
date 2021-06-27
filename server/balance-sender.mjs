@@ -5,7 +5,7 @@ import {parseTelegramChatIDs} from "./helpers.mjs";
 import {discord} from "./discord.mjs";
 
 export const processBalanceSend = async (config) => {
-    const {discordWebHook, balanceSendInterval, telegramChatID, telegramToken, publicKey} = config
+    const {alertToTelegram, alertToDiscord, discordWebHook, balanceSendInterval, telegramChatID, telegramToken, publicKey} = config
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
 
     if (!config || !telegramToken || !telegramChatID || !balanceSendInterval || !publicKey) return
@@ -31,14 +31,14 @@ Height: ${blockHeight}
 
         globalThis.currentBalance = total
 
-        if (telegramToken) {
+        if (telegramToken && alertToTelegram.includes("BALANCE")) {
             for (const id of ids) {
                 target = TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)
                 await fetch(target)
             }
         }
 
-        if (discordWebHook) {
+        if (discordWebHook && alertToDiscord.includes("BALANCE")) {
             await discord(discordWebHook, message)
         }
 
