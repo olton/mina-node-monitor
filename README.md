@@ -151,7 +151,12 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"],
     "alertToTelegram": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"],
-    "alertToDiscord": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"]
+    "alertToDiscord": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"],
+    "price": {
+        "currency": "usd",
+        "interval": 3600000,
+        "targets": ["TELEGRAM", "DISCORD"]
+    }
 }
 ```
 
@@ -177,6 +182,7 @@ where
 - `discordWebHook` - full path to discord webhook
 - `alertToTelegram` - types of alerts which will send to telegram 
 - `alertToDiscord` - types of alerts which will send to discord 
+- `price` - send price info to telegram/discord
 
 ### Build web client
 To build client use command: 

@@ -4,7 +4,9 @@
 + [x] Reorder blocks with `config.blocks`
 + [x] Optimized config files. Configs changed! Read `readme` and `changeloag`
 + [x] New visual (soft changes)
-+ [x] Changed rules to restart, now node will restart if value in block difference reached 
++ [x] Changed rules to restart, now node will restart if value in block difference reached
++ [x] Send price info to telegram/discord
++ [x] Request to `COINGECKO` moved from client to server
 
 ### 1.0.4
 + [x] Delegations info

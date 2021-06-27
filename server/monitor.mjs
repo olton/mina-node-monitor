@@ -14,6 +14,8 @@ import {processBalanceSend} from "./balance-sender.mjs"
 import {processHello} from "./hello.mjs"
 import {getUptime} from "./uptime.mjs"
 import {getLedgerInfo} from "./ledger.mjs";
+import {getPriceInfo} from "./coingecko.mjs";
+import {processPriceSend} from "./price-sender.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const configPath = path.resolve(__dirname, 'config.json')
@@ -64,6 +66,7 @@ const requestListener = async (req, res) => {
         case '/explorer': response = await getExplorerSummary(); break;
         case '/uptime': response = await getUptime(config.publicKeyDelegators); break;
         case '/time': response = await sysInfo('time'); break;
+        case '/price': response = await getPriceInfo(_url.searchParams.get('currency') ?? 'usd'); break;
 
         /* */
         case '/net-stat': response = await sysInfo('net-stat'); break;
@@ -94,3 +97,4 @@ server.listen(+SERVER_PORT, SERVER_HOST, () => {
 setTimeout( () => processHello(config), 0)
 setTimeout( () => processAlerter(config), 0)
 setTimeout( () => processBalanceSend(config), 0)
+setTimeout( () => processPriceSend(config), 0)

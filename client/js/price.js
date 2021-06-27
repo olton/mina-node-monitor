@@ -1,12 +1,11 @@
-import {getAPIData} from "./helpers/get-info";
+import {getAPIData, getInfo} from "./helpers/get-info";
 import {imgOk, imgStop} from "./helpers/const";
 
-export const processCoingecko = async () => {
+export const processPrice = async () => {
     const elLog = $("#log-coingecko")
     elLog.html(imgStop)
 
-    const {currency = 'usd', update_interval = 60000} = globalThis.config.coingecko
-    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=%CURRENCY%&ids=mina-protocol`.replace("%CURRENCY%", currency.toLowerCase())
+    const {currency = 'usd', update_interval = 60000} = globalThis.config.price
 
     const elCurrentPrice = $("#current-price")
     const elCurrency = $("#currency")
@@ -18,7 +17,7 @@ export const processCoingecko = async () => {
 
     elPriceArrow.html("")
 
-    const data = await getAPIData(url)
+    const data = await getInfo(`price?currency=${currency}`)
 
     if (data) {
         const mina = data[0]
@@ -30,13 +29,13 @@ export const processCoingecko = async () => {
         const priceDeltaSign = priceDelta > 0 ? "+" : "";
         const priceDeltaColor = priceDelta > 0 ? "fg-green" : "fg-red";
 
-        elCurrentPrice.html(`${price}  <small class="fg-normal ${priceDeltaColor}">${priceDeltaSign}${priceDelta}</small>`)
+        elCurrentPrice.html(`${price}`)
         elCurrency.html(currency.toUpperCase())
         elPriceChange.html(`${priceChange}%`)
         elPriceHigh.html(mina.ath)
         elPriceLow.html(mina.atl)
 
-        elPriceArrow.html(symbol)
+        elPriceArrow.html(`<span class="fg-normal ${priceDeltaColor}">${priceDeltaSign}${priceDelta}</span>${symbol}`)
 
         elBalance.text((globalThis.balance * globalThis.price).format(2, null, ",", ".") + " " + currency.toUpperCase())
 
@@ -46,5 +45,5 @@ export const processCoingecko = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout(() => processCoingecko(), update_interval)
+    setTimeout(() => processPrice(), update_interval)
 }

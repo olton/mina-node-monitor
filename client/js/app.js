@@ -7,8 +7,8 @@ import {processNodeStatus} from "./node"
 import {processConsensus} from "./consensus"
 import {processUptime} from "./uptime"
 import {processDelegations} from "./delegations"
-import {processCoingecko} from "./coingecko";
 import {processBlocks} from "./explorer";
+import {processPrice} from "./price";
 
 const version = `1.0.5`
 
@@ -67,7 +67,7 @@ fetch("./config.json")
             })
         }
 
-        setTimeout(() => processCoingecko(), 0)
+        setTimeout(() => processPrice(), 0)
         setTimeout(() => processSystemInfo(), 0)
         setTimeout(() => processRamInfo(), 0)
         setTimeout(() => processCPUData(), 0)

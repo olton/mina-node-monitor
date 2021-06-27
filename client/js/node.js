@@ -11,7 +11,7 @@ let START_NODE_POINTS = 200
 let peersChart
 
 const processBalance = async () => {
-    const {currency = 'usd'} = globalThis.config.coingecko
+    const {currency = 'usd'} = globalThis.config.price
 
     let status = await getInfo('balance')
 

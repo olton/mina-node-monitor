@@ -5,6 +5,7 @@
 + [x] Server: config props `restartAfterMax`, `restartAfterUnv` is deprecated, use `blockDiffToRestart`
 + [x] Server: added alert to DISCORD (used **discord webhooks**)
 + [x] Server: added config props `alertToTelegram`, `alertToDiscord`. Possible values: `["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"]`
++ [x] Server: moved request to `coingecko` from client to server
 
 + [x] Client: added flashing for `maxHeight`, `unvalidateHeight`, `explorerHeight` when difference present with the current height
 + [x] Client: high/low price now showing **all-time** high/low  
