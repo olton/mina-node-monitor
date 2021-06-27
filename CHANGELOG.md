@@ -6,6 +6,7 @@
 + [x] Server: added alert to DISCORD (used **discord webhooks**)
 + [x] Server: added config props `alertToTelegram`, `alertToDiscord`. Possible values: `["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART"]`
 
++ [x] Client: added flashing for `maxHeight`, `unvalidateHeight`, `explorerHeight` when difference present with the current height
 + [x] Client: high/low price now showing **all-time** high/low  
 + [x] Client: added price change in currency, added colored arrow for indicate price change  
 + [x] Client: next `config` props deprecated and not used: `cpu`, `net`, `mem`, `blockchain`, `node`, `info`, `time`
