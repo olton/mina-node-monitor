@@ -1,4 +1,4 @@
-### 1.0.5
+### 1.0.5 -> 1.1.0
 + [x] Alert to Discord
 + [x] Define which alerts will send to telegram or discord  
 + [x] Reorder blocks with `config.blocks`
