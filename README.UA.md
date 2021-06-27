@@ -158,8 +158,8 @@ Parameter `blocks` - determines the order and display of blocks
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"],
-    "alertToTelegram": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART"],
-    "alertToDiscord": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART"]
+    "alertToTelegram": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"],
+    "alertToDiscord": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"]
 }
 ```
 
