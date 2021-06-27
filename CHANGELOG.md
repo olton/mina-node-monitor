@@ -1,4 +1,4 @@
-### 1.0.5
+### 1.0.5 -> 1.1.0
 + [x] Server: fixed uptime sender for using `publicKeyDelegators`
 + [x] Server: fixed alerter module for forward for when unvalidated length is 0
 + [x] Server: changed possible values for `config.restartStateSyncedRules` to `["MAX", "FORK", "FORWARD-FORK", "HANG"]`
