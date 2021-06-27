@@ -17,26 +17,34 @@ export const processCoingecko = async () => {
     const elPriceColor = $("#price-color")
     const elChangeColor = $("#change-color")
 
+    elPriceColor.html("")
+    elChangeColor.html("")
+
     const data = await getAPIData(url)
 
     if (data) {
         const mina = data[0]
         const sign = mina.price_change_percentage_24h
         const symbol = `<span class="ani-vertical mif-${sign === 0 ? '' : sign <= 0 ? 'arrow-down fg-red' : 'arrow-up fg-green'}"></span>`
-        const changeColor = sign === 0 ? '' : sign <= 0 ? 'alert' : 'success'
+        const price = +mina.current_price
+        const priceChange = +(mina.price_change_percentage_24h).toFixed(2)
+        const priceDelta = (price - mina.low_24h).toFixed(2)
+        const priceDeltaSign = priceDelta > 0 ? "+" : "";
+        const priceDeltaColor = priceDelta > 0 ? "fg-green" : "fg-red";
 
-        globalThis.price = +mina.current_price
-
-        elCurrentPrice.html(mina.current_price)
+        elCurrentPrice.html(`${price}  <small class="fg-normal ${priceDeltaColor}">${priceDeltaSign}${priceDelta}</small>`)
         elCurrency.html(currency.toUpperCase())
-        elPriceChange.html(+(mina.price_change_percentage_24h).toFixed(2) + '%')
+        elPriceChange.html(`${priceChange}%`)
         elPriceHigh.html(mina.ath)
         elPriceLow.html(mina.atl)
 
-        elPriceColor.removeClass('alert success').addClass(changeColor)
+        elPriceColor.html(symbol)
         elChangeColor.html(symbol)
 
         elBalance.text((globalThis.balance * globalThis.price).format(2, null, ",", ".") + " " + currency.toUpperCase())
+
+        globalThis.price = price
+        globalThis.priceChange = priceChange
 
         elLog.html(imgOk)
     }

@@ -215,8 +215,16 @@ export const processNodeStatus = async () => {
         // block height
         globalThis.blockchainLength = blockchainLength
         elBlockHeight.html(blockchainLength ? blockchainLength : `<span class="mif-infinite"></span>`)
-        elMaxBlock.text(highestBlockLengthReceived)
-        elMaxUnvalidated.text(highestUnvalidatedBlockLengthReceived)
+
+        elMaxBlock.removeClass("ani-flash").text(highestBlockLengthReceived)
+        if (+highestBlockLengthReceived !== +blockchainLength) {
+            elMaxBlock.addClass("ani-flash")
+        }
+
+        elMaxUnvalidated.removeClass("ani-flash").text(highestUnvalidatedBlockLengthReceived)
+        if (+highestUnvalidatedBlockLengthReceived !== +blockchainLength) {
+            elMaxUnvalidated.addClass("ani-flash")
+        }
 
         globalThis.blockHeight = blockchainLength
 

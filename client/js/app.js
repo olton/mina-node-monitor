@@ -50,6 +50,7 @@ fetch("./config.json")
         globalThis.chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
         globalThis.balance = 0
         globalThis.price = 0
+        globalThis.priceChange = 0
         globalThis.blockSpeed = 0
         globalThis.blockHeight = 0
         globalThis.epoch = 0
