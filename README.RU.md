@@ -155,7 +155,9 @@ Parameter `blocks` - determines the order and display of blocks
     },
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"]
+    "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"],
+    "alertToTelegram": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART"],
+    "alertToDiscord": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART"]
 }
 ```
 
@@ -179,6 +181,8 @@ where
 - `restartStateException` - exceptions for states to restart node in non-sync
 - `restartStateSyncedRules` - enabled rules to restart in synced
 - `discordWebHook` - full path to discord webhook
+- `alertToTelegram` - types of alerts witch will send to telegram
+- `alertToDiscord` - types of alerts witch will send to discord
 
 ### Сборка клиентского приложения
 

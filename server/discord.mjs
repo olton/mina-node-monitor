@@ -4,7 +4,7 @@ export const discord = async (url, message, {username = "Mina Monitor", avatar_u
     const params = {
         username,
         avatar_url,
-        content: message
+        content: `${message}\n------------------\n`
     }
 
     return fetch(url, {

@@ -19,7 +19,9 @@ export const processAlerter = async (config) => {
         alertInterval,
         observeExplorer,
         restartStateException = [],
-        restartStateSyncedRules = []
+        restartStateSyncedRules = [],
+        alertToTelegram = [],
+        alertToDiscord = []
     } = config
     const host = hostname()
 
@@ -31,7 +33,7 @@ export const processAlerter = async (config) => {
         const {syncStatus, blockchainLength, highestBlockLengthReceived, highestUnvalidatedBlockLengthReceived, addrsAndPorts} = status.data.daemonStatus
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
-        let OK_SYNCED = true, OK_MAX = true, OK_UNV = true, OK_PREV = true
+        let OK_SYNCED = true, OK_PREV = true
         const sign = `\nHost: ${host}\nIP: ${ip}`
 
         const restart = (reason) => {
@@ -49,11 +51,11 @@ export const processAlerter = async (config) => {
 
                 message = `Restart command executed for ${sign}.\nWith result ${result}\nReason: ${reason}`
 
-                if (telegramToken) {
+                if (telegramToken && alertToTelegram.includes("RESTART")) {
                     await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
                 }
 
-                if (discordWebHook) {
+                if (discordWebHook && alertToDiscord.includes("RESTART")) {
                     await discord(discordWebHook, message)
                 }
             })
@@ -63,11 +65,11 @@ export const processAlerter = async (config) => {
             const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`
             const message = `Node not synced, status ${syncStatus} ${syncStatus === 'CATCHUP' ? blocks : ''} !${sign}`
 
-            if (telegramToken) {
+            if (telegramToken && alertToTelegram.includes("NOT-SYNCED")) {
                 await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
             }
 
-            if (discordWebHook) {
+            if (discordWebHook && alertToDiscord.includes("NOT-SYNCED")) {
                 await discord(discordWebHook, message)
             }
 
@@ -94,11 +96,11 @@ export const processAlerter = async (config) => {
             if (DIFF_MAX >= blockDiff) {
                 message = `Difference block height detected!\nHeight ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${Math.abs(DIFF_MAX)}\nNode: ${nHeight}\nMax: ${mHeight} ${sign}`
 
-                if (telegramToken) {
+                if (telegramToken && alertToTelegram.includes("MAX")) {
                     await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
                 }
 
-                if (discordWebHook) {
+                if (discordWebHook && alertToDiscord.includes("MAX")) {
                     await discord(discordWebHook, message)
                 }
 
@@ -114,11 +116,11 @@ export const processAlerter = async (config) => {
             if (DIFF_UNVALIDATED >= blockDiff) {
                 message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
 
-                if (telegramToken) {
+                if (telegramToken && alertToTelegram.includes("FORK")) {
                     await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
                 }
 
-                if (discordWebHook) {
+                if (discordWebHook && alertToDiscord.includes("FORK")) {
                     await discord(discordWebHook, message)
                 }
 
@@ -134,11 +136,11 @@ export const processAlerter = async (config) => {
             if (uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
                 message = `Forward fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
 
-                if (telegramToken) {
+                if (telegramToken && alertToTelegram.includes("FORWARD-FORK")) {
                     await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
                 }
 
-                if (discordWebHook) {
+                if (discordWebHook && alertToDiscord.includes("FORWARD-FORK")) {
                     await discord(discordWebHook, message)
                 }
 
@@ -156,11 +158,11 @@ export const processAlerter = async (config) => {
                     OK_PREV = false
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
 
-                    if (telegramToken) {
+                    if (telegramToken && alertToTelegram.includes("HANG")) {
                         await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
                     }
 
-                    if (discordWebHook) {
+                    if (discordWebHook && alertToDiscord.includes("HANG")) {
                         await discord(discordWebHook, message)
                     }
 
@@ -203,11 +205,11 @@ export const processAlerter = async (config) => {
                     message = DIFF_EXPLORER < 0 ? `Node lags behind the Explorer in block height.` : `Node leads the Explorer by block height.`
                     message += `\nDifference: ${DIFF_EXPLORER}\nNode: ${globalThis.currentHeight}\nExplorer: ${explorer.blockchainLength}${sign}`
 
-                    if (telegramToken) {
+                    if (telegramToken && alertToTelegram.includes("EXPLORER")) {
                         await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
                     }
 
-                    if (discordWebHook) {
+                    if (discordWebHook && alertToDiscord.includes("EXPLORER")) {
                         await discord(discordWebHook, message)
                     }
                 }
