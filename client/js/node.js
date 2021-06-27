@@ -38,14 +38,12 @@ const processExplorerSummary = async () => {
     }
 
     const {blockchainLength} = explorerSummary
-    const elBlockHeightPanel = $("#block-height").closest('.panel')
     const elExplorerHeight = $("#explorer-height")
 
-    elExplorerHeight.text(blockchainLength)
+    elExplorerHeight.removeClass('fg-red ani-flash').text(blockchainLength)
 
-    elBlockHeightPanel.removeClass('explorer-alert')
     if (Math.abs(+globalThis.blockchainLength - +blockchainLength) >= 2) {
-        elBlockHeightPanel.addClass('explorer-alert')
+        elExplorerHeight.addClass('fg-red ani-flash')
     }
     elLog.html(imgOk)
 }
@@ -216,14 +214,14 @@ export const processNodeStatus = async () => {
         globalThis.blockchainLength = blockchainLength
         elBlockHeight.html(blockchainLength ? blockchainLength : `<span class="mif-infinite"></span>`)
 
-        elMaxBlock.removeClass("ani-flash").text(highestBlockLengthReceived)
+        elMaxBlock.removeClass("fg-red ani-flash").text(highestBlockLengthReceived)
         if (+highestBlockLengthReceived !== +blockchainLength) {
-            elMaxBlock.addClass("ani-flash")
+            elMaxBlock.addClass("fg-red ani-flash")
         }
 
-        elMaxUnvalidated.removeClass("ani-flash").text(highestUnvalidatedBlockLengthReceived)
+        elMaxUnvalidated.removeClass("fg-red ani-flash").text(highestUnvalidatedBlockLengthReceived)
         if (+highestUnvalidatedBlockLengthReceived !== +blockchainLength) {
-            elMaxUnvalidated.addClass("ani-flash")
+            elMaxUnvalidated.addClass("fg-red ani-flash")
         }
 
         globalThis.blockHeight = blockchainLength
