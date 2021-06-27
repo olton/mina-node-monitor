@@ -14,11 +14,9 @@ export const processCoingecko = async () => {
     const elPriceHigh = $("#price-high")
     const elPriceLow = $("#price-low")
     const elBalance = $("#balance-usd")
-    const elPriceColor = $("#price-color")
-    const elChangeColor = $("#change-color")
+    const elPriceArrow = $("#price-arrow")
 
-    elPriceColor.html("")
-    elChangeColor.html("")
+    elPriceArrow.html("")
 
     const data = await getAPIData(url)
 
@@ -38,8 +36,7 @@ export const processCoingecko = async () => {
         elPriceHigh.html(mina.ath)
         elPriceLow.html(mina.atl)
 
-        elPriceColor.html(symbol)
-        elChangeColor.html(symbol)
+        elPriceArrow.html(symbol)
 
         elBalance.text((globalThis.balance * globalThis.price).format(2, null, ",", ".") + " " + currency.toUpperCase())
 
