@@ -94,7 +94,6 @@
                 <div data-role="panel" data-title-caption="HOSTNAME">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="hostname" class="fg-info2">NONE</div>
-                        <div id="full-hostname" class="text-small fg-normal">NONE</div>
                         <div class="text-small ip-address fg-accent text-bold">---.---.---.---</div>
                     </div>
                 </div>
@@ -104,9 +103,8 @@
                 <div data-role="panel" data-title-caption="DAEMON STATUS" id="status-panel">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-status" class="text-center fg-info2">NONE</div>
-                        <div class="fg-normal text-small">
-                            <span>network: </span>
-                            <span id="network-status" class="fg-accent text-bold">NONE</span>
+                        <div>
+                            <span id="node-health" class="fg-accent text-bold">UNKNOWN</span>
                         </div>
                     </div>
                 </div>

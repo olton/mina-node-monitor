@@ -156,7 +156,9 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
         "currency": "usd",
         "interval": 3600000,
         "targets": ["TELEGRAM", "DISCORD"]
-    }
+    },
+    "blockSpeedDistance": 10,
+    "nodeInfoCollectInterval": 30000
 }
 ```
 
@@ -184,6 +186,8 @@ where
 - `alertToTelegram` - types of alerts which will send to telegram 
 - `alertToDiscord` - types of alerts which will send to discord 
 - `price` - send price info to telegram/discord
+- `blockSpeedDistance` - distance for block speed calculation
+- `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec) 
 
 ### Build web client
 To build client use command: 

@@ -160,8 +160,64 @@ async function getBlockSpeed(graphql, length){
     return speed
 }
 
+export const processCollectNodeInfo = async (config) => {
+    const {graphql, publicKey, blockSpeedDistance = 10, nodeInfoCollectInterval = 30000, blockDiff = 2} = config
+
+    let nodeStatus = await fetchGraphQL(graphql, queryNodeStatus)
+    let balance = publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
+    let blockchain = await fetchGraphQL(graphql, queryBlockChain)
+    let consensus = await fetchGraphQL(graphql, queryConsensus)
+    let blockSpeed = await getBlockSpeed(graphql, blockSpeedDistance)
+    let health = []
+
+    if (nodeStatus && nodeStatus.data && nodeStatus.data.daemonStatus) {
+        const {
+            syncStatus,
+            peers = 0,
+            blockchainLength: blockHeight = 0,
+            highestBlockLengthReceived: maxHeight = 0,
+            highestUnvalidatedBlockLengthReceived: unvHeight = 0,
+        } = nodeStatus.data.daemonStatus
+
+        if (syncStatus === "SYNCED") {
+            if (peers <= 0) {
+                health.push("NO PEERS")
+            }
+
+            if (maxHeight && blockHeight < maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
+                health.push("FORK-MAX")
+            }
+
+            if (maxHeight && blockHeight > maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
+                health.push("FORWARD-FORK-MAX")
+            }
+
+            if (unvHeight && blockHeight < unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
+                health.push("FORK")
+            }
+
+            if (unvHeight && blockHeight > unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
+                health.push("FORWARD-FORK")
+            }
+        }
+    } else {
+        health.push("UNKNOWN")
+    }
+
+    globalThis.nodeInfo = {
+        nodeStatus,
+        balance,
+        blockchain,
+        consensus,
+        blockSpeed,
+        health
+    }
+
+    setTimeout(() => processCollectNodeInfo(config), nodeInfoCollectInterval)
+}
+
 export const nodeInfo = async (obj, config) => {
-    const {graphql, publicKey} = config
+    const {graphql, publicKey, blockSpeedDistance = 10} = config
 
     try {
         switch (obj) {
@@ -174,7 +230,7 @@ export const nodeInfo = async (obj, config) => {
             case 'consensus':
                 return await fetchGraphQL(graphql, queryConsensus)
             case 'block-speed':
-                return await getBlockSpeed(graphql, 10)
+                return await getBlockSpeed(graphql, blockSpeedDistance)
         }
     } catch (e) {
         return null

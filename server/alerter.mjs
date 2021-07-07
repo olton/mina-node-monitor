@@ -30,7 +30,7 @@ export const processAlerter = async (config) => {
     let status = await nodeInfo('node-status', config)
 
     if (status && status.data && status.data.daemonStatus) {
-        const {syncStatus, blockchainLength, highestBlockLengthReceived, highestUnvalidatedBlockLengthReceived, addrsAndPorts} = status.data.daemonStatus
+        const {syncStatus, blockchainLength, highestBlockLengthReceived, highestUnvalidatedBlockLengthReceived, addrsAndPorts, peers = 0} = status.data.daemonStatus
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
         let OK_SYNCED = true, OK_PREV = true
@@ -93,6 +93,17 @@ export const processAlerter = async (config) => {
             const DIFF_UNVALIDATED = uHeight - nHeight
             let message
 
+            if (+peers <= 0) {
+                message = `No peers! ${sign}`
+                if (telegramToken && alertToTelegram.includes("PEERS")) {
+                    await telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+                }
+
+                if (discordWebHook && alertToDiscord.includes("PEERS")) {
+                    await discord(discordWebHook, message)
+                }
+            }
+
             if (DIFF_MAX >= blockDiff) {
                 message = `Difference block height detected!\nHeight ${DIFF_MAX > 0 ? 'less' : 'more'} than max block length!\nDifference: ${Math.abs(DIFF_MAX)}\nNode: ${nHeight}\nMax: ${mHeight} ${sign}`
 
@@ -113,7 +124,7 @@ export const processAlerter = async (config) => {
                 }
             }
 
-            if (DIFF_UNVALIDATED >= blockDiff) {
+            if (uHeight && DIFF_UNVALIDATED >= blockDiff) {
                 message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
 
                 if (telegramToken && alertToTelegram.includes("FORK")) {
@@ -153,7 +164,7 @@ export const processAlerter = async (config) => {
                 }
             }
 
-            if (uHeight && globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
+            if (globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
                 if (nHeight - globalThis.currentControlHeight === 0) {
                     OK_PREV = false
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`

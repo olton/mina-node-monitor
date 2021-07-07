@@ -10,6 +10,25 @@ let START_NODE_MON = datetime()
 let START_NODE_POINTS = 200
 let peersChart
 
+const processHealth = async () => {
+    let health = await getInfo('health')
+    const el = $("#status-group")
+    const elHealth = $("#node-health")
+
+    el.removeClass("border bd-red")
+    if (!health || health.length) {
+        el.addClass("border bd-red")
+    }
+
+    console.log(health)
+    if (health && health.length) {
+        elHealth.html($("<span>").addClass("fg-red").html(health.join(" ")))
+    }
+    if (health && health.length === 0) {
+        elHealth.html($("<span>").addClass("fg-green").html("OK"))
+    }
+}
+
 const processBalance = async () => {
     const {currency = 'usd'} = globalThis.config.price
 
@@ -271,6 +290,7 @@ export const processNodeStatus = async () => {
 
         setTimeout(() => processExplorerSummary(), 0)
         setTimeout(() => processBalance(), 0)
+        setTimeout(() => processHealth(), 0)
     } else {
         reload = 5000
     }

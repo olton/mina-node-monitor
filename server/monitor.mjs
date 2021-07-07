@@ -7,7 +7,7 @@ import http from "http"
 import https from "https"
 import url from "url"
 import {sysInfo} from "./system.mjs"
-import {nodeInfo} from "./node.mjs"
+import {nodeInfo, processCollectNodeInfo} from "./node.mjs"
 import {getBlocks, getExplorerSummary} from "./explorer.mjs"
 import {processAlerter} from "./alerter.mjs"
 import {processBalanceSend} from "./balance-sender.mjs"
@@ -34,6 +34,14 @@ globalThis.currentBalance = 0
 globalThis.currentHeight = 0
 globalThis.currentControlHeight = 0
 globalThis.controlCounter = 0
+globalThis.nodeInfo = {
+    nodeStatus: null,
+    balance: null,
+    blockchain: null,
+    consensus: null,
+    blockSpeed: null,
+    health: []
+}
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
 
@@ -50,13 +58,16 @@ const requestListener = async (req, res) => {
         case '/cpu': response = await sysInfo('cpu'); break;
         case '/cpu-load': response = await sysInfo('cpu-load'); break;
         case '/cpu-temp': response = await sysInfo('cpu-temp'); break;
+        case '/time': response = await sysInfo('time'); break;
 
-        case '/consensus': response = await nodeInfo('consensus', config); break;
-        case '/blockchain': response = await nodeInfo('blockchain', config); break;
-        case '/node-status': response = await nodeInfo('node-status', config); break;
-        case '/balance': response = await nodeInfo('balance', config); break;
+        case '/consensus': response = globalThis.nodeInfo.consensus; break;
+        case '/blockchain': response = globalThis.nodeInfo.blockchain; break;
+        case '/node-status': response = globalThis.nodeInfo.nodeStatus; break;
+        case '/balance': response = globalThis.nodeInfo.balance; break;
+        case '/block-speed': response = globalThis.nodeInfo.blockSpeed; break;
+        case '/health': response = globalThis.nodeInfo.health; break;
+
         case '/delegations': response = await getLedgerInfo("delegations", config); break;
-        case '/block-speed': response = await nodeInfo('block-speed', config); break;
         case '/blocks': response = await getBlocks({
             creator: config.publicKeyDelegators,
             epoch: _url.searchParams.get('epoch') ?? 0,
@@ -65,7 +76,6 @@ const requestListener = async (req, res) => {
         }); break;
         case '/explorer': response = await getExplorerSummary(); break;
         case '/uptime': response = await getUptime(config.publicKeyDelegators); break;
-        case '/time': response = await sysInfo('time'); break;
         case '/price': response = await getPriceInfo(_url.searchParams.get('currency') ?? 'usd'); break;
 
         /* */
@@ -98,3 +108,4 @@ setTimeout( () => processHello(config), 0)
 setTimeout( () => processAlerter(config), 0)
 setTimeout( () => processBalanceSend(config), 0)
 setTimeout( () => processPriceSend(config), 0)
+setTimeout( () => processCollectNodeInfo(config), 0)
