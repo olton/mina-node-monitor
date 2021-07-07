@@ -1,45 +1,23 @@
-import fetch from "node-fetch"
-import {nodeInfo} from "./node.mjs"
-import {TELEGRAM_BOT_URL} from "./telegram.mjs"
-import {parseTelegramChatIDs} from "./helpers.mjs";
-import {discord} from "./discord.mjs";
+import {sendAlert} from "./helpers.mjs";
 
-export const processBalanceSend = async (config) => {
-    const {alertToTelegram, alertToDiscord, discordWebHook, balanceSendInterval, telegramChatID, telegramToken, publicKey} = config
-    const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
+export const processBalanceSend = async () => {
+    if (!globalThis.config || !globalThis.config.publicKey) return
 
-    if (!config || !telegramToken || !telegramChatID || !balanceSendInterval || !publicKey) return
+    const {balanceSendInterval} = globalThis.config
 
-    let status = await nodeInfo('balance', config)
+    let status = globalThis.nodeInfo.balance
 
     if (status && status.data && status.data.account && status.data.account.balance) {
-        const {total, liquid, locked, unknown, blockHeight} = status.data.account.balance
-        const message =`Current balance info: 
-Total: ${(total / 10**9).toFixed(4)}
-Liquid: ${(liquid / 10**9).toFixed(4)}
-Locked: ${(locked / 10**9).toFixed(4)}`
-        const ids = parseTelegramChatIDs(telegramChatID)
-        let target
+        const {total, liquid, locked} = status.data.account.balance
+        const message =`Current balance info:\nTotal: ${(total / 10**9).toFixed(4)}\nLiquid: ${(liquid / 10**9).toFixed(4)}\nLocked: ${(locked / 10**9).toFixed(4)}`
 
         if (globalThis.currentBalance === total) {
             return
         }
-
         globalThis.currentBalance = total
-
-        if (telegramToken && alertToTelegram.includes("BALANCE")) {
-            for (const id of ids) {
-                target = TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)
-                await fetch(target)
-            }
-        }
-
-        if (discordWebHook && alertToDiscord.includes("BALANCE")) {
-            await discord(discordWebHook, message)
-        }
-
+        sendAlert("BALANCE", message)
     }
 
-    setTimeout(() => processBalanceSend(config), balanceSendInterval)
+    setTimeout(() => processBalanceSend(), balanceSendInterval)
 }
 

@@ -5,6 +5,8 @@
 + [x] Server: added config property `config.blockSpeedDistance` with default value `10` to calculate blockchain speed
 + [x] Server: information about mina now return from stored object
 + [x] Server: added request for node health, request return empty array if `OK` or filled array with critical states
++ [x] Server: value `FORWARD-FORK` for `config.alertTo*` is deprecated, use `FORK`
++ [x] Server: alerter now use stored node info
 
 + [x] Client: added reaction for node health request
 + [x] Client: Node health now is displaying in sync status block

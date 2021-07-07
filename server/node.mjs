@@ -1,4 +1,5 @@
 import fetch from "node-fetch"
+import {processAlerter} from "./alerter.mjs";
 
 const queryNodeStatus = `
 query MyQuery {
@@ -160,8 +161,14 @@ async function getBlockSpeed(graphql, length){
     return speed
 }
 
-export const processCollectNodeInfo = async (config) => {
-    const {graphql, publicKey, blockSpeedDistance = 10, nodeInfoCollectInterval = 30000, blockDiff = 2} = config
+export const processCollectNodeInfo = async () => {
+    const {
+        graphql,
+        publicKey,
+        blockSpeedDistance = 10,
+        nodeInfoCollectInterval = 30000,
+        blockDiff = 2
+    } = globalThis.config
 
     let nodeStatus = await fetchGraphQL(graphql, queryNodeStatus)
     let balance = publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
@@ -184,55 +191,34 @@ export const processCollectNodeInfo = async (config) => {
                 health.push("NO PEERS")
             }
 
-            if (maxHeight && blockHeight < maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
-                health.push("FORK-MAX")
-            }
+            if (blockHeight) {
+                if (maxHeight && blockHeight < maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
+                    health.push("FORK-MAX")
+                }
 
-            if (maxHeight && blockHeight > maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
-                health.push("FORWARD-FORK-MAX")
-            }
+                if (maxHeight && blockHeight > maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
+                    health.push("FORWARD-FORK-MAX")
+                }
 
-            if (unvHeight && blockHeight < unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
-                health.push("FORK")
-            }
+                if (unvHeight && blockHeight < unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
+                    health.push("FORK")
+                }
 
-            if (unvHeight && blockHeight > unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
-                health.push("FORWARD-FORK")
+                if (unvHeight && blockHeight > unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
+                    health.push("FORWARD-FORK")
+                }
             }
         }
     } else {
         health.push("UNKNOWN")
     }
 
-    globalThis.nodeInfo = {
-        nodeStatus,
-        balance,
-        blockchain,
-        consensus,
-        blockSpeed,
-        health
-    }
+    globalThis.nodeInfo.nodeStatus = nodeStatus
+    globalThis.nodeInfo.balance = balance
+    globalThis.nodeInfo.blockchain = blockchain
+    globalThis.nodeInfo.consensus = consensus
+    globalThis.nodeInfo.blockSpeed = blockSpeed
+    globalThis.nodeInfo.health = health
 
-    setTimeout(() => processCollectNodeInfo(config), nodeInfoCollectInterval)
-}
-
-export const nodeInfo = async (obj, config) => {
-    const {graphql, publicKey, blockSpeedDistance = 10} = config
-
-    try {
-        switch (obj) {
-            case 'node-status':
-                return await fetchGraphQL(graphql, queryNodeStatus)
-            case 'balance':
-                return publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
-            case 'blockchain':
-                return await fetchGraphQL(graphql, queryBlockChain)
-            case 'consensus':
-                return await fetchGraphQL(graphql, queryConsensus)
-            case 'block-speed':
-                return await getBlockSpeed(graphql, blockSpeedDistance)
-        }
-    } catch (e) {
-        return null
-    }
+    setTimeout(() => processCollectNodeInfo(), nodeInfoCollectInterval)
 }

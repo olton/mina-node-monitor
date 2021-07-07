@@ -10,7 +10,11 @@
         "build_site_x": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
         "build": "rd /s /q dist & mkdir dist & npm run build_site",
         "build_x": "rm -rf dist && mkdir dist && npm run build_site_x",
-        "start": "npm run serve"
+        "start": "npm run serve",
+        "client": "npm run serve",
+        "client_x": "npm run serve_x",
+        "server": "node server\\monitor.mjs",
+        "server_x": "node server/monitor.mjs"
     },
     "devDependencies": {
         "less": "^4.1.1",

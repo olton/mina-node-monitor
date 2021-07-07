@@ -1,13 +1,34 @@
 {
     "publicKey": "B62qr...",
-    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-    "telegramChatID": "XXXXXXXXX,XXXXXXXXX",
-    "balanceSendInterval": 86400000,
-    "alertInterval": 60000,
+    "publicKeyDelegators": "B62qr...",
+    "telegramToken": "",
+    "telegramChatID": "",
+    "telegramChatIDAlert": "",
+    "discordWebHook": "",
+    "balanceSendInterval": 300000,
+    "alertInterval": 180000,
     "blockDiff": 2,
+    "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfter": 30,
+    "restartAfterPrev": 4,
+    "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "123.123.123.123:8000",
-    "graphql": "localhost:3085"
+    "host": "you_ip_address:port",
+    "graphql": "localhost:3085",
+    "https": {
+        "key": "",
+        "cert": ""
+    },
+    "observeExplorer": true,
+    "restartStateException": ["BOOTSTRAP"],
+    "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
+    "alertToTelegram": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
+    "alertToDiscord": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
+    "price": {
+        "currency": "usd",
+        "interval": 3600000,
+        "targets": ["TELEGRAM", "DISCORD"]
+    },
+    "blockSpeedDistance": 10,
+    "nodeInfoCollectInterval": 30000
 }

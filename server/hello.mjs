@@ -1,16 +1,9 @@
-import {telegram} from "./telegram.mjs"
 import {hostname} from "os"
-import {discord} from "./discord.mjs";
+import {sendAlert} from "./helpers.mjs"
 
-export const processHello = async (config) => {
-    const {discordWebHook, telegramToken, telegramChatID, host} = config
+export const processHello = async () => {
+    const {host} = globalThis.config
     const message = `Node says hello from ${hostname()} (${host.split(":")[0]})`
 
-    if (telegramToken) {
-        await telegram(message, {token: telegramToken, recipients: telegramChatID})
-    }
-
-    if (discordWebHook) {
-        await discord(discordWebHook, message)
-    }
+    sendAlert("HELLO", message)
 }

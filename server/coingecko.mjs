@@ -14,3 +14,13 @@ export const getPriceInfo = async (currency = 'usd') => {
         return null
     }
 }
+
+export const processPriceInfo = async () => {
+    const {currency, updateInterval} = globalThis.config.price
+    let data = await getPriceInfo(currency)
+    if (data) {
+        data[0].currency = currency
+        globalThis.priceInfo = data
+    }
+    setTimeout(() => processPriceInfo(), updateInterval)
+}

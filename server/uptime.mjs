@@ -6,3 +6,10 @@ export const getUptime = async (key) => {
     const data = await fetch(link)
     return data.ok ? data.json() : null
 }
+
+export const processNodeUptime = async () => {
+    const {publicKeyDelegators} = globalThis.config
+    const uptime = await getUptime(publicKeyDelegators)
+    if (uptime) globalThis.nodeInfo.uptime = uptime
+    setTimeout(() => processNodeUptime(), 180000)
+}

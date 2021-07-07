@@ -155,11 +155,12 @@ Parameter `blocks` - determines the order and display of blocks
     },
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MAX", "FORK", "FORWARD-FORK", "HANG"],
-    "alertToTelegram": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"],
-    "alertToDiscord": ["NOT-SYNCED", "MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE"],
+    "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
+    "alertToTelegram": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
+    "alertToDiscord": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
     "price": {
         "currency": "usd",
+        "updateInterval": 60000,
         "interval": 3600000,
         "targets": ["TELEGRAM", "DISCORD"]
     },

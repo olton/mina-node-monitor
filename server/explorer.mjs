@@ -68,3 +68,36 @@ export const getExplorerSummary = async () => {
     const response = await fetch(`${EXPLORER_API}/summary`)
     return response.ok ? await response.json() : null
 }
+
+export const processExplorer = async () => {
+    let data = await getExplorerSummary()
+    if (data) globalThis.explorerInfo.summary = data
+    setTimeout(() => processExplorer(), 180000)
+}
+
+export const processWinningBlocks = async () => {
+    let blockchain = globalThis.nodeInfo.blockchain
+    let creator = globalThis.config.publicKeyDelegators
+    let reload
+
+    if (blockchain && blockchain.data && blockchain.data.bestChain && blockchain.data.bestChain.length) {
+        const {
+            blockHeight,
+            epoch
+        } = blockchain.data.bestChain[0].protocolState.consensusState
+
+        let blocks = await getBlocks({
+            creator,
+            epoch,
+            blockHeightMin: 0,
+            blockHeightMax: blockHeight
+        })
+
+        globalThis.nodeInfo.winningBlocks = blocks
+        reload = 180000
+    } else {
+        reload = 5000
+    }
+
+    setTimeout(() => processWinningBlocks(), reload)
+}

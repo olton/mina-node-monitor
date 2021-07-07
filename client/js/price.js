@@ -17,7 +17,8 @@ export const processPrice = async () => {
 
     elPriceArrow.html("")
 
-    const data = await getInfo(`price?currency=${currency}`)
+    const link = currency === "auto" ? "price" : "price-for?currency="+currency
+    const data = await getInfo(link)
 
     if (data) {
         const mina = data[0]
@@ -30,7 +31,7 @@ export const processPrice = async () => {
         const symbol = priceDelta == 0.00 ? `` : `<span class="ani-vertical mif-${sign < 0 ? 'arrow-down fg-red' : 'arrow-up fg-green'}"></span>`
 
         elCurrentPrice.html(`${price}`)
-        elCurrency.html(currency.toUpperCase())
+        elCurrency.html(currency === "auto" ? mina.currency.toUpperCase() : currency.toUpperCase())
         elPriceChange.html(`${priceChange}%`)
         elPriceHigh.html(mina.ath)
         elPriceLow.html(mina.atl)
