@@ -4,6 +4,7 @@ export const processBalanceSend = async () => {
     if (!globalThis.config || !globalThis.config.publicKey) return
 
     const {balanceSendInterval} = globalThis.config
+    let reload
 
     let status = globalThis.nodeInfo.balance
 
@@ -16,8 +17,11 @@ export const processBalanceSend = async () => {
         }
         globalThis.currentBalance = total
         sendAlert("BALANCE", message)
+        reload = balanceSendInterval
+    } else {
+        reload = 5000
     }
 
-    setTimeout(() => processBalanceSend(), balanceSendInterval)
+    setTimeout(() => processBalanceSend(), reload)
 }
 

@@ -13,8 +13,8 @@
         "start": "npm run serve",
         "client": "npm run serve",
         "client_x": "npm run serve_x",
-        "server": "node server\\monitor.mjs",
-        "server_x": "node server/monitor.mjs"
+        "server": "node --trace-warnings server\\monitor.mjs",
+        "server_x": "node --trace-warnings server/monitor.mjs"
     },
     "devDependencies": {
         "less": "^4.1.1",

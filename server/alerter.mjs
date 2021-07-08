@@ -8,7 +8,6 @@ export const processAlerter = async () => {
     const {
         blockDiff = 2,
         blockDiffToRestart = 4,
-        restartAfterPrev,
         restartAfterNotSynced,
         canRestartNode,
         restartCmd,
@@ -16,8 +15,9 @@ export const processAlerter = async () => {
         observeExplorer,
         restartStateException = [],
         restartStateSyncedRules = [],
+        hangInterval = 1800000
     } = globalThis.config
-
+    let reload
     const host = hostname()
 
     let status = globalThis.nodeInfo.nodeStatus
@@ -112,41 +112,36 @@ export const processAlerter = async () => {
                 }
             }
 
-            if (globalThis.controlCounter % 2 === 0 && globalThis.currentControlHeight !== 0) {
-                if (nHeight - globalThis.currentControlHeight === 0) {
-                    OK_PREV = false
-                    message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
+            console.log("Control values: ", nHeight, globalThis.currentControlHeight)
 
+            if (globalThis.currentControlHeight !== nHeight) {
+                globalThis.hangTimer = 0
+                globalThis.currentControlHeight = nHeight
+            }
+
+            console.log("Time to HANG check: ", globalThis.hangTimer >= hangInterval, globalThis.hangTimer, hangInterval)
+
+            if (globalThis.hangTimer >= hangInterval) {
+                const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
+
+                console.log("Check hanging!", DIFF_HANG, nHeight, globalThis.currentControlHeight)
+
+                if (globalThis.currentControlHeight && DIFF_HANG) {
+                    message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     sendAlert("HANG", message)
 
-                    if (restartStateSyncedRules.includes("PREV") || restartStateSyncedRules.includes("HANG")) {
-                        if (globalThis.restartTimerPrev >= restartAfterPrev) {
-                            globalThis.restartTimerPrev = 0
-                            if (canRestartNode && restartCmd) {
-                                restart('Long time equal to previous length!')
-                            }
-                        } else {
-                            globalThis.restartTimerPrev++
-                        }
+                    if (restartStateSyncedRules.includes("HANG") && (canRestartNode && restartCmd)) {
+                        restart('Hanging node!')
                     }
-                } else {
-                    globalThis.currentControlHeight = globalThis.currentHeight
                 }
+
+                globalThis.hangTimer = 0
+                globalThis.currentControlHeight = nHeight
             }
 
-            globalThis.currentHeight = +blockchainLength
-            if (globalThis.currentControlHeight === 0) {
-                globalThis.currentControlHeight = globalThis.currentHeight
-            }
+            globalThis.hangTimer += alertInterval
         }
 
-        if (globalThis.controlCounter === Number.MAX_SAFE_INTEGER) {
-            globalThis.controlCounter = 1
-        } else {
-            globalThis.controlCounter++
-        }
-
-        if (OK_PREV) globalThis.restartTimerPrev = 0
         if (OK_SYNCED) globalThis.restartTimerNotSynced = 0
 
         if (SYNCED && globalThis.currentHeight > 0 && observeExplorer) {
@@ -161,7 +156,11 @@ export const processAlerter = async () => {
                 }
             }
         }
+
+        reload = alertInterval
+    } else {
+        reload = 5000
     }
 
-    setTimeout(() => processAlerter(), alertInterval)
+    setTimeout(() => processAlerter(), reload)
 }

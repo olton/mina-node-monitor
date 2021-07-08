@@ -21,12 +21,15 @@ export const processPriceSend = async () => {
 
         if (telegramToken && targets.includes("TELEGRAM")) {
             for (const id of ids) {
-                await fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message))
+                fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)).catch((e)=>{
+                    console.log("Error! Can't send message to telegram")
+                    console.log(e.message)
+                })
             }
         }
 
         if (discordWebHook && targets.includes("DISCORD")) {
-            await discord(discordWebHook, message)
+            discord(discordWebHook, message)
         }
     }
 
