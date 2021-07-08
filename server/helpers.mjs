@@ -1,5 +1,7 @@
-import {telegram} from "./telegram.mjs";
-import {discord} from "./discord.mjs";
+import {telegram} from "./telegram.mjs"
+import {discord} from "./discord.mjs"
+import {exec} from "child_process"
+import {hostname} from "os"
 
 export const parseTelegramChatIDs = s => s ? s.split(",").map( v => v.trim() ) : ""
 
@@ -24,4 +26,26 @@ export const sendAlert = (check, message) => {
     if (discordWebHook && alertToDiscord.includes(check)) {
         discord(discordWebHook, message)
     }
+}
+
+export const restart = (reason, target = hostname()) => {
+    const {restartCmd} = globalThis.config
+
+    if (!restartCmd) return
+
+    exec(restartCmd, async (error, stdout, stderr) => {
+        let message, result
+
+        if (error) {
+            result = error.message
+        } else
+        if (stderr) {
+            result = stderr
+        } else {
+            result = 'OK'
+        }
+
+        message = `Restart command executed for ${target}.\nWith result ${result}\nReason: ${reason}`
+        sendAlert("RESTART", message)
+    })
 }

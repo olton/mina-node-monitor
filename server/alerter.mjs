@@ -1,9 +1,6 @@
-import {telegram} from "./telegram.mjs"
-import {exec} from "child_process"
 import {hostname} from "os"
 import {getExplorerSummary} from "./explorer.mjs";
-import {discord} from "./discord.mjs";
-import {sendAlert} from "./helpers.mjs";
+import {sendAlert, restart} from "./helpers.mjs";
 
 export const processAlerter = async () => {
     if (!globalThis.config) return
@@ -31,24 +28,6 @@ export const processAlerter = async () => {
         const SYNCED = syncStatus === 'SYNCED'
         let OK_SYNCED = true, OK_PREV = true
         const sign = `\nHost: ${host}\nIP: ${ip}`
-
-        const restart = (reason) => {
-            exec(restartCmd, async (error, stdout, stderr) => {
-                let message, result
-
-                if (error) {
-                    result = error.message
-                } else
-                if (stderr) {
-                    result = stderr
-                } else {
-                    result = 'OK'
-                }
-
-                message = `Restart command executed for ${sign}.\nWith result ${result}\nReason: ${reason}`
-                sendAlert("RESTART", message)
-            })
-        }
 
         if (!SYNCED) {
             const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`

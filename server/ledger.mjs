@@ -2,7 +2,6 @@ import fetch from "node-fetch";
 
 const delegations = async (key) => {
     const link = `https://minastake.com/ledger/delegations.php?publicKey=${key}`
-    console.log(link)
     const data = await fetch(link)
     return data.ok ? data.json() : null
 }
