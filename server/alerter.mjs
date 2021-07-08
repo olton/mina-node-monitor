@@ -112,19 +112,13 @@ export const processAlerter = async () => {
                 }
             }
 
-            console.log("Control values: ", nHeight, globalThis.currentControlHeight)
-
             if (globalThis.currentControlHeight !== nHeight) {
                 globalThis.hangTimer = 0
                 globalThis.currentControlHeight = nHeight
             }
 
-            console.log("Time to HANG check: ", globalThis.hangTimer >= hangInterval, globalThis.hangTimer, hangInterval)
-
             if (globalThis.hangTimer >= hangInterval) {
                 const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
-
-                console.log("Check hanging!", DIFF_HANG, nHeight, globalThis.currentControlHeight)
 
                 if (globalThis.currentControlHeight && DIFF_HANG) {
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
