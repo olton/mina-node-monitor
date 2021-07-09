@@ -193,11 +193,11 @@ export const processCollectNodeInfo = async () => {
 
             if (blockHeight) {
                 if (maxHeight && blockHeight < maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
-                    health.push("FORK-MAX")
+                    health.push("MAX")
                 }
 
                 if (maxHeight && blockHeight > maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
-                    health.push("FORWARD-FORK-MAX")
+                    health.push("FORWARD-MAX")
                 }
 
                 if (unvHeight && blockHeight < unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
@@ -208,6 +208,8 @@ export const processCollectNodeInfo = async () => {
                     health.push("FORWARD-FORK")
                 }
             }
+        } else {
+            health.push("NON-SYNCED")
         }
     } else {
         health.push("UNKNOWN")
