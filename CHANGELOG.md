@@ -1,12 +1,13 @@
 ### 1.1.1
-+ [x] Server: improved alerts for `FORK`, `FORWARD-FORK`
++ [x] Server: improved alerts for `FORKs`
 + [x] Server: added alert for `NO PEERS` state
 + [x] Server: node info now stored into local object every time interval defined in `consfig.nodeInfoCollectInterval`
 + [x] Server: added config property `config.blockSpeedDistance` with default value `10` to calculate blockchain speed
 + [x] Server: information about mina now return from stored object
 + [x] Server: added request for node health, request return empty array if `OK` or filled array with critical states
-+ [x] Server: value `FORWARD-FORK` for `config.alertTo*` is deprecated, use `FORK`
 + [x] Server: alerter now use stored node info
++ [x] Server: added config property `hangInterval`
++ [x] Server: config option `restartAfterPrev` is deprecated, use `hangInterval`
 
 + [x] Client: added reaction for node health request
 + [x] Client: Node health now is displaying in sync status block

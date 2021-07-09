@@ -138,7 +138,6 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "blockDiff": 2,
     "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfterPrev": 4,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "you_ip_address:port",
@@ -159,7 +158,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
         "targets": ["TELEGRAM", "DISCORD"]
     },
     "blockSpeedDistance": 10,
-    "nodeInfoCollectInterval": 30000
+    "nodeInfoCollectInterval": 30000,
+    "hangInterval": 1800000
 }
 ```
 

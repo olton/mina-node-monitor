@@ -131,7 +131,6 @@ Parameter `blocks` - determines the order and display of blocks
 #### Конфигурационный файл для сервера 
 Создайте в папке `server` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.
 ```json
-```json
 {
     "publicKey": "B62qr...",
     "publicKeyDelegators": "B62qr...",
@@ -144,7 +143,6 @@ Parameter `blocks` - determines the order and display of blocks
     "blockDiff": 2,
     "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfterPrev": 4,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
     "host": "you_ip_address:port",
@@ -165,7 +163,8 @@ Parameter `blocks` - determines the order and display of blocks
         "targets": ["TELEGRAM", "DISCORD"]
     },
     "blockSpeedDistance": 10,
-    "nodeInfoCollectInterval": 30000
+    "nodeInfoCollectInterval": 30000,
+    "hangInterval": 1800000
 }
 ```
 
