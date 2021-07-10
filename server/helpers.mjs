@@ -49,3 +49,11 @@ export const restart = (reason, target = hostname()) => {
         sendAlert("RESTART", message)
     })
 }
+
+export const deleteFromArray = (arr, val) => {
+    const i = arr.indexOf(val)
+    if (i > -1) {
+        arr.splice(i, 1)
+    }
+    return arr
+}

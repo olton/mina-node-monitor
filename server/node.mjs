@@ -177,6 +177,10 @@ export const processCollectNodeInfo = async () => {
     let blockSpeed = await getBlockSpeed(graphql, blockSpeedDistance)
     let health = []
 
+    if (globalThis.nodeInfo.health.includes("HANG")) {
+        health.push("HANG")
+    }
+
     if (nodeStatus && nodeStatus.data && nodeStatus.data.daemonStatus) {
         const {
             syncStatus,
@@ -191,21 +195,16 @@ export const processCollectNodeInfo = async () => {
                 health.push("NO PEERS")
             }
 
+            if (peers === 0) {
+                health.push("NO-PEERS")
+            }
+
             if (blockHeight) {
-                if (maxHeight && blockHeight < maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
-                    health.push("MAX")
-                }
-
-                if (maxHeight && blockHeight > maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) {
-                    health.push("FORWARD-MAX")
-                }
-
-                if (unvHeight && blockHeight < unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
+                if (
+                    (maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) ||
+                    (unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff)
+                ) {
                     health.push("FORK")
-                }
-
-                if (unvHeight && blockHeight > unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff) {
-                    health.push("FORWARD-FORK")
                 }
             }
         } else {

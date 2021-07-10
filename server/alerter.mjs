@@ -1,6 +1,6 @@
 import {hostname} from "os"
 import {getExplorerSummary} from "./explorer.mjs";
-import {sendAlert, restart} from "./helpers.mjs";
+import {sendAlert, restart, deleteFromArray} from "./helpers.mjs";
 
 export const processAlerter = async () => {
     if (!globalThis.config) return
@@ -27,7 +27,7 @@ export const processAlerter = async () => {
         const {syncStatus, blockchainLength, highestBlockLengthReceived, highestUnvalidatedBlockLengthReceived, addrsAndPorts, peers = 0} = status.data.daemonStatus
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
-        let OK_SYNCED = true, OK_PREV = true
+        let OK_SYNCED = true
         const sign = `\nHost: ${host}\nIP: ${ip}`
 
         if (!SYNCED) {
@@ -116,12 +116,16 @@ export const processAlerter = async () => {
             if (globalThis.currentControlHeight !== nHeight) {
                 globalThis.hangTimer = 0
                 globalThis.currentControlHeight = nHeight
+                deleteFromArray(globalThis.nodeInfo.health, "HANG")
             }
 
             if (globalThis.hangTimer >= hangIntervalAlert) {
                 const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
 
                 if (globalThis.currentControlHeight && DIFF_HANG) {
+                    if (!globalThis.nodeInfo.health.includes("HANG")) {
+                        globalThis.nodeInfo.health.push("HANG")
+                    }
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     sendAlert("HANG", message)
                 }
@@ -138,6 +142,7 @@ export const processAlerter = async () => {
 
                 globalThis.hangTimer = 0
                 globalThis.currentControlHeight = nHeight
+                deleteFromArray(globalThis.nodeInfo.health, "HANG")
             }
 
             globalThis.hangTimer += alertInterval
