@@ -7,11 +7,27 @@
 This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
 ## Key Features
-1. Track the status of a node in real time
-2. Shows 12 parameters: status, uptime, balance, ...
-3. Shows the load on memory, processor, network
-4. Monitors the state of the node and, if the node is out of sync with the main network and / or has switched in a status other than SYNCED, sends notifications to Telegram
-5. Restart node when de-sync discovered. Two types: de-sync, long time not synced with the same block height.
+
+**Monitor Client:**
+- [x] Display of the main indicators of the Mina network (Block height, uptime, epoch and slot info)
+- [x] Displaying the status of the node daemon (SYNCED, CATCHUP, BOOTSTRAP, ...)
+- [x] Displaying the health of node (OK, Fork, Hanging)
+- [x] Displaying the server resources consumed by the node (CPU, RAM, NETWORK)
+- [x] Displaying the balance of the specified address and the value of this balance in different currencies
+- [x] Displaying information about delegations to the specified validator address
+- [x] Displaying information about blocks won and rewards received in the current era
+- [x] Displays general information about the site server
+- [x] Convenient live graphs for displaying consumed resources
+- [x] Responsive interface (It is comfortable to look at both PC and phone and tablet)
+
+**Monitor Server Side:**
+- [x] Monitoring node health
+- [x] Identification of critical node states (fork, forward fork, node freeze, lag/lead Mina Explorer)
+- [x] Determining the Synchronization State of a Node
+- [x] Automatic reboot of the node in case of critical state detection
+- [x] Sending messages about the critical state of the node in Telegram and/or Discord
+- [x] Sending the current balance of the specified address to Telegram and/or Discord
+- [x] Sending Mina's cost to Telegram and/or Discord
 
 #### Monitor built with a stack:
 - server - NodeJS, JavaScript

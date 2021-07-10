@@ -7,11 +7,27 @@
 Монитор представляет собой `клиент-серверное` приложение для визуального представления текущего состояния узла и сигнализации об ошибках в его работе.
 
 ## Основные возможности
-1. Отслеживание состояния узла в реальном времени
-2. Показ 12+ параметров: статус, время работы, баланс и т.д. ...
-3. Отображение текущей загрузки сети, процессора, памяти с использованием графиков
-4. Мониторинг `здоровья` узла, если узел рассинхронизирован с основной сетью и/или находится в состоянии, отличном от SYNCED, монитор отправляет об этом сообщение вам в телеграм
-5. Перезапуск узла, если такое действие разрешено
+
+**Monitor Client:**
+- [x] Display of the main indicators of the Mina network (Block height, uptime, epoch and slot info)
+- [x] Displaying the status of the node daemon (SYNCED, CATCHUP, BOOTSTRAP, ...)
+- [x] Displaying the health of node (OK, Fork, Hanging)
+- [x] Displaying the server resources consumed by the node (CPU, RAM, NETWORK)
+- [x] Displaying the balance of the specified address and the value of this balance in different currencies
+- [x] Displaying information about delegations to the specified validator address
+- [x] Displaying information about blocks won and rewards received in the current era
+- [x] Displays general information about the site server
+- [x] Convenient live graphs for displaying consumed resources
+- [x] Responsive interface (It is comfortable to look at both PC and phone and tablet)
+
+**Monitor Server Side:**
+- [x] Monitoring node health
+- [x] Identification of critical node states (fork, forward fork, node freeze, lag/lead Mina Explorer)
+- [x] Determining the Synchronization State of a Node
+- [x] Automatic reboot of the node in case of critical state detection
+- [x] Sending messages about the critical state of the node in Telegram and/or Discord
+- [x] Sending the current balance of the specified address to Telegram and/or Discord
+- [x] Sending Mina's cost to Telegram and/or Discord
 
 #### Программный стек:
 - сервер - JavaScript
