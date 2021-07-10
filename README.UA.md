@@ -167,7 +167,8 @@ Parameter `blocks` - determines the order and display of blocks
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": 30000,
-    "hangInterval": 1800000
+    "hangInterval": 1800000,
+    "hangIntervalAlert": 900000
 }
 ```
 
@@ -197,6 +198,8 @@ where
 - `price` - send price info to telegram/discord
 - `blockSpeedDistance` - distance for block speed calculation
 - `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec)
+- `hangIntervalAlert` - time to alert when node hanging
+- `hangInterval` - time to restart when node hanging
 
 ### Збірка клієнтського додатка
 

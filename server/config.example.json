@@ -30,5 +30,6 @@
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": 30000,
-    "hangInterval": 1800000
+    "hangInterval": 1800000,
+    "hangIntervalAlert": 900000
 }

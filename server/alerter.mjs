@@ -15,7 +15,8 @@ export const processAlerter = async () => {
         observeExplorer,
         restartStateException = [],
         restartStateSyncedRules = [],
-        hangInterval = 1800000
+        hangInterval = 1800000,
+        hangIntervalAlert = 900000
     } = globalThis.config
     let reload
     const host = hostname()
@@ -117,13 +118,19 @@ export const processAlerter = async () => {
                 globalThis.currentControlHeight = nHeight
             }
 
-            if (globalThis.hangTimer >= hangInterval) {
+            if (globalThis.hangTimer >= hangIntervalAlert) {
                 const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
 
                 if (globalThis.currentControlHeight && DIFF_HANG) {
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     sendAlert("HANG", message)
+                }
+            }
 
+            if (globalThis.hangTimer >= hangInterval) {
+                const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
+
+                if (globalThis.currentControlHeight && DIFF_HANG) {
                     if (restartStateSyncedRules.includes("HANG") && (canRestartNode && restartCmd)) {
                         restart('Hanging node!')
                     }

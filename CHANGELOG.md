@@ -6,7 +6,7 @@
 + [x] Server: information about mina now return from stored object
 + [x] Server: added request for node health, request return empty array if `OK` or filled array with critical states
 + [x] Server: alerter now use stored node info
-+ [x] Server: added config property `hangInterval`
++ [x] Server: added config properties `hangInterval`, `hangIntervalAlert`
 + [x] Server: config option `restartAfterPrev` is deprecated, use `hangInterval`
 
 + [x] Client: added reaction for node health request

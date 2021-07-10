@@ -159,7 +159,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": 30000,
-    "hangInterval": 1800000
+    "hangInterval": 1800000,
+    "hangIntervalAlert": 900000
 }
 ```
 
@@ -177,7 +178,6 @@ where
 - `host` - IP and PORT on which the server will run
 - `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `canRestartNode` - if true, server can restart mina node
-- `restartAfterPrev` - integer value, how many times the alert must go off before the mine is restarted, if node synced and height is equal to previous retrieved height, monitor trigger this alert. Check will process every 2 alerts period. In the time this value **~ restartAfterPrev * alertInterval * 2**. 
 - `restartCmd` - command for restart mina node
 - `https` - contains paths to cert and key to create https server
 - `observeExplorer` - observe Explorer block height and alerts if height difference
@@ -189,6 +189,8 @@ where
 - `price` - send price info to telegram/discord
 - `blockSpeedDistance` - distance for block speed calculation
 - `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec) 
+- `hangIntervalAlert` - time to alert when node hanging
+- `hangInterval` - time to restart when node hanging
 
 ### Build web client
 To build client use command: 

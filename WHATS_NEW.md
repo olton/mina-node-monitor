@@ -1,3 +1,9 @@
+### 1.1.1
++ [x] New algorithm to check node hanging
++ [x] New alert for `NO PEERS` state
++ [x] Added `health` object for node to display node health on client
++ [x] Big changes for improving server-side
+
 ### 1.0.5 -> 1.1.0
 + [x] Alert to Discord
 + [x] Define which alerts will send to telegram or discord  
