@@ -221,8 +221,8 @@ where
 
 **Restart if `Critical memmory usage` state detected**
 To check memory state use config props:
-- `memAlert` - value from 0 to 100 (0 - no detect)
-- `memRestart` - value from 0 to 100 (0 - no restart)
+- `memAlert` - percent value from 0 to 100 (0 - no detect)
+- `memRestart` - percent value from 0 to 100 (0 - no restart)
 
 ### Збірка клієнтського додатка
 
