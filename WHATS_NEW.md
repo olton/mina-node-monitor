@@ -3,6 +3,7 @@
 + [x] New alert for `NO PEERS` state
 + [x] Added `health` object for node to display node health on client.
 + [x] Big changes for improving server-side
++ [x] Restart node if `Critical memory usage` is detected
 
 ### 1.0.5 -> 1.1.0
 + [x] Alert to Discord

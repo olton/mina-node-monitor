@@ -176,7 +176,9 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": 30000,
     "hangInterval": 1800000,
-    "hangIntervalAlert": 900000
+    "hangIntervalAlert": 900000,
+    "memAlert": 90,
+    "memRestart": 95
 }
 ```
 
@@ -207,6 +209,11 @@ where
 - `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec) 
 - `hangIntervalAlert` - time to alert when node hanging
 - `hangInterval` - time to restart when node hanging
+
+**Restart if `Critical memmory usage` state detected**
+To check memory state use config props:
+- `memAlert` - value from 0 to 100 (0 - no detect)
+- `memRestart` - value from 0 to 100 (0 - no restart)
 
 ### Build web client
 To build client use command: 

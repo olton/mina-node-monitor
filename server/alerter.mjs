@@ -1,6 +1,7 @@
 import {hostname} from "os"
 import {getExplorerSummary} from "./explorer.mjs";
 import {sendAlert, restart, deleteFromArray} from "./helpers.mjs";
+import {sysInfo} from "./system.mjs";
 
 export const processAlerter = async () => {
     if (!globalThis.config) return
@@ -16,10 +17,22 @@ export const processAlerter = async () => {
         restartStateException = [],
         restartStateSyncedRules = [],
         hangInterval = 1800000,
-        hangIntervalAlert = 900000
+        hangIntervalAlert = 900000,
+        memAlert = 90,
+        memRestart = 0
     } = globalThis.config
     let reload
     const host = hostname()
+    const mem = sysInfo('mem')
+    const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
+
+    if (usedMem >= memAlert) {
+        sendAlert("MEM", `The node uses more than ${usedMem}% of the memory`)
+    }
+
+    if (memRestart !== 0 && usedMem >= memRestart) {
+        restart(`Critical memory usage (${usedMem}%)`)
+    }
 
     let status = globalThis.nodeInfo.nodeStatus
 

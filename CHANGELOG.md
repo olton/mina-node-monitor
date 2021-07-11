@@ -8,6 +8,7 @@
 + [x] Server: alerter now use stored node info
 + [x] Server: added config properties `hangInterval`, `hangIntervalAlert`
 + [x] Server: config option `restartAfterPrev` is deprecated, use `hangInterval`
++ [x] Server: added config options `memAlert`, `memRestart`
 
 + [x] Client: added reaction for node health request
 + [x] Client: Node health now is displaying in sync status block

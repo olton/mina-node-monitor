@@ -181,7 +181,9 @@ Parameter `blocks` - determines the order and display of blocks
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": 30000,
     "hangInterval": 1800000,
-    "hangIntervalAlert": 900000
+    "hangIntervalAlert": 900000,
+    "memAlert": 90,
+    "memRestart": 95
 }
 ```
 
@@ -213,6 +215,11 @@ where
 - `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec)
 - `hangIntervalAlert` - time to alert when node hanging
 - `hangInterval` - time to restart when node hanging
+
+**Restart if `Critical memmory usage` state detected**
+To check memory state use config props:
+- `memAlert` - value from 0 to 100 (0 - no detect)
+- `memRestart` - value from 0 to 100 (0 - no restart)
 
 ### Сборка клиентского приложения
 
