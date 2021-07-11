@@ -16,5 +16,5 @@ export const processBlocks = async () => {
         }
     }
 
-    if (!globalThis.noSlots) setTimeout(() => processBlocks(), blockSpeed ? blockSpeed : 5000)
+    if (!globalThis.noSlots) setTimeout(processBlocks, blockSpeed ? blockSpeed : 5000)
 }

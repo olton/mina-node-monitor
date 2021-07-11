@@ -22,6 +22,6 @@ export const processSystemInfo = async () => {
 
     elLog.html(imgOk)
 
-    setTimeout( () => processSystemInfo(), globalThis.config.intervals.system)
+    setTimeout( processSystemInfo, globalThis.config.intervals.system)
 }
 

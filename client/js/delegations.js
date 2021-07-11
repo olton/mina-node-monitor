@@ -14,5 +14,5 @@ export const processDelegations = async () => {
         $("#delegators-stack-next").text((next.stake).format(2, null, ",", "."))
     }
 
-    setTimeout(()=>processDelegations(), 60000)
+    setTimeout(processDelegations, 60000)
 }

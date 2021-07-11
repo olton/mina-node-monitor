@@ -31,6 +31,6 @@ export const processUptime = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout(()=> processUptime(), globalThis.config.intervals.uptime)
+    setTimeout(processUptime, globalThis.config.intervals.uptime)
 }
 

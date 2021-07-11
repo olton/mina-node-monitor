@@ -126,7 +126,7 @@ export const processCPUData = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout( () => processCPUData(), globalThis.config.intervals.resources )
+    setTimeout( processCPUData, globalThis.config.intervals.resources )
 }
 
 
@@ -159,5 +159,5 @@ export const processCPUTemp = async () => {
         globalThis.cpuCores = temp.cores.length
     }
 
-    setTimeout( () => processCPUTemp(), globalThis.config.intervals.resources )
+    setTimeout(processCPUTemp, globalThis.config.intervals.resources )
 }

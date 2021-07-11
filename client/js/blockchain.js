@@ -24,7 +24,7 @@ export const processBlockchainInfo = async () => {
         $("#slot-since-genesis").text(slotSinceGenesis)
     }
 
-    setTimeout( () => processBlockchainInfo(), globalThis.config.intervals.daemon )
+    setTimeout(processBlockchainInfo, globalThis.config.intervals.daemon )
 }
 
 export const processBlockSpeed = async () => {
@@ -36,5 +36,5 @@ export const processBlockSpeed = async () => {
         globalThis.blockSpeed = blockSpeed
     }
 
-    setTimeout( () => processBlockSpeed(), blockSpeed ? blockSpeed : 180000 )
+    setTimeout(processBlockSpeed, blockSpeed ? blockSpeed : 180000 )
 }

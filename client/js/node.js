@@ -295,7 +295,7 @@ export const processNodeStatus = async () => {
         reload = 5000
     }
 
-    setTimeout(() => processNodeStatus(), reload)
+    setTimeout(processNodeStatus, reload)
 }
 
 $("#node-version, #block-producer, #snark-worker").on("click", function(){

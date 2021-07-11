@@ -108,7 +108,7 @@ export const processNetInfo = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout(()=> processNetInfo(), globalThis.config.intervals.resources)
+    setTimeout(processNetInfo, globalThis.config.intervals.resources)
 }
 
 export const processNetConnections = async () => {
@@ -123,6 +123,6 @@ export const processNetConnections = async () => {
         // console.log("Net (re)loaded!")
     }
 
-    setTimeout(() => processNetConnections(), globalThis.config.intervals.resources)
+    setTimeout(processNetConnections, globalThis.config.intervals.resources)
 }
 

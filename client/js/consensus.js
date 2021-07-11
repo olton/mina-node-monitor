@@ -23,5 +23,5 @@ export const processConsensus = async () => {
         progress.buff(epochDurationProgress)
     }
 
-    setTimeout( () => processConsensus(), config.intervals.daemon)
+    setTimeout(processConsensus, config.intervals.daemon)
 }

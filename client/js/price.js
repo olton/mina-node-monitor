@@ -46,5 +46,5 @@ export const processPrice = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout(() => processPrice(), update_interval)
+    setTimeout(processPrice, update_interval)
 }
