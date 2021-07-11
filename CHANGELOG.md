@@ -1,3 +1,6 @@
+### 1.1.2
++ [x] Server: fixed memory leaks
+
 ### 1.1.1
 + [x] Server: improved alerts for `FORK` states
 + [x] Server: added alert for `NO PEERS` state

@@ -221,5 +221,5 @@ export const processCollectNodeInfo = async () => {
     globalThis.nodeInfo.blockSpeed = blockSpeed
     globalThis.nodeInfo.health = health
 
-    setTimeout(() => processCollectNodeInfo(), nodeInfoCollectInterval)
+    setTimeout(processCollectNodeInfo, nodeInfoCollectInterval)
 }

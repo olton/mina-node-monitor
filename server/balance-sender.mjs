@@ -22,6 +22,6 @@ export const processBalanceSend = async () => {
         reload = 5000
     }
 
-    setTimeout(() => processBalanceSend(), reload)
+    setTimeout(processBalanceSend, reload)
 }
 

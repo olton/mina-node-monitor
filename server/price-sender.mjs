@@ -33,6 +33,6 @@ export const processPriceSend = async () => {
         }
     }
 
-    setTimeout(() => processPriceSend(), interval)
+    setTimeout(processPriceSend, interval)
 }
 

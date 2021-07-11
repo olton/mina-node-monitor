@@ -17,6 +17,8 @@ export const getLedgerInfo = async (path, config) => {
 export const processGetDelegations = async () => {
     const key = globalThis.config.publicKeyDelegators ?? globalThis.config.publicKey
     let data = await delegations(key)
+
     if (data) globalThis.nodeInfo.delegations = data
-    setTimeout(() => processGetDelegations(), 600000)
+
+    setTimeout(processGetDelegations, 600000)
 }

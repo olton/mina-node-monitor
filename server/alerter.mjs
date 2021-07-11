@@ -181,5 +181,5 @@ export const processAlerter = async () => {
         reload = 5000
     }
 
-    setTimeout(() => processAlerter(), reload)
+    setTimeout(processAlerter, reload)
 }
