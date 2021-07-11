@@ -1,5 +1,5 @@
 ### 1.1.2
-+ [x] Server: fixed memory leaks
++ [x] Fixed memory leaks for setTimeout circular links
 
 ### 1.1.1
 + [x] Server: improved alerts for `FORK` states
