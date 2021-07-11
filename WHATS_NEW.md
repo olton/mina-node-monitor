@@ -1,9 +1,10 @@
 ### 1.1.1
 + [x] New algorithm to check node hanging
 + [x] New alert for `NO PEERS` state
-+ [x] Added `health` object for node to display node health on client.
-+ [x] Big changes for improving server-side
-+ [x] Restart node if `Critical memory usage` is detected
++ [x] `health` object for node to display node health on client (`OK`, `FORK`, `UNKNOWN`, `NO PEERS`, `NOT-SYNCED`).
++ [x] Many changes for improving work of the server-side
++ [x] Alert and restart node if `Critical memory usage` state detected
++ [x] Can be used for `Mina Monitor Cluster`
 
 ### 1.0.5 -> 1.1.0
 + [x] Alert to Discord

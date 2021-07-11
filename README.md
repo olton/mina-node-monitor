@@ -209,11 +209,32 @@ where
 - `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec) 
 - `hangIntervalAlert` - time to alert when node hanging
 - `hangInterval` - time to restart when node hanging
+- `memAlert` - value to alert when critical memory usage (0 - 100), 0 - no alert 
+- `memRestart` - value to restart when critical memory usage (0 - 100), 0 - no restart
 
-**Restart if `Critical memmory usage` state detected**
-To check memory state use config props:
-- `memAlert` - percent value from 0 to 100 (0 - no detect)
-- `memRestart` - percent value from 0 to 100 (0 - no restart)
+**Values for alerts: `alertToTelegram`, `alertToDiscord`**
+- `HELLO` - node says Hello
+- `NOT-SYNCED` - node not `SYNCED`
+- `MAX` - block height less than max block length
+- `FORWARD-MAX` - block height more than max block length
+- `FORK` - block height less than max unvalidated block length
+- `FORWARD-FORK` - block height more than max unvalidated block length
+- `HANG` - node in hanging state
+- `EXPLORER` block height more or less of Mina Explorer height
+- `RESTART` - alert when restart exec
+- `BALANCE` - send balance
+- `PEERS` - send alert if node don't has a peers
+- `MEM` - send alert if critical memory usage detected 
+
+**Values for restart: `restartStateSyncedRules`**
+- `MAX` - restart when height less than max block length 
+- `FORWARD-MAX` - restart when height more than max block length 
+- `FORK` - restart when height less than max unvalidated block length
+- `FORWARD-FORK` - restart when height more than max unvalidated block length
+- `HANG` - restart hanging detected
+
+**Alert and Restart when critical memory usage**
+These rules are controlled by parameters `memAlert` and `memRestart`.
 
 ### Build web client
 To build client use command: 
