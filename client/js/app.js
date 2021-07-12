@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime' // this required for Parcel
 import {processSystemInfo} from "./server-info"
 import {processCPUData, processCPUTemp} from "./cpu"
 import {processRamInfo} from "./ram"

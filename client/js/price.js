@@ -1,4 +1,4 @@
-import {getAPIData, getInfo} from "./helpers/get-info";
+import {getInfo} from "./helpers/get-info";
 import {imgOk, imgStop} from "./helpers/const";
 
 export const processPrice = async () => {
