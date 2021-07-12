@@ -13,5 +13,5 @@ export const processNodeUptime = async () => {
 
     if (uptime) globalThis.nodeInfo.uptime = uptime
 
-    setTimeout(processNodeUptime, 180000)
+    setTimeout(processNodeUptime, 60000)
 }
