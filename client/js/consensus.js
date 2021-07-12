@@ -1,4 +1,3 @@
-import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
 
 export const processConsensus = async () => {

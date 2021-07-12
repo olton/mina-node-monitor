@@ -1,4 +1,3 @@
-import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
 import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";

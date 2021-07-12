@@ -1,4 +1,3 @@
-import 'regenerator-runtime/runtime' // this required for Parcel
 import {getInfo} from "./helpers/get-info"
 import {getFakeTriplets} from "./helpers/get-fake-data"
 import {defaultChartConfig} from "./helpers/chart-config"
@@ -20,7 +19,6 @@ const processHealth = async () => {
         el.addClass("border bd-red")
     }
 
-    console.log(health)
     if (health && health.length) {
         elHealth.html($("<span>").addClass("fg-red").html(health.join(" ")))
     }
@@ -122,7 +120,7 @@ export const processNodeStatus = async () => {
                 bottom: 10
             },
             height: 160,
-            onDrawLabelX: (v) => {
+            onDrawLabelX: () => {
                 return ""
             },
             onDrawLabelY: (v) => {
@@ -276,7 +274,7 @@ export const processNodeStatus = async () => {
         const noBlockProducer = 'No running block producer'
         const noSnarkWorker = 'No running snark worker'
         const blockProducerName = blockProductionKeys.length ? blockProductionKeys[0] : ""
-        const snarkWorkerName = snarkWorker ?? ""
+        const snarkWorkerName = snarkWorker ? snarkWorker : ""
         const shortBlockProducerName = blockProducerName.substring(0, partLength) + ' ... ' + blockProducerName.substring(blockProducerName.length - partLength)
         const shortSnarkWorkerName = snarkWorkerName.substring(0, partLength) + ' ... ' + snarkWorkerName.substring(snarkWorkerName.length - partLength)
         const snarkWorkerFeeValue = !snarkWorkFee ? '' : ` [ <span class="fg-gray">fee</span> ${(snarkWorkFee / 10**9).toFixed(4)} ]`
