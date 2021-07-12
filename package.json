@@ -4,22 +4,19 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "serve": "rd /s /q output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
-        "serve_x": "rm -rf output && mkdir output && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
-        "build_site": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
-        "build_site_x": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
-        "build": "rd /s /q dist & mkdir dist & npm run build_site",
-        "build_x": "rm -rf dist && mkdir dist && npm run build_site_x",
+        "serve": "shx rm -rf output/* && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
+        "prebuild": "shx rm -rf dist/*",
+        "build": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
         "start": "npm run serve",
         "client": "npm run serve",
-        "client_x": "npm run serve_x",
         "server": "node --trace-warnings server\\monitor.mjs",
         "server_x": "node --trace-warnings server/monitor.mjs"
     },
     "devDependencies": {
         "less": "^4.1.1",
         "parcel-bundler": "^1.12.5",
-        "parcel-plugin-static-files-copy": "^2.6.0"
+        "parcel-plugin-static-files-copy": "^2.6.0",
+        "shx": "^0.3.3"
     },
     "dependencies": {
         "node-fetch": "^2.6.1",
