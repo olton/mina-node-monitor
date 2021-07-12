@@ -9,8 +9,7 @@
         "build": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
         "start": "npm run serve",
         "client": "npm run serve",
-        "server": "node --trace-warnings server\\monitor.mjs",
-        "server_x": "node --trace-warnings server/monitor.mjs"
+        "server": "node --trace-warnings server/monitor.mjs"
     },
     "devDependencies": {
         "less": "^4.1.1",
@@ -26,5 +25,11 @@
         "staticPath": [
             "client/config.json"
         ]
-    }
+    },
+    "browserslist": [
+        "last 2 Chrome versions",
+        "last 2 Firefox versions",
+        "last 2 Opera versions",
+        "last 2 Edge versions"
+    ]
 }

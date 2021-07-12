@@ -246,28 +246,31 @@ These rules are controlled by parameters `memAlert` and `memRestart`.
 
 Для сборки клиентского приложения выполните команду, указанную ниже:
 
-**Для Windows**
 ```shell
 npm run build
 ```
 
-**Для Linux**
-```shell
-npm run build_x
-```
-
 Теперь папка `dist` содержит скомпилированные файлы клиента. Скопируйте указанные файлы на ваш web server.
 
-Если у вас нет web сервера, вы можете запустить клиента в локальном окружении. Для этого выполните команду:
+### Running client and server locally
 
-**Для Windows**
+#### Client
+
 ```shell
 npm run serve
 ```
-
-**Для Linux**
+or
 ```shell
-npm run serve_x
+npm start
+```
+or
+```shell
+npm run client
+```
+
+#### Server
+```shell
+npm run server
 ```
 
 ### Установка сервера

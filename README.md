@@ -53,7 +53,7 @@ git clone https://github.com/olton/mina-node-monitor.git
 
 #### Install required packages
 ```shell
-npm i
+npm install
 ```
 
 The Monitor consists of two parts: 
@@ -239,28 +239,31 @@ These rules are controlled by parameters `memAlert` and `memRestart`.
 ### Build web client
 To build client use command: 
 
-**for Windows**
 ```shell
 npm run build
 ```
 
-**for Linux**
-```shell
-npm run build_x
-```
-
 Now folder `dist` contains a compiled client files. Copy these to your web server.
 
-If you don't have a web server, you can run the client in your local environment. To do this, run the command:
+### Running client and server locally
 
-**For Windows**
+#### Client
+
 ```shell
 npm run serve
 ```
-
-**For Linux**
+or
 ```shell
-npm run serve_x
+npm start
+```
+or
+```shell
+npm run client
+```
+
+#### Server
+```shell
+npm run server
 ```
 
 ### Install server app
