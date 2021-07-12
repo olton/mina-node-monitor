@@ -1,5 +1,7 @@
 ### 1.1.2
 + [x] Fixed memory leaks for setTimeout circular links
+  
++ [x] Server: added `process.memory` to get mem request 
 
 ### 1.1.1
 + [x] Server: improved alerts for `FORK` states

@@ -9,7 +9,8 @@ const getMem = () => {
     return {
         total,
         free,
-        used: total - free
+        used: total - free,
+        process: process.memoryUsage()
     }
 }
 
