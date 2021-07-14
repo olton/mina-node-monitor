@@ -1,6 +1,8 @@
+### 1.1.3
++ [x] Server: fixed exception alert in uptime module when service is down 
+
 ### 1.1.2
 + [x] Fixed memory leaks for setTimeout circular links
-  
 + [x] Server: added `process.memory` to get mem request 
 
 ### 1.1.1
