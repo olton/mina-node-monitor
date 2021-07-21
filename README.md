@@ -231,6 +231,8 @@ where
 - `setWorkerFeeCommand` - command to set snark worker fee
 - `controlInterval` - interval to work SW controller
 
+> To disable controller, set `config.snarkWorker.address` property to empty string.
+
 **Values for alerts: `alertToTelegram`, `alertToDiscord`**
 - `HELLO` - node says Hello
 - `NOT-SYNCED` - node not `SYNCED`
