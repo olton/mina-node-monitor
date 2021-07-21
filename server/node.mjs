@@ -266,7 +266,7 @@ export const processCollectNodeInfo = async () => {
     globalThis.nodeInfo.consensus = consensus
     globalThis.nodeInfo.blockSpeed = blockSpeed
     globalThis.nodeInfo.health = health
-    // globalThis.nodeInfo.nextBlock = nextBlock
+    globalThis.nodeInfo.nextBlock = nextBlock
 
     setTimeout(processCollectNodeInfo, nodeInfoCollectInterval)
 }

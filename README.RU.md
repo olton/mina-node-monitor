@@ -226,6 +226,16 @@ where
 - `hangInterval` - time to restart when node hanging
 - `memAlert` - value to alert when critical memory usage (0 - 100), 0 - no alert
 - `memRestart` - value to restart when critical memory usage (0 - 100), 0 - no restart
+- `snarkWorker` - options to control snark worker
+
+**Snark worker controller**
+- `address` - address to start snark worker after **stop**
+- `fee` - snark worker **fee** value
+- `stopBeforeBlock` - milliseconds to stop before block producing
+- `startAfterBlock` - milliseconds to start after block producing
+- `runWorkerCommand` - command to set or unset address for snark worker
+- `setWorkerFeeCommand` - command to set snark worker fee
+- `controlInterval` - interval to work SW controller
 
 **Values for alerts: `alertToTelegram`, `alertToDiscord`**
 - `HELLO` - node says Hello

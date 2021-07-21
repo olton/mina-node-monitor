@@ -1,3 +1,7 @@
+### 1.1.4
++ [x] Snark worker controller
++ [x] Node response time
+
 ### 1.1.1
 + [x] New algorithm to check node hanging
 + [x] New alert for `NO PEERS` state

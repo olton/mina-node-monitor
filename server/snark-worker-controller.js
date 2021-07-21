@@ -21,18 +21,43 @@ export const processSnarkWorkerController = async () => {
 
     let {nextBlock} = globalThis.nodeInfo
 
-    if (nextBlock === null) return
+    if (nextBlock) {
+        if (stopBeforeBlock && !globalThis.snarkWorkerStopped) {
+            if (isNum(nextBlock) && nextBlock > 0) {
+                let now = new Date().getTime()
+                let timeToStop = nextBlock - stopBeforeBlockTime
+                let stop = between(now, timeToStop, nextBlock)
 
-    if (stopBeforeBlock && !globalThis.snarkWorkerStopped) {
-        if (isNum(nextBlock) && nextBlock > 0) {
+                if (stop) {
+                    cmd = runWorkerCommand.replace("<ADDRESS>", "")
+                    stopWorker = execCommand(cmd)
+                    stopWorker.on("exit", (code) => {
+                        if (code === 0) {
+                            globalThis.snarkWorkerStopped = true
+                            globalThis.snarkWorkerStoppedBlockTime = nextBlock
+                        }
+                        sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                    })
+                }
+            }
+        }
+
+        if (globalThis.snarkWorkerStopped) {
             let now = new Date().getTime()
-            let timeToStop = nextBlock - stopBeforeBlockTime
-            let stop = between(now, timeToStop, nextBlock)
 
-            if (stop) {
-                cmd = runWorkerCommand.replace("<ADDRESS>", "")
-                stopWorker = execCommand(cmd)
-                stopWorker.on("exit", (code) => {
+            if (now > globalThis.snarkWorkerStoppedBlockTime + startAfterBlock) {
+                globalThis.snarkWorkerStopped = false
+                globalThis.snarkWorkerStoppedBlockTime = null
+
+                cmd = setWorkerFeeCommand.replace("<FEE>", fee)
+                setFee = execCommand(cmd)
+                setFee.on("exit", (code) => {
+                    sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                })
+
+                cmd = runWorkerCommand.replace("<ADDRESS>", address)
+                startWorker = execCommand(cmd)
+                startWorker.on("exit", (code) => {
                     if (code === 0) {
                         globalThis.snarkWorkerStopped = true
                         globalThis.snarkWorkerStoppedBlockTime = nextBlock
@@ -40,31 +65,6 @@ export const processSnarkWorkerController = async () => {
                     sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
                 })
             }
-        }
-    }
-
-    if (globalThis.snarkWorkerStopped) {
-        let now = new Date().getTime()
-
-        if (now > globalThis.snarkWorkerStoppedBlockTime + startAfterBlock) {
-            globalThis.snarkWorkerStopped = false
-            globalThis.snarkWorkerStoppedBlockTime = null
-
-            cmd = setWorkerFeeCommand.replace("<FEE>", fee)
-            setFee = execCommand(cmd)
-            setFee.on("exit", (code) => {
-                sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
-            })
-
-            cmd = runWorkerCommand.replace("<ADDRESS>", address)
-            startWorker = execCommand(cmd)
-            startWorker.on("exit", (code) => {
-                if (code === 0) {
-                    globalThis.snarkWorkerStopped = true
-                    globalThis.snarkWorkerStoppedBlockTime = nextBlock
-                }
-                sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
-            })
         }
     }
 

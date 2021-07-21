@@ -11,7 +11,7 @@ import {processDelegations} from "./delegations"
 import {processBlocks} from "./explorer";
 import {processPrice} from "./price";
 
-const version = `1.1.2`
+const version = `1.1.4`
 
 $("#version").text(version)
 
