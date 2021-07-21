@@ -10,7 +10,7 @@ export const processBalanceSend = async () => {
 
     if (status && status.data && status.data.account && status.data.account.balance) {
         const {total, liquid, locked} = status.data.account.balance
-        const message =`Current balance info:\nTotal: ${(total / 10**9).toFixed(4)}\nLiquid: ${(liquid / 10**9).toFixed(4)}\nLocked: ${(locked / 10**9).toFixed(4)}`
+        const message =`Current balance info: ${(total / 10**9).toFixed(4)} [T], ${(liquid / 10**9).toFixed(4)} [Q], ${(locked / 10**9).toFixed(4)} [L]`
 
         if (globalThis.currentBalance === total) {
             return

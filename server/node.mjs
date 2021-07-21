@@ -1,5 +1,5 @@
 import fetch from "node-fetch"
-import {processAlerter} from "./alerter.mjs";
+import {performance} from "perf_hooks"
 
 const queryNodeStatus = `
 query MyQuery {
@@ -36,6 +36,23 @@ query MyQuery {
     snarkWorkFee
     consensusTimeNow {
       epoch
+    }
+  }
+}
+`;
+
+const queryNextBlock = `
+query MyQuery {
+  version
+  daemonStatus {
+    nextBlockProduction {
+      times {
+        endTime
+        epoch
+        globalSlot
+        slot
+        startTime
+      }
     }
   }
 }
@@ -142,6 +159,18 @@ async function fetchGraphQL(addr, query, variables = {}) {
     }
 }
 
+export async function getNextBlockTime(graphql){
+    let time = await fetchGraphQL(graphql, queryNextBlock)
+    if (!time || !time.data) {
+        return null
+    }
+    try {
+        return time.data.daemonStatus.nextBlockProduction.times
+    } catch (e) {
+        return null
+    }
+}
+
 async function getBlockSpeed(graphql, length){
     let blocks = await fetchGraphQL(graphql, queryBlockSpeed, {maxLength: length})
     if (!blocks || !blocks.data) {
@@ -170,11 +199,19 @@ export const processCollectNodeInfo = async () => {
         blockDiff = 2
     } = globalThis.config
 
+    let start = performance.now()
+
     let nodeStatus = await fetchGraphQL(graphql, queryNodeStatus)
     let balance = publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
     let blockchain = await fetchGraphQL(graphql, queryBlockChain)
     let consensus = await fetchGraphQL(graphql, queryConsensus)
     let blockSpeed = await getBlockSpeed(graphql, blockSpeedDistance)
+    let nextBlock = null
+
+    globalThis.nodeInfo.responseTime = performance.now() - start
+
+    //console.log("Node response time: ", (globalThis.nodeInfo.responseTime/1000).toFixed(2))
+
     let health = []
 
     if (globalThis.nodeInfo.health.includes("HANG")) {
@@ -188,7 +225,16 @@ export const processCollectNodeInfo = async () => {
             blockchainLength: blockHeight = 0,
             highestBlockLengthReceived: maxHeight = 0,
             highestUnvalidatedBlockLengthReceived: unvHeight = 0,
+            nextBlockProduction
         } = nodeStatus.data.daemonStatus
+
+        let times = nextBlockProduction ? nextBlockProduction.times : []
+
+        if (times.length) {
+            nextBlock = +(times[0].startTime)
+        } else {
+            nextBlock = 0
+        }
 
         if (syncStatus === "SYNCED") {
             if (peers <= 0) {
@@ -220,6 +266,7 @@ export const processCollectNodeInfo = async () => {
     globalThis.nodeInfo.consensus = consensus
     globalThis.nodeInfo.blockSpeed = blockSpeed
     globalThis.nodeInfo.health = health
+    // globalThis.nodeInfo.nextBlock = nextBlock
 
     setTimeout(processCollectNodeInfo, nodeInfoCollectInterval)
 }

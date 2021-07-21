@@ -1,19 +1,15 @@
 import {getInfo} from "./helpers/get-info"
 
 export const processBlocks = async () => {
-    const {epoch, blockHeight, blockSpeed = 5000} = globalThis
+    let data = await getInfo(`winning-blocks`)
 
-    if (epoch && blockHeight) {
-        let data = await getInfo(`blocks?epoch=${epoch}&blockHeightMin=0&blockHeightMax=${blockHeight}`)
+    if (data) {
+        let blocks = data.data.blocks
+        let rewards = blocks.reduce((acc, val)=>acc + parseInt(val.transactions.coinbase), 0)
 
-        if (data) {
-            let blocks = data.data.blocks
-            let rewards = blocks.reduce((acc, val)=>acc + parseInt(val.transactions.coinbase), 0)
-
-            $("#blocks-in-epoch").text(blocks.length)
-            $("#rewards-in-epoch").text(rewards / 10**9)
-        }
+        $("#blocks-in-epoch").text(blocks.length)
+        $("#rewards-in-epoch").text(rewards / 10**9)
     }
 
-    if (!globalThis.noSlots) setTimeout(processBlocks, blockSpeed ? blockSpeed : 5000)
+    if (!globalThis.noSlots) setTimeout(processBlocks, globalThis.config.intervals.daemon)
 }

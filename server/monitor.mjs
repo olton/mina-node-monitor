@@ -15,6 +15,7 @@ import {processNodeUptime} from "./uptime.mjs"
 import {processGetDelegations} from "./ledger.mjs";
 import {getPriceInfo, processPriceInfo} from "./coingecko.mjs";
 import {processPriceSend} from "./price-sender.mjs";
+import {processSnarkWorkerController} from "./snark-worker-controller.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const configPath = path.resolve(__dirname, 'config.json')
@@ -39,6 +40,7 @@ globalThis.currentBalance = 0
 globalThis.currentHeight = 0
 globalThis.currentControlHeight = 0
 globalThis.controlCounter = 0
+globalThis.nodeMemoryUsage = 0
 globalThis.nodeInfo = {
     nodeStatus: null,
     balance: null,
@@ -48,12 +50,16 @@ globalThis.nodeInfo = {
     delegations: null,
     uptime: null,
     winningBlocks: null,
-    health: []
+    health: [],
+    responseTime: 0,
+    nextBlock: null
 }
 globalThis.explorerInfo = {
     summary: null
 }
 globalThis.priceInfo = null
+globalThis.snarkWorkerStopped = false
+globalThis.snarkWorkerStoppedBlockTime = null
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
 
@@ -77,6 +83,8 @@ const requestListener = async (req, res) => {
         case '/consensus': response = globalThis.nodeInfo.consensus; break;
         case '/blockchain': response = globalThis.nodeInfo.blockchain; break;
         case '/node-status': response = globalThis.nodeInfo.nodeStatus; break;
+        case '/next-block': response = globalThis.nodeInfo.nextBlock; break;
+        case '/node-response-time': response = globalThis.nodeInfo.responseTime; break;
         case '/balance': response = globalThis.nodeInfo.balance; break;
         case '/block-speed': response = globalThis.nodeInfo.blockSpeed; break;
         case '/health': response = globalThis.nodeInfo.health; break;
@@ -125,3 +133,4 @@ setTimeout( processGetDelegations, 0)
 setTimeout( processExplorer, 0)
 setTimeout( processPriceInfo, 0)
 setTimeout( processWinningBlocks, 0)
+setTimeout( processSnarkWorkerController, 0)

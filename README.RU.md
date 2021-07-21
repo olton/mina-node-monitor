@@ -183,7 +183,16 @@ Parameter `blocks` - determines the order and display of blocks
     "hangInterval": 1800000,
     "hangIntervalAlert": 900000,
     "memAlert": 90,
-    "memRestart": 95
+    "memRestart": 95,
+    "snarkWorker": {
+        "address": "B62qr...",
+        "fee": 0.001,
+        "stopBeforeBlock": 300000,
+        "startAfterBlock": 60000,
+        "runWorkerCommand": "mina client set-snark-worker -address <ADDRESS>",
+        "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
+        "controlInterval": 10000
+    }
 }
 ```
 

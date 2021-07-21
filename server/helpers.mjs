@@ -19,6 +19,8 @@ export const timestamp = () => {
 export const sendAlert = (check, message) => {
     const {telegramToken, alertToTelegram, telegramChatIDAlert, discordWebHook, alertToDiscord} = globalThis.config
 
+    console.log(message)
+
     if (telegramToken && alertToTelegram.includes(check)) {
         telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
     }
@@ -28,10 +30,26 @@ export const sendAlert = (check, message) => {
     }
 }
 
+export const execCommand = (cmd) => {
+    if (!cmd) return
+
+    return exec(cmd, async (error, stdout, stderr) => {
+        if (error) {
+            console.log(error.stack)
+            console.log("Error code: "+error.code)
+            console.log("Signal received: "+error.signal)
+        }
+        if (stderr) console.log(stdout)
+        if (stderr) console.log(stderr)
+    })
+}
+
 export const restart = (reason, target = hostname()) => {
     const {restartCmd} = globalThis.config
 
     if (!restartCmd) return
+
+    console.log("Restart with message: " + reason)
 
     exec(restartCmd, async (error, stdout, stderr) => {
         let message, result
@@ -57,3 +75,7 @@ export const deleteFromArray = (arr, val) => {
     }
     return arr
 }
+
+export const isNum = (v) => !isNaN(v)
+
+export const between = (val, bottom, top, equals) => equals === true ? val >= bottom && val <= top : val > bottom && val < top

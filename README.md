@@ -165,8 +165,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
-    "alertToTelegram": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
-    "alertToDiscord": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
+    "alertToTelegram": ["EXEC","HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToDiscord": ["EXEC","HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
     "price": {
         "currency": "usd",
         "updateInterval": 60000,
@@ -178,7 +178,16 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "hangInterval": 1800000,
     "hangIntervalAlert": 900000,
     "memAlert": 90,
-    "memRestart": 95
+    "memRestart": 95,
+    "snarkWorker": {
+        "address": "B62qr...",
+        "fee": 0.001,
+        "stopBeforeBlock": 300000,
+        "startAfterBlock": 60000,
+        "runWorkerCommand": "mina client set-snark-worker -address <ADDRESS>",
+        "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
+        "controlInterval": 10000
+    }
 }
 ```
 
@@ -225,6 +234,7 @@ where
 - `BALANCE` - send balance
 - `PEERS` - send alert if node don't has a peers
 - `MEM` - send alert if critical memory usage detected 
+- `EXEC` - send information about command executed 
 
 **Values for restart: `restartStateSyncedRules`**
 - `MAX` - restart when height less than max block length 
