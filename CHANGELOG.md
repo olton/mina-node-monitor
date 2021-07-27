@@ -4,6 +4,8 @@
 + [x] Server: improved work of the `alerter` for detecting `forks`
 + [x] Server: use stored state for responses
 
++ [x] Client: updated for using new responses
+
 ### 1.1.3
 + [x] Server: fixed exception alert in uptime module when service is down 
 
