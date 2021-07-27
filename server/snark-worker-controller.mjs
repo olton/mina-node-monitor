@@ -1,8 +1,10 @@
-import {between, daemonStatus, execCommand, isNum, sendAlert} from "./helpers.mjs";
+import {hostname} from "os"
+import {between, daemonStatus, execCommand, isNum, sendAlert} from "./helpers.mjs"
 
 export const processSnarkWorkerController = async () => {
     const config = globalThis.config.snarkWorker
     let cmdStart, cmdStop, cmdFee, setFee, startWorker, stopWorker
+    const host = hostname()
 
     if (!config) return
 
@@ -34,7 +36,7 @@ export const processSnarkWorkerController = async () => {
                 cmdFee = setWorkerFeeCommand.replace("<FEE>", fee)
                 setFee = execCommand(cmdFee)
                 setFee.on("exit", (code) => {
-                    sendAlert("EXEC", `Command ${cmdFee} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                    sendAlert("EXEC", `Command ${cmdFee} executed ${code === 0 ? "successfully" : "with error code " + code} for the host ${host}`)
                 })
 
                 cmdStart = runWorkerCommand.replace("<ADDRESS>", address)
@@ -44,7 +46,7 @@ export const processSnarkWorkerController = async () => {
                         globalThis.snarkWorkerStopped = false
                         globalThis.snarkWorkerStoppedBlockTime = null
                     }
-                    sendAlert("EXEC", `Command ${cmdStart} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                    sendAlert("EXEC", `Command ${cmdStart} executed ${code === 0 ? "successfully" : "with error code " + code} for the host ${host}`)
                 })
             }
         }
@@ -65,7 +67,7 @@ export const processSnarkWorkerController = async () => {
                                 globalThis.snarkWorkerStopped = true
                                 globalThis.snarkWorkerStoppedBlockTime = nextBlock
                             }
-                            sendAlert("EXEC", `Command ${cmdStop} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                            sendAlert("EXEC", `Command ${cmdStop} executed ${code === 0 ? "successfully" : "with error code " + code} for the host ${host}`)
                         })
                     }
                 }
