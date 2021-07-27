@@ -9,29 +9,39 @@
 ## Основні можливості
 
 **Monitor Client:**
-- [x] Display of the main indicators of the Mina network (Block height, uptime, epoch and slot info)
-- [x] Displaying the status of the node daemon (SYNCED, CATCHUP, BOOTSTRAP, ...)
-- [x] Displaying the health of node (OK, Fork, Hanging)
-- [x] Displaying the server resources consumed by the node (CPU, RAM, NETWORK)
-- [x] Displaying the balance of the specified address and the value of this balance in different currencies
-- [x] Displaying information about delegations to the specified validator address
-- [x] Displaying information about blocks won and rewards received in the current era
-- [x] Displays general information about the site server
-- [x] Convenient live graphs for displaying consumed resources
-- [x] Responsive interface (It is comfortable to look at both PC and phone and tablet)
+- [x] Відображення основних показників мережі Mina (Block height, uptime, epoch and slot info)
+- [x] Відображення стану демона вузла (SYNCED, CATCHUP, BOOTSTRAP, ...)
+- [x] Відображення здоров'я вузла (ОК, Fork, Hanging)
+- [x] Відображення споживаних вузлом ресурсів сервера (CPU, RAM, NETWORK)
+- [x] Відображення балансу зазначеного адресу і вартості цього балансу в різних валютах
+- [x] Відображення інформації про делегаціях на вказану адресу валідатора
+- [x] Відображення інформації про виграних блоках і отриманому винагороду в поточній епосі
+- [x] Відображення загальної інформації про сервер вузла
+- [x] Зручні живі графіки для відображення споживаних ресурсів
+- [x] Чуйний (responsive) інтерфейс (Комфортно дивитися і на ПК і на телефоні і на планшеті)
+
+**Monitor Cluster:**
+- [x] Все, що відображає простий клієнт, плюс
+- [x] Відображення стану декількох (до 3-х) вузлів на одній сторінці
+- [x] Циклічний обхід вузлів, опитування загальної інформації для адреси здійснюється послідовно з синхронізованих вузлів
+- [x] Відображення швидкості відповіді GraphQL вузла на основний запит
+
+> Ви можете знайти `Monitor Cluster` в [цьому репозиторії](https://github.com/olton/mina-monitor-cluster)
 
 **Monitor Server Side:**
-- [x] Monitoring node health
-- [x] Identification of critical node states (fork, forward fork, node freeze, lag/lead Mina Explorer)
-- [x] Determining the Synchronization State of a Node
-- [x] Automatic reboot of the node in case of critical state detection
-- [x] Sending messages about the critical state of the node in Telegram and/or Discord
-- [x] Sending the current balance of the specified address to Telegram and/or Discord
-- [x] Sending Mina's cost to Telegram and/or Discord
+- [x] Контроль здоров'я вузла
+- [x] Визначення критичних станів (форк, випереджаюче форк, зависання вузла, відставання / випередження Mina Explorer)
+- [x] Визначення стану синхронізації вузла
+- [x] Автоматичне перезавантаження вузла в разі виявлення критичного стану
+- [x] Відправлення повідомлень про критичний стан вузла в Telegram та/або Discord
+- [x] Відправка поточного балансу зазначеного адреса в Telegram та/або Discord
+- [x] Відправка вартості Міни в Telegram та/або Discord
+- [x] Відключення snark-worker перед виробництвом блоку і подальше відновлення його роботи
+- [x] Контроль споживання пам'яті та перезавантаження вузла при критичному використанні пам'яті
 
 #### Програмний стек:
-- сервер - JavaScript
-- кліент - JavaScript, HTML, CSS
+- сервер - JavaScript (Node JS >= v14)
+- клієнт - JavaScript, HTML, CSS
 
 ### Використано компоненти
 + [x] [Mina Node Monitor](https://github.com/olton/mina-node-monitor) by [Serhii Pimenov](https://github.com/olton)
