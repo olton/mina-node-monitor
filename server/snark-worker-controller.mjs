@@ -30,8 +30,6 @@ export const processSnarkWorkerController = async () => {
 
             if (!daemon.snarkWorker || (globalThis.snarkWorkerStoppedBlockTime && now > globalThis.snarkWorkerStoppedBlockTime + startAfterBlock)) {
                 console.log("Start snark worker")
-                globalThis.snarkWorkerStopped = false
-                globalThis.snarkWorkerStoppedBlockTime = null
 
                 cmdFee = setWorkerFeeCommand.replace("<FEE>", fee)
                 setFee = execCommand(cmdFee)
