@@ -58,7 +58,7 @@ globalThis.explorerInfo = {
     summary: null
 }
 globalThis.priceInfo = null
-globalThis.snarkWorkerStopped = false
+globalThis.snarkWorkerStopped = null
 globalThis.snarkWorkerStoppedBlockTime = null
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)

@@ -1,8 +1,8 @@
-import {between, execCommand, isNum, sendAlert} from "./helpers.mjs";
+import {between, daemonStatus, execCommand, isNum, sendAlert} from "./helpers.mjs";
 
 export const processSnarkWorkerController = async () => {
     const config = globalThis.config.snarkWorker
-    let cmd, setFee, startWorker, stopWorker
+    let cmdStart, cmdStop, cmdFee, setFee, startWorker, stopWorker
 
     if (!config) return
 
@@ -19,51 +19,56 @@ export const processSnarkWorkerController = async () => {
 
     if (!address) return
 
-    let {nextBlock} = globalThis.nodeInfo
+    let {nextBlock, nodeStatus} = globalThis.nodeInfo
+    let daemon = daemonStatus(nodeStatus)
 
-    if (nextBlock) {
-        if (stopBeforeBlock && !globalThis.snarkWorkerStopped) {
-            if (isNum(nextBlock) && nextBlock > 0) {
-                let now = new Date().getTime()
-                let timeToStop = nextBlock - stopBeforeBlockTime
-                let stop = between(now, timeToStop, nextBlock)
-
-                if (stop) {
-                    cmd = runWorkerCommand.replace("<ADDRESS>", "")
-                    stopWorker = execCommand(cmd)
-                    stopWorker.on("exit", (code) => {
-                        if (code === 0) {
-                            globalThis.snarkWorkerStopped = true
-                            globalThis.snarkWorkerStoppedBlockTime = nextBlock
-                        }
-                        sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
-                    })
-                }
-            }
-        }
-
-        if (globalThis.snarkWorkerStopped) {
+    if (daemon) {
+        if (globalThis.snarkWorkerStopped === null || globalThis.snarkWorkerStopped) {
             let now = new Date().getTime()
 
-            if (now > globalThis.snarkWorkerStoppedBlockTime + startAfterBlock) {
+            if (!daemon.snarkWorker || (globalThis.snarkWorkerStoppedBlockTime && now > globalThis.snarkWorkerStoppedBlockTime + startAfterBlock)) {
+                console.log("Start snark worker")
                 globalThis.snarkWorkerStopped = false
                 globalThis.snarkWorkerStoppedBlockTime = null
 
-                cmd = setWorkerFeeCommand.replace("<FEE>", fee)
-                setFee = execCommand(cmd)
+                cmdFee = setWorkerFeeCommand.replace("<FEE>", fee)
+                setFee = execCommand(cmdFee)
                 setFee.on("exit", (code) => {
-                    sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                    sendAlert("EXEC", `Command ${cmdFee} executed ${code === 0 ? "successfully" : "with error code " + code}`)
                 })
 
-                cmd = runWorkerCommand.replace("<ADDRESS>", address)
-                startWorker = execCommand(cmd)
+                cmdStart = runWorkerCommand.replace("<ADDRESS>", address)
+                startWorker = execCommand(cmdStart)
                 startWorker.on("exit", (code) => {
                     if (code === 0) {
-                        globalThis.snarkWorkerStopped = true
-                        globalThis.snarkWorkerStoppedBlockTime = nextBlock
+                        globalThis.snarkWorkerStopped = false
+                        globalThis.snarkWorkerStoppedBlockTime = null
                     }
-                    sendAlert("EXEC", `Command ${cmd} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                    sendAlert("EXEC", `Command ${cmdStart} executed ${code === 0 ? "successfully" : "with error code " + code}`)
                 })
+            }
+        }
+
+        if (nextBlock) {
+            if (stopBeforeBlock && !globalThis.snarkWorkerStopped) {
+                if (isNum(nextBlock) && nextBlock > 0) {
+                    let now = new Date().getTime()
+                    let timeToStop = nextBlock - stopBeforeBlockTime
+                    let stop = between(now, timeToStop, nextBlock)
+
+                    if (stop) {
+                        console.log("Stop snark worker")
+                        cmdStop = runWorkerCommand.replace("<ADDRESS>", "").replace("-address", "")
+                        stopWorker = execCommand(cmdStop)
+                        stopWorker.on("exit", (code) => {
+                            if (code === 0) {
+                                globalThis.snarkWorkerStopped = true
+                                globalThis.snarkWorkerStoppedBlockTime = nextBlock
+                            }
+                            sendAlert("EXEC", `Command ${cmdStop} executed ${code === 0 ? "successfully" : "with error code " + code}`)
+                        })
+                    }
+                }
             }
         }
     }

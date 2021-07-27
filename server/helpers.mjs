@@ -39,7 +39,7 @@ export const execCommand = (cmd) => {
             console.log("Error code: "+error.code)
             console.log("Signal received: "+error.signal)
         }
-        if (stderr) console.log(stdout)
+        if (stdout) console.log(stdout)
         if (stderr) console.log(stderr)
     })
 }
@@ -79,3 +79,5 @@ export const deleteFromArray = (arr, val) => {
 export const isNum = (v) => !isNaN(v)
 
 export const between = (val, bottom, top, equals) => equals === true ? val >= bottom && val <= top : val > bottom && val < top
+
+export const daemonStatus = (status) => status && status.data && status.data.daemonStatus
