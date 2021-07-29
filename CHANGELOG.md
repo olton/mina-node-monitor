@@ -1,3 +1,7 @@
+### 1.1.5
++ [x] Server: improved `alerter` for `HANG` state detecting
++ [x] Server: added logic to disable `HANG` alert/restart when `hangInterval`, `hangIntervalAlert` is `0`
+
 ### 1.1.4
 + [x] Server: added `snark worker` controller
 + [x] Server: added request for `node response time`

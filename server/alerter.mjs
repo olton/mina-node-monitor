@@ -16,8 +16,8 @@ export const processAlerter = async () => {
         observeExplorer,
         restartStateException = [],
         restartStateSyncedRules = [],
-        hangInterval = 1800000,
-        hangIntervalAlert = 900000,
+        hangInterval = 0,
+        hangIntervalAlert = 0,
         memAlert = 0,
         memRestart = 0
     } = globalThis.config
@@ -127,42 +127,34 @@ export const processAlerter = async () => {
                 }
             }
 
-            console.log("Height: ", globalThis.currentControlHeight, nHeight)
-
             if (globalThis.currentControlHeight !== nHeight) {
                 globalThis.hangTimer = 0
                 globalThis.currentControlHeight = nHeight
                 deleteFromArray(globalThis.nodeInfo.health, "HANG")
             }
 
-            console.log("Timer: ", globalThis.hangTimer, hangIntervalAlert, hangInterval)
+            if (globalThis.currentControlHeight) { // We have a block height!
+                if (hangIntervalAlert && globalThis.hangTimer >= hangIntervalAlert) {
 
-            if (hangIntervalAlert && globalThis.hangTimer >= hangIntervalAlert) {
-                const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
-
-                if (globalThis.currentControlHeight && DIFF_HANG) {
-                    console.log("Hang alert")
                     if (!globalThis.nodeInfo.health.includes("HANG")) {
                         globalThis.nodeInfo.health.push("HANG")
                     }
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     sendAlert("HANG", message)
+
                 }
-            }
 
-            if (hangInterval && globalThis.hangTimer >= hangInterval) {
-                const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
+                if (hangInterval && globalThis.hangTimer >= hangInterval) {
 
-                if (globalThis.currentControlHeight && DIFF_HANG) {
-                    console.log("Hang restart")
                     if (restartStateSyncedRules.includes("HANG") && (canRestartNode && restartCmd)) {
                         restart('Hanging node!')
                     }
-                }
 
-                globalThis.hangTimer = 0
-                globalThis.currentControlHeight = nHeight
-                deleteFromArray(globalThis.nodeInfo.health, "HANG")
+                    globalThis.hangTimer = 0
+                    globalThis.currentControlHeight = nHeight
+                    deleteFromArray(globalThis.nodeInfo.health, "HANG")
+
+                }
             }
 
             globalThis.hangTimer += alertInterval
