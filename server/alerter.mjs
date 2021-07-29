@@ -127,16 +127,21 @@ export const processAlerter = async () => {
                 }
             }
 
+            console.log("Height: ", globalThis.currentControlHeight, nHeight)
+
             if (globalThis.currentControlHeight !== nHeight) {
                 globalThis.hangTimer = 0
                 globalThis.currentControlHeight = nHeight
                 deleteFromArray(globalThis.nodeInfo.health, "HANG")
             }
 
-            if (globalThis.hangTimer >= hangIntervalAlert) {
+            console.log("Timer: ", globalThis.hangTimer, hangIntervalAlert, hangInterval)
+
+            if (hangIntervalAlert && globalThis.hangTimer >= hangIntervalAlert) {
                 const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
 
                 if (globalThis.currentControlHeight && DIFF_HANG) {
+                    console.log("Hang alert")
                     if (!globalThis.nodeInfo.health.includes("HANG")) {
                         globalThis.nodeInfo.health.push("HANG")
                     }
@@ -145,10 +150,11 @@ export const processAlerter = async () => {
                 }
             }
 
-            if (globalThis.hangTimer >= hangInterval) {
+            if (hangInterval && globalThis.hangTimer >= hangInterval) {
                 const DIFF_HANG = nHeight - globalThis.currentControlHeight === 0
 
                 if (globalThis.currentControlHeight && DIFF_HANG) {
+                    console.log("Hang restart")
                     if (restartStateSyncedRules.includes("HANG") && (canRestartNode && restartCmd)) {
                         restart('Hanging node!')
                     }
