@@ -12,10 +12,12 @@ import {processAlerter} from "./alerter.mjs"
 import {processBalanceSend} from "./balance-sender.mjs"
 import {processHello} from "./hello.mjs"
 import {processNodeUptime} from "./uptime.mjs"
-import {processGetDelegations} from "./ledger.mjs";
-import {getPriceInfo, processPriceInfo} from "./coingecko.mjs";
-import {processPriceSend} from "./price-sender.mjs";
-import {processSnarkWorkerController} from "./snark-worker-controller.mjs";
+import {processGetDelegations} from "./ledger.mjs"
+import {getPriceInfo, processPriceInfo} from "./coingecko.mjs"
+import {processPriceSend} from "./price-sender.mjs"
+import {processSnarkWorkerController} from "./snark-worker-controller.mjs"
+import {Journal} from "./journal.mjs"
+import {sendAlert} from "./helpers.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const configPath = path.resolve(__dirname, 'config.json')
@@ -122,6 +124,18 @@ if (useHttps) {
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
     console.log(`Mina Monitor Server is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
+
+if (process.platform === 'linux') {
+    new Journal({
+        unit: "mina",
+        user: true
+    }).on("event", (e) => {
+        const message = e.MESSAGE
+        if (message.includes("code=exited")) {
+            sendAlert("FAIL", `Mina was stopped with message ${message}`)
+        }
+    })
+}
 
 setTimeout( processHello, 0)
 setTimeout( processAlerter, 0)
