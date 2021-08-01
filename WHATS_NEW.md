@@ -1,3 +1,6 @@
+### 1.1.5
++ [x] Control for mina stopped with `journalctl` and write this event to the log
+
 ### 1.1.4
 + [x] Snark worker controller
 + [x] Node response time

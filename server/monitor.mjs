@@ -16,8 +16,7 @@ import {processGetDelegations} from "./ledger.mjs"
 import {getPriceInfo, processPriceInfo} from "./coingecko.mjs"
 import {processPriceSend} from "./price-sender.mjs"
 import {processSnarkWorkerController} from "./snark-worker-controller.mjs"
-import {Journal} from "./journal.mjs"
-import {sendAlert} from "./helpers.mjs";
+import {processJournal} from "./journal.mjs"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const configPath = path.resolve(__dirname, 'config.json')
@@ -125,26 +124,15 @@ server.listen(+SERVER_PORT, SERVER_HOST, () => {
     console.log(`Mina Monitor Server is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
-if (process.platform === 'linux') {
-    new Journal({
-        unit: "mina",
-        user: true
-    }).on("event", (e) => {
-        const message = e.MESSAGE
-        if (message.includes("code=exited")) {
-            sendAlert("FAIL", `Mina was stopped with message ${message}`)
-        }
-    })
-}
-
-setTimeout( processHello, 0)
-setTimeout( processAlerter, 0)
-setTimeout( processBalanceSend, 0)
-setTimeout( processPriceSend, 0)
-setTimeout( processCollectNodeInfo, 0)
-setTimeout( processNodeUptime, 0)
-setTimeout( processGetDelegations, 0)
-setTimeout( processExplorer, 0)
-setTimeout( processPriceInfo, 0)
-setTimeout( processWinningBlocks, 0)
-setTimeout( processSnarkWorkerController, 0)
+setImmediate( processHello )
+setImmediate( processAlerter )
+setImmediate( processBalanceSend )
+setImmediate( processPriceSend )
+setImmediate( processCollectNodeInfo )
+setImmediate( processNodeUptime )
+setImmediate( processGetDelegations )
+setImmediate( processExplorer )
+setImmediate( processPriceInfo )
+setImmediate( processWinningBlocks )
+setImmediate( processSnarkWorkerController )
+setImmediate( processJournal )

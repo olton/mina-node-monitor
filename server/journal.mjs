@@ -1,6 +1,8 @@
 import {spawn} from "child_process"
-import util from "util"
 import EventEmitter from "events"
+import {sendAlert} from "./helpers.mjs"
+import {hostname} from "os"
+import {writeFileSync} from "fs"
 
 class JSONStream {
     constructor(cb) {
@@ -75,4 +77,19 @@ export class Journal extends EventEmitter {
     }
 }
 
-util.inherits(Journal, EventEmitter);
+export const processJournal = () => {
+    if (process.platform === 'linux' && globalThis.config.journal) {
+        new Journal({
+            unit: "mina",
+            user: true
+        }).on("event", (e) => {
+            const message = e.MESSAGE
+            if (message.includes("exited") || message.includes("crash")) {
+                try {
+                    writeFileSync("mina-exited.log", message, {flag: 'a+'})
+                } catch (e) {}
+                sendAlert("FAIL", `Mina was stopped on ${hostname()} with message ${message}`)
+            }
+        })
+    }
+}

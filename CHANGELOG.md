@@ -1,6 +1,7 @@
 ### 1.1.5
 + [x] Server: improved `alerter` for `HANG` state detecting
 + [x] Server: added logic to disable `HANG` alert/restart when `hangInterval`, `hangIntervalAlert` is `0`
++ [x] Server: added control for mina stopped with `journalctl` and write this event to the log
 + [x] Server: added alert to `telegram` and/or `discord` about `mina daemon` stops by failure (info from `journalctl`)
 
 ### 1.1.4

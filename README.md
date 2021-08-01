@@ -198,7 +198,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
         "runWorkerCommand": "mina client set-snark-worker -address <ADDRESS>",
         "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
         "controlInterval": 10000
-    }
+    },
+    "journal": true
 }
 ```
 
@@ -232,6 +233,7 @@ where
 - `memAlert` - value to alert when critical memory usage (0 - 100), 0 - no alert 
 - `memRestart` - value to restart when critical memory usage (0 - 100), 0 - no restart
 - `snarkWorker` - options to control snark worker
+- `journal` - enable control for mina service with `jouranlctl`
 
 **Snark worker controller**
 - `address` - address to start snark worker after **stop**
@@ -258,6 +260,7 @@ where
 - `PEERS` - send alert if node don't has a peers
 - `MEM` - send alert if critical memory usage detected 
 - `EXEC` - send information about command executed 
+- `FAIL` - send alert when mina service stopped 
 
 **Values for restart: `restartStateSyncedRules`**
 - `MAX` - restart when height less than max block length 
@@ -267,7 +270,7 @@ where
 - `HANG` - restart hanging detected
 
 **Alert and Restart when critical memory usage**
-These rules are controlled by parameters `memAlert` and `memRestart`.
+These rules controlling by parameters `memAlert` and `memRestart`. To disable restart by memory limit, set `memRastart` to `0`
 
 ### Build web client
 To build client use command: 

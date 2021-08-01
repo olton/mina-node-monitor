@@ -1,10 +1,10 @@
 {
     "publicKey": "B62qr...",
     "publicKeyDelegators": "B62qr...",
-    "telegramToken": "",
-    "telegramChatID": "",
-    "telegramChatIDAlert": "",
-    "discordWebHook": "",
+    "telegramToken": "XXXXXXXXXX:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "telegramChatID": "XXXXXXXXX",
+    "telegramChatIDAlert": "XXXXXXXXX",
+    "discordWebHook": "https://ptb.discord.com/api/webhooks/...",
     "balanceSendInterval": 300000,
     "alertInterval": 180000,
     "blockDiff": 2,
@@ -12,7 +12,7 @@
     "canRestartNode": true,
     "restartAfterNotSynced": 30,
     "restartCmd": "systemctl --user restart mina",
-    "host": "you_ip_address:port",
+    "host": "localhost:8000",
     "graphql": "localhost:3085",
     "https": {
         "key": "",
@@ -20,18 +20,29 @@
     },
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
-    "alertToTelegram": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
-    "alertToDiscord": ["HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS"],
+    "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
+    "alertToTelegram": ["FAIL", "EXEC" ,"HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToDiscord": [],
     "price": {
         "currency": "usd",
+        "updateInterval": 60000,
         "interval": 3600000,
-        "targets": ["TELEGRAM", "DISCORD"]
+        "targets": ["DISCORD"]
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": 30000,
     "hangInterval": 1800000,
     "hangIntervalAlert": 900000,
     "memAlert": 90,
-    "memRestart": 95
+    "memRestart": 95,
+    "snarkWorker": {
+        "address": "",
+        "fee": 0.001,
+        "stopBeforeBlock": 300000,
+        "startAfterBlock": 60000,
+        "runWorkerCommand": "mina client set-snark-worker -address <ADDRESS>",
+        "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
+        "controlInterval": 10000
+    },
+    "journal": true
 }
