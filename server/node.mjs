@@ -1,5 +1,6 @@
 import fetch from "node-fetch"
 import {performance} from "perf_hooks"
+import {parseTime} from "./helpers.mjs";
 
 const queryNodeStatus = `
 query MyQuery {
@@ -199,6 +200,12 @@ export const processCollectNodeInfo = async () => {
         blockDiff = 2
     } = globalThis.config
 
+    const _nodeInfoCollectInterval = parseTime(nodeInfoCollectInterval)
+
+    console.log("Node interval", _nodeInfoCollectInterval);
+
+    globalThis.nodeInfo.state = "UNKNOWN"
+
     let start = performance.now()
 
     let nodeStatus = await fetchGraphQL(graphql, queryNodeStatus)
@@ -209,8 +216,6 @@ export const processCollectNodeInfo = async () => {
     let nextBlock = null
 
     globalThis.nodeInfo.responseTime = performance.now() - start
-
-    //console.log("Node response time: ", (globalThis.nodeInfo.responseTime/1000).toFixed(2))
 
     let health = []
 
@@ -256,6 +261,8 @@ export const processCollectNodeInfo = async () => {
         } else {
             health.push("NON-SYNCED")
         }
+
+        globalThis.nodeInfo.state = syncStatus
     } else {
         health.push("UNKNOWN")
     }
@@ -268,5 +275,5 @@ export const processCollectNodeInfo = async () => {
     globalThis.nodeInfo.health = health
     globalThis.nodeInfo.nextBlock = nextBlock
 
-    setTimeout(processCollectNodeInfo, nodeInfoCollectInterval)
+    setTimeout(processCollectNodeInfo, _nodeInfoCollectInterval)
 }

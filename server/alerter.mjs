@@ -1,6 +1,6 @@
 import {hostname} from "os"
 import {getExplorerSummary} from "./explorer.mjs";
-import {sendAlert, restart, deleteFromArray} from "./helpers.mjs";
+import {sendAlert, restart, deleteFromArray, parseTime} from "./helpers.mjs";
 import {sysInfo} from "./system.mjs";
 
 export const processAlerter = async () => {
@@ -25,6 +25,9 @@ export const processAlerter = async () => {
     const host = hostname()
     const mem = await sysInfo('mem')
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
+    const _alertInterval = parseTime(alertInterval)
+
+    console.log("alert interval", _alertInterval)
 
     let status = globalThis.nodeInfo.nodeStatus
 
@@ -44,13 +47,13 @@ export const processAlerter = async () => {
             OK_SYNCED = false
 
             if (!restartStateException.includes(syncStatus)) {
-                if (globalThis.restartTimerNotSynced / 60000 >= restartAfterNotSynced) {
+                if (globalThis.restartTimerNotSynced >= restartAfterNotSynced) {
                     globalThis.restartTimerNotSynced = 0
                     if (canRestartNode && restartCmd) {
                         restart('Long non-sync!')
                     }
                 } else {
-                    globalThis.restartTimerNotSynced += alertInterval
+                    globalThis.restartTimerNotSynced += _alertInterval
                 }
             }
         } else /*SYNCED*/ {
@@ -133,8 +136,14 @@ export const processAlerter = async () => {
                 deleteFromArray(globalThis.nodeInfo.health, "HANG")
             }
 
+            const _hangIntervalAlert = parseTime(hangIntervalAlert)
+            const _hangIntervalRestart = parseTime(hangInterval)
+
+            console.log("Hang alert", _hangIntervalAlert)
+            console.log("Hang restart", _hangIntervalRestart)
+
             if (globalThis.currentControlHeight) { // We have a block height!
-                if (hangIntervalAlert && globalThis.hangTimer >= hangIntervalAlert) {
+                if (hangIntervalAlert && globalThis.hangTimer >= _hangIntervalAlert) {
 
                     if (!globalThis.nodeInfo.health.includes("HANG")) {
                         globalThis.nodeInfo.health.push("HANG")
@@ -144,7 +153,7 @@ export const processAlerter = async () => {
 
                 }
 
-                if (hangInterval && globalThis.hangTimer >= hangInterval) {
+                if (hangInterval && globalThis.hangTimer >= _hangIntervalRestart) {
 
                     if (restartStateSyncedRules.includes("HANG") && (canRestartNode && restartCmd)) {
                         restart('Hanging node!')
@@ -157,7 +166,7 @@ export const processAlerter = async () => {
                 }
             }
 
-            globalThis.hangTimer += alertInterval
+            globalThis.hangTimer += _alertInterval
         }
 
         if (OK_SYNCED) globalThis.restartTimerNotSynced = 0
@@ -175,7 +184,7 @@ export const processAlerter = async () => {
             }
         }
 
-        reload = alertInterval
+        reload = _alertInterval
     } else {
         reload = 5000
     }

@@ -172,7 +172,7 @@ Parameter `blocks` - determines the order and display of blocks
     "blockDiff": 2,
     "blockDiffToRestart": 4,
     "canRestartNode": true,
-    "restartAfterNotSynced": 30,
+    "restartAfterNotSynced": "30m",
     "restartCmd": "systemctl --user restart mina",
     "host": "you_ip_address:port",
     "graphql": "localhost:3085",
@@ -276,6 +276,26 @@ where
 
 **Alert and Restart when critical memory usage**
 These rules controlling by parameters `memAlert` and `memRestart`. To disable restart by memory limit, set `memRastart` to `0`
+
+**Time values**
+To set time values for config properties you can use two formats:
+1) Value in `milliseconds`
+2) Value is short string format `1d3h45m12s` (**milliseconds not supported**)
+
+To set value in short string format you must observe the following rules:
+1) The order of values is optional, the main thing is to specify the suffix (days - `d`, hours - `h`, minutes - `m`, seconds - `s`)
+2) Values can't contains spaces
+3) To define part of time: `d` - days, `h` - hours, `m` - minutes, `s` - seconds
+
+For example:
+- `1d` - `86400000` ms
+- `1h` - `3600000` ms
+- `5m` - `300000` ms
+- `11s` - `11000` ms
+- `1h12s` - `3612000` ms
+
+And now, you can set (for example) `config.alertInterval` as: `"alertInterval": 180000` or `"alertInterval": "3m"`.
+In this example `180000` and `3m` equal values.
 
 ### Збірка клієнтського додатка
 

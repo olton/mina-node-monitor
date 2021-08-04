@@ -1,5 +1,6 @@
 ### 1.1.5
 + [x] Control for mina stopped with `journalctl` and write this event to the log
++ [x] New supported time format for config parameters - short string (see README)
 
 ### 1.1.4
 + [x] Snark worker controller

@@ -1,6 +1,6 @@
 import fetch from "node-fetch"
 import {TELEGRAM_BOT_URL} from "./telegram.mjs"
-import {parseTelegramChatIDs, timestamp} from "./helpers.mjs";
+import {parseTelegramChatIDs, parseTime, timestamp} from "./helpers.mjs";
 import {discord} from "./discord.mjs";
 
 export const processPriceSend = async () => {
@@ -9,6 +9,9 @@ export const processPriceSend = async () => {
     const {discordWebHook, telegramChatID, telegramToken, price} = globalThis.config
     const {currency = 'usd', interval = 3600000, targets = []} = price
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
+    const _interval = parseTime(interval)
+
+    console.log("Price send interval", _interval);
 
     if (!targets.length) return
 
@@ -33,6 +36,6 @@ export const processPriceSend = async () => {
         }
     }
 
-    setTimeout(processPriceSend, interval)
+    setTimeout(processPriceSend, _interval)
 }
 

@@ -84,9 +84,9 @@ export const processJournal = () => {
             user: true
         }).on("event", (e) => {
             const message = e.MESSAGE
-            if (message.includes("exited") || message.includes("crash")) {
+            if (message.includes("exited, code") || message.includes("crash")) {
                 try {
-                    writeFileSync("mina-exited.log", message, {flag: 'a+'})
+                    writeFileSync(globalThis.logs.fails, `${message}\n`, {flag: 'a+'})
                 } catch (e) {}
                 sendAlert("FAIL", `Mina was stopped on ${hostname()} with message ${message}`)
             }

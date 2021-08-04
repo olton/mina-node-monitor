@@ -1,9 +1,13 @@
-import {sendAlert} from "./helpers.mjs";
+import {parseTime, sendAlert} from "./helpers.mjs";
 
 export const processBalanceSend = async () => {
     if (!globalThis.config || !globalThis.config.publicKey) return
 
     const {balanceSendInterval} = globalThis.config
+    const _balanceSendInterval = parseTime(balanceSendInterval)
+
+    console.log("Balance send", _balanceSendInterval)
+
     let reload
 
     let status = globalThis.nodeInfo.balance
@@ -17,7 +21,7 @@ export const processBalanceSend = async () => {
         }
         globalThis.currentBalance = total
         sendAlert("BALANCE", message)
-        reload = balanceSendInterval
+        reload = _balanceSendInterval
     } else {
         reload = 5000
     }

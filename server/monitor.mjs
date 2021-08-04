@@ -28,6 +28,9 @@ if (!fs.existsSync(configPath)) {
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
+globalThis.logs = {
+    fails: path.resolve(__dirname, "logs/mina-fails.log")
+}
 globalThis.config = config
 globalThis.hangTimer = 0
 globalThis.restartTimer = 0
@@ -43,6 +46,7 @@ globalThis.currentControlHeight = 0
 globalThis.controlCounter = 0
 globalThis.nodeMemoryUsage = 0
 globalThis.nodeInfo = {
+    state: null,
     nodeStatus: null,
     balance: null,
     blockchain: null,
@@ -84,6 +88,7 @@ const requestListener = async (req, res) => {
         case '/consensus': response = globalThis.nodeInfo.consensus; break;
         case '/blockchain': response = globalThis.nodeInfo.blockchain; break;
         case '/node-status': response = globalThis.nodeInfo.nodeStatus; break;
+        case '/sync-state': response = globalThis.nodeInfo.state; break;
         case '/next-block': response = globalThis.nodeInfo.nextBlock; break;
         case '/node-response-time': response = globalThis.nodeInfo.responseTime; break;
         case '/balance': response = globalThis.nodeInfo.balance; break;
