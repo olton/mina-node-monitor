@@ -22,10 +22,6 @@ export const processSnarkWorkerController = async () => {
     const _stopBeforeBlock = parseTime(stopBeforeBlock)
     const _controlInterval = parseTime(controlInterval)
 
-    console.log("SW stop", _stopBeforeBlock)
-    console.log("SW start", _startAfterBlock)
-    console.log("SW control", _controlInterval)
-
     if (!address) return
 
     let {nextBlock, nodeStatus} = globalThis.nodeInfo

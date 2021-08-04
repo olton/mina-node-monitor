@@ -6,8 +6,6 @@ export const processBalanceSend = async () => {
     const {balanceSendInterval} = globalThis.config
     const _balanceSendInterval = parseTime(balanceSendInterval)
 
-    console.log("Balance send", _balanceSendInterval)
-
     let reload
 
     let status = globalThis.nodeInfo.balance

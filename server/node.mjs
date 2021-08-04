@@ -202,8 +202,6 @@ export const processCollectNodeInfo = async () => {
 
     const _nodeInfoCollectInterval = parseTime(nodeInfoCollectInterval)
 
-    console.log("Node interval", _nodeInfoCollectInterval);
-
     globalThis.nodeInfo.state = "UNKNOWN"
 
     let start = performance.now()

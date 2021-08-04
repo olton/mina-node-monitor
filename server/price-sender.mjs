@@ -11,8 +11,6 @@ export const processPriceSend = async () => {
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
     const _interval = parseTime(interval)
 
-    console.log("Price send interval", _interval);
-
     if (!targets.length) return
 
     let data = globalThis.priceInfo

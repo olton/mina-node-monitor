@@ -20,8 +20,6 @@ export const processPriceInfo = async () => {
     const {currency, updateInterval} = globalThis.config.price
     const _updateInterval = parseTime(updateInterval)
 
-    console.log("Get price interval", _updateInterval)
-
     let data = await getPriceInfo(currency)
 
     if (data) {

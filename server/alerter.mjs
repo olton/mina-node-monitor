@@ -27,8 +27,6 @@ export const processAlerter = async () => {
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
 
-    console.log("alert interval", _alertInterval)
-
     let status = globalThis.nodeInfo.nodeStatus
 
     if (status && status.data && status.data.daemonStatus) {
@@ -138,9 +136,6 @@ export const processAlerter = async () => {
 
             const _hangIntervalAlert = parseTime(hangIntervalAlert)
             const _hangIntervalRestart = parseTime(hangInterval)
-
-            console.log("Hang alert", _hangIntervalAlert)
-            console.log("Hang restart", _hangIntervalRestart)
 
             if (globalThis.currentControlHeight) { // We have a block height!
                 if (hangIntervalAlert && globalThis.hangTimer >= _hangIntervalAlert) {
