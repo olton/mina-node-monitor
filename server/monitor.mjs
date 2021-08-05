@@ -28,6 +28,11 @@ if (!fs.existsSync(configPath)) {
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
+/* Create log dir */
+const logDir = path.resolve(__dirname, "logs")
+if (!fs.existsSync(logDir)) fs.mkdirSync(logDir)
+/******************/
+
 globalThis.logs = {
     fails: path.resolve(__dirname, "logs/mina-fails.log")
 }
@@ -54,6 +59,7 @@ globalThis.nodeInfo = {
     blockSpeed: null,
     delegations: null,
     uptime: null,
+    uptime2: null,
     winningBlocks: null,
     health: [],
     responseTime: 0,
@@ -95,6 +101,7 @@ const requestListener = async (req, res) => {
         case '/block-speed': response = globalThis.nodeInfo.blockSpeed; break;
         case '/health': response = globalThis.nodeInfo.health; break;
         case '/uptime': response = globalThis.nodeInfo.uptime; break;
+        case '/uptime2': response = globalThis.nodeInfo.uptime2; break;
         case '/delegations': response = globalThis.nodeInfo.delegations; break;
         case '/explorer': response = globalThis.explorerInfo.summary; break;
         case '/price': response = globalThis.priceInfo; break;
@@ -134,7 +141,8 @@ setImmediate( processAlerter )
 setImmediate( processBalanceSend )
 setImmediate( processPriceSend )
 setImmediate( processCollectNodeInfo )
-setImmediate( processNodeUptime )
+setImmediate( processNodeUptime, 1 )
+setImmediate( processNodeUptime, 2 )
 setImmediate( processGetDelegations )
 setImmediate( processExplorer )
 setImmediate( processPriceInfo )
