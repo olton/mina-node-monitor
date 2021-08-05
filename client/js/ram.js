@@ -2,6 +2,7 @@ import {getInfo} from "./helpers/get-info"
 import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
+import {parseTime} from "./helpers/parse-time";
 
 let memoryGauge, memoryUsageChart
 
@@ -124,5 +125,5 @@ export const processRamInfo = async () => {
         // console.log("Mem (re)loaded!")
     }
 
-    setTimeout(processRamInfo, globalThis.config.intervals.resources)
+    setTimeout(processRamInfo, parseTime(globalThis.config.intervals.resources))
 }

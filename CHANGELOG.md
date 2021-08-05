@@ -6,6 +6,9 @@
 + [x] Server: added response for request `sync-state`. Return daemon sync state (`SYNCED`, `BOOTSTRAP`, ...) or `UNKNOWN`
 + [x] Server: added helper function `timeParser(t)` for parsing time, defined in short string (ex: `1d3h23m45s`, `30m`, `10s`, `2h30s`)
 + [x] Server: config parameter `restartAfterNotSynced` must be defined in milliseconds or short time string (ex: `30m`)
++ [x] Server: added request `uptime2`. Server return extended info about address uptime (position range, group of addresses)
+
++ [x] Client: added support short string time format in config
 
 ### 1.1.4
 + [x] Server: added `snark worker` controller

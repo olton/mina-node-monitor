@@ -1,4 +1,5 @@
 import {getInfo} from "./helpers/get-info"
+import {parseTime} from "./helpers/parse-time";
 
 export const processBlockchainInfo = async () => {
     let blockchainInfo = await getInfo('blockchain')
@@ -23,7 +24,7 @@ export const processBlockchainInfo = async () => {
         $("#slot-since-genesis").text(slotSinceGenesis)
     }
 
-    setTimeout(processBlockchainInfo, globalThis.config.intervals.daemon )
+    setTimeout(processBlockchainInfo, parseTime(globalThis.config.intervals.daemon) )
 }
 
 export const processBlockSpeed = async () => {
@@ -35,5 +36,5 @@ export const processBlockSpeed = async () => {
         globalThis.blockSpeed = blockSpeed
     }
 
-    setTimeout(processBlockSpeed, blockSpeed ? blockSpeed : 180000 )
+    setTimeout(processBlockSpeed, parseTime("3m") )
 }

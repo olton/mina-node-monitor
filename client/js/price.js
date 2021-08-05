@@ -1,11 +1,13 @@
 import {getInfo} from "./helpers/get-info";
 import {imgOk, imgStop} from "./helpers/const";
+import {parseTime} from "./helpers/parse-time";
 
 export const processPrice = async () => {
     const elLog = $("#log-coingecko")
     elLog.html(imgStop)
 
     const {currency = 'usd', update_interval = 60000} = globalThis.config.price
+    const _updateInterval = parseTime(update_interval)
 
     const elCurrentPrice = $("#current-price")
     const elCurrency = $("#currency")
@@ -33,8 +35,8 @@ export const processPrice = async () => {
         elCurrentPrice.html(`${price}`)
         elCurrency.html(currency === "auto" ? mina.currency.toUpperCase() : currency.toUpperCase())
         elPriceChange.html(`${priceChange}%`)
-        elPriceHigh.html(mina.ath)
-        elPriceLow.html(mina.atl)
+        elPriceHigh.html(+(mina.ath).toFixed(2))
+        elPriceLow.html(+(mina.atl).toFixed(2))
 
         elPriceArrow.html(`<span class="text-bold fg-accent ${priceDeltaColor}">${priceDeltaSign}${priceDelta}</span>${symbol}`)
 
@@ -46,5 +48,5 @@ export const processPrice = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout(processPrice, update_interval)
+    setTimeout(processPrice, _updateInterval)
 }

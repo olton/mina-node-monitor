@@ -1,4 +1,5 @@
 import {getInfo} from "./helpers/get-info"
+import {parseTime} from "./helpers/parse-time";
 
 export const processBlocks = async () => {
     let data = await getInfo(`winning-blocks`)
@@ -11,5 +12,5 @@ export const processBlocks = async () => {
         $("#rewards-in-epoch").text(rewards / 10**9)
     }
 
-    if (!globalThis.noSlots) setTimeout(processBlocks, globalThis.config.intervals.daemon)
+    if (!globalThis.noSlots) setTimeout(processBlocks, parseTime(globalThis.config.intervals.daemon))
 }

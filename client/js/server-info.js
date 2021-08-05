@@ -1,5 +1,6 @@
 import {getInfo} from "./helpers/get-info"
 import {imgOk, imgStop} from "./helpers/const";
+import {parseTime} from "./helpers/parse-time";
 
 export const processSystemInfo = async () => {
     const elLog = $("#log-info")
@@ -21,6 +22,6 @@ export const processSystemInfo = async () => {
 
     elLog.html(imgOk)
 
-    setTimeout( processSystemInfo, globalThis.config.intervals.system)
+    setTimeout( processSystemInfo, parseTime(globalThis.config.intervals.system))
 }
 

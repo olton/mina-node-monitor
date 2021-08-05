@@ -2,6 +2,7 @@ import {getInfo} from "./helpers/get-info"
 import {getFakeData} from "./helpers/get-fake-data";
 import {defaultChartConfig, defaultGaugeConfig} from "./helpers/chart-config";
 import {imgOk, imgStop} from "./helpers/const";
+import {parseTime} from "./helpers/parse-time";
 
 let cpuChart, cpuGauge, cpuSegment
 
@@ -125,7 +126,7 @@ export const processCPUData = async () => {
         elLog.html(imgOk)
     }
 
-    setTimeout( processCPUData, globalThis.config.intervals.resources )
+    setTimeout( processCPUData, parseTime(globalThis.config.intervals.resources) )
 }
 
 
@@ -158,5 +159,5 @@ export const processCPUTemp = async () => {
         globalThis.cpuCores = temp.cores.length
     }
 
-    setTimeout(processCPUTemp, globalThis.config.intervals.resources )
+    setTimeout(processCPUTemp, parseTime(globalThis.config.intervals.resources) )
 }

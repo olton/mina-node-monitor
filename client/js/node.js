@@ -3,6 +3,7 @@ import {getFakeTriplets} from "./helpers/get-fake-data"
 import {defaultChartConfig} from "./helpers/chart-config"
 import {imgOk, imgStop} from "./helpers/const";
 import {copy2clipboard} from "./helpers/clipboard";
+import {parseTime} from "./helpers/parse-time";
 
 const graphSize = 20
 let START_NODE_MON = datetime()
@@ -293,7 +294,7 @@ export const processNodeStatus = async () => {
         reload = 5000
     }
 
-    setTimeout(processNodeStatus, reload)
+    setTimeout(processNodeStatus, parseTime(reload))
 }
 
 $("#node-version, #block-producer, #snark-worker").on("click", function(){

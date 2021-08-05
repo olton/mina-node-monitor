@@ -1,4 +1,5 @@
 import {getInfo} from "./helpers/get-info"
+import {parseTime} from "./helpers/parse-time";
 
 export const processConsensus = async () => {
     const consensus = await getInfo('consensus')
@@ -22,5 +23,5 @@ export const processConsensus = async () => {
         progress.buff(epochDurationProgress)
     }
 
-    setTimeout(processConsensus, config.intervals.daemon)
+    setTimeout(processConsensus, parseTime(config.intervals.daemon))
 }

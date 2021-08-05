@@ -1,4 +1,5 @@
 import {getInfo} from "./helpers/get-info"
+import {parseTime} from "./helpers/parse-time";
 
 export const processDelegations = async () => {
     const data = await getInfo('delegations')
@@ -13,5 +14,5 @@ export const processDelegations = async () => {
         $("#delegators-stack-next").text((next.stake).format(2, null, ",", "."))
     }
 
-    setTimeout(processDelegations, 60000)
+    setTimeout(processDelegations, parseTime("1m"))
 }
