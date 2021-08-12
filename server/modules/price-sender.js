@@ -1,9 +1,8 @@
-import fetch from "node-fetch"
-import {TELEGRAM_BOT_URL} from "./telegram.mjs"
-import {parseTelegramChatIDs, parseTime, timestamp} from "./helpers.mjs";
-import {discord} from "./discord.mjs";
+const fetch = require("node-fetch")
+const {TELEGRAM_BOT_URL, discord} = require("../helpers/messangers")
+const {parseTime, parseTelegramChatIDs} = require("../helpers/parsers")
 
-export const processPriceSend = async () => {
+const processPriceSend = async () => {
     if (!globalThis.config) return
 
     const {discordWebHook, telegramChatID, telegramToken, price} = globalThis.config
@@ -37,3 +36,6 @@ export const processPriceSend = async () => {
     setTimeout(processPriceSend, _interval)
 }
 
+module.exports = {
+    processPriceSend
+}

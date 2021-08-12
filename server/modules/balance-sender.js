@@ -1,6 +1,8 @@
-import {parseTime, sendAlert} from "./helpers.mjs";
+const {parseTime} = require("../helpers/parsers")
+const {sendAlert} = require("../helpers/messangers")
+const {daemonStatus, addressBalance} = require("../helpers/node-data");
 
-export const processBalanceSend = async () => {
+const processBalanceSend = async () => {
     if (!globalThis.config || !globalThis.config.publicKey) return
 
     const {balanceSendInterval} = globalThis.config
@@ -8,10 +10,11 @@ export const processBalanceSend = async () => {
 
     let reload
 
-    let status = globalThis.nodeInfo.balance
+    let balance = addressBalance(globalThis.nodeInfo.balance)
+    let status = daemonStatus(globalThis.nodeInfo.nodeStatus)
 
-    if (status && status.data && status.data.account && status.data.account.balance) {
-        const {total, liquid, locked} = status.data.account.balance
+    if (balance && status && !['BOOTSTRAP', 'OFFLINE', 'CONNECTING'].includes(status.syncStatus)) {
+        const {total, liquid, locked} = balance
         const message =`Current balance info: ${(total / 10**9).toFixed(4)} [T], ${(liquid / 10**9).toFixed(4)} [Q], ${(locked / 10**9).toFixed(4)} [L]`
 
         if (globalThis.currentBalance === total) {
@@ -27,3 +30,6 @@ export const processBalanceSend = async () => {
     setTimeout(processBalanceSend, reload)
 }
 
+module.exports = {
+    processBalanceSend
+}

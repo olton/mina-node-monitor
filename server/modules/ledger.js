@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+const fetch = require("node-fetch")
 
 const delegations = async (key) => {
     const link = `https://minastake.com/ledger/delegations.php?publicKey=${key}`
@@ -6,7 +6,7 @@ const delegations = async (key) => {
     return data.ok ? data.json() : null
 }
 
-export const getLedgerInfo = async (path, config) => {
+const getLedgerInfo = async (path, config) => {
     const delegateKey = config.publicKeyDelegators ?? config.publicKey
 
     switch (path) {
@@ -14,11 +14,17 @@ export const getLedgerInfo = async (path, config) => {
     }
 }
 
-export const processGetDelegations = async () => {
+const processGetDelegations = async () => {
     const key = globalThis.config.publicKeyDelegators ?? globalThis.config.publicKey
     let data = await delegations(key)
 
     if (data) globalThis.nodeInfo.delegations = data
 
     setTimeout(processGetDelegations, 600000)
+}
+
+module.exports = {
+    processGetDelegations,
+    getLedgerInfo,
+    delegations
 }

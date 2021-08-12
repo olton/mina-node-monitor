@@ -1,6 +1,9 @@
-import fetch from "node-fetch"
-import {performance} from "perf_hooks"
-import {parseTime} from "./helpers.mjs";
+const fetch = require("node-fetch")
+const {performance} = require("perf_hooks")
+const {hostname} = require("os")
+const {parseTime} = require("../helpers/parsers")
+const {daemonStatus} = require("../helpers/node-data")
+const {sendAlert} = require("../helpers/messangers")
 
 const queryNodeStatus = `
 query MyQuery {
@@ -160,7 +163,7 @@ async function fetchGraphQL(addr, query, variables = {}) {
     }
 }
 
-export async function getNextBlockTime(graphql){
+async function getNextBlockTime(graphql){
     let time = await fetchGraphQL(graphql, queryNextBlock)
     if (!time || !time.data) {
         return null
@@ -191,7 +194,7 @@ async function getBlockSpeed(graphql, length){
     return speed
 }
 
-export const processCollectNodeInfo = async () => {
+const processCollectNodeInfo = async () => {
     const {
         graphql,
         publicKey,
@@ -221,15 +224,26 @@ export const processCollectNodeInfo = async () => {
         health.push("HANG")
     }
 
-    if (nodeStatus && nodeStatus.data && nodeStatus.data.daemonStatus) {
+    const status = daemonStatus(nodeStatus)
+    const sign = ` Host: ${hostname()}`
+
+    if (status) {
         const {
             syncStatus,
             peers = 0,
+            addrsAndPorts,
             blockchainLength: blockHeight = 0,
             highestBlockLengthReceived: maxHeight = 0,
             highestUnvalidatedBlockLengthReceived: unvHeight = 0,
             nextBlockProduction
-        } = nodeStatus.data.daemonStatus
+        } = status
+
+        const ip = addrsAndPorts.externalIp
+
+        if (globalThis.nodeInfo.previousState !== syncStatus) {
+            sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.nodeInfo.previousState}\`)!${sign}`)
+            globalThis.nodeInfo.previousState = syncStatus
+        }
 
         let times = nextBlockProduction ? nextBlockProduction.times : []
 
@@ -242,10 +256,6 @@ export const processCollectNodeInfo = async () => {
         if (syncStatus === "SYNCED") {
             if (peers <= 0) {
                 health.push("NO PEERS")
-            }
-
-            if (peers === 0) {
-                health.push("NO-PEERS")
             }
 
             if (blockHeight) {
@@ -262,6 +272,10 @@ export const processCollectNodeInfo = async () => {
 
         globalThis.nodeInfo.state = syncStatus
     } else {
+        if (globalThis.nodeInfo.previousState !== 'UNKNOWN') {
+            sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.nodeInfo.previousState}\`)!${sign}`)
+        }
+        globalThis.nodeInfo.previousState = 'UNKNOWN'
         health.push("UNKNOWN")
     }
 
@@ -274,4 +288,10 @@ export const processCollectNodeInfo = async () => {
     globalThis.nodeInfo.nextBlock = nextBlock
 
     setTimeout(processCollectNodeInfo, _nodeInfoCollectInterval)
+}
+
+module.exports = {
+    getNextBlockTime,
+    getBlockSpeed,
+    processCollectNodeInfo
 }

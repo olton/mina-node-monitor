@@ -1,9 +1,13 @@
-import {hostname} from "os"
-import {getExplorerSummary} from "./explorer.mjs";
-import {sendAlert, restart, deleteFromArray, parseTime} from "./helpers.mjs";
-import {sysInfo} from "./system.mjs";
+const {hostname} = require("os")
+const {getExplorerSummary} = require("./explorer")
+const {sysInfo} = require("./system")
+const {daemonStatus} = require("../helpers/node-data");
+const {parseTime} = require("../helpers/parsers")
+const {sendAlert} = require("../helpers/messangers")
+const {restart} = require("../helpers/process")
+const {deleteFromArray} = require("../helpers/arrays")
 
-export const processAlerter = async () => {
+const processAlerter = async () => {
     if (!globalThis.config) return
 
     const {
@@ -27,22 +31,27 @@ export const processAlerter = async () => {
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
 
-    let status = globalThis.nodeInfo.nodeStatus
+    let status = daemonStatus(globalThis.nodeInfo.nodeStatus)
 
-    if (status && status.data && status.data.daemonStatus) {
-        const {syncStatus, blockchainLength, highestBlockLengthReceived, highestUnvalidatedBlockLengthReceived, addrsAndPorts, peers = 0} = status.data.daemonStatus
+    if (status) {
+        const {
+            syncStatus,
+            blockchainLength,
+            highestBlockLengthReceived,
+            highestUnvalidatedBlockLengthReceived,
+            addrsAndPorts,
+            peers = 0
+        } = status
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
-        let OK_SYNCED = true
-        const sign = `\nHost: ${host}\nIP: ${ip}`
+        const sign = `\nFrom: ${host} (${ip})`
+
+        if (SYNCED) globalThis.restartTimerNotSynced = 0
 
         if (!SYNCED) {
-            const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`
-            const message = `Node not synced, status ${syncStatus} ${syncStatus === 'CATCHUP' ? blocks : ''} !${sign}`
-
-            sendAlert("NOT-SYNCED", message)
-
-            OK_SYNCED = false
+            //const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`
+            //const message = `Node not synced, status ${syncStatus} ${syncStatus === 'CATCHUP' ? blocks : ''} !${sign}`
+            //sendAlert("NOT-SYNCED", message)
 
             if (!restartStateException.includes(syncStatus)) {
                 if (globalThis.restartTimerNotSynced >= restartAfterNotSynced) {
@@ -164,8 +173,6 @@ export const processAlerter = async () => {
             globalThis.hangTimer += _alertInterval
         }
 
-        if (OK_SYNCED) globalThis.restartTimerNotSynced = 0
-
         if (SYNCED && globalThis.currentHeight > 0 && observeExplorer) {
             const explorer = await getExplorerSummary()
             if (explorer && explorer.blockchainLength && blockchainLength) {
@@ -185,4 +192,8 @@ export const processAlerter = async () => {
     }
 
     setTimeout(processAlerter, reload)
+}
+
+module.exports = {
+    processAlerter
 }

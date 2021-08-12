@@ -1,31 +1,31 @@
 #!/usr/bin/env node
 
-import fs from "fs"
-import path, {dirname} from "path"
-import { fileURLToPath } from 'url'
-import http from "http"
-import https from "https"
-import {sysInfo} from "./system.mjs"
-import {processCollectNodeInfo} from "./node.mjs"
-import {getBlocks, processExplorer, processWinningBlocks} from "./explorer.mjs"
-import {processAlerter} from "./alerter.mjs"
-import {processBalanceSend} from "./balance-sender.mjs"
-import {processHello} from "./hello.mjs"
-import {processNodeUptime} from "./uptime.mjs"
-import {processGetDelegations} from "./ledger.mjs"
-import {getPriceInfo, processPriceInfo} from "./coingecko.mjs"
-import {processPriceSend} from "./price-sender.mjs"
-import {processSnarkWorkerController} from "./snark-worker-controller.mjs"
-import {processJournal} from "./journal.mjs"
+const fs = require("fs")
+const path = require("path")
+const http = require("http")
+const https = require("https")
+const {sysInfo} = require("./modules/system")
+const {processCollectNodeInfo} = require("./modules/node")
+const {getBlocks, processExplorer, processWinningBlocks} = require("./modules/explorer")
+const {processAlerter} = require("./modules/alerter")
+const {processBalanceSend} = require("./modules/balance-sender")
+const {processHello} = require("./modules/hello")
+const {processNodeUptime} = require("./modules/uptime")
+const {processGetDelegations} = require("./modules/ledger")
+const {getPriceInfo, processPriceInfo} = require("./modules/coingecko")
+const {processPriceSend} = require("./modules/price-sender")
+const {processSnarkWorkerController} = require("./modules/snark-worker-controller")
+const {processJournal} = require("./modules/journal")
+const {updateConfigFromArguments} = require("./helpers/arguments");
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+// const __dirname = dirname(fileURLToPath(import.meta.url))
 const configPath = path.resolve(__dirname, 'config.json')
 
 if (!fs.existsSync(configPath)) {
     throw new Error("Config file not exist!")
 }
 
-const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
+const config = updateConfigFromArguments(JSON.parse(fs.readFileSync(configPath, 'utf-8')))
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
 /* Create log dir */
@@ -51,6 +51,7 @@ globalThis.currentControlHeight = 0
 globalThis.controlCounter = 0
 globalThis.nodeMemoryUsage = 0
 globalThis.nodeInfo = {
+    previousState: 'UNKNOWN',
     state: null,
     nodeStatus: null,
     balance: null,
@@ -105,9 +106,9 @@ const requestListener = async (req, res) => {
         case '/delegations': response = globalThis.nodeInfo.delegations; break;
         case '/explorer': response = globalThis.explorerInfo.summary; break;
         case '/price': response = globalThis.priceInfo; break;
+        case '/winning-blocks': response = globalThis.nodeInfo.winningBlocks; break;
 
         case '/price-for': response = await getPriceInfo(_url.searchParams.get('currency') ?? 'usd'); break;
-        case '/winning-blocks': response = globalThis.nodeInfo.winningBlocks; break;
         case '/blocks': response = await getBlocks({
             creator: config.publicKeyDelegators,
             epoch: _url.searchParams.get('epoch') ?? 0,

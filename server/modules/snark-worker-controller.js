@@ -1,7 +1,11 @@
-import {hostname} from "os"
-import {between, daemonStatus, execCommand, isNum, parseTime, sendAlert} from "./helpers.mjs"
+const {hostname} = require("os")
+const {parseTime} = require("../helpers/parsers")
+const {daemonStatus} = require("../helpers/node-data")
+const {execCommand} = require("../helpers/process")
+const {sendAlert} = require("../helpers/messangers")
+const {isNum, between} = require("../helpers/numbers")
 
-export const processSnarkWorkerController = async () => {
+const processSnarkWorkerController = async () => {
     const config = globalThis.config.snarkWorker
     let cmdStart, cmdStop, cmdFee, setFee, startWorker, stopWorker
     const host = hostname()
@@ -77,4 +81,8 @@ export const processSnarkWorkerController = async () => {
     }
 
     setTimeout(processSnarkWorkerController, _controlInterval)
+}
+
+module.exports = {
+    processSnarkWorkerController
 }

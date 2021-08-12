@@ -1,4 +1,4 @@
-import fetch from "node-fetch"
+const fetch = require("node-fetch")
 
 const EXPLORER_GRAPHQL = `https://graphql.minaexplorer.com`
 const EXPLORER_API = `https://api.minaexplorer.com`
@@ -26,7 +26,7 @@ async function fetchGraphQL(query, variables = {}) {
     }
 }
 
-export const getBlocks = async (variables) => {
+const getBlocks = async (variables) => {
     const query = `
         query($creator: String!, $epoch: Int, $blockHeightMin: Int, $blockHeightMax: Int, $dateTimeMin: DateTime, $dateTimeMax: DateTime){
           blocks(query: {creator: $creator, protocolState: {consensusState: {epoch: $epoch}}, canonical: true, blockHeight_gte: $blockHeightMin, blockHeight_lte: $blockHeightMax, dateTime_gte:$dateTimeMin, dateTime_lte:$dateTimeMax}, sortBy: DATETIME_DESC, limit: 1000) {
@@ -64,12 +64,12 @@ export const getBlocks = async (variables) => {
     return await fetchGraphQL(query, variables)
 }
 
-export const getExplorerSummary = async () => {
+const getExplorerSummary = async () => {
     const response = await fetch(`${EXPLORER_API}/summary`)
     return response.ok ? await response.json() : null
 }
 
-export const processExplorer = async () => {
+const processExplorer = async () => {
     let data = await getExplorerSummary()
 
     if (data) globalThis.explorerInfo.summary = data
@@ -77,7 +77,7 @@ export const processExplorer = async () => {
     setTimeout(processExplorer, 180000)
 }
 
-export const processWinningBlocks = async () => {
+const processWinningBlocks = async () => {
     let blockchain = globalThis.nodeInfo.blockchain
     let creator = globalThis.config.publicKeyDelegators
     let reload
@@ -102,4 +102,11 @@ export const processWinningBlocks = async () => {
     }
 
     setTimeout(processWinningBlocks, reload)
+}
+
+module.exports = {
+    getBlocks,
+    getExplorerSummary,
+    processExplorer,
+    processWinningBlocks
 }

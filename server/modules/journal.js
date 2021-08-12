@@ -1,8 +1,8 @@
-import {spawn} from "child_process"
-import EventEmitter from "events"
-import {sendAlert} from "./helpers.mjs"
-import {hostname} from "os"
-import {writeFileSync} from "fs"
+const {spawn} = require("child_process")
+const EventEmitter = require("events")
+const {hostname} = require("os")
+const {writeFileSync} = require("fs")
+const {sendAlert} = require("../helpers/messangers")
 
 class JSONStream {
     constructor(cb) {
@@ -41,7 +41,7 @@ class JSONStream {
     }
 }
 
-export class Journal extends EventEmitter {
+class Journal extends EventEmitter {
     constructor({reverse = false, follow = true, all, user, lines, since, identifier, unit, filter} = {}) {
         super()
 
@@ -77,13 +77,13 @@ export class Journal extends EventEmitter {
     }
 }
 
-export const processJournal = () => {
+const processJournal = () => {
     if (process.platform === 'linux' && globalThis.config.journal) {
         new Journal({
             unit: "mina",
             user: true
         }).on("event", (e) => {
-            const message = e.MESSAGE
+            const message = e["MESSAGE"]
             if (message.includes("exited, code") || message.includes("crash")) {
                 try {
                     writeFileSync(globalThis.logs.fails, `${message}\n`, {flag: 'a+'})
@@ -92,4 +92,9 @@ export const processJournal = () => {
             }
         })
     }
+}
+
+module.exports = {
+    Journal,
+    processJournal
 }

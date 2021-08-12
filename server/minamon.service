@@ -8,8 +8,8 @@ StartLimitBurst=3
 Type=simple
 Restart=always
 RestartSec=15
-ExecStart=/usr/bin/node /home/user-name/node-monitor/monitor.mjs
-ExecStop=/usr/bin/pkill -9 -f "node node-monitor/monitor.mjs"
+ExecStart=/usr/bin/node /home/user-name/mina-monitor/index
+ExecStop=/usr/bin/pkill -9 -f "node mina-monitor/index"
 
 [Install]
 WantedBy=multi-user.target

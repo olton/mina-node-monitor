@@ -1,7 +1,7 @@
-import {networkStats, networkConnections} from "systeminformation"
-import os from "os"
-import {execSync, exec} from "child_process"
-import {stat, readFile} from "fs"
+const {networkStats, networkConnections} = require("systeminformation")
+const os = require("os")
+const {execSync, exec} = require("child_process")
+const {stat, readFile} = require("fs")
 
 const getMem = () => {
     const total = os.totalmem()
@@ -229,7 +229,7 @@ const getCpuTemperature = () => {
     })
 }
 
-export const sysInfo = async (obj) => {
+const sysInfo = async (obj) => {
     switch (obj) {
         case 'cpu': return getCpuInfo()
         case 'mem': return getMem()
@@ -241,4 +241,16 @@ export const sysInfo = async (obj) => {
         case 'net-stat': return await networkStats()
         case 'net-conn': return await networkConnections()
     }
+}
+
+module.exports = {
+    sysInfo,
+    getMem,
+    getCpuAverage,
+    getCpuLoad,
+    getCpuInfo,
+    getCpuTemperature,
+    getServerTime,
+    getOsVersion,
+    getPlatform
 }
