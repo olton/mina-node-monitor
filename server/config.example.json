@@ -44,5 +44,5 @@
         "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
         "controlInterval": "10s"
     },
-    "journal": true
+    "journal": false
 }
