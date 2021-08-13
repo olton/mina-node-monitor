@@ -1,4 +1,5 @@
 const {isset} = require("./isset");
+const {isNum} = require("./numbers");
 const getArguments = () => {
     const args = process.argv.slice(2)
     const obj = {}
@@ -21,7 +22,15 @@ const updateConfigFromArguments = (c) => {
     let _c = c
 
     for(let o in args) {
-        const v = JSON.parse(args[o])
+        let v = args[o]
+
+        if (isNum(v)) {
+            v = Number(v)
+        } else if (['true', 'false'].includes(v.toLowerCase())) {
+            v = v.toLowerCase() === 'true'
+        } else if (v.includes("[")) {
+            v = v.replace(/[\[\]"'`]/gi, "").split(",")
+        }
 
         if (o.includes(":")) {
             const [p1, p2] = o.split(":")
