@@ -61,14 +61,18 @@ class Journal extends EventEmitter {
             filter.forEach((f) => args.push(f));
         }
 
-        this.journal = spawn('journalctl', args);
+        try {
+            this.journal = spawn('journalctl', args);
 
-        const decoder = new JSONStream((e) => {
-            this.emit('event', e);
-        });
-        this.journal.stdout.on('data', (chunk) => {
-            decoder.decode(chunk.toString());
-        });
+            const decoder = new JSONStream((e) => {
+                this.emit('event', e);
+            });
+            this.journal.stdout.on('data', (chunk) => {
+                decoder.decode(chunk.toString());
+            });
+        } catch (e) {
+            console.log(`Journal controller not started, because ${e.message}`)
+        }
     }
 
     stop(cb){

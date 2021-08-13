@@ -1,6 +1,6 @@
 {
     "hosts": {
-        "node1": "192.168.1.2:3085"
+        "node1": "127.0.0.1:8000"
     },
     "useHost": "node1",
     "intervals": {

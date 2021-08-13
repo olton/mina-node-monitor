@@ -171,7 +171,7 @@ Parameter `blocks` - determines the order and display of blocks
     "canRestartNode": true,
     "restartAfterNotSynced": "30m",
     "restartCmd": "systemctl --user restart mina",
-    "host": "you_ip_address:port",
+    "host": "0.0.0.0:8000",
     "graphql": "localhost:3085",
     "https": {
         "key": "",
@@ -180,8 +180,8 @@ Parameter `blocks` - determines the order and display of blocks
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
-    "alertToTelegram": ["EXEC","HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
-    "alertToDiscord": ["EXEC","HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToTelegram": ["FAIL", "EXEC","HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToDiscord": ["FAIL","EXEC","HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
     "price": {
         "currency": "usd",
         "updateInterval": 60000,
@@ -353,7 +353,7 @@ npm install node-fetch systeminformation --save
 Для запуска сервера выполните команду:
 
 ```shell
-node monitor.mjs
+node index
 ```
 
 После того как вы запустили сервер, клиент может получать от него информацию.

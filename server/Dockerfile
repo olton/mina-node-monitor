@@ -1,11 +1,11 @@
-FROM node:14
-RUN mkdir -p /home/minamon/server/node_modules && chown -R minamon:minamon /home/minamon/server
-WORKDIR /home/minamon/server
+FROM node:14-alpine
+MAINTAINER olton "serhii@pimenov.com.ua"
+ENV NODE_ENV=production
+WORKDIR /minamon
 COPY package*.json ./
-USER minamon
-ENTRYPOINT ["node", "index.js"]
-RUN npm install
-# RUN npm ci --only=production
-COPY --chown=minamon:minamon . .
+RUN npm install --production
+COPY . .
+COPY config.example.json config.json
 EXPOSE 8000
+ENTRYPOINT ["node", "index.js"]
 # CMD [ "node", "index.js" ]

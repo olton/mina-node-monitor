@@ -28,6 +28,8 @@ if (!fs.existsSync(configPath)) {
 const config = updateConfigFromArguments(JSON.parse(fs.readFileSync(configPath, 'utf-8')))
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
+console.log(config)
+
 /* Create log dir */
 const logDir = path.resolve(__dirname, "logs")
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir)

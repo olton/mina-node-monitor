@@ -1,35 +1,35 @@
 {
-    "name": "@olton/mina-monitor",
-    "version": "1.1.4",
-    "license": "MIT",
-    "type": "module",
-    "scripts": {
-        "serve": "shx rm -rf output/* && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
-        "prebuild": "shx rm -rf dist/*",
-        "build": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
-        "start": "npm run serve",
-        "client": "npm run serve",
-        "server": "node --trace-warnings server/monitor.mjs"
-    },
-    "devDependencies": {
-        "less": "^4.1.1",
-        "parcel-bundler": "^1.12.5",
-        "parcel-plugin-static-files-copy": "^2.6.0",
-        "shx": "^0.3.3"
-    },
-    "dependencies": {
-        "node-fetch": "^2.6.1",
-        "systeminformation": "^5.7.7"
-    },
-    "staticFiles": {
-        "staticPath": [
-            "client/config.json"
-        ]
-    },
-    "browserslist": [
-        "last 1 Chrome versions",
-        "last 1 Firefox versions",
-        "last 1 Opera versions",
-        "last 1 Edge versions"
+  "name": "@olton/mina-monitor",
+  "version": "1.1.5",
+  "license": "MIT",
+  "scripts": {
+    "serve": "shx rm -rf output/* && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
+    "prebuild": "shx rm -rf dist/*",
+    "build": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
+    "start": "npm run serve",
+    "client": "npm run serve",
+    "server": "node --trace-warnings server/index",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "less": "^4.1.1",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "shx": "^0.3.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "systeminformation": "^5.7.7"
+  },
+  "staticFiles": {
+    "staticPath": [
+      "client/config.json"
     ]
+  },
+  "browserslist": [
+    "last 1 Chrome versions",
+    "last 1 Firefox versions",
+    "last 1 Opera versions",
+    "last 1 Edge versions"
+  ]
 }

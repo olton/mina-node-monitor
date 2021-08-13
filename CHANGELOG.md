@@ -1,4 +1,6 @@
 ### 1.1.5
++ [x] Server: added command line arguments support. Now you can rewrite config parameters with command line arguments
++ [x] Server: refactoring code, switch to CommonJS modules
 + [x] Server: improved `alerter` for `HANG` state detecting
 + [x] Server: added logic to disable `HANG` alert/restart when `hangInterval`, `hangIntervalAlert` is `0`
 + [x] Server: added control for mina stopped with `journalctl` and write this event to the log
@@ -7,6 +9,7 @@
 + [x] Server: added helper function `timeParser(t)` for parsing time, defined in short string (ex: `1d3h23m45s`, `30m`, `10s`, `2h30s`)
 + [x] Server: config parameter `restartAfterNotSynced` must be defined in milliseconds or short time string (ex: `30m`)
 + [x] Server: added request `uptime2`. Server return extended info about address uptime (position range, group of addresses)
++ [x] Server: changed alerts events to Telegram and Discord. Value `NON_SYNCED` is deprecated, to alert change sync status use value `STATUS`
 
 + [x] Client: added support short string time format in config
 

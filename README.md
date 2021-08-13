@@ -167,7 +167,7 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "canRestartNode": true,
     "restartAfterNotSynced": "30m",
     "restartCmd": "systemctl --user restart mina",
-    "host": "you_ip_address:port",
+    "host": "0.0.0.0:8000",
     "graphql": "localhost:3085",
     "https": {
         "key": "",
@@ -176,8 +176,8 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
     "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
-    "alertToTelegram": ["EXEC","HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
-    "alertToDiscord": ["EXEC","HELLO", "NOT-SYNCED", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToTelegram": ["FAIL", "EXEC","HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToDiscord": ["FAIL","EXEC","HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
     "price": {
         "currency": "usd",
         "updateInterval": 60000,
@@ -345,7 +345,7 @@ npm install node-fetch systeminformation --save
 #### Run server
 To run server execute command:
 ```shell
-node monitor.mjs
+node index
 ```
 
 ## Sever side as Service

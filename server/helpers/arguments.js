@@ -21,9 +21,11 @@ const updateConfigFromArguments = (c) => {
     let _c = c
 
     for(let o in args) {
-        const v = args[o]
+        const v = JSON.parse(args[o])
+
         if (o.includes(":")) {
             const [p1, p2] = o.split(":")
+
             if (!isset(_c[p1]) || !isset(_c[p1][p2])) continue
             _c[p1][p2] = v
         } else {
