@@ -73,6 +73,13 @@ query ($publicKey: String!) {
       stateHash
       unknown
     }
+    timing {
+      vesting_period
+      vesting_increment
+      initial_mininum_balance
+      cliff_time
+      cliff_amount
+    }
   }
 }
 `;

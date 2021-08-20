@@ -19,14 +19,19 @@ const {processJournal} = require("./modules/journal")
 const {updateConfigFromArguments} = require("./helpers/arguments");
 
 // const __dirname = dirname(fileURLToPath(import.meta.url))
+const configPathLinux = "/etc/minamon/config.json"
 const configPath = path.resolve(__dirname, 'config.json')
 
 if (!fs.existsSync(configPath)) {
     throw new Error("Config file not exist!")
 }
 
-const config = updateConfigFromArguments(JSON.parse(fs.readFileSync(configPath, 'utf-8')))
+const readConfig = (path) => updateConfigFromArguments(JSON.parse(fs.readFileSync(path, 'utf-8')))
+
+const config = readConfig(process.platform === 'linux' && fs.existsSync(configPathLinux) ? configPathLinux : configPath)
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
+
+console.log(config)
 
 /* Create log dir */
 const logDir = path.resolve(__dirname, "logs")

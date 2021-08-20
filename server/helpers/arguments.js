@@ -28,7 +28,7 @@ const updateConfigFromArguments = (c) => {
             v = Number(v)
         } else if (['true', 'false'].includes(v.toLowerCase())) {
             v = v.toLowerCase() === 'true'
-        } else if (v.includes("[")) {
+        } else if (v.includes("[") || v.includes(",")) {
             v = v.replace(/[\[\]"'`]/gi, "").split(",")
         }
 

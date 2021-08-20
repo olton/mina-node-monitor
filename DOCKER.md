@@ -9,7 +9,7 @@ sudo docker run --rm --network=host -d olton/mina_monitor_server:latest -journal
 ### Set Mina Monitor Server parameters
 Begin from 1.1.5, you can redefine config parameters with command line arguments:
 ```shell
-node server/index -publicKey B62q... -price:currency usd -alertToDiscord ["FAIL"]
+node server/index -publicKey B62q... -price:currency usd -alertToDiscord FAIL,EXEC,STATUS
 ```
 This command overwrite three config parameters:
 ```json
@@ -18,7 +18,7 @@ This command overwrite three config parameters:
     "price": {
         "currency": "usd"
     },
-    "alertToDiscord": ["FAIL"]
+    "alertToDiscord": ["FAIL", "EXEC", "STATUS"]
 }
 ```
 
