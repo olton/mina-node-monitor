@@ -1,4 +1,4 @@
-### 1.1.5
+### 2.0.0
 + [x] Server: changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Server: added command line arguments support. Now you can rewrite config parameters with command line arguments
 + [x] Server: refactoring code, switch to CommonJS modules
@@ -9,7 +9,6 @@
 + [x] Server: added response for request `sync-state`. Return daemon sync state (`SYNCED`, `BOOTSTRAP`, ...) or `UNKNOWN`
 + [x] Server: added helper function `timeParser(t)` for parsing time, defined in short string (ex: `1d3h23m45s`, `30m`, `10s`, `2h30s`)
 + [x] Server: config parameter `restartAfterNotSynced` must be defined in milliseconds or short time string (ex: `30m`)
-+ [x] Server: added request `uptime2`. Server return extended info about address uptime (position range, group of addresses)
 + [x] Server: changed alerts events to Telegram and Discord. Value `NON_SYNCED` is deprecated, to alert change sync status use value `STATUS`
 + [x] Server: changed config property `price:interval` to `price:sendInterval`
 
@@ -18,8 +17,8 @@
 + [x] Client: config parameters `inervals:*` are deprecated
 + [x] Client: config parameters `price:*` are deprecated
 + [x] Client: config parameters `proxy`, `useProxy` are deprecated
-+ [x] Client: config parameters `hosts`, `useHost` are deprecated. You must use parameter `host:server_ip_or_name:port`
-+ [x] Client: config parameter `useHttps` are deprecated. You must use parameter `https`
++ [x] Client: config parameters `hosts`, `useHost` are deprecated. You must use parameter `host: "server_ip_or_name:port"`
++ [x] Client: config parameter `useHttps` are deprecated. You must use parameter `https: true|false`
 
 ### 1.1.4
 + [x] Server: added `snark worker` controller
