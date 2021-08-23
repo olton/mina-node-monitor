@@ -27,10 +27,11 @@ const processPriceInfo = async () => {
         globalThis.priceInfo = data
     }
 
+    globalThis.cache.price = data
+
     setTimeout(processPriceInfo, _updateInterval)
 }
 
 module.exports = {
-    getPriceInfo,
     processPriceInfo
 }

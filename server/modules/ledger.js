@@ -6,25 +6,19 @@ const delegations = async (key) => {
     return data.ok ? data.json() : null
 }
 
-const getLedgerInfo = async (path, config) => {
-    const delegateKey = config.publicKeyDelegators ?? config.publicKey
-
-    switch (path) {
-        case "delegations": return await delegations(delegateKey)
-    }
-}
-
-const processGetDelegations = async () => {
-    const key = globalThis.config.publicKeyDelegators ?? globalThis.config.publicKey
+const processDelegations = async () => {
+    const {publicKey, publicKeyDelegators} = globalThis.config
+    const key = publicKeyDelegators || publicKey
     let data = await delegations(key)
 
-    if (data) globalThis.nodeInfo.delegations = data
+    if (data) {
+        globalThis.nodeInfo.delegations = data
+        globalThis.cache.delegations = data
+    }
 
-    setTimeout(processGetDelegations, 600000)
+    setTimeout(processDelegations, 600000)
 }
 
 module.exports = {
-    processGetDelegations,
-    getLedgerInfo,
-    delegations
+    processDelegations
 }

@@ -72,7 +72,10 @@ const getExplorerSummary = async () => {
 const processExplorer = async () => {
     let data = await getExplorerSummary()
 
-    if (data) globalThis.explorerInfo.summary = data
+    if (data) {
+        globalThis.explorerInfo.summary = data
+        globalThis.cache.explorer = data
+    }
 
     setTimeout(processExplorer, 180000)
 }
@@ -96,6 +99,7 @@ const processWinningBlocks = async () => {
         })
 
         globalThis.nodeInfo.winningBlocks = blocks
+        globalThis.cache.rewards = blocks
         reload = 180000
     } else {
         reload = 5000

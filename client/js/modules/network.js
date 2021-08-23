@@ -1,12 +1,16 @@
-import {getInfo} from "./helpers/get-info"
-import {getFakeData} from "./helpers/get-fake-data";
-import {defaultChartConfig} from "./helpers/chart-config";
-import {imgOk, imgStop} from "./helpers/const";
-import {parseTime} from "./helpers/parse-time";
+import {defaultChartConfig} from "../helpers/chart-config";
+import {getFakeData} from "../helpers/get-fake-data";
+
+export const processNetConn = data => {
+    if (isNaN(data)) return
+    $("#network-connections").text(data)
+}
 
 let networkChartRx, networkChartTx
 
-export const processNetInfo = async () => {
+export const processNetStat = data => {
+    if (!data) return
+
     const netChartConfig = {
         ...defaultChartConfig,
         height: 80,
@@ -67,8 +71,6 @@ export const processNetInfo = async () => {
             return `${(+v / 1024 ** 2).toFixed(3)}`
         }
     }
-    const elLog = $("#log-explorer")
-    elLog.html(imgStop)
 
     if (!networkChartRx) {
         networkChartRx = chart.areaChart("#net-load-rx", [
@@ -97,32 +99,10 @@ export const processNetInfo = async () => {
         })
     }
 
-    let net = await getInfo('net-stat')
+    let [net] = data
 
-    if (net) {
-        networkChartTx.add(0, [datetime().time(), Math.round(net[0].tx_sec)], true, {maxX: true, maxY: true})
-        networkChartRx.add(0, [datetime().time(), Math.round(net[0].rx_sec)], true, {maxX: true, maxY: true})
+    networkChartTx.add(0, [datetime().time(), Math.round(net.tx_sec)], true, {maxX: true, maxY: true})
+    networkChartRx.add(0, [datetime().time(), Math.round(net.rx_sec)], true, {maxX: true, maxY: true})
 
-        $("#all-traffic").text( ((Math.round(net[0].rx_sec) + Math.round(net[0].tx_sec)) / 1024 / 1024).toFixed(2) )
-
-        elLog.html(imgOk)
-    }
-
-    setTimeout(processNetInfo, parseTime(globalThis.config.intervals.resources))
+    $("#all-traffic").text( ((Math.round(net.rx_sec) + Math.round(net.tx_sec)) / 1024 / 1024).toFixed(2) )
 }
-
-export const processNetConnections = async () => {
-    let net = await getInfo('net-conn')
-    const elLog = $("#log-net")
-
-    elLog.html(imgStop)
-
-    if (net) {
-        $("#network-connections").text(net.filter((v) => !$.isLocalhost(v.peerAddress)).length)
-        elLog.html(imgOk)
-        // console.log("Net (re)loaded!")
-    }
-
-    setTimeout(processNetConnections, parseTime(globalThis.config.intervals.resources))
-}
-

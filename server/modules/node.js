@@ -4,171 +4,8 @@ const {hostname} = require("os")
 const {parseTime} = require("../helpers/parsers")
 const {daemonStatus} = require("../helpers/node-data")
 const {sendAlert} = require("../helpers/messangers")
+const {fetchGraphQL, queryNextBlock, queryBlockSpeed, queryNodeStatus, queryBalance, queryBlockChain, queryConsensus} = require("./graphql");
 
-const queryNodeStatus = `
-query MyQuery {
-  version
-  syncStatus
-  daemonStatus {
-    syncStatus
-    blockchainLength
-    peers {
-      host
-      libp2pPort
-      peerId
-    }
-    addrsAndPorts {
-      libp2pPort
-      externalIp
-      clientPort
-      bindIp
-    }
-    uptimeSecs
-    highestBlockLengthReceived
-    highestUnvalidatedBlockLengthReceived
-    nextBlockProduction {
-      times {
-        endTime
-        epoch
-        globalSlot
-        slot
-        startTime
-      }
-    }
-    blockProductionKeys
-    snarkWorker
-    snarkWorkFee
-    consensusTimeNow {
-      epoch
-    }
-  }
-}
-`;
-
-const queryNextBlock = `
-query MyQuery {
-  version
-  daemonStatus {
-    nextBlockProduction {
-      times {
-        endTime
-        epoch
-        globalSlot
-        slot
-        startTime
-      }
-    }
-  }
-}
-`;
-
-const queryBalance = `
-query ($publicKey: String!) {
-  account(publicKey: $publicKey) {
-    balance {
-      total
-      blockHeight
-      liquid
-      locked
-      stateHash
-      unknown
-    }
-    timing {
-      vesting_period
-      vesting_increment
-      initial_mininum_balance
-      cliff_time
-      cliff_amount
-    }
-  }
-}
-`;
-
-const queryBlockChain = `
-query MyQuery {
-  bestChain(maxLength: 1) {
-    protocolState {
-      consensusState {
-        blockHeight
-        totalCurrency
-        epochCount
-        epoch
-        slot
-        slotSinceGenesis
-      }
-    }
-  }
-}
-`;
-
-const queryConsensus = `
-query MyQuery {
-  daemonStatus {
-    consensusConfiguration {
-      acceptableNetworkDelay
-      delta
-      epochDuration
-      genesisStateTimestamp
-      k
-      slotDuration
-      slotsPerEpoch
-    }
-    consensusTimeNow {
-      startTime
-      slot
-      globalSlot
-      epoch
-      endTime
-    }
-    consensusTimeBestTip {
-      startTime
-      slot
-      globalSlot
-      epoch
-      endTime
-    }
-  }
-}
-`;
-
-const queryBlockSpeed = `
-query ($maxLength: Int) {
-  version
-  bestChain(maxLength: $maxLength) {
-    protocolState {
-      blockchainState {
-        date
-      }
-      consensusState {
-        blockHeight
-      }
-    }
-  }
-}
-`;
-
-async function fetchGraphQL(addr, query, variables = {}) {
-    try {
-        const result = await fetch(
-            `http://${addr}/graphql`,
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    query,
-                    variables,
-                })
-            }
-        )
-
-        return result.ok ? await result.json() : null
-    } catch (error) {
-        console.error("The Request to GraphQL war aborted! Reason: " + error.name)
-        return null
-    }
-}
 
 async function getNextBlockTime(graphql){
     let time = await fetchGraphQL(graphql, queryNextBlock)
@@ -212,8 +49,6 @@ const processCollectNodeInfo = async () => {
 
     const _nodeInfoCollectInterval = parseTime(nodeInfoCollectInterval)
 
-    globalThis.nodeInfo.state = "UNKNOWN"
-
     let start = performance.now()
 
     let nodeStatus = await fetchGraphQL(graphql, queryNodeStatus)
@@ -221,9 +56,10 @@ const processCollectNodeInfo = async () => {
     let blockchain = await fetchGraphQL(graphql, queryBlockChain)
     let consensus = await fetchGraphQL(graphql, queryConsensus)
     let blockSpeed = await getBlockSpeed(graphql, blockSpeedDistance)
-    let nextBlock = null
+    let nextBlock = null, currentState = "UNKNOWN"
 
     globalThis.nodeInfo.responseTime = performance.now() - start
+    globalThis.cache.responseTime = globalThis.nodeInfo.responseTime
 
     let health = []
 
@@ -233,19 +69,18 @@ const processCollectNodeInfo = async () => {
 
     const status = daemonStatus(nodeStatus)
     const sign = ` Host: ${hostname()}`
+    const ver = nodeStatus ? nodeStatus.data.version : "UNKNOWN"
 
     if (status) {
         const {
             syncStatus,
-            peers = 0,
+            peers = [],
             addrsAndPorts,
             blockchainLength: blockHeight = 0,
             highestBlockLengthReceived: maxHeight = 0,
             highestUnvalidatedBlockLengthReceived: unvHeight = 0,
             nextBlockProduction
         } = status
-
-        const ip = addrsAndPorts.externalIp
 
         if (globalThis.nodeInfo.previousState !== syncStatus) {
             sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.nodeInfo.previousState}\`)!${sign}`)
@@ -261,7 +96,7 @@ const processCollectNodeInfo = async () => {
         }
 
         if (syncStatus === "SYNCED") {
-            if (peers <= 0) {
+            if (peers.length === 0) {
                 health.push("NO PEERS")
             }
 
@@ -277,7 +112,7 @@ const processCollectNodeInfo = async () => {
             health.push("NON-SYNCED")
         }
 
-        globalThis.nodeInfo.state = syncStatus
+        currentState = syncStatus
     } else {
         if (globalThis.nodeInfo.previousState !== 'UNKNOWN') {
             sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.nodeInfo.previousState}\`)!${sign}`)
@@ -286,6 +121,7 @@ const processCollectNodeInfo = async () => {
         health.push("UNKNOWN")
     }
 
+    globalThis.nodeInfo.state = currentState
     globalThis.nodeInfo.nodeStatus = nodeStatus
     globalThis.nodeInfo.balance = balance
     globalThis.nodeInfo.blockchain = blockchain
@@ -294,11 +130,20 @@ const processCollectNodeInfo = async () => {
     globalThis.nodeInfo.health = health
     globalThis.nodeInfo.nextBlock = nextBlock
 
+    globalThis.cache.daemon = status
+    globalThis.cache.balance = balance
+    globalThis.cache.blockchain = blockchain
+    globalThis.cache.consensus = consensus
+    globalThis.cache.speed = blockSpeed
+    globalThis.cache.health = health
+    globalThis.cache.nextBlock = nextBlock
+    globalThis.cache.state = currentState
+    globalThis.cache.peers = status ? status.peers : 0
+    globalThis.cache.version = ver
+
     setTimeout(processCollectNodeInfo, _nodeInfoCollectInterval)
 }
 
 module.exports = {
-    getNextBlockTime,
-    getBlockSpeed,
     processCollectNodeInfo
 }

@@ -89,6 +89,7 @@ const processJournal = () => {
         }).on("event", (e) => {
             const message = e["MESSAGE"]
             if (message.includes("exited, code") || message.includes("crash")) {
+                globalThis.cache.state = "UNKNOWN"
                 try {
                     writeFileSync(globalThis.logs.fails, `${message}\n`, {flag: 'a+'})
                 } catch (e) {}

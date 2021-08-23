@@ -1,9 +1,11 @@
 ### 1.1.5
++ [x] Changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Added Docker file for server and built docker image (`olton/mina_monitor_server:1.1.5_alpha`)
 + [x] To the Server added command line arguments support. Now you can rewrite config parameters with command line arguments
 + [x] Refactoring server code, switch to CommonJS modules
 + [x] Control for mina stopped with `journalctl` and write this event to the log
 + [x] New supported time format for config parameters - short string (see README)
++ [x] A lot of client config parameters are deprecated: `intervals`, `price`, `hosts`, `useHost`, `useHttps`
 
 ### 1.1.4
 + [x] Snark worker controller

@@ -1,5 +1,5 @@
 [Unit]
-Description=Mina Node Monitor Service
+Description=Mina Monitor Service
 After=network.target
 StartLimitIntervalSec=60
 StartLimitBurst=3
@@ -8,8 +8,8 @@ StartLimitBurst=3
 Type=simple
 Restart=always
 RestartSec=15
-ExecStart=/usr/bin/node /home/user/minamon/index
-ExecStop=/usr/bin/pkill -9 -f "node minamon/index"
+ExecStart=/usr/bin/node /home/user/mina-monitor/index
+ExecStop=/usr/bin/pkill -9 -f "node mina-monitor/index"
 
 [Install]
 WantedBy=multi-user.target

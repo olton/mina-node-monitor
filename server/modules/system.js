@@ -239,18 +239,56 @@ const sysInfo = async (obj) => {
         case 'cpu-temp': return await getCpuTemperature()
 
         case 'net-stat': return await networkStats()
-        case 'net-conn': return await networkConnections()
+        case 'net-conn': return (await networkConnections()).length
     }
 }
 
+const processPlatform = async () => {
+    globalThis.cache.platform = await sysInfo('platform')
+    globalThis.cache.time = await sysInfo('time')
+    globalThis.cache.cpu = await sysInfo('cpu')
+
+    setTimeout( processPlatform, 60000 )
+}
+
+const processCpuLoad = async () => {
+    globalThis.cache.cpuLoad = await sysInfo('cpu-load')
+
+    setTimeout( processCpuLoad, 2000 )
+}
+
+const processCpuTemp = async () => {
+    globalThis.cache.cpuTemp = await sysInfo('cpu-temp')
+
+    setTimeout( processCpuTemp, 2000 )
+}
+
+const processMem = async () => {
+    globalThis.cache.mem = await sysInfo('mem')
+
+    setTimeout( processMem, 2000 )
+}
+
+const processNetStat = async () => {
+    globalThis.cache.netStat = await sysInfo('net-stat')
+
+    setTimeout( processNetStat, 2000 )
+}
+
+const processNetConn = async () => {
+    globalThis.cache.netConn = await sysInfo('net-conn')
+
+    setTimeout( processNetConn, 2000 )
+}
+
+
+
 module.exports = {
     sysInfo,
-    getMem,
-    getCpuAverage,
-    getCpuLoad,
-    getCpuInfo,
-    getCpuTemperature,
-    getServerTime,
-    getOsVersion,
-    getPlatform
+    processPlatform,
+    processCpuLoad,
+    processCpuTemp,
+    processMem,
+    processNetStat,
+    processNetConn
 }

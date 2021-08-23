@@ -1,16 +1,6 @@
 {
-    "hosts": {
-        "node1": "127.0.0.1:8000"
-    },
-    "useHost": "node1",
-    "intervals": {
-        "info": 60000,
-        "time": 60000,
-        "blockchain": 30000,
-        "alert": 30000,
-        "node": 30000,
-        "net": 2000,
-        "mem": 2000,
-        "cpu": 2000
-    }
+    "host": "1.2.3.4:8000",
+    "https": false,
+    "showIp": false,
+    "theme": "auto"
 }

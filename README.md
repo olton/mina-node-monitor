@@ -78,22 +78,21 @@ Before build client or/and server, you must create a config files for client and
 Create file `config.json` in a `client` folder. Example below demonstrate witch data you must create.
 ```json
 {
-    "hosts": {
-        "node1": "xxx.xxx.xxx.xxx:xxxx"
-    },
-    "useHost": "node1",
+    "host": "1.2.3.4:8000",
     "showIp": true,
-    "useHttps": false,
-    "intervals": {
-        "system": 60000,
-        "daemon": 30000,
-        "resources": 2000,
-        "uptime": 600000
-    },
-    "price": {
-        "currency": "usd",
-        "update_interval": 60000
-    },
+    "https": false,
+    "theme": "auto"
+}
+```
+
+- `host` defines host where client retrieves data
+- `showIp` show or hide server's IP address on client
+- `https` - if **true** connection will be over `htts/wss`
+- `theme` - default `auto` (**dark/light** mode dependence from os), value can be `dark`, `light`
+
+In additional you can use parameter `blocks`. This parameter determines the order and display of blocks:
+```json
+{
     "blocks": [
         "hostname",
         "status",
@@ -110,45 +109,10 @@ Create file `config.json` in a `client` folder. Example below demonstrate witch 
         "network",
         "peers",
         "addresses",
-        "queries"
-    ],
-    "theme": "auto",
-    "useProxy": false,
-    "proxy": "https://server/proxy.php"
+        "consensus"
+    ]
 }
 ```
-
-Section `hosts` contain information about your servers addresses. 
-Each address must be an opened network interface/ip and port on the mina node server.
-Parameter `useHost` defines host where client retrieves data.
-
-Section `intervals` contain information about intervals (in milliseconds), with which data will be retrieve.
-
-- `system` - general information about server and server time
-- `daemon` - total currency, slot info, and epoch, node status
-- `resources` - net, cpu, and ram information 
-- `uptime` - interval for retrieve information about sidecar calculating server uptime
-  
-Parameter `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light` 
-  
-Section for using proxy (read about proxy below)
-- `useProxy` - use or not proxy server
-- `proxy` - proxy server address
-
-For `price.currency` you can use one of the next values:
-```
-"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
-"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
-"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
-"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
-"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
-"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
-"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
-"bits",  "sats"
-```
-
-Parameter `blocks` - determines the order and display of blocks
-
 
 #### Config file for server 
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.
@@ -271,6 +235,18 @@ where
 
 **Alert and Restart when critical memory usage**
 These rules controlling by parameters `memAlert` and `memRestart`. To disable restart by memory limit, set `memRastart` to `0`
+
+For `price.currency` you can use one of the next values:
+```
+"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
+"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
+"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
+"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
+"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
+"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
+"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
+"bits",  "sats"
+```
 
 **Time values**
 To set time values for config properties you can use two formats:

@@ -4,21 +4,23 @@ const fs = require("fs")
 const path = require("path")
 const http = require("http")
 const https = require("https")
-const {sysInfo} = require("./modules/system")
+const {hostname} = require("os")
+const WebSocket = require("ws")
+const {processPlatform, processMem, processCpuLoad, processCpuTemp, processNetStat, processNetConn} = require("./modules/system")
 const {processCollectNodeInfo} = require("./modules/node")
-const {getBlocks, processExplorer, processWinningBlocks} = require("./modules/explorer")
+const {processExplorer, processWinningBlocks} = require("./modules/explorer")
 const {processAlerter} = require("./modules/alerter")
 const {processBalanceSend} = require("./modules/balance-sender")
 const {processHello} = require("./modules/hello")
-const {processNodeUptime} = require("./modules/uptime")
-const {processGetDelegations} = require("./modules/ledger")
-const {getPriceInfo, processPriceInfo} = require("./modules/coingecko")
+const {processUptime} = require("./modules/uptime")
+const {processDelegations} = require("./modules/ledger")
+const {processPriceInfo} = require("./modules/coingecko")
 const {processPriceSend} = require("./modules/price-sender")
 const {processSnarkWorkerController} = require("./modules/snark-worker-controller")
 const {processJournal} = require("./modules/journal")
 const {updateConfigFromArguments} = require("./helpers/arguments");
 
-// const __dirname = dirname(fileURLToPath(import.meta.url))
+const version = `2.0.0`
 const configPathLinux = "/etc/minamon/config.json"
 const configPath = path.resolve(__dirname, 'config.json')
 
@@ -31,13 +33,12 @@ const readConfig = (path) => updateConfigFromArguments(JSON.parse(fs.readFileSyn
 const config = readConfig(process.platform === 'linux' && fs.existsSync(configPathLinux) ? configPathLinux : configPath)
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
-console.log(config)
-
 /* Create log dir */
 const logDir = path.resolve(__dirname, "logs")
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir)
 /******************/
 
+globalThis.host = hostname()
 globalThis.logs = {
     fails: path.resolve(__dirname, "logs/mina-fails.log")
 }
@@ -81,51 +82,57 @@ globalThis.snarkWorkerStoppedBlockTime = null
 let server, useHttps = config.https && (config.https.cert && config.https.key)
 
 const requestListener = async (req, res) => {
-    let response, _url = new URL(`${config.useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}${req.url}`)
+    let response
 
-    res.setHeader("Content-Type", "application/json")
+    res.setHeader("Content-Type", "text/html")
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.writeHead(200)
 
-    switch (_url.pathname) {
-        case '/platform': response = await sysInfo('platform'); break;
-        case '/mem': response = await sysInfo('mem'); break;
-        case '/cpu': response = await sysInfo('cpu'); break;
-        case '/cpu-load': response = await sysInfo('cpu-load'); break;
-        case '/cpu-temp': response = await sysInfo('cpu-temp'); break;
-        case '/time': response = await sysInfo('time'); break;
-        case '/net-stat': response = await sysInfo('net-stat'); break;
-        case '/net-conn': response = await sysInfo('net-conn'); break;
+    response =`
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+            flex-direction: column;
+            font-size: 16px;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-weight: 100;                  
+        }
+        .subtitle {
+            line-height: 1.2;            
+        }
+        .copyright {
+            font-size: .8em;
+            margin-top: 4px;
+        }
+        .version {
+            font-size: .8em;
+            margin-top: 4px;
+            color: #707882;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <h1>Welcome to Mina Monitor!</h1>    
+            <p class="subtitle">CONVENIENT MONITORING OF YOUR MINA NODES!</p>     
+            <p class="copyright">Copyright 2021 by <a href="https://pimenov.com.ua">Serhii Pimenov</a></p>
+            <p class="version">Version ${version}</p>
+        </div>       
+    </body>
+    `
 
-        case '/consensus': response = globalThis.nodeInfo.consensus; break;
-        case '/blockchain': response = globalThis.nodeInfo.blockchain; break;
-        case '/node-status': response = globalThis.nodeInfo.nodeStatus; break;
-        case '/sync-state': response = globalThis.nodeInfo.state; break;
-        case '/next-block': response = globalThis.nodeInfo.nextBlock; break;
-        case '/node-response-time': response = globalThis.nodeInfo.responseTime; break;
-        case '/balance': response = globalThis.nodeInfo.balance; break;
-        case '/block-speed': response = globalThis.nodeInfo.blockSpeed; break;
-        case '/health': response = globalThis.nodeInfo.health; break;
-        case '/uptime': response = globalThis.nodeInfo.uptime; break;
-        case '/uptime2': response = globalThis.nodeInfo.uptime2; break;
-        case '/delegations': response = globalThis.nodeInfo.delegations; break;
-        case '/explorer': response = globalThis.explorerInfo.summary; break;
-        case '/price': response = globalThis.priceInfo; break;
-        case '/winning-blocks': response = globalThis.nodeInfo.winningBlocks; break;
-
-        case '/price-for': response = await getPriceInfo(_url.searchParams.get('currency') ?? 'usd'); break;
-        case '/blocks': response = await getBlocks({
-            creator: config.publicKeyDelegators,
-            epoch: _url.searchParams.get('epoch') ?? 0,
-            blockHeightMin: _url.searchParams.get('blockHeightMin') ?? 0,
-            blockHeightMax: _url.searchParams.get('blockHeightMax') ?? 0
-        }); break;
-
-        default:
-            response = "OK"
-    }
-
-    res.end(JSON.stringify(response))
+    res.end(response)
 }
 
 if (useHttps) {
@@ -138,8 +145,45 @@ if (useHttps) {
     server = http.createServer(requestListener)
 }
 
+const wss = new WebSocket.Server({ server })
+
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
     console.log(`Mina Monitor Server is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
+})
+
+wss.on('connection', (ws) => {
+    ws.send(JSON.stringify({
+        action: "welcome",
+        data: `Welcome, you connected to Mina Monitor Server on the host ${globalThis.host}`
+    }))
+    for(let k in globalThis.cache) {
+        ws.send(JSON.stringify({
+            action: k,
+            data: globalThis.cache[k]
+        }))
+    }
+})
+
+const broadcast = function broadcast(data) {
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(data));
+        }
+    });
+};
+
+globalThis.cache = new Proxy({}, {
+    set(target, p, value, receiver) {
+        const data = {
+            data: value,
+            action: p
+        }
+
+        broadcast(data)
+
+        target[p] = value
+        return true
+    }
 })
 
 setImmediate( processHello )
@@ -147,11 +191,17 @@ setImmediate( processAlerter )
 setImmediate( processBalanceSend )
 setImmediate( processPriceSend )
 setImmediate( processCollectNodeInfo )
-setImmediate( processNodeUptime, 1 )
-setImmediate( processNodeUptime, 2 )
-setImmediate( processGetDelegations )
 setImmediate( processExplorer )
-setImmediate( processPriceInfo )
 setImmediate( processWinningBlocks )
 setImmediate( processSnarkWorkerController )
 setImmediate( processJournal )
+
+setImmediate( processPlatform )
+setImmediate( processMem )
+setImmediate( processCpuLoad )
+setImmediate( processCpuTemp )
+setImmediate( processNetStat )
+setImmediate( processNetConn )
+setImmediate( processPriceInfo )
+setImmediate( processUptime )
+setImmediate( processDelegations )

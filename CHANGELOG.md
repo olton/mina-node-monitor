@@ -1,4 +1,5 @@
 ### 1.1.5
++ [x] Server: changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Server: added command line arguments support. Now you can rewrite config parameters with command line arguments
 + [x] Server: refactoring code, switch to CommonJS modules
 + [x] Server: improved `alerter` for `HANG` state detecting
@@ -10,8 +11,15 @@
 + [x] Server: config parameter `restartAfterNotSynced` must be defined in milliseconds or short time string (ex: `30m`)
 + [x] Server: added request `uptime2`. Server return extended info about address uptime (position range, group of addresses)
 + [x] Server: changed alerts events to Telegram and Discord. Value `NON_SYNCED` is deprecated, to alert change sync status use value `STATUS`
++ [x] Server: changed config property `price:interval` to `price:sendInterval`
 
++ [x] Client: changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Client: added support short string time format in config
++ [x] Client: config parameters `inervals:*` are deprecated
++ [x] Client: config parameters `price:*` are deprecated
++ [x] Client: config parameters `proxy`, `useProxy` are deprecated
++ [x] Client: config parameters `hosts`, `useHost` are deprecated. You must use parameter `host:server_ip_or_name:port`
++ [x] Client: config parameter `useHttps` are deprecated. You must use parameter `https`
 
 ### 1.1.4
 + [x] Server: added `snark worker` controller

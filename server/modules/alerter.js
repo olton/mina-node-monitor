@@ -49,10 +49,6 @@ const processAlerter = async () => {
         if (SYNCED) globalThis.restartTimerNotSynced = 0
 
         if (!SYNCED) {
-            //const blocks = `\nBlock height ${blockchainLength} of ${highestUnvalidatedBlockLengthReceived ? highestUnvalidatedBlockLengthReceived : highestBlockLengthReceived}`
-            //const message = `Node not synced, status ${syncStatus} ${syncStatus === 'CATCHUP' ? blocks : ''} !${sign}`
-            //sendAlert("NOT-SYNCED", message)
-
             if (!restartStateException.includes(syncStatus)) {
                 if (globalThis.restartTimerNotSynced >= restartAfterNotSynced) {
                     globalThis.restartTimerNotSynced = 0

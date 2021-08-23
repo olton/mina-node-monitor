@@ -3,20 +3,6 @@ const fetch = require("node-fetch")
 const getUptime = async (key) => {
     if (!key) return null
 
-    const link = `https://minastake.com/uptime/uptime.php?publicKey=${key}`
-    let data
-
-    try {
-        data = await fetch(link)
-        return data.ok ? data.json() : null
-    } catch (e) {
-        return null
-    }
-}
-
-const getUptime2 = async (key) => {
-    if (!key) return null
-
     const link = `https://minastake.com/uptime/uptime2.php?publicKey=${key}`
     let data
 
@@ -28,18 +14,17 @@ const getUptime2 = async (key) => {
     }
 }
 
-const processNodeUptime = async (variant = 1) => {
+const processUptime = async () => {
     const {publicKeyDelegators} = globalThis.config
-    const fn = variant === 1 ? getUptime : getUptime2
-    const uptime = await fn(publicKeyDelegators)
+    const uptime = await getUptime(publicKeyDelegators)
 
-    if (uptime) globalThis.nodeInfo[variant === 1 ? "uptime" : "uptime2"] = uptime
+    globalThis.nodeInfo.uptime = uptime
+    globalThis.nodeInfo.uptime2 = uptime
+    globalThis.cache.uptime = uptime
 
-    setTimeout(processNodeUptime, 60000, variant)
+    setTimeout(processUptime, 60000)
 }
 
 module.exports = {
-    getUptime,
-    getUptime2,
-    processNodeUptime
+    processUptime
 }

@@ -79,22 +79,21 @@ npm i
 
 ```json
 {
-    "hosts": {
-        "node1": "xxx.xxx.xxx.xxx:xxxxx"
-    },
-    "useHost": "node1",
+    "host": "1.2.3.4:8000",
     "showIp": true,
-    "useHttps": false,
-    "intervals": {
-        "system": 60000,
-        "daemon": 30000,
-        "resources": 2000,
-        "uptime": 600000
-    },
-    "price": {
-        "currency": "usd",
-        "update_interval": 60000
-    },
+    "https": false,
+    "theme": "auto"
+}
+```
+
+- `host` визначає хост і порт серверної частини монітора
+- `showIp` показувати чи ні IP адреса сервера
+- `https` - якщо **true** з'єднання буде відбуватися по захищеному каналу `https/wss`
+- `theme` - за замовчуванням `auto` (**dark/light** стиль в зависимости от ОС), значення також може бути `dark` или `light`
+
+На додаток ви можете використовувати параметр `blocks`. Цей параметр визначає порядок відображення блоків:
+```json
+{
     "blocks": [
         "hostname",
         "status",
@@ -111,49 +110,10 @@ npm i
         "network",
         "peers",
         "addresses",
-        "queries"
-    ],
-    "theme": "auto",
-    "useProxy": false,
-    "proxy": "https://server/proxy.php"
+        "consensus"
+    ]
 }
 ```
-
-Секція `hosts` містить інформацію про сервери, на яких встановлена серверна частина Монітору.
-Кожна адреса повинна визначати мережевий інтерфейс/ip та його порт.
-Параметр `useHost` визначає який сервер зі списку в секції` hosts` буде використовуватись.
-Параметр `showIp` визначає показувати чи ні IP адресу в блоці ** Addresses ** (іноді не варто світити IP адресу).
-
-Секція `intervals` містить інформацію про інтервали з якими будуть оновлюватися дані (in milliseconds).
-Врахуйте, що кожен параметр визначає окремий запит до сервера та/або GraphQL вузла тому дуже уважно підходьте до вибору значень.
-Кожен запит виконується у власному не блокуючому потоці.
-
-**Інтервали:**
-
-- `system` - general information about server and server time
-- `daemon` - total currency, slot info, and epoch, node status
-- `resources` - net, cpu, and ram information
-- `uptime` - interval for retrieve information about sidecar calculating server uptime
-
-Parameter `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
-
-Section for using proxy (read about proxy below)
-- `useProxy` - use or not proxy server
-- `proxy` - proxy server address
-
-For `price.currency` you can use one of the next values:
-```
-"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
-"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
-"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
-"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
-"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
-"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
-"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
-"bits",  "sats"
-```
-
-Parameter `blocks` - determines the order and display of blocks
 
 #### Конфігураційний файл для сервера 
 
@@ -276,6 +236,18 @@ where
 
 **Alert and Restart when critical memory usage**
 These rules controlling by parameters `memAlert` and `memRestart`. To disable restart by memory limit, set `memRastart` to `0`
+
+For `price.currency` you can use one of the next values:
+```
+"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
+"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
+"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
+"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
+"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
+"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
+"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
+"bits",  "sats"
+```
 
 **Time values**
 To set time values for config properties you can use two formats:

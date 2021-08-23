@@ -78,22 +78,21 @@ npm i
 Создайте в папке `client` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.
 ```json
 {
-    "hosts": {
-        "node1": "xxx.xxx.xxx.xxx:xxxx"
-    },
-    "useHost": "node1",
+    "host": "1.2.3.4:8000",
     "showIp": true,
-    "useHttps": false,
-    "intervals": {
-        "system": 60000,
-        "daemon": 30000,
-        "resources": 2000,
-        "uptime": 600000
-    },
-    "price": {
-        "currency": "usd",
-        "update_interval": 60000
-    },
+    "https": false,
+    "theme": "auto"
+}
+```
+
+- `host` определяет хост и порт серверной части монитора
+- `showIp` показывать или нет IP адрес сервера
+- `https` - если **true** соединение будет происходить по защищенному каналу `https/wss`
+- `theme` - по умолчанию `auto` (**dark/light** стиль в зависимости от ОС), значение также может быть `dark` или `light`
+
+В дополнение вы можете использовать параметр `blocks`. Этот параметр определяет порядок отображения блоков:
+```json
+{
     "blocks": [
         "hostname",
         "status",
@@ -110,49 +109,10 @@ npm i
         "network",
         "peers",
         "addresses",
-        "queries"
-    ],
-    "theme": "auto",
-    "useProxy": false,
-    "proxy": "https://server/proxy.php"
+        "consensus"
+    ]
 }
 ```
-
-Секция `hosts` содержит информацию о серверах, на которых установлена серверная часть Монитора. 
-Каждый адрес должен определять открытый внешний сетевой интерфейс/ip и его порт.
-Параметр `useHost` определяет какой сервер из списка в секции `hosts` будет использоваться.
-Параметр `showIp` определяет показывать или нет IP адрес в блоке **HOSTNAME** (иногда не стоит светить IP адрес).
-
-Секция `intervals` содержит информацию об интервалах с которыми будут обновляться данные (in milliseconds). 
-Учтите, что каждый параметр определяет отдельный запрос к серверу и/или GraphQL ноды поэтому очень внимательно подходите к выбору значений.
-Каждый запрос выполняется в собственном не блокирующем потоке.
-
-**Интервалы:**
-
-- `system` - general information about server and server time
-- `daemon` - total currency, slot info, and epoch, node status
-- `resources` - net, cpu, and ram information
-- `uptime` - interval for retrieve information about sidecar calculating server uptime
-
-Parameter `theme` - default `auto` (dark\light mode dependence from os), value can be `dark`, `light`
-
-Section for using proxy (read about proxy below)
-- `useProxy` - use or not proxy server
-- `proxy` - proxy server address
-
-For `price.currency` you can use one of the next values:
-```
-"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
-"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
-"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
-"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
-"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
-"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
-"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
-"bits",  "sats"
-```
-
-Parameter `blocks` - determines the order and display of blocks
 
 #### Конфигурационный файл для сервера 
 Создайте в папке `server` файл `config.json`. Ниже представлен полный пример конфигурационного файла с описанием каждой опции.
@@ -273,6 +233,18 @@ where
 
 **Alert and Restart when critical memory usage**
 These rules controlling by parameters `memAlert` and `memRestart`. To disable restart by memory limit, set `memRastart` to `0`.
+
+For `price.currency` you can use one of the next values:
+```
+"btc", "eth", "ltc", "bch", "bnb", "eos", "xrp", "xlm",
+"link", "dot", "yfi", "usd", "aed", "ars", "aud", "bdt", "bhd",
+"bmd", "brl", "cad", "chf", "clp", "cny", "czk", "dkk", "eur",
+"gbp", "hkd", "huf", "idr", "ils", "inr", "jpy", "krw", "kwd",
+"lkr",  "mmk",  "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",
+"pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
+"twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
+"bits",  "sats"
+```
 
 **Time values**
 To set time values for config properties you can use two formats:

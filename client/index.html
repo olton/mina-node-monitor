@@ -37,16 +37,16 @@
             <div class="cell-md-3">
                 <div class="text-center text-right-md mt-2">
                     <div class="text-small">
-                        <span class="fg-normal" id="os-distro"></span>
+                        <span class="fg-normal" id="os-distro">unknown</span>
                     </div>
                     <div class="text-small">
-                        Server time: <span id="server-time" class="fg-accent text-bold"></span>
+                        Server time: <span id="server-time" class="fg-accent text-bold">00:00</span>
                     </div>
                     <div class="text-small">
-                        Server uptime: <span id="server-uptime" class="fg-accent text-bold"></span>
+                        Server uptime: <span id="server-uptime" class="fg-accent text-bold">unknown</span>
                     </div>
                     <div class="text-small no-wrap">
-                        <span id="cpu-info" class="fg-normal"></span>
+                        <span id="cpu-info" class="fg-normal">unknown</span>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div id="node-status" class="text-center fg-info2">NONE</div>
                         <div>
-                            <span id="node-health" class="fg-accent text-bold">UNKNOWN</span>
+                            <span id="node-health" class="text-bold">UNKNOWN</span>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                         <div class="cell-9">
                             <div class="d-flex flex-justify-center flex-align-center flex-column">
                                 <div id="node-uptime" class="text-center fg-info2">0</div>
-                                <div class="text-small text-center fg-normal">
+                                <div class="text-small text-center fg-normal mt-1">
                                     score: <span id="sidecar-score" class="fg-accent text-bold">0</span>
                                     rate: <span id="sidecar-uptime" class="fg-accent text-bold">0</span>
                                 </div>
@@ -176,7 +176,7 @@
                 <div data-role="panel" data-title-caption="BALANCE">
                     <div class="d-flex flex-justify-center flex-align-center flex-column">
                         <div class="text-small fg-normal">
-                            <span id="balance-usd" class="fg-accent text-center text-bold">0</span>
+                            <span id="balance-cost" class="fg-accent text-center text-bold">0</span>
                         </div>
                         <div id="balance-total" class="text-center h2 m-0 fg-info2">0</div>
                         <div class="text-small fg-normal">
@@ -378,41 +378,38 @@
                 </div>
             </div>
 
-            <div class="cell-md-6 cell-lg-3" id="queries-group">
-                <div data-role="panel" data-title-caption="System Queries">
+            <div class="cell-md-6 cell-lg-3" id="consesnsus-group">
+                <div data-role="panel" data-title-caption="CONSENSUS">
                     <div class="d-flex flex-column flex-align-center h-100">
+                        <div>PROOF OF STAKE</div>
                         <table class="table text-small info-table">
                             <tr>
-                                <td>System info</td>
-                                <td id="log-info" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>Genesis Start</td>
+                                <td id="consensus-genesis-start" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                             <tr>
-                                <td>CPU info</td>
-                                <td id="log-cpu" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>K Factor</td>
+                                <td id="consensus-k" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                             <tr>
-                                <td>RAM info</td>
-                                <td id="log-mem" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>Network Delay</td>
+                                <td id="consensus-network-delay" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                             <tr>
-                                <td>NET info</td>
-                                <td id="log-net" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>Epoch Duration</td>
+                                <td id="consensus-epoch-duration" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                             <tr>
-                                <td>Mina GraphQL</td>
-                                <td id="log-mina" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>Slot Duration</td>
+                                <td id="consensus-slot-duration" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                             <tr>
-                                <td>Mina Explorer</td>
-                                <td id="log-explorer" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>Slots Per Epoch</td>
+                                <td id="consensus-slots-per-epoch" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                             <tr>
-                                <td>Uptime</td>
-                                <td id="log-uptime" class="text-right"><span class="mif-stop fg-alert"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Coingecko</td>
-                                <td id="log-coingecko" class="text-right"><span class="mif-stop fg-alert"></span></td>
+                                <td>Delta</td>
+                                <td id="consensus-delta" class="text-right text-bold"><span class="mif-stop label-alert"></span></td>
                             </tr>
                         </table>
                     </div>

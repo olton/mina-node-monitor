@@ -6,31 +6,29 @@ const processPriceSend = async () => {
     if (!globalThis.config) return
 
     const {discordWebHook, telegramChatID, telegramToken, price} = globalThis.config
-    const {currency = 'usd', interval = 3600000, targets = []} = price
+    const {currency = 'usd', sendInterval = 3600000, targets = []} = price
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
-    const _interval = parseTime(interval)
+    const _interval = parseTime(sendInterval)
+    let data = globalThis.cache.price
 
     if (!targets.length) return
+    if (!data || !data.length) return
 
-    let data = globalThis.priceInfo
+    const mina = data[0]
+    const message = `Current Mina price is ${mina.current_price} ${currency.toUpperCase()}`
+    const ids = parseTelegramChatIDs(telegramChatID)
 
-    if (data && data.length) {
-        const mina = data[0]
-        const message = `Current Mina price is ${mina.current_price} ${currency.toUpperCase()}`
-        const ids = parseTelegramChatIDs(telegramChatID)
-
-        if (telegramToken && targets.includes("TELEGRAM")) {
-            for (const id of ids) {
-                fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)).catch((e)=>{
-                    console.log("Error! Can't send message to telegram")
-                    console.log(e.message)
-                })
-            }
+    if (telegramToken && targets.includes("TELEGRAM")) {
+        for (const id of ids) {
+            fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)).catch((e)=>{
+                console.log("Error! Can't send message to telegram")
+                console.log(e.message)
+            })
         }
+    }
 
-        if (discordWebHook && targets.includes("DISCORD")) {
-            discord(discordWebHook, message)
-        }
+    if (discordWebHook && targets.includes("DISCORD")) {
+        discord(discordWebHook, message)
     }
 
     setTimeout(processPriceSend, _interval)
