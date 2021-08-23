@@ -141,7 +141,7 @@ fetch("./config.json")
 })
 
 
-$("#node-version, #block-producer, #snark-worker").on("click", function(){
+$("#node-version, #block-producer, #snark-worker, .donate-mina").on("click", function(){
     let val = $(this).attr("data-full-name")
     copy2clipboard(val)
 })

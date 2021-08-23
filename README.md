@@ -6,6 +6,11 @@
 **Mina Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
 This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
+
+## Donate a project
+You can support project. You can donate main to address:
+> B62qqQjC8zaU8XXaeqb9rZXFSX9x12mCgjrdCQuJbXuxU2KUPFcH7aY
+
 ## Key Features
 
 **Monitor Client:**
