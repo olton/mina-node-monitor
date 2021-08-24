@@ -19,6 +19,7 @@
 + [x] Client: config parameters `proxy`, `useProxy` are deprecated
 + [x] Client: config parameters `hosts`, `useHost` are deprecated. You must use parameter `host: "server_ip_or_name:port"`
 + [x] Client: config parameter `useHttps` are deprecated. You must use parameter `https: true|false`
++ [x] Client: fixed color for uptime position label for 120+ places 
 
 ### 1.1.4
 + [x] Server: added `snark worker` controller
