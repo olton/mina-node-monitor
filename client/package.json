@@ -1,0 +1,25 @@
+{
+    "name": "@olton/mina-monitor",
+    "version": "2.0.0",
+    "license": "MIT",
+    "scripts": {
+        "client": "shx rm -rf output/* && parcel serve --target browser --out-dir output index.html -p 2222"
+    },
+    "devDependencies": {
+        "less": "^4.1.1",
+        "parcel-bundler": "^1.12.5",
+        "parcel-plugin-static-files-copy": "^2.6.0",
+        "shx": "^0.3.3"
+    },
+    "staticFiles": {
+        "staticPath": [
+            "config.json"
+        ]
+    },
+    "browserslist": [
+        "last 1 Chrome versions",
+        "last 1 Firefox versions",
+        "last 1 Opera versions",
+        "last 1 Edge versions"
+    ]
+}

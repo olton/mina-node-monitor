@@ -59,6 +59,7 @@ fetch("./config.json")
 
     globalThis.chartLineColor = globalThis.darkMode ? '#3c424b' : "#e5e5e5"
     globalThis.chartLabelColor = globalThis.darkMode ? "#fff" : "#000"
+    globalThis.chartBackground = globalThis.darkMode ? "#000000" : "#ffffff"
 
     const connect = () => {
         const ws = new WebSocket(`${https ? 'wss' : 'ws'}://${host}`)
