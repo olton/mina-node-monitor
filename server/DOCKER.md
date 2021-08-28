@@ -3,7 +3,7 @@ Start from 1.1.5 you can use docker container with Mina Monitor Server.
 
 ### Run container
 ```shell
-sudo docker run --rm --network=host -d olton/mina_monitor_server:latest -journal false
+sudo docker run --rm --network=host -d olton/mina_monitor_server:latest
 ```
 
 ### Set Mina Monitor Server parameters

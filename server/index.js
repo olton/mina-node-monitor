@@ -127,7 +127,7 @@ const requestListener = async (req, res) => {
             <h1>Welcome to Mina Monitor!</h1>    
             <p class="subtitle">CONVENIENT MONITORING OF YOUR MINA NODES!</p>     
             <p class="copyright">Copyright 2021 by <a href="https://pimenov.com.ua">Serhii Pimenov</a></p>
-            <p class="version">Version ${version}</p>
+            <p class="version">Monitor v${version}</p>
         </div>       
     </body>
     `
