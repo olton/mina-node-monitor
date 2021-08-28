@@ -22,17 +22,17 @@
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
     "alertToTelegram": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
-    "alertToDiscord": [],
+    "alertToDiscord": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
     "price": {
         "currency": "uah",
         "updateInterval": "1m",
         "interval": "1h",
-        "targets": ["DISCORD"]
+        "targets": ["DISCORD", "TELEGRAM"]
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": "30s",
-    "hangInterval": "30m",
-    "hangIntervalAlert": "15m",
+    "hangInterval": "45m",
+    "hangIntervalAlert": "30m",
     "memAlert": 90,
     "memRestart": 95,
     "snarkWorker": {
