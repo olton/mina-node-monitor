@@ -159,8 +159,8 @@ async function fetchGraphQL(addr, query, variables = {}) {
         )
 
         return result.ok ? await result.json() : null
-    } catch (error) {
-        console.error("The Request to GraphQL war aborted! Reason: " + error.name)
+    } catch (e) {
+        console.error("The Request to GraphQL war aborted! Reason: " + e.name + " " + e.message)
         return null
     }
 }

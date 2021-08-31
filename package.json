@@ -8,7 +8,7 @@
     "build": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
     "start": "npm run serve",
     "client": "npm run serve",
-    "server": "node --trace-warnings server/index",
+    "server": "nodemon server/index.js",
     "test": "jest"
   },
   "devDependencies": {

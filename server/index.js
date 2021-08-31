@@ -16,7 +16,7 @@ const {processUptime} = require("./modules/uptime")
 const {processDelegations} = require("./modules/ledger")
 const {processPriceInfo} = require("./modules/coingecko")
 const {processPriceSend} = require("./modules/price-sender")
-const {processSnarkWorkerController} = require("./modules/snark-worker-controller")
+const {processSnarkWorkerController} = require("./modules/snark-worker")
 const {processJournal} = require("./modules/journal")
 const {updateConfigFromArguments} = require("./helpers/arguments");
 
@@ -32,6 +32,8 @@ const readConfig = (path) => updateConfigFromArguments(JSON.parse(fs.readFileSyn
 
 const config = readConfig(process.platform === 'linux' && fs.existsSync(configPathLinux) ? configPathLinux : configPath)
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
+
+console.log(config)
 
 /* Create log dir */
 const logDir = path.resolve(__dirname, "logs")
@@ -76,7 +78,7 @@ globalThis.explorerInfo = {
     summary: null
 }
 globalThis.priceInfo = null
-globalThis.snarkWorkerStopped = null
+globalThis.snarkWorkerStopped = false
 globalThis.snarkWorkerStoppedBlockTime = null
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
