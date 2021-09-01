@@ -33,8 +33,6 @@ const readConfig = (path) => updateConfigFromArguments(JSON.parse(fs.readFileSyn
 const config = readConfig(process.platform === 'linux' && fs.existsSync(configPathLinux) ? configPathLinux : configPath)
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
-console.log(config)
-
 /* Create log dir */
 const logDir = path.resolve(__dirname, "logs")
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir)

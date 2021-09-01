@@ -47,6 +47,7 @@ const processAlerter = async () => {
         const sign = `\nFrom: ${host} (${ip})`
 
         if (SYNCED) globalThis.restartTimerNotSynced = 0
+        if (!SYNCED) globalThis.hangTimer = 0
 
         if (!SYNCED) {
             if (!restartStateException.includes(syncStatus)) {

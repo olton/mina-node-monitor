@@ -6,7 +6,6 @@ const {between} = require("../helpers/numbers")
 const {SYNC_STATE_SYNCED, SYNC_STATE_CATCHUP} = require("../helpers/consts");
 
 const processSnarkWorkerController = async () => {
-    console.log("config", config["snarkWorker"])
     const swConfig = config["snarkWorker"]
     let cmdStart, cmdStop, cmdFee, setFee, startWorker, stopWorker
     const host = hostname()
@@ -69,12 +68,7 @@ const processSnarkWorkerController = async () => {
     let needStop = nextBlock && timeToStop ? between(now, timeToStop, nextBlock) : false
     let needStart = snarkWorkerStoppedBlockTime && now > snarkWorkerStoppedBlockTime + _startAfterBlock || false
 
-    console.log("Node state", state)
     if ((state === SYNC_STATE_SYNCED || state === SYNC_STATE_CATCHUP) && address) {
-        console.log("SW control enabled")
-        console.log("needStop", needStop)
-        console.log("needStart", needStart)
-
         // If SW not started, but defined - start it
         // Если SW определен, но по какой то причине не запущен
         if (snarkWorkerStopped === null) {

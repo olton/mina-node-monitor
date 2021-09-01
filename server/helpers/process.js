@@ -9,6 +9,9 @@ const restart = (reason, target = hostname()) => {
 
     console.log("Restart with message: " + reason)
 
+    globalThis.hangTimer = 0
+    globalThis.restartTimerNotSynced = 0
+
     exec(restartCmd, async (error, stdout, stderr) => {
         let message, result
 
