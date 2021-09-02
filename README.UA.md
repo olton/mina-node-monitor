@@ -166,7 +166,10 @@ npm i
         "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
         "controlInterval": 10000
     },
-    "journal": true
+    "journal": {
+        "cmd": "journalctl",
+        "hooks": ["process exited", "crash"]
+    }
 }
 ```
 

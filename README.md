@@ -168,7 +168,10 @@ Create file `config.json` in a `server` folder. Example below demonstrate witch 
         "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
         "controlInterval": 10000
     },
-    "journal": true
+    "journal": {
+        "cmd": "journalctl",
+        "hooks": ["process exited", "crash"]
+    }
 }
 ```
 

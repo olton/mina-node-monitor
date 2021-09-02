@@ -42,7 +42,7 @@ class JSONStream {
 }
 
 class Journal extends EventEmitter {
-    constructor({reverse = false, follow = true, all, user, lines, since, identifier, unit, filter} = {}) {
+    constructor(cmd, {reverse = false, follow = true, all, user, lines, since, identifier, unit, filter} = {}) {
         super()
 
         // Decode opts
@@ -62,7 +62,7 @@ class Journal extends EventEmitter {
         }
 
         try {
-            this.journal = spawn('journalctl', args);
+            this.journal = spawn(cmd, args);
 
             const decoder = new JSONStream((e) => {
                 this.emit('event', e);
@@ -82,19 +82,27 @@ class Journal extends EventEmitter {
 }
 
 const processJournal = () => {
-    if (process.platform === 'linux' && globalThis.config.journal) {
-        new Journal({
+    if (process.platform === 'linux' && config.journal) {
+        const {cmd, hooks = []} = config.journal
+        new Journal(cmd,{
             unit: "mina",
             user: true
         }).on("event", (e) => {
             const message = e["MESSAGE"]
-            if (message.includes("exited, code") || message.includes("crash")) {
-                globalThis.cache.state = "UNKNOWN"
-                try {
-                    writeFileSync(globalThis.logs.fails, `${message}\n`, {flag: 'a+'})
-                } catch (e) {}
-                sendAlert("FAIL", `Mina was stopped on ${hostname()} with message ${message}`)
+
+            if (!message) return
+
+            for (let hook of hooks) {
+                if (message.includes(hook)) {
+                    cache.state = "UNKNOWN"
+                    try {
+                        writeFileSync(logs.fails, `${message}\n`, {flag: 'a+'})
+                    } catch (e) {}
+                    sendAlert("FAIL", `Mina was stopped on ${hostname()} with message ${message}`)
+                    return
+                }
             }
+
         })
     }
 }
