@@ -64,22 +64,6 @@ const getBlocks = async (variables) => {
     return await fetchGraphQL(query, variables)
 }
 
-const getExplorerSummary = async () => {
-    const response = await fetch(`${EXPLORER_API}/summary`)
-    return response.ok ? await response.json() : null
-}
-
-const processExplorer = async () => {
-    let data = await getExplorerSummary()
-
-    if (data) {
-        globalThis.explorerInfo.summary = data
-        globalThis.cache.explorer = data
-    }
-
-    setTimeout(processExplorer, 180000)
-}
-
 const processWinningBlocks = async () => {
     let blockchain = globalThis.nodeInfo.blockchain
     let creator = globalThis.config.publicKeyDelegators
@@ -110,7 +94,5 @@ const processWinningBlocks = async () => {
 
 module.exports = {
     getBlocks,
-    getExplorerSummary,
-    processExplorer,
     processWinningBlocks
 }

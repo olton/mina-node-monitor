@@ -11,6 +11,7 @@
 + [x] Server: config parameter `restartAfterNotSynced` must be defined in milliseconds or short time string (ex: `30m`)
 + [x] Server: changed alerts events to Telegram and Discord. Value `NON_SYNCED` is deprecated, to alert change sync status use value `STATUS`
 + [x] Server: changed config property `price:interval` to `price:sendInterval`
++ [x] Server: removed collecting Mina Explorer Height, config parameter `observeExplorer` deprecated
 
 + [x] Client: changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Client: added support short string time format in config

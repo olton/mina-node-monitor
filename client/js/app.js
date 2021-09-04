@@ -18,7 +18,6 @@ import {processConsensus} from "./modules/consensus";
 import {copy2clipboard} from "./helpers/clipboard";
 import {processVersion} from "./modules/version";
 import {processRewards} from "./modules/rewards";
-import {processExplorer} from "./modules/explorer";
 
 const version = `2.0.0`
 
@@ -92,7 +91,6 @@ fetch("./config.json")
                     case 'consensus': processConsensus(data); break;
                     case 'version': processVersion(data); break;
                     case 'rewards': processRewards(data); break;
-                    case 'explorer': processExplorer(data); break;
                     case 'welcome': console.log(data); break;
                     // default: console.log(action, data)
                 }

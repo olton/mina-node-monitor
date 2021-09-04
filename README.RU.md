@@ -137,7 +137,6 @@ npm i
         "key": "",
         "cert": ""
     },
-    "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
     "alertToTelegram": ["FAIL", "EXEC","HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
