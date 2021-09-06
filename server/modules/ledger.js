@@ -17,7 +17,6 @@ const processDelegations = async () => {
     let data = await delegations(key)
 
     if (data) {
-        globalThis.nodeInfo.delegations = data
         globalThis.cache.delegations = data
     }
 

@@ -1,7 +1,5 @@
 const {hostname} = require("os")
-const {getExplorerSummary} = require("./explorer")
 const {sysInfo} = require("./system")
-const {daemonStatus} = require("../helpers/node-data");
 const {parseTime} = require("../helpers/parsers")
 const {sendAlert} = require("../helpers/messangers")
 const {restart} = require("../helpers/process")
@@ -17,7 +15,6 @@ const processAlerter = async () => {
         canRestartNode,
         restartCmd,
         alertInterval,
-        observeExplorer,
         restartStateException = [],
         restartStateSyncedRules = [],
         hangInterval = 0,
@@ -31,9 +28,9 @@ const processAlerter = async () => {
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
 
-    let status = daemonStatus(globalThis.nodeInfo.nodeStatus)
+    let daemon = globalThis.cache.daemon
 
-    if (status) {
+    if (daemon) {
         const {
             syncStatus,
             blockchainLength,
@@ -41,7 +38,7 @@ const processAlerter = async () => {
             highestUnvalidatedBlockLengthReceived,
             addrsAndPorts,
             peers = 0
-        } = status
+        } = daemon
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
         const sign = `\nFrom: ${host} (${ip})`
@@ -137,7 +134,7 @@ const processAlerter = async () => {
             if (globalThis.currentControlHeight !== nHeight) {
                 globalThis.hangTimer = 0
                 globalThis.currentControlHeight = nHeight
-                deleteFromArray(globalThis.nodeInfo.health, "HANG")
+                deleteFromArray(globalThis.cache.health, "HANG")
             }
 
             const _hangIntervalAlert = parseTime(hangIntervalAlert)
@@ -146,8 +143,8 @@ const processAlerter = async () => {
             if (globalThis.currentControlHeight) { // We have a block height!
                 if (hangIntervalAlert && globalThis.hangTimer >= _hangIntervalAlert) {
 
-                    if (!globalThis.nodeInfo.health.includes("HANG")) {
-                        globalThis.nodeInfo.health.push("HANG")
+                    if (!globalThis.cache.health.includes("HANG")) {
+                        globalThis.cache.health.push("HANG")
                     }
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     sendAlert("HANG", message)
@@ -162,25 +159,12 @@ const processAlerter = async () => {
 
                     globalThis.hangTimer = 0
                     globalThis.currentControlHeight = nHeight
-                    deleteFromArray(globalThis.nodeInfo.health, "HANG")
+                    deleteFromArray(globalThis.cache.health, "HANG")
 
                 }
             }
 
             globalThis.hangTimer += _alertInterval
-        }
-
-        if (SYNCED && globalThis.currentHeight > 0 && observeExplorer) {
-            const explorer = await getExplorerSummary()
-            if (explorer && explorer.blockchainLength && blockchainLength) {
-                const DIFF_EXPLORER = +globalThis.currentHeight - explorer.blockchainLength
-                let message
-                if (Math.abs(DIFF_EXPLORER) >= blockDiff) {
-                    message = DIFF_EXPLORER < 0 ? `Node lags behind the Explorer in block height.` : `Node leads the Explorer by block height.`
-                    message += `\nDifference: ${DIFF_EXPLORER}\nNode: ${globalThis.currentHeight}\nExplorer: ${explorer.blockchainLength}${sign}`
-                    sendAlert("EXPLORER", message)
-                }
-            }
         }
 
         reload = _alertInterval

@@ -5,6 +5,7 @@ const {parseTime} = require("../helpers/parsers")
 const {daemonStatus} = require("../helpers/node-data")
 const {sendAlert} = require("../helpers/messangers")
 const {fetchGraphQL, queryNextBlock, queryBlockSpeed, queryNodeStatus, queryBalance, queryBlockChain, queryConsensus} = require("./graphql");
+const {SYNC_STATE_UNKNOWN} = require("../helpers/consts");
 
 
 async function getNextBlockTime(graphql){
@@ -58,12 +59,11 @@ const processCollectNodeInfo = async () => {
     let blockSpeed = await getBlockSpeed(graphql, blockSpeedDistance)
     let nextBlock = null, currentState = "UNKNOWN"
 
-    globalThis.nodeInfo.responseTime = performance.now() - start
-    globalThis.cache.responseTime = globalThis.nodeInfo.responseTime
+    globalThis.cache.responseTime = performance.now() - start
 
     let health = []
 
-    if (globalThis.nodeInfo.health.includes("HANG")) {
+    if (globalThis.cache.health && globalThis.cache.health.includes("HANG")) {
         health.push("HANG")
     }
 
@@ -82,9 +82,9 @@ const processCollectNodeInfo = async () => {
             nextBlockProduction
         } = status
 
-        if (globalThis.nodeInfo.previousState !== syncStatus) {
-            sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.nodeInfo.previousState}\`)!${sign}`)
-            globalThis.nodeInfo.previousState = syncStatus
+        if (globalThis.previousState !== syncStatus) {
+            sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.previousState}\`)!${sign}`)
+            globalThis.previousState = syncStatus
         }
 
         let times = nextBlockProduction ? nextBlockProduction.times : []
@@ -114,22 +114,14 @@ const processCollectNodeInfo = async () => {
 
         currentState = syncStatus
     } else {
-        if (globalThis.nodeInfo.previousState !== 'UNKNOWN') {
-            sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.nodeInfo.previousState}\`)!${sign}`)
+        if (globalThis.previousState !== SYNC_STATE_UNKNOWN) {
+            sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.previousState}\`)!${sign}`)
         }
-        globalThis.nodeInfo.previousState = 'UNKNOWN'
+        globalThis.previousState = SYNC_STATE_UNKNOWN
         health.push("UNKNOWN")
     }
 
-    globalThis.nodeInfo.state = currentState
-    globalThis.nodeInfo.nodeStatus = nodeStatus
-    globalThis.nodeInfo.balance = balance
-    globalThis.nodeInfo.blockchain = blockchain
-    globalThis.nodeInfo.consensus = consensus
-    globalThis.nodeInfo.blockSpeed = blockSpeed
-    globalThis.nodeInfo.health = health
-    globalThis.nodeInfo.nextBlock = nextBlock
-
+    globalThis.cache.nodeStatus = nodeStatus
     globalThis.cache.daemon = status
     globalThis.cache.balance = balance
     globalThis.cache.blockchain = blockchain

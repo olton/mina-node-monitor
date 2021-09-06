@@ -19,6 +19,7 @@ const {processPriceSend} = require("./modules/price-sender")
 const {processSnarkWorkerController} = require("./modules/snark-worker")
 const {processJournal} = require("./modules/journal")
 const {updateConfigFromArguments} = require("./helpers/arguments");
+const {SYNC_STATE_UNKNOWN} = require("./helpers/consts");
 
 const version = `2.0.0`
 const configPathLinux = "/etc/minamon/config.json"
@@ -42,42 +43,17 @@ globalThis.host = hostname()
 globalThis.logs = {
     fails: path.resolve(__dirname, "logs/mina-fails.log")
 }
+
 globalThis.config = config
-globalThis.hangTimer = 0
-globalThis.restartTimer = 0
-globalThis.restartTimerPrev = 0
+
 globalThis.restartTimerNotSynced = 0
-globalThis.sendAlertTimerPeers = 0
-globalThis.sendAlertTimerMax = 0
-globalThis.sendAlertTimerUnv = 0
-globalThis.sendAlertTimerNotSynced = 0
+globalThis.hangTimer = 0
 globalThis.currentBalance = 0
-globalThis.currentHeight = 0
 globalThis.currentControlHeight = 0
-globalThis.controlCounter = 0
 globalThis.nodeMemoryUsage = 0
-globalThis.nodeInfo = {
-    previousState: 'UNKNOWN',
-    state: null,
-    nodeStatus: null,
-    balance: null,
-    blockchain: null,
-    consensus: null,
-    blockSpeed: null,
-    delegations: null,
-    uptime: null,
-    uptime2: null,
-    winningBlocks: null,
-    health: [],
-    responseTime: 0,
-    nextBlock: null
-}
-globalThis.explorerInfo = {
-    summary: null
-}
-globalThis.priceInfo = null
 globalThis.snarkWorkerStopped = false
 globalThis.snarkWorkerStoppedBlockTime = null
+globalThis.previousState = SYNC_STATE_UNKNOWN
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
 
@@ -127,7 +103,7 @@ const requestListener = async (req, res) => {
             <h1>Welcome to Mina Monitor!</h1>    
             <p class="subtitle">CONVENIENT MONITORING OF YOUR MINA NODES!</p>     
             <p class="copyright">Copyright 2021 by <a href="https://pimenov.com.ua">Serhii Pimenov</a></p>
-            <p class="version">Monitor v${version}</p>
+            <p class="version">Mina Monitor v${version}</p>
         </div>       
     </body>
     `
@@ -148,7 +124,7 @@ if (useHttps) {
 const wss = new WebSocket.Server({ server })
 
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
-    console.log(`Mina Monitor Server is running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
+    console.log(`Mina Monitor Server running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
 wss.on('connection', (ws) => {

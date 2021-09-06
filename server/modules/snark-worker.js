@@ -28,8 +28,8 @@ const processSnarkWorkerController = async () => {
 
     if (!address) return
 
-    let {nextBlock, nodeStatus, state} = globalThis.nodeInfo
-    // let {snarkWorker} = daemonStatus(nodeStatus)
+    let nextBlock = cache.nextBlock
+    let state = cache.state
 
     const startSW = () => {
         console.log("Start snark worker")

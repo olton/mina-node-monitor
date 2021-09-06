@@ -65,7 +65,7 @@ const getBlocks = async (variables) => {
 }
 
 const processWinningBlocks = async () => {
-    let blockchain = globalThis.nodeInfo.blockchain
+    let blockchain = globalThis.cache.blockchain
     let creator = globalThis.config.publicKeyDelegators
     let reload
 
@@ -82,7 +82,6 @@ const processWinningBlocks = async () => {
             blockHeightMax: blockHeight
         })
 
-        globalThis.nodeInfo.winningBlocks = blocks
         globalThis.cache.rewards = blocks
         reload = 180000
     } else {

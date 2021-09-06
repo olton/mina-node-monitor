@@ -18,8 +18,6 @@ const processUptime = async () => {
     const {publicKeyDelegators} = globalThis.config
     const uptime = await getUptime(publicKeyDelegators)
 
-    globalThis.nodeInfo.uptime = uptime
-    globalThis.nodeInfo.uptime2 = uptime
     globalThis.cache.uptime = uptime
 
     setTimeout(processUptime, 60000)
