@@ -17,8 +17,8 @@ const createConfig = (path) => {
         "discordWebHook": "",
         "balanceSendInterval": "1d",
         "alertInterval": "3m",
-        "blockDiff": 2,
-        "blockDiffToRestart": 4,
+        "blockDiff": 3,
+        "blockDiffToRestart": 5,
         "canRestartNode": true,
         "restartAfterNotSynced": "30m",
         "restartCmd": "systemctl --user restart mina",
@@ -58,8 +58,6 @@ const createConfig = (path) => {
             "hooks": ["process exited", "crash"]
         }
     }
-
-    console.log(path)
 
     fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 4), {flag: 'w+', encoding: 'utf-8'})
 
