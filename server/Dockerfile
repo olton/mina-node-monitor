@@ -6,6 +6,6 @@ COPY package*.json ./
 RUN apk add --update openssh-client
 RUN npm install --production
 COPY . .
-COPY config.example.json config.json
+RUN node index --init
 EXPOSE 8000
 ENTRYPOINT ["node", "index.js"]

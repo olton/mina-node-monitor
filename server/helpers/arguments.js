@@ -1,5 +1,72 @@
 const {isset} = require("./isset");
 const {isNum} = require("./numbers");
+const fs = require("fs")
+
+const createConfig = (path) => {
+    const args = process.argv.slice(2)
+    if (!args.includes("--init")) {
+        return
+    }
+
+    const defaultConfig = {
+        "publicKey": "",
+        "publicKeyDelegators": "",
+        "telegramToken": "",
+        "telegramChatID": "",
+        "telegramChatIDAlert": "",
+        "discordWebHook": "",
+        "balanceSendInterval": "1d",
+        "alertInterval": "3m",
+        "blockDiff": 2,
+        "blockDiffToRestart": 4,
+        "canRestartNode": true,
+        "restartAfterNotSynced": "30m",
+        "restartCmd": "systemctl --user restart mina",
+        "host": "0.0.0.0:8000",
+        "graphql": "localhost:3085",
+        "https": {
+            "key": "",
+            "cert": ""
+        },
+        "restartStateException": ["BOOTSTRAP"],
+        "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
+        "alertToTelegram": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+        "alertToDiscord": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+        "price": {
+            "currency": "usd",
+            "updateInterval": "1m",
+            "sendInterval": "1h",
+            "targets": ["TELEGRAM", "DISCORD"]
+        },
+        "blockSpeedDistance": 10,
+        "nodeInfoCollectInterval": "30s",
+        "hangInterval": "45m",
+        "hangIntervalAlert": "30m",
+        "memAlert": 95,
+        "memRestart": 0,
+        "snarkWorker": {
+            "address": "",
+            "fee": 0.001,
+            "stopBeforeBlock": "5m",
+            "startAfterBlock": "1m",
+            "runWorkerCommand": "mina client set-snark-worker -address <ADDRESS>",
+            "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
+            "controlInterval": "10s"
+        },
+        "journal": {
+            "cmd": "journalctl",
+            "hooks": ["process exited", "crash"]
+        }
+    }
+
+    console.log(path)
+
+    fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 4), {flag: 'w+', encoding: 'utf-8'})
+
+    console.log("Config file created successfully!")
+    process.exit(0)
+}
+
 const getArguments = () => {
     const args = process.argv.slice(2)
     const obj = {}
@@ -50,5 +117,6 @@ const updateConfigFromArguments = (c) => {
 
 module.exports = {
     getArguments,
-    updateConfigFromArguments
+    updateConfigFromArguments,
+    createConfig
 }

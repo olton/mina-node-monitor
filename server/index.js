@@ -18,15 +18,18 @@ const {processPriceInfo} = require("./modules/coingecko")
 const {processPriceSend} = require("./modules/price-sender")
 const {processSnarkWorkerController} = require("./modules/snark-worker")
 const {processJournal} = require("./modules/journal")
-const {updateConfigFromArguments} = require("./helpers/arguments");
+const {updateConfigFromArguments, createConfig} = require("./helpers/arguments");
 const {SYNC_STATE_UNKNOWN} = require("./helpers/consts");
 
 const version = `2.0.0`
 const configPathLinux = "/etc/minamon/config.json"
 const configPath = path.resolve(__dirname, 'config.json')
 
+createConfig(configPath)
+
 if (!fs.existsSync(configPath)) {
-    throw new Error("Config file not exist!")
+    console.log("Config file not exist! Use command 'node index --init' to create it!")
+    process.exit(0)
 }
 
 const readConfig = (path) => updateConfigFromArguments(JSON.parse(fs.readFileSync(path, 'utf-8')))
