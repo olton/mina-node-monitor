@@ -116,6 +116,12 @@ npm i
 ```
 
 #### Конфігураційний файл для сервера 
+Begin from version 2.0.0, you can create config file with a default parameters with a command:
+
+```shell
+cd server
+node index --init
+```
 
 Створіть в папці `server` файл` config.json`. Нижче представлений повний приклад конфігураційного файлу з описом кожної опції.
 

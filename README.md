@@ -120,6 +120,13 @@ In additional you can use parameter `blocks`. This parameter determines the orde
 ```
 
 #### Config file for server 
+Begin from version 2.0.0, you can create config file with a default parameters with a command:
+
+```shell
+cd server
+node index --init
+```
+
 Create file `config.json` in a `server` folder. Example below demonstrate witch data you must create.
 ```json
 {
