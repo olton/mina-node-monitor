@@ -13,6 +13,7 @@
 + [x] Server: changed config property `price:interval` to `price:sendInterval`
 + [x] Server: removed collecting Mina Explorer Height, config parameter `observeExplorer` deprecated
 + [x] Server: config parameter `blockDiff` now can be `0` to disable **fork** checking  
++ [x] Server: config parameter `blockDiffToRestart` now can be `0` to disable restart node when **fork** detected  
 
 + [x] Client: changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Client: added support short string time format in config

@@ -87,7 +87,7 @@ const processAlerter = async () => {
                 sendAlert("MAX", message)
 
                 if (restartStateSyncedRules.includes("MAX")) {
-                    if (DIFF_MAX >= blockDiffToRestart) {
+                    if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
                         if (canRestartNode && restartCmd) {
                             restart('MAX Fork!')
                         }
@@ -99,7 +99,7 @@ const processAlerter = async () => {
                 sendAlert("FORWARD-MAX", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-MAX")) {
-                    if (DIFF_MAX >= blockDiffToRestart) {
+                    if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
                         if (canRestartNode && restartCmd) {
                             restart('MAX Forward Fork!')
                         }
@@ -111,7 +111,7 @@ const processAlerter = async () => {
                 sendAlert("FORK", message)
 
                 if (restartStateSyncedRules.includes("FORK")) {
-                    if (DIFF_UNVALIDATED >= blockDiffToRestart) {
+                    if (blockDiffToRestart && DIFF_UNVALIDATED >= blockDiffToRestart) {
                         if (canRestartNode && restartCmd) {
                             restart('Node in Fork!')
                         }
@@ -123,7 +123,7 @@ const processAlerter = async () => {
                 sendAlert("FORWARD-FORK", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-FORK")) {
-                    if (Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
+                    if (blockDiffToRestart && Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
                         if (canRestartNode && restartCmd) {
                             restart('Node in Forward Fork!')
                         }
