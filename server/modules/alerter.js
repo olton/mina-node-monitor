@@ -82,7 +82,7 @@ const processAlerter = async () => {
                 sendAlert("PEERS", message)
             }
 
-            if (mHeight && DIFF_MAX >= blockDiff) {
+            if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
                 message = `MAX Fork detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
                 sendAlert("MAX", message)
 
@@ -94,7 +94,7 @@ const processAlerter = async () => {
                     }
                 }
             } else
-            if (mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
+            if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
                 message = `MAX Forward Fork detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
                 sendAlert("FORWARD-MAX", message)
 
@@ -106,7 +106,7 @@ const processAlerter = async () => {
                     }
                 }
             } else
-            if (uHeight && DIFF_UNVALIDATED >= blockDiff) {
+            if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
                 message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 sendAlert("FORK", message)
 
@@ -118,7 +118,7 @@ const processAlerter = async () => {
                     }
                 }
             } else
-            if (uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
+            if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
                 message = `Forward fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 sendAlert("FORWARD-FORK", message)
 
