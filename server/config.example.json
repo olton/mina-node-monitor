@@ -7,8 +7,8 @@
     "discordWebHook": "",
     "balanceSendInterval": "1d",
     "alertInterval": "3m",
-    "blockDiff": 2,
-    "blockDiffToRestart": 4,
+    "blockDiff": 3,
+    "blockDiffToRestart": 5,
     "canRestartNode": true,
     "restartAfterNotSynced": "30m",
     "restartCmd": "systemctl --user restart mina",
@@ -18,23 +18,22 @@
         "key": "",
         "cert": ""
     },
-    "observeExplorer": true,
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
     "alertToTelegram": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
     "alertToDiscord": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
     "price": {
-        "currency": "uah",
+        "currency": "usd",
         "updateInterval": "1m",
-        "interval": "1h",
-        "targets": ["DISCORD", "TELEGRAM"]
+        "sendInterval": "1h",
+        "targets": ["TELEGRAM", "DISCORD"]
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": "30s",
     "hangInterval": "45m",
     "hangIntervalAlert": "30m",
-    "memAlert": 90,
-    "memRestart": 95,
+    "memAlert": 95,
+    "memRestart": 0,
     "snarkWorker": {
         "address": "",
         "fee": 0.001,
@@ -44,5 +43,8 @@
         "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
         "controlInterval": "10s"
     },
-    "journal": false
+    "journal": {
+        "cmd": "journalctl",
+        "hooks": ["process exited", "crash"]
+    }
 }

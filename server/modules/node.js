@@ -1,4 +1,3 @@
-const fetch = require("node-fetch")
 const {performance} = require("perf_hooks")
 const {hostname} = require("os")
 const {parseTime} = require("../helpers/parsers")
