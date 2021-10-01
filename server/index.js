@@ -10,15 +10,18 @@ const {processPlatform, processMem, processCpuLoad, processCpuTemp, processNetSt
 const {processCollectNodeInfo} = require("./modules/node")
 const {processWinningBlocks} = require("./modules/explorer")
 const {processAlerter} = require("./modules/alerter")
-const {processBalanceSend} = require("./modules/balance-sender")
+const {processBalanceSend, processBalance} = require("./modules/balance")
 const {processHello} = require("./modules/hello")
 const {processUptime} = require("./modules/uptime")
 const {processDelegations} = require("./modules/ledger")
 const {processPriceInfo, processPriceSend} = require("./modules/price")
 const {processSnarkWorkerController} = require("./modules/snark-worker")
 const {processJournal} = require("./modules/journal")
-const {updateConfigFromArguments, createConfig} = require("./helpers/arguments");
-const {SYNC_STATE_UNKNOWN} = require("./helpers/consts");
+const {updateConfigFromArguments, createConfig} = require("./helpers/arguments")
+const {SYNC_STATE_UNKNOWN} = require("./helpers/consts")
+const {processConsensus} = require("./modules/consensus")
+const {processBlockchain} = require("./modules/blockchain")
+const {processBlockSpeed} = require("./modules/speed")
 
 const version = `2.0.0`
 const configPathLinux = "/etc/minamon/config.json"
@@ -164,15 +167,6 @@ globalThis.cache = new Proxy({}, {
     }
 })
 
-setImmediate( processHello )
-setImmediate( processAlerter )
-setImmediate( processBalanceSend )
-setImmediate( processPriceSend )
-setImmediate( processCollectNodeInfo )
-setImmediate( processWinningBlocks )
-setImmediate( processSnarkWorkerController )
-setImmediate( processJournal )
-
 setImmediate( processPlatform )
 setImmediate( processMem )
 setImmediate( processCpuLoad )
@@ -182,3 +176,16 @@ setImmediate( processNetConn )
 setImmediate( processPriceInfo )
 setImmediate( processUptime )
 setImmediate( processDelegations )
+
+setImmediate( processJournal )
+setImmediate( processHello )
+setImmediate( processPriceSend )
+setImmediate( processCollectNodeInfo )
+setImmediate( processAlerter )
+setImmediate( processWinningBlocks )
+setImmediate( processSnarkWorkerController )
+setImmediate( processBalance )
+setImmediate( processBalanceSend )
+setImmediate( processConsensus )
+setImmediate( processBlockchain )
+setImmediate( processBlockSpeed )

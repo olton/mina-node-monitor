@@ -15,10 +15,12 @@ const getUptime = async (key) => {
 }
 
 const processUptime = async () => {
-    const {publicKeyDelegators} = globalThis.config
-    const uptime = await getUptime(publicKeyDelegators)
+    try {
+        const {publicKeyDelegators} = globalThis.config
+        const uptime = await getUptime(publicKeyDelegators)
 
-    globalThis.cache.uptime = uptime
+        globalThis.cache.uptime = uptime
+    } catch (e) {}
 
     setTimeout(processUptime, 60000)
 }

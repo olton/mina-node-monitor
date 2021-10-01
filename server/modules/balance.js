@@ -1,7 +1,19 @@
-const {parseTime} = require("../helpers/parsers")
-const {sendAlert} = require("../helpers/messangers")
+const {fetchGraphQL, queryBalance} = require("./graphql");
+const {parseTime} = require("../helpers/parsers");
 const {addressBalance} = require("../helpers/node-data");
 const {SYNC_STATE_SYNCED, SYNC_STATE_CATCHUP} = require("../helpers/consts");
+const {sendAlert} = require("../helpers/messangers");
+
+const processBalance = async () => {
+    const {publicKey, nodeInfoCollectInterval = "30s", graphql} = globalThis.config
+    const _nodeInfoCollectInterval = parseTime(nodeInfoCollectInterval)
+
+    try {
+        globalThis.cache.balance = publicKey ? await fetchGraphQL(graphql, queryBalance, {publicKey}) : 0
+    } catch (e) {}
+
+    setTimeout(processBalance, _nodeInfoCollectInterval)
+}
 
 const processBalanceSend = async () => {
     if (!globalThis.config || !globalThis.config.publicKey) return
@@ -29,5 +41,6 @@ const processBalanceSend = async () => {
 }
 
 module.exports = {
+    processBalance,
     processBalanceSend
 }
