@@ -44,6 +44,10 @@ echo -e "$YELLOW Deleting temporary files...\033[0m"
 
 rm _.tar.gz
 
+echo -e "$YELLOW Installing dependencies...\033[0m"
+
+npm install
+
 echo -e "$YELLOW Creating config file...\033[0m"
 
 node index --init
