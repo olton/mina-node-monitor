@@ -3,7 +3,8 @@
     "version": "2.0.0",
     "license": "MIT",
     "scripts": {
-        "client": "shx rm -rf output/* && parcel serve --target browser --out-dir output index.html -p 2222"
+        "client": "shx rm -rf output/* && parcel serve --target browser --out-dir output index.html -p 2222",
+        "start": "shx rm -rf output/* && parcel serve --target browser --out-dir output index.html -p 2222 --open"
     },
     "devDependencies": {
         "less": "^4.1.1",
