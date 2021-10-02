@@ -41,7 +41,7 @@ url=$(tar -tf _.tar.gz | head -n 1) | tar --strip-components=2 -xf _.tar.gz ${ur
 
 echo -e "$YELLOW Deleting temporary files...\033[0m"
 
-rm _.tar.gz
+#rm _.tar.gz
 
 echo -e "$YELLOW Creating config file...\033[0m"
 
