@@ -59,6 +59,8 @@ const updateConfigFromArguments = (c) => {
 
 const start = () => {
     try {
+        const args = process.argv.slice(2)
+
         let configFile = fs.readFileSync('./config.example.json', 'utf-8')
         let configJSON = updateConfigFromArguments(JSON.parse(configFile))
 
@@ -67,7 +69,7 @@ const start = () => {
             flag: "w"
         })
 
-        if (fs.existsSync("./config.json")) {
+        if (fs.existsSync("./config.json") && !args.includes("--no-start")) {
             exec("npm run client", (error, stdout, stderr) => {
                 if (error) {
                     console.error(`exec error: ${error}`);

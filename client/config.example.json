@@ -1,5 +1,5 @@
 {
-    "host": "1.2.3.4:8000",
+    "host": "localhost:8000",
     "https": false,
     "showIp": false,
     "theme": "auto"
