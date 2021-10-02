@@ -19,7 +19,7 @@ else
 TARGET="mina-monitor-${VER}"
 fi
 
-echo -e "$GREEN We are installing to Mina Monitor Server ${VER} branch\033[0m"
+echo -e "$GREEN We are installing Mina Monitor Server ${VER} branch\033[0m"
 echo -e "$GREEN into a ~/${TARGET} folder\033[0m"
 echo "So, let's go..."
 
@@ -31,11 +31,11 @@ cd ~
 mkdir -p ${TARGET}
 cd ${TARGET}
 
-echo -e "$YELLOW Getting a required tarball...\033[0m"
+echo -e "$YELLOW Downloading a required tarball...\033[0m"
 
 curl -L https://github.com/olton/mina-node-monitor/tarball/${VER} >> _.tar.gz
 
-echo -e "$YELLOW Extracting Mina Monitor Server files...\033[0m"
+echo -e "$YELLOW Extracting files...\033[0m"
 
 url=$(tar -tf _.tar.gz | head -n 1) | tar --strip-components=2 -xf _.tar.gz ${url}server
 
