@@ -65,14 +65,10 @@ const start = () => {
     try {
         const args = process.argv.slice(2)
 
-        let configFile, configJSON
+        let configFile, configJSON, configFileName
 
-        if (fs.existsSync("./config.json")) {
-            configFile = fs.readFileSync('./config.json', 'utf-8')
-        } else {
-            configFile = fs.readFileSync('./config.example.json', 'utf-8')
-        }
-
+        configFileName = fs.existsSync("./config.json") ? "./config.json" : "./config.example.json"
+        configFile = fs.readFileSync(configFileName, 'utf-8')
         configJSON = updateConfigFromArguments(JSON.parse(configFile))
 
         fs.writeFileSync('./config.json', JSON.stringify(configJSON, null, 4), {
