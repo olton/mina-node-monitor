@@ -30,8 +30,6 @@ const updateConfigFromArguments = (c) => {
     const args = getArguments()
     let _c = c
 
-    console.log(args)
-
     for(let o in args) {
         if (o[0] === "-") continue
 
