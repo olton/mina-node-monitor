@@ -30,7 +30,11 @@ const updateConfigFromArguments = (c) => {
     const args = getArguments()
     let _c = c
 
+    console.log(args)
+
     for(let o in args) {
+        if (o[0] === "-") continue
+
         let v = args[o]
 
         if (!isNaN(v)) {
@@ -61,10 +65,17 @@ const start = () => {
     try {
         const args = process.argv.slice(2)
 
-        let configFile = fs.readFileSync('./config.example.json', 'utf-8')
-        let configJSON = updateConfigFromArguments(JSON.parse(configFile))
+        let configFile, configJSON
 
-        fs.writeFileSync('./config.json', JSON.stringify(configJSON), {
+        if (fs.existsSync("./config.json")) {
+            configFile = fs.readFileSync('./config.json', 'utf-8')
+        } else {
+            configFile = fs.readFileSync('./config.example.json', 'utf-8')
+        }
+
+        configJSON = updateConfigFromArguments(JSON.parse(configFile))
+
+        fs.writeFileSync('./config.json', JSON.stringify(configJSON, null, 4), {
             encoding: "utf-8",
             flag: "w"
         })
