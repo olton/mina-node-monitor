@@ -13,15 +13,5 @@ To best experience, use a separate folder on the target server. For example, we 
 
 #### Install
 ```shell
-ver='websocket'
-mkdir -p minmon
-curl -L https://github.com/olton/mina-node-monitor/tarball/${ver} >> server.tar.gz
-url=$(tar -tf server.tar.gz | head -n 1) | tar --strip-components=2 -xf server.tar.gz ${url}server
-rm server.tar.gz
-```
-
-#### Install with SVN
-To install with `svn`, use command 
-```shell
-svn export https://github.com/olton/mina-node-monitor/tree/master/server
+curl -s https://raw.githubusercontent.com/olton/scripts/master/mina/monitor/server/install.sh | bash -s -- branch_or_tag target_folder
 ```
