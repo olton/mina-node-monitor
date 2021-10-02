@@ -3,9 +3,7 @@
 YELLOW="\033[33m"
 GREEN="\033[32m"
 
-echo "---------------"
 echo -e "$GREEN Welcome to Mina Monitor Server installer!\033[0m"
-echo "---------------"
 
 if [ -n "$1" ]
 then
@@ -21,35 +19,35 @@ else
 TARGET="mina-monitor-${VER}"
 fi
 
-echo "---------------"
 echo -e "$GREEN We are installing to Mina Monitor Server ${VER} branch\033[0m"
 echo -e "$GREEN into a ~/${TARGET} folder\033[0m"
-echo "---------------"
+echo "So, let's go..."
 
-
-echo "---------------"
 echo -e "$YELLOW Installing Mina Monitor Server...\033[0m"
-echo "---------------"
+
+echo -e "$YELLOW Creating a target directory...\033[0m"
 
 cd ~
 mkdir -p ${TARGET}
 cd ${TARGET}
+
+echo -e "$YELLOW Getting a required tarball...\033[0m"
+
 curl -L https://github.com/olton/mina-node-monitor/tarball/${VER} >> _.tar.gz
+
+echo -e "$YELLOW Extracting Mina Monitor Server files...\033[0m"
+
 url=$(tar -tf _.tar.gz | head -n 1) | tar --strip-components=2 -xf _.tar.gz ${url}server
 
-echo "---------------"
 echo -e "$YELLOW Deleting temporary files...\033[0m"
-echo "---------------"
 
 rm _.tar.gz
 
-echo "---------------"
 echo -e "$YELLOW Creating config file...\033[0m"
-echo "---------------"
 
 node index --init
 
-echo "---------------"
+echo ""
 echo -e "$GREEN Mina Monitor Server successfully installed...\033[0m"
-echo "---------------"
+echo ""
 
