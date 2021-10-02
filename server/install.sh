@@ -18,7 +18,7 @@ if [ -n "$2" ]
 then
 TARGET=$2
 else
-TARGET="minamon"
+TARGET="mina-monitor-${VER}"
 fi
 
 echo "---------------"
