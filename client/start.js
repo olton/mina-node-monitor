@@ -46,19 +46,7 @@ const updateConfigFromArguments = (c) => {
 
         let v = args[o]
 
-        if (o === "nodes") {
-            let nodes = []
-            for(let n of v) {
-                n = n.split(":")
-                nodes.push({
-                    "name": n[0],
-                    "host": `${n[1]}:${n[2]}`,
-                    "https": !isset(n[3]) ? false : ""+n[3] === "true"
-                })
-            }
-            v = nodes
-        }
-        else if (!isNaN(v)) {
+        if (!isNaN(v)) {
             v = Number(v)
         }
         else if (typeof v === "string" && ['true', 'false'].includes(v.toLowerCase())) {
