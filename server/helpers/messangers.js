@@ -1,5 +1,6 @@
 const fetch = require("node-fetch")
 const {parseTelegramChatIDs} = require("./parsers.js");
+const {logging} = require("./logs");
 
 const discord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}) => {
     const params = {
@@ -13,8 +14,8 @@ const discord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}
         body: JSON.stringify(params),
         headers: { 'Content-Type': 'application/json' }
     }).catch((e) => {
-        console.log("Error! Can't send message to discord")
-        console.log(e.message)
+        logging("Error! Can't send message to discord")
+        logging(e.message)
     })
 }
 
@@ -27,8 +28,8 @@ const telegram = (message, {token, recipients}) => {
     for (const id of ids) {
         const url = TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)
         fetch(encodeURI(url)).catch((e)=>{
-            console.log("Error! Can't send message to telegram")
-            console.log(e.message)
+            logging("Error! Can't send message to telegram")
+            logging(e.message)
         })
     }
 }
@@ -36,7 +37,7 @@ const telegram = (message, {token, recipients}) => {
 const sendAlert = (check, message) => {
     const {telegramToken, alertToTelegram, telegramChatIDAlert, discordWebHook, alertToDiscord} = globalThis.config
 
-    console.log(message)
+    logging(message)
 
     if (telegramToken && (check === 'OK' || alertToTelegram.includes(check))) {
         telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
