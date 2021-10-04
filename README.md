@@ -57,5 +57,5 @@ You can support project. You can donate main to address:
  
 ## Documentation
 You can read about client and server in
-- [Client](client/DOCS.EN.md)
-- [Server](server/DOCS.EN.md)
+- [Client](client/CLIENT-DOCS.md)
+- [Server](server/SERVER-DOCS.md)

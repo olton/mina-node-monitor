@@ -3,6 +3,7 @@ const EventEmitter = require("events")
 const {hostname} = require("os")
 const {writeFileSync} = require("fs")
 const {sendAlert} = require("../helpers/messangers")
+const {logging} = require("../helpers/logs");
 
 class JSONStream {
     constructor(cb) {
@@ -71,7 +72,7 @@ class Journal extends EventEmitter {
                 decoder.decode(chunk.toString());
             });
         } catch (e) {
-            console.log(`Journal controller not started, because ${e.message}`)
+            logging(`Journal controller not started, because ${e.message}`)
         }
     }
 

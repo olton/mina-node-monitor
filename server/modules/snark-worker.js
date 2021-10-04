@@ -4,6 +4,7 @@ const {execCommand} = require("../helpers/process")
 const {sendAlert} = require("../helpers/messangers")
 const {between} = require("../helpers/numbers")
 const {SYNC_STATE_SYNCED, SYNC_STATE_CATCHUP} = require("../helpers/consts");
+const {logging} = require("../helpers/logs");
 
 const processSnarkWorkerController = async () => {
     const swConfig = config["snarkWorker"]
@@ -32,7 +33,7 @@ const processSnarkWorkerController = async () => {
     let state = cache.state
 
     const startSW = () => {
-        console.log("Start snark worker")
+        logging("Start snark worker")
         cmdFee = setWorkerFeeCommand.replace("<FEE>", fee)
         setFee = execCommand(cmdFee)
         setFee.on("exit", (code) => {
@@ -51,7 +52,7 @@ const processSnarkWorkerController = async () => {
     }
 
     const stopSW = () => {
-        console.log("Stop snark worker")
+        logging("Stop snark worker")
         cmdStop = runWorkerCommand.replace("<ADDRESS>", "").replace("-address", "")
         stopWorker = execCommand(cmdStop)
         stopWorker.on("exit", (code) => {

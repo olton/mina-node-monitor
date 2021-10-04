@@ -1,6 +1,7 @@
 const fetch = require("node-fetch")
 const {parseTime, parseTelegramChatIDs} = require("../helpers/parsers")
-const {TELEGRAM_BOT_URL, discord} = require("../helpers/messangers");
+const {TELEGRAM_BOT_URL, discord} = require("../helpers/messangers")
+const {logging} = require("../helpers/logs");
 
 const getPriceInfo = async (currency = 'usd') => {
     try {
@@ -37,27 +38,32 @@ const processPriceSend = async () => {
     const {discordWebHook, telegramChatID, telegramToken, price} = globalThis.config
     const {currency = 'usd', sendInterval = 3600000, targets = []} = price
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", telegramToken)
-    const _interval = parseTime(sendInterval)
+    let _interval = parseTime(sendInterval)
     let data = globalThis.cache.price
 
     if (!targets.length) return
-    if (!data || !data.length) return
 
-    const mina = data[0]
-    const message = `Current Mina price is ${mina.current_price} ${currency.toUpperCase()}`
-    const ids = parseTelegramChatIDs(telegramChatID)
+    if (data && data.length) {
 
-    if (telegramToken && targets.includes("TELEGRAM")) {
-        for (const id of ids) {
-            fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)).catch((e)=>{
-                console.log("Error! Can't send message to telegram")
-                console.log(e.message)
-            })
+        const mina = data[0]
+        const message = `Current Mina price is ${mina.current_price} ${currency.toUpperCase()}`
+        const ids = parseTelegramChatIDs(telegramChatID)
+
+        if (telegramToken && targets.includes("TELEGRAM")) {
+            for (const id of ids) {
+                fetch(TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)).catch((e) => {
+                    logging("Error! Can't send message to telegram")
+                    logging(e.message)
+                })
+            }
         }
-    }
 
-    if (discordWebHook && targets.includes("DISCORD")) {
-        discord(discordWebHook, message)
+        if (discordWebHook && targets.includes("DISCORD")) {
+            logging(message)
+            discord(discordWebHook, message)
+        }
+    } else {
+        _interval = parseTime("1m")
     }
 
     setTimeout(processPriceSend, _interval)

@@ -4,6 +4,7 @@ const {parseTime} = require("../helpers/parsers")
 const {sendAlert} = require("../helpers/messangers")
 const {restart} = require("../helpers/process")
 const {deleteFromArray} = require("../helpers/arrays")
+const {logging} = require("../helpers/logs");
 
 const processAlerter = async () => {
     if (!globalThis.config) return
@@ -70,6 +71,7 @@ const processAlerter = async () => {
 
                 if (memAlert && usedMem >= memAlert) {
                     sendAlert("MEM", `The node ${host} uses ${usedMem}% of the memory`)
+                    logging("High memory usage detected")
                 }
             }
 
@@ -80,11 +82,13 @@ const processAlerter = async () => {
             if (+peers <= 0) {
                 message = `No peers! ${sign}`
                 sendAlert("PEERS", message)
+                logging("No peers!")
             }
 
             if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
                 message = `MAX Fork detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
                 sendAlert("MAX", message)
+                logging("Fork detected by MAX!")
 
                 if (restartStateSyncedRules.includes("MAX")) {
                     if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
@@ -97,6 +101,7 @@ const processAlerter = async () => {
             if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
                 message = `MAX Forward Fork detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
                 sendAlert("FORWARD-MAX", message)
+                logging("Forward-fork detected by MAX!")
 
                 if (restartStateSyncedRules.includes("FORWARD-MAX")) {
                     if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
@@ -109,6 +114,7 @@ const processAlerter = async () => {
             if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
                 message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 sendAlert("FORK", message)
+                logging("Fork detected by MAX Unvalidated!")
 
                 if (restartStateSyncedRules.includes("FORK")) {
                     if (blockDiffToRestart && DIFF_UNVALIDATED >= blockDiffToRestart) {
@@ -121,6 +127,7 @@ const processAlerter = async () => {
             if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
                 message = `Forward fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 sendAlert("FORWARD-FORK", message)
+                logging("Forward-fork detected by MAX Unvalidated!")
 
                 if (restartStateSyncedRules.includes("FORWARD-FORK")) {
                     if (blockDiffToRestart && Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
@@ -148,7 +155,7 @@ const processAlerter = async () => {
                     }
                     message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
                     sendAlert("HANG", message)
-
+                    logging("Hanging detected!")
                 }
 
                 if (hangInterval && globalThis.hangTimer >= _hangIntervalRestart) {
