@@ -1,5 +1,5 @@
 {
-    "name": "@olton/mina-monitor",
+    "name": "@olton/mina-monitor-client",
     "version": "2.0.0",
     "license": "MIT",
     "scripts": {
