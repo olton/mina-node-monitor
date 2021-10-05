@@ -1,6 +1,6 @@
 ### 2.0.0
 + [x] Changed data exchange protocol from `http(s)` to `ws(s)`
-+ [x] Added Docker file for server and built docker image (`olton/mina_monitor_server:1.1.5_alpha`)
++ [x] Added Docker file for server and built docker image (`olton/mina_monitor_server`)
 + [x] To the Server added command line arguments support. Now you can rewrite config parameters with command line arguments
 + [x] Refactoring server code, switch to CommonJS modules
 + [x] Control for mina stopped with `journalctl` and write this event to the log
