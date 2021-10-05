@@ -1,3 +1,6 @@
+### 2.0.1
++ [x] Server: fixed snark worker controller for first start, issue #7
+
 ### 2.0.0
 + [x] Server: changed data exchange protocol from `http(s)` to `ws(s)`
 + [x] Server: added command line arguments support. Now you can rewrite config parameters with command line arguments

@@ -72,6 +72,7 @@ const processSnarkWorkerController = async () => {
     if ((state === SYNC_STATE_SYNCED || state === SYNC_STATE_CATCHUP) && address) {
         // If SW not started, but defined - start it
         // Если SW определен, но по какой то причине не запущен
+
         if (snarkWorkerStopped === null) {
 
             if (!nextBlock || (!needStop || needStart)) {

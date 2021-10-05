@@ -56,7 +56,7 @@ globalThis.hangTimer = 0
 globalThis.currentBalance = 0
 globalThis.currentControlHeight = 0
 globalThis.nodeMemoryUsage = 0
-globalThis.snarkWorkerStopped = false
+globalThis.snarkWorkerStopped = null
 globalThis.snarkWorkerStoppedBlockTime = null
 globalThis.previousState = SYNC_STATE_UNKNOWN
 
