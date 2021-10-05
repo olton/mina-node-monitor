@@ -49,6 +49,8 @@ You can support project, donate Mina to address:
 - server - NodeJS, JavaScript
 - client - JavaScript, HTML, CSS
 
+> You can watch a [video about Mina Monitor](https://youtu.be/lKmbKi17N1g) on my [YouTube channel](https://www.youtube.com/channel/UC-AwjNVWxPRJYMG7vpiJnfQ)  
+
 ### Credits
 + [x] [Mina Monitor](https://github.com/olton/mina-node-monitor) by [Serhii Pimenov](https://github.com/olton)
 + [x] [Metro 4](https://github.com/olton/Metro-UI-CSS) by [Serhii Pimenov](https://github.com/olton)
