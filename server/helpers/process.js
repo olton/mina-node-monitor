@@ -1,13 +1,14 @@
 const {hostname} = require("os")
 const {exec} = require("child_process")
 const {sendAlert} = require("./messangers")
+const {logging} = require("./logs");
 
 const restart = (reason, target = hostname()) => {
     const {restartCmd} = globalThis.config
 
     if (!restartCmd) return
 
-    console.log("Restart with message: " + reason)
+    logging("Restart with message: " + reason)
 
     globalThis.hangTimer = 0
     globalThis.restartTimerNotSynced = 0
@@ -34,12 +35,11 @@ const execCommand = (cmd) => {
 
     return exec(cmd, async (error, stdout, stderr) => {
         if (error) {
-            console.log(error.stack)
-            console.log("Error code: "+error.code)
-            console.log("Signal received: "+error.signal)
+            logging("Error code: "+error.code)
+            logging("Signal received: "+error.signal)
         }
-        if (stdout) console.log(stdout)
-        if (stderr) console.log(stderr)
+        if (stdout) logging(stdout)
+        if (stderr) logging(stderr)
     })
 }
 

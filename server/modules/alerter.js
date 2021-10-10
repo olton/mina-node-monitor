@@ -70,7 +70,7 @@ const processAlerter = async () => {
                 globalThis.nodeMemoryUsage = usedMem
 
                 if (memAlert && usedMem >= memAlert) {
-                    sendAlert("MEM", `The node ${host} uses ${usedMem}% of the memory`)
+                    sendAlert("MEM", `High memory usage detected! The node ${host} uses ${usedMem}% of the memory`)
                     logging("High memory usage detected")
                 }
             }
@@ -86,7 +86,7 @@ const processAlerter = async () => {
             }
 
             if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
-                message = `MAX Fork detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
+                message = `Fork by MAX detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
                 sendAlert("MAX", message)
                 logging("Fork detected by MAX!")
 
@@ -99,7 +99,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
-                message = `MAX Forward Fork detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
+                message = `Forward Fork by MAX detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
                 sendAlert("FORWARD-MAX", message)
                 logging("Forward-fork detected by MAX!")
 
@@ -112,7 +112,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                message = `Fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                message = `Fork by UNV detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 sendAlert("FORK", message)
                 logging("Fork detected by MAX Unvalidated!")
 
@@ -125,7 +125,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                message = `Forward fork detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                message = `Forward fork by UNV detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
                 sendAlert("FORWARD-FORK", message)
                 logging("Forward-fork detected by MAX Unvalidated!")
 

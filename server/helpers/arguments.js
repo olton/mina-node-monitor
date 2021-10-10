@@ -1,6 +1,7 @@
 const {isset} = require("./isset");
 const {isNum} = require("./numbers");
 const fs = require("fs")
+const {logging} = require("./logs");
 
 const createConfig = (path) => {
     const args = process.argv.slice(2)
@@ -61,7 +62,8 @@ const createConfig = (path) => {
 
     fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 4), {flag: 'w+', encoding: 'utf-8'})
 
-    console.log("Config file created successfully!")
+    logging("Config file created successfully!")
+
     process.exit(0)
 }
 

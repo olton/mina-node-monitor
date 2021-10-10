@@ -6,6 +6,9 @@
 **Mina Monitor** is an extended graphical version of the` mina client status` command with additional indicators.
 This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
+## Thanks to
++ [x] Gareth Davies for [Mina Explorer](https://minaexplorer.com/)
++ [x] StakeTab Team for [Validator Dashboard](https://mina.staketab.com//)
 
 ## Donate a project
 You can support project, donate Mina to address:

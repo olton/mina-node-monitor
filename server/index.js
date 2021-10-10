@@ -22,6 +22,7 @@ const {SYNC_STATE_UNKNOWN} = require("./helpers/consts")
 const {processConsensus} = require("./modules/consensus")
 const {processBlockchain} = require("./modules/blockchain")
 const {processBlockSpeed} = require("./modules/speed")
+const {logging} = require("./helpers/logs");
 
 const version = `2.0.0`
 const configPathLinux = "/etc/minamon/config.json"
@@ -30,7 +31,7 @@ const configPath = path.resolve(__dirname, 'config.json')
 createConfig(configPath)
 
 if (!fs.existsSync(configPath)) {
-    console.log("Config file not exist! Use command 'node index --init' to create it!")
+    logging("Config file not exist! Use command 'node index --init' to create it!")
     process.exit(0)
 }
 
@@ -58,6 +59,7 @@ globalThis.currentControlHeight = 0
 globalThis.nodeMemoryUsage = 0
 globalThis.snarkWorkerStopped = null
 globalThis.snarkWorkerStoppedBlockTime = null
+globalThis.snarkWorkerRunError = false
 globalThis.previousState = SYNC_STATE_UNKNOWN
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
@@ -129,7 +131,7 @@ if (useHttps) {
 const wss = new WebSocket.Server({ server })
 
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
-    console.log(`Mina Monitor Server running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
+    logging(`Mina Monitor Server running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
 
 wss.on('connection', (ws) => {
