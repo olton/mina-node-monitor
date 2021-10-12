@@ -4,6 +4,7 @@ const {hostname} = require("os")
 const {writeFileSync} = require("fs")
 const {sendAlert} = require("../helpers/messangers")
 const {logging} = require("../helpers/logs");
+const {timestamp} = require("../helpers/timestamp");
 
 class JSONStream {
     constructor(cb) {
@@ -97,7 +98,7 @@ const processJournal = () => {
                 if (message.includes(hook)) {
                     cache.state = "UNKNOWN"
                     try {
-                        writeFileSync(logs.fails, `${message}\n`, {flag: 'a+'})
+                        writeFileSync(logs.fails, `${timestamp() + " " + message}\n`, {flag: 'a+'})
                     } catch (e) {}
                     sendAlert("FAIL", `Mina was stopped on ${hostname()} with message ${message}`)
                     return

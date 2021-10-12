@@ -1,6 +1,7 @@
 ### 2.0.1
 + [x] Server: fixed snark worker controller for first start, issue #7
 + [x] Server: fixed spams when snark worker controller can not start sw
++ [x] Server: fixed issue for set telegramChatID from command line
 
 ### 2.0.0
 + [x] Server: changed data exchange protocol from `http(s)` to `ws(s)`
