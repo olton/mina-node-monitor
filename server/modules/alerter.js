@@ -83,7 +83,7 @@ const processAlerter = async () => {
             }
 
             if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
-                message = `Fork by MAX detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
+                message = `Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight} ${sign}`
                 sendAlert("MAX", message)
 
                 if (restartStateSyncedRules.includes("MAX")) {
@@ -95,7 +95,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
-                message = `Forward Fork by MAX detected!\nDifference: ${Math.abs(DIFF_MAX)}\nHeight: ${nHeight}\nMax: ${mHeight} ${sign}`
+                message = `Forward Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight} ${sign}`
                 sendAlert("FORWARD-MAX", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-MAX")) {
@@ -107,7 +107,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                message = `Fork by UNV detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                message = `Fork by UNV detected! Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
                 sendAlert("FORK", message)
 
                 if (restartStateSyncedRules.includes("FORK")) {
@@ -119,7 +119,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                message = `Forward fork by UNV detected!\nHeight ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length!\nDifference: ${Math.abs(DIFF_UNVALIDATED)}\nNode: ${nHeight}\nUnvalidated: ${uHeight} ${sign}`
+                message = `Forward fork by UNV detected! Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
                 sendAlert("FORWARD-FORK", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-FORK")) {
@@ -146,7 +146,7 @@ const processAlerter = async () => {
                     if (!globalThis.cache.health.includes("HANG")) {
                         globalThis.cache.health.push("HANG")
                     }
-                    message = `Hanging node detected!\nBlock height ${nHeight} equal to previous value! ${sign}`
+                    message = `Hanging node detected! Block height ${nHeight} same as previous value for a long time! ${sign}`
                     sendAlert("HANG", message)
                 }
 
