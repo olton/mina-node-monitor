@@ -107,7 +107,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                message = `Fork by UNV detected! Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
+                message = `Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
                 sendAlert("FORK", message)
 
                 if (restartStateSyncedRules.includes("FORK")) {
@@ -119,7 +119,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                message = `Forward fork by UNV detected! Height ${DIFF_UNVALIDATED > 0 ? 'less' : 'more'} than unvalidated block length! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
+                message = `Forward Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
                 sendAlert("FORWARD-FORK", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-FORK")) {
