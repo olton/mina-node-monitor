@@ -1,4 +1,5 @@
 const fetch = require("node-fetch")
+const {logging} = require("../helpers/logs");
 
 const EXPLORER_GRAPHQL = `https://graphql.minaexplorer.com`
 const EXPLORER_API = `https://api.minaexplorer.com`
@@ -21,7 +22,7 @@ async function fetchGraphQL(query, variables = {}) {
 
         return result.ok ? await result.json() : null
     } catch (error) {
-        console.error("The Request to Explorer war aborted! Reason: " + error.name)
+        logging("The Request to Explorer war aborted! Reason: " + error.name + " with message " + error.message)
         return null
     }
 }

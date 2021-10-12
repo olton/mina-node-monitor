@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const {logging} = require("../helpers/logs");
 
 const queryNodeStatus = `
 query MyQuery {
@@ -160,7 +161,7 @@ async function fetchGraphQL(addr, query, variables = {}) {
 
         return result.ok ? await result.json() : null
     } catch (e) {
-        console.error("The Request to GraphQL war aborted! Reason: " + e.name + " " + e.message)
+        logging("The Request to GraphQL war aborted! Reason: " + e.name + " " + e.message)
         return null
     }
 }

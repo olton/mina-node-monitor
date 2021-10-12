@@ -1,4 +1,5 @@
 const fetch = require("node-fetch")
+const {logging} = require("../helpers/logs");
 
 const delegations = async (key) => {
     try {
@@ -6,7 +7,7 @@ const delegations = async (key) => {
         const data = await fetch(link)
         return data.ok ? data.json() : null
     } catch (e) {
-        console.error("The Request to GraphQL war aborted! Reason: " + e.name + " " + e.message)
+        logging("The Request to GraphQL war aborted! Reason: " + e.name + " " + e.message)
         return null
     }
 }
