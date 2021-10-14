@@ -3,7 +3,7 @@ Start from 1.1.5 you can use docker container with Mina Monitor Server.
 
 ### Run container
 ```shell
-sudo docker run --rm --network=host -d olton/mina_monitor_server:latest
+sudo docker run --rm --network=host -d olton/mina-monitor-server:latest
 ```
 
 ### Set Mina Monitor Server parameters
@@ -24,7 +24,7 @@ This command overwrite three config parameters:
 
 To run docker image of the Mina Monitor Server with specified config parameters you must add it to end of command:
 ```shell
-sudo docker run --rm --name mina_monitor_server --network=host -d olton/mina_monitor_server:latest -journal false -publicKey B62q... 
+sudo docker run --rm --name mina_monitor_server --network=host -d olton/mina-monitor-server:latest -journal false -publicKey B62q... 
 ```
 
 > You must always set parameter `journal` to `false`! 
