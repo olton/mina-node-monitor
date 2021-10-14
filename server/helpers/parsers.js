@@ -23,7 +23,7 @@ const parseTime = (t) => {
 }
 
 const parseTelegramChatIDs = (s = "") => {
-    return [...new Set(Array.isArray(s) ? s : s.split(",").map( v => v.trim() ) )]
+    return [...new Set(Array.isArray(s) ? s : (""+s).split(",").map( v => v.trim() ) )]
 }
 
 module.exports = {
