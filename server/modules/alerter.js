@@ -4,6 +4,7 @@ const {parseTime} = require("../helpers/parsers")
 const {sendAlert} = require("../helpers/messangers")
 const {restart} = require("../helpers/process")
 const {deleteFromArray} = require("../helpers/arrays")
+const {secondsToTime} = require("../helpers/timestamp");
 
 const processAlerter = async () => {
     if (!globalThis.config) return
@@ -20,13 +21,15 @@ const processAlerter = async () => {
         hangInterval = 0,
         hangIntervalAlert = 0,
         memAlert = 0,
-        memRestart = 0
+        memRestart = 0,
+        restartAfterUptime = 0
     } = globalThis.config
     let reload
     const host = hostname()
     const mem = await sysInfo('mem')
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
+    const _restartAfterUptime = parseTime(restartAfterUptime)
 
     let daemon = globalThis.cache.daemon
 
@@ -37,7 +40,8 @@ const processAlerter = async () => {
             highestBlockLengthReceived,
             highestUnvalidatedBlockLengthReceived,
             addrsAndPorts,
-            peers = 0
+            peers = 0,
+            uptimeSecs
         } = daemon
         const ip = addrsAndPorts.externalIp
         const SYNCED = syncStatus === 'SYNCED'
@@ -64,6 +68,11 @@ const processAlerter = async () => {
             const DIFF_MAX = mHeight - nHeight
             const DIFF_UNVALIDATED = uHeight - nHeight
             let message
+
+            if (_restartAfterUptime && +uptimeSecs * 1000 >= _restartAfterUptime) {
+                const {d, h, m, s} = secondsToTime(+uptimeSecs)
+                restart(`Restarted by long uptime ${d}d ${h}h ${m}m ${s}s`)
+            }
 
             if (globalThis.nodeMemoryUsage !== usedMem) {
                 globalThis.nodeMemoryUsage = usedMem

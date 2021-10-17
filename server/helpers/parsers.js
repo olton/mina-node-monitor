@@ -1,5 +1,4 @@
 const {isNum} = require("./numbers")
-const {isset} = require("./isset");
 
 const parseTime = (t) => {
     if (isNum(t)) return Math.abs(+t)

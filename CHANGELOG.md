@@ -1,3 +1,6 @@
+### 2.0.2
++ [x] Server: added restart by long uptime with config parameter `restartAfterUptime`. The value must be defined in milliseconds or internal time string format . Default value is `0` (no restart)
+
 ### 2.0.1
 + [x] Server: fixed snark worker controller for first start, issue #7
 + [x] Server: fixed spams when snark worker controller can not start sw

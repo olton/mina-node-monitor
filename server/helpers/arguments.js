@@ -9,6 +9,13 @@ const createConfig = (path) => {
         return
     }
 
+    const defaultAlerts = ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"]
+    const defaultRestartSyncedRules = ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"]
+    const defaultStateException = ["BOOTSTRAP"]
+    const defaultRestartCmd = "systemctl --user restart mina"
+    const defaultSnarkWorkerCmd = "mina client set-snark-worker -address <ADDRESS>"
+    const defaultSnarkWorkerFeeCmd = "mina client set-snark-work-fee <FEE>"
+
     const defaultConfig = {
         "publicKey": "",
         "publicKeyDelegators": "",
@@ -22,17 +29,17 @@ const createConfig = (path) => {
         "blockDiffToRestart": 5,
         "canRestartNode": true,
         "restartAfterNotSynced": "30m",
-        "restartCmd": "systemctl --user restart mina",
+        "restartCmd": defaultRestartCmd,
         "host": "0.0.0.0:8000",
         "graphql": "localhost:3085",
         "https": {
             "key": "",
             "cert": ""
         },
-        "restartStateException": ["BOOTSTRAP"],
-        "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
-        "alertToTelegram": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
-        "alertToDiscord": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+        "restartStateException": defaultStateException,
+        "restartStateSyncedRules": defaultRestartSyncedRules,
+        "alertToTelegram": defaultAlerts,
+        "alertToDiscord": defaultAlerts,
         "price": {
             "currency": "usd",
             "updateInterval": "1m",
@@ -50,14 +57,15 @@ const createConfig = (path) => {
             "fee": 0.001,
             "stopBeforeBlock": "5m",
             "startAfterBlock": "1m",
-            "runWorkerCommand": "mina client set-snark-worker -address <ADDRESS>",
-            "setWorkerFeeCommand": "mina client set-snark-work-fee <FEE>",
+            "runWorkerCommand": defaultSnarkWorkerCmd,
+            "setWorkerFeeCommand": defaultSnarkWorkerFeeCmd,
             "controlInterval": "10s"
         },
         "journal": {
             "cmd": "journalctl",
             "hooks": ["process exited", "crash"]
-        }
+        },
+        "restartAfterUptime": 0
     }
 
     fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 4), {flag: 'w+', encoding: 'utf-8'})

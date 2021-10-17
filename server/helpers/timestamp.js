@@ -9,6 +9,21 @@ const timestamp = (divider = "-") => {
     return `${d}${divider}${m}${divider}${y} ${H}:${M}`;
 }
 
+const secondsToTime = (s) => {
+    let days = Math.floor((s % 31536000) / 86400);
+    let hours = Math.floor(((s % 31536000) % 86400) / 3600);
+    let minutes = Math.floor((((s % 31536000) % 86400) % 3600) / 60);
+    let seconds = Math.round((((s % 31536000) % 86400) % 3600) % 60);
+
+    return {
+        d: days,
+        h: hours,
+        m: minutes,
+        s: seconds
+    }
+}
+
 module.exports = {
-    timestamp
+    timestamp,
+    secondsToTime
 }
