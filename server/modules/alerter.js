@@ -24,7 +24,9 @@ const processAlerter = async () => {
         memRestart = 0,
         restartAfterUptime = 0
     } = globalThis.config
+
     let reload
+
     const host = hostname()
     const mem = await sysInfo('mem')
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)

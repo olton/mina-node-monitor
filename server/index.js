@@ -24,8 +24,8 @@ const {processBlockchain} = require("./modules/blockchain")
 const {processBlockSpeed} = require("./modules/speed")
 const {logging} = require("./helpers/logs");
 
-const version = `2.0.0`
-const configPathLinux = "/etc/minamon/config.json"
+const version = `2.0.2`
+const configPathLinux = "/etc/mina-monitor/config.json"
 const configPath = path.resolve(__dirname, 'config.json')
 
 createConfig(configPath)
@@ -99,10 +99,18 @@ const requestListener = async (req, res) => {
             font-size: .8em;
             margin-top: 4px;
         }
-        .version {
+        .version, .donate, .donate-address {
             font-size: .8em;
             margin-top: 4px;
-            color: #707882;
+            color: #000;
+        }
+        .donate {
+            margin-top: 10px;
+            color: #6a6a6a;
+        }
+        .donate-address {
+            font-weight: bold;
+            color: #000;
         }
     </style>
     <body>
@@ -111,7 +119,15 @@ const requestListener = async (req, res) => {
             <p class="subtitle">CONVENIENT MONITORING OF YOUR MINA NODES!</p>     
             <p class="copyright">Copyright 2021 by <a href="https://pimenov.com.ua">Serhii Pimenov</a></p>
             <p class="version">Mina Monitor v${version}</p>
-        </div>       
+            <p class="donate">You can donate Mina to address</p>
+            <p class="donate-address" title="Click to copy to clipboard">B62qqQjC8zaU8XXaeqb9rZXFSX9x12mCgjrdCQuJbXuxU2KUPFcH7aY</p>
+        </div>
+        <script>
+            const donateAddress = document.querySelector(".donate-address")
+            donateAddress.addEventListener("click", () => {
+                navigator.clipboard.writeText(donateAddress.innerText)
+            })
+        </script>       
     </body>
     `
 
