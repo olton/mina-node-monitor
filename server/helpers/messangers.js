@@ -1,4 +1,5 @@
 const fetch = require("node-fetch")
+const {hostname} = require("os")
 const {parseTelegramChatIDs} = require("./parsers.js");
 const {logging} = require("./logs");
 
@@ -36,15 +37,17 @@ const telegram = (message, {token, recipients}) => {
 
 const sendAlert = (check, message) => {
     const {telegramToken, alertToTelegram, telegramChatIDAlert, discordWebHook, alertToDiscord} = globalThis.config
+    const sign = globalThis.host || hostname()
+    const signedMessage = `${message} From ${sign}`
 
     logging(message)
 
     if (telegramToken && (check === 'OK' || alertToTelegram.includes(check))) {
-        telegram(message, {token: telegramToken, recipients: telegramChatIDAlert})
+        telegram(signedMessage, {token: telegramToken, recipients: telegramChatIDAlert})
     }
 
     if (discordWebHook && (check === 'OK' || alertToDiscord.includes(check))) {
-        discord(discordWebHook, message)
+        discord(discordWebHook, signedMessage)
     }
 }
 

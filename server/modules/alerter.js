@@ -1,4 +1,3 @@
-const {hostname} = require("os")
 const {sysInfo} = require("./system")
 const {parseTime} = require("../helpers/parsers")
 const {sendAlert} = require("../helpers/messangers")
@@ -27,7 +26,7 @@ const processAlerter = async () => {
 
     let reload
 
-    const host = hostname()
+    const host = globalThis.host
     const mem = await sysInfo('mem')
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
@@ -45,9 +44,8 @@ const processAlerter = async () => {
             peers = 0,
             uptimeSecs
         } = daemon
-        const ip = addrsAndPorts.externalIp
+
         const SYNCED = syncStatus === 'SYNCED'
-        const sign = `\nFrom: ${host} (${ip})`
 
         if (SYNCED) globalThis.restartTimerNotSynced = 0
         if (!SYNCED) globalThis.hangTimer = 0
@@ -73,14 +71,14 @@ const processAlerter = async () => {
 
             if (_restartAfterUptime && +uptimeSecs * 1000 >= _restartAfterUptime) {
                 const {d, h, m, s} = secondsToTime(+uptimeSecs)
-                restart(`Restarted by long uptime ${d}d ${h}h ${m}m ${s}s`)
+                restart(`Restarted by long uptime ${d}d ${h}h ${m}m ${s}s.`)
             }
 
             if (globalThis.nodeMemoryUsage !== usedMem) {
                 globalThis.nodeMemoryUsage = usedMem
 
                 if (memAlert && usedMem >= memAlert) {
-                    sendAlert("MEM", `High memory usage detected! The node ${host} uses ${usedMem}% of the memory`)
+                    sendAlert("MEM", `High memory usage detected! The node uses ${usedMem}% of the memory.`)
                 }
             }
 
@@ -89,12 +87,12 @@ const processAlerter = async () => {
             }
 
             if (+peers <= 0) {
-                message = `No peers! ${sign}`
+                message = `No peers!`
                 sendAlert("PEERS", message)
             }
 
             if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
-                message = `Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight} ${sign}`
+                message = `Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
                 sendAlert("MAX", message)
 
                 if (restartStateSyncedRules.includes("MAX")) {
@@ -106,7 +104,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
-                message = `Forward Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight} ${sign}`
+                message = `Forward Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
                 sendAlert("FORWARD-MAX", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-MAX")) {
@@ -118,7 +116,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                message = `Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
+                message = `Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
                 sendAlert("FORK", message)
 
                 if (restartStateSyncedRules.includes("FORK")) {
@@ -130,7 +128,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                message = `Forward Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight} ${sign}`
+                message = `Forward Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
                 sendAlert("FORWARD-FORK", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-FORK")) {
@@ -157,7 +155,7 @@ const processAlerter = async () => {
                     if (!globalThis.cache.health.includes("HANG")) {
                         globalThis.cache.health.push("HANG")
                     }
-                    message = `Hanging node detected! Block height ${nHeight} same as previous value for a long time! ${sign}`
+                    message = `Hanging node detected! Block height ${nHeight} same as previous value for a long time!`
                     sendAlert("HANG", message)
                 }
 

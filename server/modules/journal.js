@@ -100,7 +100,7 @@ const processJournal = () => {
                     try {
                         writeFileSync(logs.fails, `${timestamp() + " " + message}\n`, {flag: 'a+'})
                     } catch (e) {}
-                    sendAlert("FAIL", `Mina was stopped on ${hostname()} with message ${message}`)
+                    sendAlert("FAIL", `Mina was stopped with message ${message}.`)
                     return
                 }
             }

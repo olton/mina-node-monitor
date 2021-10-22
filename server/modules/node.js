@@ -29,7 +29,6 @@ const processCollectNodeInfo = async () => {
     }
 
     const status = daemonStatus(nodeStatus)
-    const sign = ` Host: ${hostname()}`
     const ver = nodeStatus ? nodeStatus.data.version : "UNKNOWN"
 
     if (status) {
@@ -43,7 +42,7 @@ const processCollectNodeInfo = async () => {
         } = status
 
         if (globalThis.previousState !== syncStatus) {
-            sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.previousState}\`)!${sign}`)
+            sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.previousState}\`)!`)
             globalThis.previousState = syncStatus
         }
 
@@ -75,7 +74,7 @@ const processCollectNodeInfo = async () => {
         currentState = syncStatus
     } else {
         if (globalThis.previousState !== SYNC_STATE_UNKNOWN) {
-            sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.previousState}\`)!${sign}`)
+            sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.previousState}\`)!`)
         }
         globalThis.previousState = SYNC_STATE_UNKNOWN
         health.push("UNKNOWN")

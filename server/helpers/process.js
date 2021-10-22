@@ -1,9 +1,8 @@
-const {hostname} = require("os")
 const {exec} = require("child_process")
 const {sendAlert} = require("./messangers")
 const {logging} = require("./logs");
 
-const restart = (reason, target = hostname()) => {
+const restart = (reason) => {
     const {restartCmd} = globalThis.config
 
     if (!restartCmd) return
@@ -25,7 +24,7 @@ const restart = (reason, target = hostname()) => {
             result = 'OK'
         }
 
-        message = `Restart command executed for ${target}.\nWith result ${result}\nReason: ${reason}`
+        message = `Restart command executed with result ${result}\nReason: ${reason}`
         sendAlert("RESTART", message)
     })
 }
