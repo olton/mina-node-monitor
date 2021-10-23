@@ -6,6 +6,8 @@ const storeNodeHeight = (node, data) => {
 
     if (!globalThis.cache.daemon) return
 
+    const {blockDiff = 2} = config
+
     const {
         syncStatus: status,
         blockchainLength: height,
@@ -22,10 +24,12 @@ const storeNodeHeight = (node, data) => {
 
     let diff = +blockchainLength - +height
 
-    if (diff > 0) {
-        compareStatus = "MORE"
-    } else if (diff < 0) {
-        compareStatus = "LESS"
+    if (Math.abs(diff) >= blockDiff) {
+        if (diff > 0) {
+            compareStatus = "MORE"
+        } else if (diff < 0) {
+            compareStatus = "LESS"
+        }
     }
 
     comparison[node.name] = {
