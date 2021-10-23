@@ -1,14 +1,15 @@
 {
-    "publicKey": "",
-    "publicKeyDelegators": "",
-    "telegramToken": "",
-    "telegramChatID": "",
-    "telegramChatIDAlert": "",
-    "discordWebHook": "",
+    "name": "Local Monitor",
+    "publicKey": "B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw",
+    "publicKeyDelegators": "B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw",
+    "telegramToken": "1613991717:AAGdMdk6B9homVzSYtbU6yote6NwB7aOCDA",
+    "telegramChatID": "304399970",
+    "telegramChatIDAlert": "304399970",
+    "discordWebHook": "https://ptb.discord.com/api/webhooks/858271028740489226/ioaMYc5WCCbiV5eWFTXZKj4NejJwKNZTERDIg4w0Rlvmxkv_x_mta9qFAn8iyePhPi8a",
     "balanceSendInterval": "1d",
     "alertInterval": "3m",
-    "blockDiff": 3,
-    "blockDiffToRestart": 5,
+    "blockDiff": 2,
+    "blockDiffToRestart": 4,
     "canRestartNode": true,
     "restartAfterNotSynced": "30m",
     "restartCmd": "systemctl --user restart mina",
@@ -21,12 +22,12 @@
     "restartStateException": ["BOOTSTRAP"],
     "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
     "alertToTelegram": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
-    "alertToDiscord": ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"],
+    "alertToDiscord": [],
     "price": {
         "currency": "usd",
         "updateInterval": "1m",
         "sendInterval": "1h",
-        "targets": ["TELEGRAM", "DISCORD"]
+        "targets": ["DISCORD"]
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": "30s",
@@ -35,7 +36,7 @@
     "memAlert": 95,
     "memRestart": 0,
     "snarkWorker": {
-        "address": "",
+        "address": "B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw",
         "fee": 0.001,
         "stopBeforeBlock": "5m",
         "startAfterBlock": "1m",
@@ -46,5 +47,6 @@
     "journal": {
         "cmd": "journalctl",
         "hooks": ["process exited", "crash"]
-    }
+    },
+    "restartAfterUptime": 0
 }

@@ -15,8 +15,8 @@ const createConfig = (path) => {
     const defaultRestartCmd = "systemctl --user restart mina"
     const defaultSnarkWorkerCmd = "mina client set-snark-worker -address <ADDRESS>"
     const defaultSnarkWorkerFeeCmd = "mina client set-snark-work-fee <FEE>"
-
     const defaultConfig = {
+        "name": "",
         "publicKey": "",
         "publicKeyDelegators": "",
         "telegramToken": "",
@@ -65,10 +65,18 @@ const createConfig = (path) => {
             "cmd": "journalctl",
             "hooks": ["process exited", "crash"]
         },
-        "restartAfterUptime": 0
+        "restartAfterUptime": 0,
+        "comparison": [
+
+        ]
+    }
+    let existsConfig = {}
+
+    if (fs.existsSync(path)) {
+        existsConfig = JSON.parse(fs.readFileSync(path, 'utf-8'))
     }
 
-    fs.writeFileSync(path, JSON.stringify(defaultConfig, null, 4), {flag: 'w+', encoding: 'utf-8'})
+    fs.writeFileSync(path, JSON.stringify(Object.assign({}, defaultConfig, existsConfig), null, 4), {flag: 'w+', encoding: 'utf-8'})
 
     logging("Config file created successfully!")
 
