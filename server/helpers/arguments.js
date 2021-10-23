@@ -9,7 +9,7 @@ const createConfig = (path) => {
         return
     }
 
-    const defaultAlerts = ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM"]
+    const defaultAlerts = ["FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", "BALANCE", "PEERS", "MEM", "COMPARE"]
     const defaultRestartSyncedRules = ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"]
     const defaultStateException = ["BOOTSTRAP"]
     const defaultRestartCmd = "systemctl --user restart mina"

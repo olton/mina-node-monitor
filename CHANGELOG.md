@@ -1,8 +1,10 @@
 ### 2.0.2
 + [x] Server: added restart by long uptime with config parameter `restartAfterUptime`. The value must be defined in milliseconds or internal time string format . Default value is `0` (no restart)
-+ [x] Server: Added config parameter `name`. Now you can define a name for you node, if name is not define, Monitor will use a hostname
-+ [x] Server: Improvements for singing messages
++ [x] Server: added config parameter `name`. Now you can define a name for you node, if name is not define, Monitor will use a hostname
++ [x] Server: improvements for singing messages
 + [x] Server: command `node index --init` now updated config file if one exists
++ [x] Server: added config parameter `comparison` 
++ [x] Server: added alert with rule `COMPARE` for alerting when node height is different from comparable nodes  
 
 ### 2.0.1
 + [x] Server: fixed snark worker controller for first start, issue #7
