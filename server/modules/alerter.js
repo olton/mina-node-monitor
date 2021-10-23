@@ -92,7 +92,7 @@ const processAlerter = async () => {
             }
 
             if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
-                message = `Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
+                message = `Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
                 sendAlert("MAX", message)
 
                 if (restartStateSyncedRules.includes("MAX")) {
@@ -104,7 +104,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
-                message = `Forward Fork by MAX detected! Difference: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
+                message = `Forward Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
                 sendAlert("FORWARD-MAX", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-MAX")) {
@@ -116,7 +116,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                message = `Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
+                message = `Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
                 sendAlert("FORK", message)
 
                 if (restartStateSyncedRules.includes("FORK")) {
@@ -128,7 +128,7 @@ const processAlerter = async () => {
                 }
             } else
             if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                message = `Forward Fork by UNV detected! Difference: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
+                message = `Forward Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
                 sendAlert("FORWARD-FORK", message)
 
                 if (restartStateSyncedRules.includes("FORWARD-FORK")) {
