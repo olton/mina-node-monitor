@@ -1,7 +1,7 @@
 # Mina Monitor Client
 
 The Mina Monitor Client (then just Client) is a JavaScript application, written in HTML, CSS, JavaScript, 
-and intended for showing data, received from Mina Monitor Server.
+and intended for showing data, received from Mina Monitor Server. Client must be launched on desktop system with installed web browser.
 
 ### Pre-requirements
 To use or/and build monitor you need install `NodeJS`, `npm`.
@@ -11,7 +11,7 @@ You can install the Client in various ways:
 
 - via Bash
 - via Docker
-- and manual hemorrhoids
+- and manual (for developers or power-users)
 
 ### Install via Bash
 
@@ -106,5 +106,5 @@ or build files for using with a web server:
 npm run build
 ```
 
-After executing build command, you can file in folder `dist` files for your webserver.
+After executing build command, you get in folder `dist` files for your webserver.
 You can copy these files to your web server to use remotely.
