@@ -8,11 +8,7 @@ const getPriceInfo = async (currency = 'usd') => {
         const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=%CURRENCY%&ids=mina-protocol`.replace("%CURRENCY%", currency.toLowerCase())
         const data = await fetch(url)
 
-        if (!data.ok) {
-            throw new Error("Error responding from price provider!")
-        }
-
-        return await data.json()
+        return !data.ok ? null : await data.json()
     } catch (e) {
         return null
     }

@@ -76,6 +76,7 @@ The config file contain a lot of different parameters.
 
 ```json
 {
+    "name": "",
     "publicKey": "",
     "publicKeyDelegators": "",
     "telegramToken": "",
@@ -100,7 +101,7 @@ The config file contain a lot of different parameters.
     "alertToTelegram": [
         "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", 
         "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", 
-        "BALANCE", "PEERS", "MEM"
+        "BALANCE", "PEERS", "MEM", "COMPARE"
     ],
     "alertToDiscord": [
         "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", 
@@ -131,12 +132,14 @@ The config file contain a lot of different parameters.
     "journal": {
         "cmd": "journalctl",
         "hooks": ["process exited", "crash"]
-    }
+    },
+    "comparison": []
 }
 ```
 
 where
 
+- `name` - you can set name for your Monitor Server, this name will be displayed in alert messages
 - `publicKey` - node key for getting balance
 - `publicKeyDelegators` - node key for getting delegations
 - `telegramToken` - your telegram bot token
@@ -165,6 +168,25 @@ where
 - `memRestart` - value to restart when critical memory usage (0 - 100), 0 - no restart
 - `snarkWorker` - options to control snark worker
 - `journal` - enable control for mina service with `jouranlctl`
+- `comparison` - you can enable comparison height with an others nodes with this parameter
+
+**Comparison with others nodes**
+Begin from version 2.0.2, you can enable comparison node height with an others nodes. For this feature, I added a parameter `comparison`.
+This parameter has an array type, and must contain objects with nodes descriptions:
+```json
+{
+    "comparison": [
+        {
+            "name": "server1",
+            "address": "1.1.1.1:8000"
+        },
+        {
+            "name": "server2",
+            "address": "2.2.2.2:8000"
+        }
+    ]
+}
+```
 
 **Values for alerts: `alertToTelegram`, `alertToDiscord`**
 - `HELLO` - node says Hello
@@ -181,6 +203,7 @@ where
 - `MEM` - send alert if critical memory usage detected
 - `EXEC` - send information about command executed
 - `FAIL` - send alert when mina service stopped
+- `COMAPRE` - send alert when height different with nodes defined in parameter `comparison`
 
 **Values for restart: `restartStateSyncedRules`**
 - `MAX` - restart when height less than max block length

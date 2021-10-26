@@ -38,7 +38,7 @@ const telegram = (message, {token, recipients}) => {
 const sendAlert = (check, message) => {
     const {telegramToken, alertToTelegram, telegramChatIDAlert, discordWebHook, alertToDiscord} = globalThis.config
     const sign = globalThis.host || hostname()
-    const signedMessage = `${message} From ${sign}`
+    const signedMessage = `${message} Sender: ${sign}`
 
     logging(message)
 
