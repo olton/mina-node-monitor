@@ -1,7 +1,10 @@
 # Mina Monitor Client
 
 The Mina Monitor Client (then just Client) is a JavaScript application, written in HTML, CSS, JavaScript, 
-and intended for showing data, received from Mina Monitor Server. Client must be launched on desktop system with installed web browser.
+and intended for showing data, received from Mina Monitor Server. 
+
+> #### Client must be launched on desktop system with installed web browser.
+
 
 ### Pre-requirements
 To use or/and build monitor you need install `NodeJS`, `npm`.
