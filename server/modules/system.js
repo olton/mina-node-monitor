@@ -1,16 +1,20 @@
-const {networkStats, networkConnections} = require("systeminformation")
+const {networkStats, networkConnections, mem} = require("systeminformation")
 const os = require("os")
 const {execSync, exec} = require("child_process")
 const {stat, readFile} = require("fs")
 
-const getMem = () => {
-    const total = os.totalmem()
-    const free = os.freemem()
-    return {
-        total,
-        free,
-        used: total - free,
-        process: process.memoryUsage()
+async function getMem() {
+    try {
+        const memInfo = await mem()
+        const {total, available, active } = memInfo
+        return({
+            total,
+            free: available,
+            used: active,
+            process: process.memoryUsage()
+        })
+    } catch (err) {
+        console.log(err)
     }
 }
 
@@ -232,7 +236,7 @@ const getCpuTemperature = () => {
 const sysInfo = async (obj) => {
     switch (obj) {
         case 'cpu': return getCpuInfo()
-        case 'mem': return getMem()
+        case 'mem': return await getMem()
         case 'platform': return getPlatform()
         case 'time': return getServerTime()
         case 'cpu-load': return await getCpuLoad()
