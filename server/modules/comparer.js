@@ -68,25 +68,32 @@ const openHostConnection = (node) => {
     * */
     const {name, address, https} = node
     const proto = https ? 'wss://' : 'ws://'
-    const client = new WebSocket(`${proto}${address}`)
 
-    client.onmessage = (event) => {
-        const content = JSON.parse(event.data)
-        if (!content.action) return
-        const {action, data} = content
+    try {
+        const client = new WebSocket(`${proto}${address}`)
+        client.onmessage = (event) => {
+            const content = JSON.parse(event.data)
+            if (!content.action) return
+            const {action, data} = content
 
-        switch (action) {
-            case 'daemon': storeNodeHeight(node, data); break;
+            switch (action) {
+                case 'daemon': storeNodeHeight(node, data); break;
+            }
         }
-    }
 
-    client.onopen = () => {
-        logging(`Mina Monitor Server connected to comparable node ${node.name}`)
-    }
+        client.onopen = () => {
+            logging(`Mina Monitor Server connected to comparable node ${node.name}`)
+        }
 
-    client.onclose = () => {
-        logging(`Mina Monitor Server disconnected from comparable node ${node.name}`)
-        setTimeout(openHostConnection, 1000, node)
+        client.onclose = () => {
+            logging(`Mina Monitor Server not connected to comparable node ${node.name}`)
+            setTimeout(openHostConnection, 1000, node)
+        }
+
+        client.onerror = e => {
+        }
+    } catch (e) {
+        logging(e.message)
     }
 }
 
