@@ -5,6 +5,7 @@
 + [x] Server: command `node index --init` now updated config file if one exists
 + [x] Server: added config parameter `comparison` 
 + [x] Server: added alert with rule `COMPARE` for alerting when node height is different from comparable nodes  
++ [x] Server: changed algorithm for memory observing
 
 ### 2.0.1
 + [x] Server: fixed snark worker controller for first start, issue #7
