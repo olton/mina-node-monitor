@@ -173,16 +173,19 @@ where
 **Comparison with others nodes**
 Begin from version 2.0.2, you can enable comparison node height with an others nodes. For this feature, I added a parameter `comparison`.
 This parameter has an array type, and must contain objects with nodes descriptions:
+
 ```json
 {
     "comparison": [
         {
             "name": "server1",
-            "address": "1.1.1.1:8000"
+            "address": "1.1.1.1:8000",
+            "https": false
         },
         {
             "name": "server2",
-            "address": "2.2.2.2:8000"
+            "address": "2.2.2.2:8000",
+            "https": true
         }
     ]
 }

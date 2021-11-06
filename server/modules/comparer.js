@@ -66,7 +66,7 @@ const openHostConnection = (node) => {
     *   https
     * }
     * */
-    const {name, address, https} = node
+    const {name, address, https = false} = node
     const proto = https ? 'wss://' : 'ws://'
 
     try {
@@ -91,6 +91,7 @@ const openHostConnection = (node) => {
         }
 
         client.onerror = e => {
+            logging(`Error connection to comparable node ${node.name} with message ${e.message}`)
         }
     } catch (e) {
         logging(e.message)
