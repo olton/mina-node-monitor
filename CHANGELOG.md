@@ -1,3 +1,6 @@
+### 2.0.3
++ [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  
+
 ### 2.0.2
 + [x] Server: added restart by long uptime with config parameter `restartAfterUptime`. The value must be defined in milliseconds or internal time string format . Default value is `0` (no restart)
 + [x] Server: added config parameter `name`. Now you can define a name for you node, if name is not define, Monitor will use a hostname

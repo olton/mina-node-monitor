@@ -31,6 +31,7 @@ const processAlerter = async () => {
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
     const _restartAfterUptime = parseTime(restartAfterUptime)
+    const _restartAfterNotSynced = parseTime(restartAfterNotSynced)
 
     let daemon = globalThis.cache.daemon
 
@@ -52,7 +53,7 @@ const processAlerter = async () => {
 
         if (!SYNCED) {
             if (!restartStateException.includes(syncStatus)) {
-                if (globalThis.restartTimerNotSynced >= restartAfterNotSynced) {
+                if (globalThis.restartTimerNotSynced >= _restartAfterNotSynced) {
                     globalThis.restartTimerNotSynced = 0
                     if (canRestartNode && restartCmd) {
                         restart('Long non-sync!')
