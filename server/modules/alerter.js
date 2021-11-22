@@ -68,6 +68,7 @@ const processAlerter = async () => {
             const uHeight = +highestUnvalidatedBlockLengthReceived
             const DIFF_MAX = mHeight - nHeight
             const DIFF_UNVALIDATED = uHeight - nHeight
+            const canCheckFork = mHeight && uHeight
             let message
 
             if (_restartAfterUptime && +uptimeSecs * 1000 >= _restartAfterUptime) {
@@ -92,50 +93,49 @@ const processAlerter = async () => {
                 sendAlert("PEERS", message)
             }
 
-            if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
-                message = `Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
-                sendAlert("MAX", message)
+            if (canCheckFork) {
+                if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
+                    message = `Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
+                    sendAlert("MAX", message)
 
-                if (restartStateSyncedRules.includes("MAX")) {
-                    if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
-                        if (canRestartNode && restartCmd) {
-                            restart('MAX Fork!')
+                    if (restartStateSyncedRules.includes("MAX")) {
+                        if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
+                            if (canRestartNode && restartCmd) {
+                                restart('MAX Fork!')
+                            }
                         }
                     }
-                }
-            } else
-            if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
-                message = `Forward Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
-                sendAlert("FORWARD-MAX", message)
+                } else if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
+                    message = `Forward Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
+                    sendAlert("FORWARD-MAX", message)
 
-                if (restartStateSyncedRules.includes("FORWARD-MAX")) {
-                    if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
-                        if (canRestartNode && restartCmd) {
-                            restart('MAX Forward Fork!')
+                    if (restartStateSyncedRules.includes("FORWARD-MAX")) {
+                        if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
+                            if (canRestartNode && restartCmd) {
+                                restart('MAX Forward Fork!')
+                            }
                         }
                     }
-                }
-            } else
-            if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                message = `Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
-                sendAlert("FORK", message)
+                } else if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
+                    message = `Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
+                    sendAlert("FORK", message)
 
-                if (restartStateSyncedRules.includes("FORK")) {
-                    if (blockDiffToRestart && DIFF_UNVALIDATED >= blockDiffToRestart) {
-                        if (canRestartNode && restartCmd) {
-                            restart('Node in Fork!')
+                    if (restartStateSyncedRules.includes("FORK")) {
+                        if (blockDiffToRestart && DIFF_UNVALIDATED >= blockDiffToRestart) {
+                            if (canRestartNode && restartCmd) {
+                                restart('Node in Fork!')
+                            }
                         }
                     }
-                }
-            } else
-            if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                message = `Forward Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
-                sendAlert("FORWARD-FORK", message)
+                } else if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
+                    message = `Forward Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
+                    sendAlert("FORWARD-FORK", message)
 
-                if (restartStateSyncedRules.includes("FORWARD-FORK")) {
-                    if (blockDiffToRestart && Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
-                        if (canRestartNode && restartCmd) {
-                            restart('Node in Forward Fork!')
+                    if (restartStateSyncedRules.includes("FORWARD-FORK")) {
+                        if (blockDiffToRestart && Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
+                            if (canRestartNode && restartCmd) {
+                                restart('Node in Forward Fork!')
+                            }
                         }
                     }
                 }

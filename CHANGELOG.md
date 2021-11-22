@@ -1,5 +1,6 @@
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  
++ [x] Server: improved check for Fork. Now check work if all control values gt zero
 
 ### 2.0.2
 + [x] Server: added restart by long uptime with config parameter `restartAfterUptime`. The value must be defined in milliseconds or internal time string format . Default value is `0` (no restart)
