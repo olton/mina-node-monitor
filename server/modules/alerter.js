@@ -9,8 +9,8 @@ const processAlerter = async () => {
     if (!globalThis.config) return
 
     const {
-        blockDiff = 2,
-        blockDiffToRestart = 4,
+        blockDiff = 3,
+        blockDiffToRestart = 10,
         restartAfterNotSynced,
         canRestartNode,
         restartCmd,
