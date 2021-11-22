@@ -26,7 +26,7 @@ const createConfig = (path) => {
         "balanceSendInterval": "1d",
         "alertInterval": "3m",
         "blockDiff": 3,
-        "blockDiffToRestart": 5,
+        "blockDiffToRestart": 10,
         "canRestartNode": true,
         "restartAfterNotSynced": "30m",
         "restartCmd": defaultRestartCmd,
