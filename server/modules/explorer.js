@@ -1,8 +1,19 @@
 const fetch = require("node-fetch")
 const {logging} = require("../helpers/logs");
+const {parseTime} = require("../helpers/parsers");
+const {defaultValue} = require("../helpers/default");
 
 const EXPLORER_GRAPHQL = `https://graphql.minaexplorer.com`
 const EXPLORER_API = `https://api.minaexplorer.com`
+
+async function fetchAPI(path = '') {
+    try {
+        let response = await fetch(`${EXPLORER_API}/${path}`)
+        return response.ok ? await response.json() : null
+    } catch (e) {
+        return null
+    }
+}
 
 async function fetchGraphQL(query, variables = {}) {
     try {
@@ -68,7 +79,7 @@ const getBlocks = async (variables) => {
 const processWinningBlocks = async () => {
     let blockchain = globalThis.cache.blockchain
     let creator = globalThis.config.publicKeyDelegators
-    let reload
+    let reload = parseTime('5s')
 
     if (blockchain && blockchain.data && blockchain.data.bestChain && blockchain.data.bestChain.length) {
         const {
@@ -84,15 +95,37 @@ const processWinningBlocks = async () => {
         })
 
         globalThis.cache.rewards = blocks
-        reload = 180000
-    } else {
-        reload = 5000
+        reload = parseTime('3m')
     }
 
     setTimeout(processWinningBlocks, reload)
 }
 
+const processBlockchainSummary = async () => {
+    let summary = await fetchAPI('summary')
+    let reload = parseTime(defaultValue(config.explorer.getBlockchainSummaryInterval, "1m"))
+
+    if (summary) {
+        globalThis.cache.explorerSummary = summary
+    }
+
+    setTimeout(processBlockchainSummary, reload)
+}
+
+const processBlockchainLatestBlocks = async (limit = 1) => {
+    let summary = await fetchAPI(`blocks?limit=${limit}`)
+    let reload = parseTime(defaultValue(config.explorer.getLatestBlocksInterval, "1m"))
+
+    if (summary && summary.blocks) {
+        globalThis.cache.latestBlocks = summary.blocks
+    }
+
+    setTimeout(processBlockchainLatestBlocks, reload)
+}
+
 module.exports = {
     getBlocks,
-    processWinningBlocks
+    processWinningBlocks,
+    processBlockchainSummary,
+    processBlockchainLatestBlocks
 }

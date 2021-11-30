@@ -61,11 +61,18 @@ const processCollectNodeInfo = async () => {
 
             if (blockHeight) {
                 if (
-                    (maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) ||
-                    (unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff)
+                    (maxHeight && unvHeight) &&
+                    (
+                        (maxHeight && Math.abs(blockHeight - maxHeight) >= blockDiff) ||
+                        (unvHeight && Math.abs(blockHeight - unvHeight) >= blockDiff)
+                    )
                 ) {
                     health.push("FORK")
                 }
+            }
+
+            if (!(maxHeight && unvHeight)) {
+                health.push("PRE-SYNC")
             }
         } else {
             health.push("NON-SYNCED")

@@ -1,3 +1,7 @@
+### 2.0.4
++ [x] Server: added interaction with a block height from Mina Explorer
++ [x] Server: added interaction with the latest block from Mina Explorer
+
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  
 + [x] Server: improved check for Fork. Now check work if all control values gt zero

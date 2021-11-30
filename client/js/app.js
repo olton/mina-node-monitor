@@ -92,6 +92,7 @@ fetch("./config.json")
                     case 'version': processVersion(data); break;
                     case 'rewards': processRewards(data); break;
                     case 'welcome': console.log(data); break;
+                    case 'explorerSummary': console.log(data); break;
                     // default: console.log(action, data)
                 }
 

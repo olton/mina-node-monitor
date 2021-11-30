@@ -34,6 +34,7 @@ const processAlerter = async () => {
     const _restartAfterNotSynced = parseTime(restartAfterNotSynced)
 
     let daemon = globalThis.cache.daemon
+    let explorerSummary = globalThis.cache.explorerSummary
 
     if (daemon) {
         const {
@@ -70,6 +71,13 @@ const processAlerter = async () => {
             const DIFF_UNVALIDATED = uHeight - nHeight
             const canCheckFork = mHeight && uHeight
             let message
+
+            if (explorerSummary && explorerSummary.blockchainLength) {
+                const exHeight = +(explorerSummary.blockchainLength)
+                if (blockDiff && nHeight && canCheckFork && Math.abs(exHeight - nHeight) >= blockDiff) {
+                    sendAlert("EXPLORER", `Monitor detected the difference in block height from Mina Explorer! Diff: ${exHeight - nHeight} blocks.`)
+                }
+            }
 
             if (_restartAfterUptime && +uptimeSecs * 1000 >= _restartAfterUptime) {
                 const {d, h, m, s} = secondsToTime(+uptimeSecs)
