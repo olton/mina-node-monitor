@@ -74,8 +74,10 @@ const processAlerter = async () => {
 
             if (explorerSummary && explorerSummary.blockchainLength) {
                 const exHeight = +(explorerSummary.blockchainLength)
-                if (blockDiff && nHeight && canCheckFork && Math.abs(exHeight - nHeight) >= blockDiff) {
-                    sendAlert("EXPLORER", `Monitor detected the difference in block height from Mina Explorer! Diff: ${exHeight - nHeight} blocks.`)
+                const exDiff = nHeight - exHeight
+
+                if (blockDiff && nHeight && canCheckFork && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
+                    sendAlert("EXPLORER", `The Node ${exDiff > 0 ? 'ahead' : 'behind'} Explorer by ${Math.abs(exDiff)} blocks.`)
                 }
             }
 
