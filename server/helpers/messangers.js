@@ -3,7 +3,7 @@ const {hostname} = require("os")
 const {parseTelegramChatIDs} = require("./parsers.js");
 const {logging} = require("./logs");
 
-const discord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}) => {
+const sendToDiscord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}) => {
     const params = {
         username,
         avatar_url,
@@ -22,7 +22,9 @@ const discord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}
 
 const TELEGRAM_BOT_URL = "https://api.telegram.org/bot%TOKEN%/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%"
 
-const telegram = (message, {token, recipients}) => {
+const sendToTelegram = (message, {token, recipients}) => {
+    if (!token || !recipients) return
+
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", token)
     const ids = parseTelegramChatIDs(recipients)
 
@@ -35,26 +37,35 @@ const telegram = (message, {token, recipients}) => {
     }
 }
 
-const sendAlert = (check, message) => {
-    const {telegramToken, alertToTelegram, telegramChatIDAlert, discordWebHook, alertToDiscord} = globalThis.config
+const sendAlert = (check, message, isAlert = true) => {
     const sign = globalThis.host || hostname()
-    const signedMessage = `${message} Sender: ${sign}`
+    const signedMessage = `${isAlert ? 'ALERT: ' : 'INFO: '} ${message} Sender: ${sign}`
+    const {alertToTelegram, alertToDiscord, telegram: telegramConfig = null, discord: discordConfig = null} = config
 
     logging(message)
 
-    if (telegramToken && (check === 'OK' || alertToTelegram.includes(check))) {
-        telegram(signedMessage, {token: telegramToken, recipients: telegramChatIDAlert})
+    if (telegramConfig && (check === 'OK' || alertToTelegram.includes(check))) {
+        let {tokenInfo = "", tokenAlert = "", chatIDInfo = "", chatIDAlert = ""} = telegramConfig
+        if (isAlert) {
+            sendToTelegram(signedMessage, {token: tokenAlert, recipients: chatIDAlert})
+        } else {
+            sendToTelegram(signedMessage, {token: tokenInfo, recipients: chatIDInfo})
+        }
     }
 
-    if (discordWebHook && (check === 'OK' || alertToDiscord.includes(check))) {
-        discord(discordWebHook, signedMessage)
+    if (discordConfig && (check === 'OK' || alertToDiscord.includes(check))) {
+        let {webhookInfo = "", webhookAlert = "", botName} = discordConfig
+        if (isAlert) {
+            sendToDiscord(webhookAlert, signedMessage, {username: botName})
+        } else {
+            sendToDiscord(webhookInfo, signedMessage, {username: botName})
+        }
     }
 }
 
+const sendMessage = (check, message) => sendAlert(check, message, false)
 
 module.exports = {
-    discord,
-    telegram,
     sendAlert,
-    TELEGRAM_BOT_URL
+    sendMessage
 }

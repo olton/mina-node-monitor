@@ -14,7 +14,8 @@ const getDefaultConfig = (extConfig = {}) => {
         "BALANCE",
         "PEERS",
         "MEM",
-        "COMPARE"
+        "COMPARE",
+        "PRICE"
     ]
     const defaultRestartSyncedRules = [
         "MEM",
@@ -34,10 +35,17 @@ const getDefaultConfig = (extConfig = {}) => {
         "name": "",
         "publicKey": "",
         "publicKeyDelegators": "",
-        "telegramToken": "",
-        "telegramChatID": "",
-        "telegramChatIDAlert": "",
-        "discordWebHook": "",
+        "telegram": {
+            "tokenInfo": "",
+            "tokenAlert": "",
+            "chatID": "",
+            "chatIDAlert": ""
+        },
+        "discord": {
+            "webhookInfo": "",
+            "webhookAlert": "",
+            "botName": "Mina Monitor"
+        },
         "balanceSendInterval": "1d",
         "alertInterval": "3m",
         "blockDiff": 3,
@@ -59,7 +67,7 @@ const getDefaultConfig = (extConfig = {}) => {
             "currency": "usd",
             "updateInterval": "1m",
             "sendInterval": "1h",
-            "targets": ["TELEGRAM", "DISCORD"]
+            "channel": "info"
         },
         "blockSpeedDistance": 10,
         "nodeInfoCollectInterval": "30s",
