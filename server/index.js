@@ -116,7 +116,8 @@ const broadcast = function broadcast(data) {
 };
 
 globalThis.cache = new Proxy({
-    comparison: {}
+    comparison: {},
+    rewards: null
 }, {
     set(target, p, value, receiver) {
         const data = {

@@ -36,12 +36,14 @@ const getDefaultConfig = (extConfig = {}) => {
         "publicKey": "",
         "publicKeyDelegators": "",
         "telegram": {
+            "token": "",
             "tokenInfo": "",
             "tokenAlert": "",
             "chatID": "",
             "chatIDAlert": ""
         },
         "discord": {
+            "webhook": "",
             "webhookInfo": "",
             "webhookAlert": "",
             "botName": "Mina Monitor"

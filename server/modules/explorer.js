@@ -2,6 +2,8 @@ const fetch = require("node-fetch")
 const {logging} = require("../helpers/logs");
 const {parseTime} = require("../helpers/parsers");
 const {defaultValue} = require("../helpers/default");
+const {sendMessage} = require("../helpers/messangers");
+const {timestamp} = require("../helpers/timestamp");
 
 const EXPLORER_GRAPHQL = `https://graphql.minaexplorer.com`
 const EXPLORER_API = `https://api.minaexplorer.com`
@@ -94,7 +96,16 @@ const processWinningBlocks = async () => {
             blockHeightMax: blockHeight
         })
 
-        globalThis.cache.rewards = blocks
+        if (blocks) {
+            try {
+                if (!cache.rewards || cache.rewards.data.blocks.length !== blocks.data.blocks.length) {
+                    const lastBlockData = blocks.data.blocks[0]
+                    const message = `We got last block at ${timestamp("-", lastBlockData.dateTime)} on height ${lastBlockData.blockHeight} with coinbase ${lastBlockData.transactions.coinbase / 10 ** 9} mina. Sender: ${host}`
+                    sendMessage('REWARDS', message)
+                }
+            } catch (e) {}
+            globalThis.cache.rewards = blocks
+        }
         reload = parseTime('3m')
     }
 

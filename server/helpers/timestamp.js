@@ -1,5 +1,5 @@
-const timestamp = (divider = "-") => {
-    let today = new Date();
+const timestamp = (divider = "-", date) => {
+    let today = date ? new Date(date) : new Date();
     let d = String(today.getDate()).padStart(2, '0');
     let m = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let y = today.getFullYear();

@@ -6,6 +6,8 @@
 + [x] Server: added config parameters `telegram`, `discord` 
 + [x] Server: added config options for `telegram`: `token`, `tokenInfo`, `tokenAlert`, `chatIDInfo`, `chatIDAlert` 
 + [x] Server: added config options for `discord`: `webhook`, `webhookInfo`, `webhookAlert`, `botName` 
++ [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `PRICE` 
++ [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `REWARDS`
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  
