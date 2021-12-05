@@ -1,7 +1,11 @@
 ### 2.1.0
 + [x] Server: added interaction with a block height from Mina Explorer
 + [x] Server: added interaction with the latest block from Mina Explorer
-+ [x] Server: changed config for telegram and discord definition, updated functions for sending alerts and price  
++ [x] Server: changed config for `telegram` and `discord` definition, updated functions for sending alerts and price
++ [x] Server: removed config parameters `telegramToken`, `telegramChatID`, `telegramChatIDAlert`, `discordWebHook`
++ [x] Server: added config parameters `telegram`, `discord` 
++ [x] Server: added config options for `telegram`: `token`, `tokenInfo`, `tokenAlert`, `chatIDInfo`, `chatIDAlert` 
++ [x] Server: added config options for `discord`: `webhook`, `webhookInfo`, `webhookAlert`, `botName` 
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  

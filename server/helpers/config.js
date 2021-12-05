@@ -66,8 +66,7 @@ const getDefaultConfig = (extConfig = {}) => {
         "price": {
             "currency": "usd",
             "updateInterval": "1m",
-            "sendInterval": "1h",
-            "channel": "info"
+            "sendInterval": "1h"
         },
         "blockSpeedDistance": 10,
         "nodeInfoCollectInterval": "30s",

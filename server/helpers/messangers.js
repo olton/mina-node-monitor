@@ -45,7 +45,16 @@ const sendAlert = (check, message, isAlert = true) => {
     logging(message)
 
     if (telegramConfig && (check === 'OK' || alertToTelegram.includes(check))) {
-        let {tokenInfo = "", tokenAlert = "", chatIDInfo = "", chatIDAlert = ""} = telegramConfig
+        let {token = "", tokenInfo = "", tokenAlert = "", chatIDInfo = "", chatIDAlert = ""} = telegramConfig
+
+        if (token) {
+            if (!tokenInfo) tokenInfo = token
+            if (!tokenAlert) tokenAlert = token
+        }
+
+        if (tokenInfo && !tokenAlert) tokenAlert = tokenInfo
+        if (tokenAlert && !tokenInfo) tokenInfo = tokenAlert
+
         if (isAlert) {
             sendToTelegram(signedMessage, {token: tokenAlert, recipients: chatIDAlert})
         } else {
@@ -54,7 +63,16 @@ const sendAlert = (check, message, isAlert = true) => {
     }
 
     if (discordConfig && (check === 'OK' || alertToDiscord.includes(check))) {
-        let {webhookInfo = "", webhookAlert = "", botName} = discordConfig
+        let {webhook = "", webhookInfo = "", webhookAlert = "", botName = "Mina Monitor"} = discordConfig
+
+        if (webhook) {
+            if (!webhookInfo) webhookInfo = webhook
+            if (!webhookAlert) webhookAlert = webhook
+        }
+
+        if (webhookInfo && !webhookAlert) webhookAlert = webhookInfo
+        if (webhookAlert && !webhookInfo) webhookInfo = webhookAlert
+
         if (isAlert) {
             sendToDiscord(webhookAlert, signedMessage, {username: botName})
         } else {
