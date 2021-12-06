@@ -1,4 +1,6 @@
 const fetch = require("node-fetch")
+const {isset} = require("../helpers/isset");
+const {sendAlert} = require("../helpers/messangers");
 
 const getUptime = async (key) => {
     if (!key) return null
@@ -19,8 +21,23 @@ const processUptime = async () => {
         const {publicKeyDelegators} = globalThis.config
         const uptime = await getUptime(publicKeyDelegators)
 
-        globalThis.cache.uptime = uptime
-    } catch (e) {}
+        if (uptime) {
+            if (!cache.uptime || uptime.score !== cache.uptime.score) {
+                let details = '', message = ''
+                if (cache.uptime && isset(cache.uptime.score, false)) {
+                    details =  +(cache.uptime.score) > +(uptime.score) ? '`DOWN`' : '`UP`'
+                    message = `Your uptime score changed ${details}! New value \`${uptime.score}\` with place \`${uptime.position}\`.`
+                } else {
+                    message = `Your current uptime score is \`${uptime.score}\` with place \`${uptime.position}\`.`
+                }
+                sendAlert("UPTIME", message)
+            }
+
+            globalThis.cache.uptime = uptime
+        }
+    } catch (e) {
+        console.error(e)
+    }
 
     setTimeout(processUptime, 60000)
 }

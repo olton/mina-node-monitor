@@ -54,7 +54,7 @@ const storeNodeHeight = (node, data) => {
     globalThis.cache.comparison = comparison
 
     if (["LESS", "MORE"].includes(compareStatus)) {
-        sendAlert("COMPARE", `The height of the node is different from ${node.name}. Diff: ${Math.abs(diff)}, Height: ${blockchainLength} instead of ${height}.`)
+        sendAlert("COMPARE", `The height of the node is different from \`${node.name.toUpperCase()}\`. Diff: \`${Math.abs(diff)}\`, Height: \`${blockchainLength}\` instead of \`${height}\`.`)
     }
 }
 

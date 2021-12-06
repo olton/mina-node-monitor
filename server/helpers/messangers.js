@@ -20,7 +20,7 @@ const sendToDiscord = (url, message, {username = "Mina Monitor", avatar_url = ""
     })
 }
 
-const TELEGRAM_BOT_URL = "https://api.telegram.org/bot%TOKEN%/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%"
+const TELEGRAM_BOT_URL = "https://api.telegram.org/bot%TOKEN%/sendMessage?chat_id=%CHAT_ID%&text=%MESSAGE%&&parse_mode=markdown"
 
 const sendToTelegram = (message, {token, recipients}) => {
     if (!token || !recipients) return
@@ -38,7 +38,7 @@ const sendToTelegram = (message, {token, recipients}) => {
 }
 
 const sendAlert = (check, message, isAlert = true) => {
-    const sign = `${globalThis.host}.`
+    const sign = `\`${globalThis.host.toUpperCase()}\`.`
     const signedMessage = `${isAlert ? 'ALERT: ' : 'INFO: '} ${message} Sender: ${sign}`
     const {alertToTelegram, alertToDiscord, telegram: telegramConfig = null, discord: discordConfig = null} = config
 

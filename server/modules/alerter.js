@@ -77,7 +77,7 @@ const processAlerter = async () => {
                 const exDiff = nHeight - exHeight
 
                 if (blockDiff && nHeight && canCheckFork && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
-                    sendAlert("EXPLORER", `The Node ${exDiff > 0 ? 'ahead' : 'behind'} Explorer by ${Math.abs(exDiff)} blocks.`)
+                    sendAlert("EXPLORER", `The Node \`${exDiff > 0 ? 'ahead' : 'behind'}\` Explorer by \`${Math.abs(exDiff)}\` blocks.`)
                 }
             }
 
@@ -90,7 +90,7 @@ const processAlerter = async () => {
                 globalThis.nodeMemoryUsage = usedMem
 
                 if (memAlert && usedMem >= memAlert) {
-                    sendAlert("MEM", `High memory usage detected! The node uses ${usedMem}% of the memory.`)
+                    sendAlert("MEM", `High memory usage detected! The node uses \`${usedMem}%\` of the memory.`)
                 }
             }
 
@@ -105,7 +105,7 @@ const processAlerter = async () => {
 
             if (canCheckFork) {
                 if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
-                    message = `Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
+                    message = `Fork detected! Inconsistency with \`MAX\`. Diff: \`${Math.abs(DIFF_MAX)}\`, Height: \`${nHeight}\` instead of \`${mHeight}\`.`
                     sendAlert("MAX", message)
 
                     if (restartStateSyncedRules.includes("MAX")) {
@@ -116,7 +116,7 @@ const processAlerter = async () => {
                         }
                     }
                 } else if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
-                    message = `Forward Fork by MAX detected! Diff: ${Math.abs(DIFF_MAX)}, Height: ${nHeight} instead of ${mHeight}.`
+                    message = `Forward Fork detected! Inconsistency with \`MAX\`. Diff: \`${Math.abs(DIFF_MAX)}\`, Height: \`${nHeight}\` instead of \`${mHeight}\`.`
                     sendAlert("FORWARD-MAX", message)
 
                     if (restartStateSyncedRules.includes("FORWARD-MAX")) {
@@ -127,7 +127,7 @@ const processAlerter = async () => {
                         }
                     }
                 } else if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
-                    message = `Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
+                    message = `Fork detected! Inconsistency with \`MAX UNVALIDATED\`. Diff: \`${Math.abs(DIFF_UNVALIDATED)}\`, Height: \`${nHeight}\` instead of \`${uHeight}\`.`
                     sendAlert("FORK", message)
 
                     if (restartStateSyncedRules.includes("FORK")) {
@@ -138,7 +138,7 @@ const processAlerter = async () => {
                         }
                     }
                 } else if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
-                    message = `Forward Fork by UNV detected! Diff: ${Math.abs(DIFF_UNVALIDATED)}, Height: ${nHeight} instead of ${uHeight}.`
+                    message = `Forward Fork detected! Inconsistency with \`MAX UNVALIDATED\`. Diff: \`${Math.abs(DIFF_UNVALIDATED)}\`, Height: \`${nHeight}\` instead of \`${uHeight}\`.`
                     sendAlert("FORWARD-FORK", message)
 
                     if (restartStateSyncedRules.includes("FORWARD-FORK")) {
@@ -166,7 +166,7 @@ const processAlerter = async () => {
                     if (!globalThis.cache.health.includes("HANG")) {
                         globalThis.cache.health.push("HANG")
                     }
-                    message = `Hanging node detected! Block height ${nHeight} same as previous value for a long time!`
+                    message = `Hanging node detected! Block height \`${nHeight}\` same as previous value for a long time - \`${secondsToTime(hangTimer/1000).m}\` minutes!`
                     sendAlert("HANG", message)
                 }
 

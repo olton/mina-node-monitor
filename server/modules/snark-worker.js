@@ -9,7 +9,6 @@ const {logging} = require("../helpers/logs");
 const processSnarkWorkerController = async () => {
     const swConfig = config["snarkWorker"]
     let cmdStart, cmdStop, cmdFee, setFee, startWorker, stopWorker
-    const host = hostname()
 
     if (!swConfig) return
     if (globalThis.snarkWorkerRunError) return
@@ -41,7 +40,7 @@ const processSnarkWorkerController = async () => {
             if (code === 0) {
                 logging(`Snark Worker Fee ${fee} successfully installed!`)
             }
-            sendAlert("EXEC", `Command \`${cmdFee}\` executed ${code === 0 ? "successfully" : "with error code " + code}.`)
+            sendAlert("EXEC", `Command \`${cmdFee}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
         })
 
         cmdStart = runWorkerCommand.replace("<ADDRESS>", address)
@@ -55,7 +54,7 @@ const processSnarkWorkerController = async () => {
                 globalThis.snarkWorkerRunError = true
                 sendAlert("EXEC", "Snark Work run error! Snark Worker Controller was stopped!")
             }
-            sendAlert("EXEC", `Command \`${cmdStart}\` executed ${code === 0 ? "successfully" : "with error code " + code}.`)
+            sendAlert("EXEC", `Command \`${cmdStart}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
         })
     }
 
@@ -69,7 +68,7 @@ const processSnarkWorkerController = async () => {
                 globalThis.snarkWorkerStoppedBlockTime = nextBlock
                 logging("Snark Worker successfully stopped!")
             }
-            sendAlert("EXEC", `Command ${cmdStop} executed ${code === 0 ? "successfully" : "with error code " + code}.`)
+            sendAlert("EXEC", `Command \`${cmdStop}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
         })
     }
 

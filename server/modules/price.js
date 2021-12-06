@@ -1,8 +1,6 @@
 const fetch = require("node-fetch")
 const {parseTime} = require("../helpers/parsers")
-const {sendAlert} = require("../helpers/messangers")
-const {logging} = require("../helpers/logs");
-const {timestamp} = require("../helpers/timestamp");
+const {sendMessage} = require("../helpers/messangers")
 
 const getPriceInfo = async (currency = 'usd') => {
     try {
@@ -33,16 +31,16 @@ const processPriceSend = async () => {
     if (!config) return
 
     const {price} = config
-    const {currency = 'usd', sendInterval = 3600000, channel = "info"} = price
+    const {currency = 'usd', sendInterval = 3600000} = price
     let _interval = parseTime(sendInterval)
     let data = cache.price
 
     if (data && data.length) {
 
         const mina = data[0]
-        const message = `Mina price is ${mina.current_price} ${currency.toUpperCase()}.`
+        const message = `Mina price is \`${mina.current_price} ${currency.toUpperCase()}\`.`
 
-        sendAlert("PRICE", message, channel !== "info")
+        sendMessage("PRICE", message)
     } else {
         _interval = parseTime("1m")
     }

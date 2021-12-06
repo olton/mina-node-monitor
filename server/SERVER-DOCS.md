@@ -221,6 +221,7 @@ This parameter has an array type, and must contain objects with nodes descriptio
 - `COMAPRE` - send alert when height different with nodes defined in parameter `comparison`
 - `PRICE` - send Mina price
 - `REWARDS` - send info about last winning block and block coinbase 
+- `UPTIME` - send info about address position in uptime leaderboard
 
 **Values for restart: `restartStateSyncedRules`**
 - `MAX` - restart when height less than max block length

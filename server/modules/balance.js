@@ -28,7 +28,7 @@ const processBalanceSend = async () => {
 
     if (balance && daemon && [SYNC_STATE_SYNCED, SYNC_STATE_CATCHUP].includes(daemon.syncStatus)) {
         const {total, liquid, locked} = balance
-        const message =`Balance state: ${(total / 10**9).toFixed(4)} [T], ${(liquid / 10**9).toFixed(4)} [M], ${(locked / 10**9).toFixed(4)} [L].`
+        const message =`Balance state: \`${(total / 10**9).toFixed(4)}\` (Total), \`${(liquid / 10**9).toFixed(4)}\` (Movable), \`${(locked / 10**9).toFixed(4)}\` (Locked).`
 
         globalThis.currentBalance = total
         sendMessage("BALANCE", message)
