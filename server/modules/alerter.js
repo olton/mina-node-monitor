@@ -77,7 +77,7 @@ const processAlerter = async () => {
                 const exDiff = nHeight - exHeight
 
                 if (blockDiff && nHeight && canCheckFork && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
-                    sendAlert("EXPLORER", `The Node \`${exDiff > 0 ? 'ahead' : 'behind'}\` Explorer by \`${Math.abs(exDiff)}\` blocks.`)
+                    sendAlert("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${Math.abs(exDiff)}\` blocks.`)
                 }
             }
 
