@@ -50,7 +50,6 @@ const getDefaultConfig = (extConfig = {}) => {
             "webhookAlert": "",
             "botName": "Mina Monitor"
         },
-        "balanceSendInterval": "1d",
         "alertInterval": "3m",
         "blockDiff": 3,
         "blockDiffToRestart": 10,
