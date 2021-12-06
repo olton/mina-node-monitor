@@ -79,10 +79,19 @@ The config file contain a lot of different parameters.
     "name": "",
     "publicKey": "",
     "publicKeyDelegators": "",
-    "telegramToken": "",
-    "telegramChatID": "",
-    "telegramChatIDAlert": "",
-    "discordWebHook": "",
+    "telegram": {
+        "token": "",
+        "tokenInfo": "",
+        "tokenAlert": "",
+        "chatID": "",
+        "chatIDAlert": ""
+    },
+    "discord": {
+        "webhook": "",
+        "webhookInfo": "",
+        "webhookAlert": "",
+        "botName": "Mina Monitor"
+    },
     "balanceSendInterval": "1d",
     "alertInterval": "3m",
     "blockDiff": 3,
@@ -111,8 +120,7 @@ The config file contain a lot of different parameters.
     "price": {
         "currency": "usd",
         "updateInterval": "1m",
-        "sendInterval": "1h",
-        "targets": ["TELEGRAM", "DISCORD"]
+        "sendInterval": "1h"
     },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": "30s",
@@ -133,7 +141,12 @@ The config file contain a lot of different parameters.
         "cmd": "journalctl",
         "hooks": ["process exited", "crash"]
     },
-    "comparison": []
+    "comparison": [],
+    "explorer": {
+        "getRewardsInterval": "3m",
+        "getLatestBlocksInterval": "1m",
+        "getBlockchainSummaryInterval": "1m"
+    }
 }
 ```
 
@@ -142,10 +155,8 @@ where
 - `name` - you can set name for your Monitor Server, this name will be displayed in alert messages
 - `publicKey` - node key for getting balance
 - `publicKeyDelegators` - node key for getting delegations
-- `telegramToken` - your telegram bot token
-- `telegramChatID` - chat id(s) for balance info, if there are several, must be separated by commas
-- `telegramChatIDAlert` - chat id(s) for alerting, if there are several, must be separated by commas
-- `discordWebHook` - full path to discord webhook
+- `telegram` - your telegram bot(s) settings
+- `discord` - your discord chat(s) settings
 - `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
@@ -169,6 +180,7 @@ where
 - `snarkWorker` - options to control snark worker
 - `journal` - enable control for mina service with `jouranlctl`
 - `comparison` - you can enable comparison height with an others nodes with this parameter
+- `explorer` - interaction with Mina Explorer
 
 **Comparison with others nodes**
 Begin from version 2.0.2, you can enable comparison node height with an others nodes. For this feature, I added a parameter `comparison`.
@@ -207,6 +219,8 @@ This parameter has an array type, and must contain objects with nodes descriptio
 - `EXEC` - send information about command executed
 - `FAIL` - send alert when mina service stopped
 - `COMAPRE` - send alert when height different with nodes defined in parameter `comparison`
+- `PRICE` - send Mina price
+- `REWARDS` - send info about last winning block and block coinbase 
 
 **Values for restart: `restartStateSyncedRules`**
 - `MAX` - restart when height less than max block length

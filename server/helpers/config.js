@@ -15,7 +15,8 @@ const getDefaultConfig = (extConfig = {}) => {
         "PEERS",
         "MEM",
         "COMPARE",
-        "PRICE"
+        "PRICE",
+        "REWARDS"
     ]
     const defaultRestartSyncedRules = [
         "MEM",

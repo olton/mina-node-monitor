@@ -40,7 +40,7 @@ const processPriceSend = async () => {
     if (data && data.length) {
 
         const mina = data[0]
-        const message = `Mina price is ${mina.current_price} ${currency.toUpperCase()}`
+        const message = `Mina price is ${mina.current_price} ${currency.toUpperCase()}.`
 
         sendAlert("PRICE", message, channel !== "info")
     } else {

@@ -47,7 +47,7 @@ const logDir = path.resolve(__dirname, "logs")
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir)
 /******************/
 
-globalThis.host = config.name || hostname()
+globalThis.host = config.name || hostname().split(".")[0]
 globalThis.logs = {
     fails: path.resolve(__dirname, "logs/mina-fails.log")
 }

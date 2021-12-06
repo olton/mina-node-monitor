@@ -98,7 +98,13 @@ const processWinningBlocks = async () => {
 
         if (blocks) {
             try {
-                if (!cache.rewards || cache.rewards.data.blocks.length !== blocks.data.blocks.length) {
+                if (
+                    blocks.data.blocks.length > 0
+                    && (
+                        !(cache.rewards)
+                        || cache.rewards.data.blocks.length !== blocks.data.blocks.length
+                    )
+                ) {
                     const lastBlockData = blocks.data.blocks[0]
                     const message = `We got last block at ${timestamp("-", lastBlockData.dateTime)} on height ${lastBlockData.blockHeight} with coinbase ${lastBlockData.transactions.coinbase / 10 ** 9} mina.`
                     sendMessage('REWARDS', message)
