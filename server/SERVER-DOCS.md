@@ -92,7 +92,6 @@ The config file contain a lot of different parameters.
         "webhookAlert": "",
         "botName": "Mina Monitor"
     },
-    "balanceSendInterval": "1d",
     "alertInterval": "3m",
     "blockDiff": 3,
     "blockDiffToRestart": 5,
@@ -110,12 +109,14 @@ The config file contain a lot of different parameters.
     "alertToTelegram": [
         "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", 
         "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", 
-        "BALANCE", "PEERS", "MEM", "COMPARE"
+        "BALANCE", "PEERS", "MEM", "COMPARE",
+        "PRICE", "REWARDS", "UPTIME"
     ],
     "alertToDiscord": [
-        "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", 
-        "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", 
-        "BALANCE", "PEERS", "MEM"
+        "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX",
+        "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART",
+        "BALANCE", "PEERS", "MEM", "COMPARE",
+        "PRICE", "REWARDS", "UPTIME"
     ],
     "price": {
         "currency": "usd",
@@ -157,7 +158,6 @@ where
 - `publicKeyDelegators` - node key for getting delegations
 - `telegram` - your telegram bot(s) settings
 - `discord` - your discord chat(s) settings
-- `balanceSendInterval` - the interval with which the server will send the current balance in telegrams
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
 - `blockDiffToRestart` - difference in blocks when Mina will be restarted
