@@ -1,6 +1,6 @@
 {
   "name": "@olton/mina-monitor",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "MIT",
   "scripts": {
     "serve": "shx rm -rf output/* && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
