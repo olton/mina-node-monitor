@@ -1,6 +1,6 @@
 const fetch = require("node-fetch")
 const {isset} = require("../helpers/isset");
-const {sendAlert} = require("../helpers/messangers");
+const {sendMessage} = require("../helpers/messangers");
 
 const getUptime = async (key) => {
     if (!key) return null
@@ -30,7 +30,7 @@ const processUptime = async () => {
                 } else {
                     message = `Your current uptime score is \`${uptime.score}\` with place \`${uptime.position}\`.`
                 }
-                sendAlert("UPTIME", message)
+                sendMessage("UPTIME", message)
             }
 
             globalThis.cache.uptime = uptime
