@@ -1,6 +1,6 @@
 const WebSocket = require("ws")
 const {logging} = require("../helpers/logs");
-const {sendAlert} = require("../helpers/messangers");
+const {sendMessage} = require("../helpers/messangers");
 const {SYNC_STATE_SYNCED} = require("../helpers/consts");
 
 const storeNodeHeight = (node, data) => {
@@ -54,7 +54,7 @@ const storeNodeHeight = (node, data) => {
     globalThis.cache.comparison = comparison
 
     if (["LESS", "MORE"].includes(compareStatus)) {
-        sendAlert("COMPARE", `The height of the node is different from \`${node.name.toUpperCase()}\`. Diff: \`${Math.abs(diff)}\`, Height: \`${blockchainLength}\` instead of \`${height}\`.`)
+        sendMessage("COMPARE", `The height of the node is different from \`${node.name.toUpperCase()}\`. Diff: \`${Math.abs(diff)}\`, Height: \`${blockchainLength}\` instead of \`${height}\`.`)
     }
 }
 

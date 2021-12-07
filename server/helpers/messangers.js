@@ -2,6 +2,7 @@ const fetch = require("node-fetch")
 const {hostname} = require("os")
 const {parseTelegramChatIDs} = require("./parsers.js");
 const {logging} = require("./logs");
+const {isset} = require("./isset");
 
 const sendToDiscord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}) => {
     const params = {
@@ -37,7 +38,7 @@ const sendToTelegram = (message, {token, recipients}) => {
     }
 }
 
-const sendAlert = (check, message, isAlert = true) => {
+const sendTo = (check, message, isAlert = false) => {
     const sign = `\`${globalThis.host.toUpperCase()}\`.`
     const signedMessage = `${isAlert ? 'ALERT: ' : 'INFO: '} ${message} Sender: ${sign}`
     const {alertToTelegram, alertToDiscord, telegram: telegramConfig = null, discord: discordConfig = null} = config
@@ -81,9 +82,14 @@ const sendAlert = (check, message, isAlert = true) => {
     }
 }
 
-const sendMessage = (check, message) => sendAlert(check, message, false)
+const sendMessage = (check, message) => {
+    const {channel = {"info": []}} = config
+    const {info} = channel
+    let isAlert = !(info.includes(check))
+
+    sendTo(check, message, isAlert)
+}
 
 module.exports = {
-    sendAlert,
     sendMessage
 }

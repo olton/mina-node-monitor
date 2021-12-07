@@ -2,7 +2,7 @@ const {spawn} = require("child_process")
 const EventEmitter = require("events")
 const {hostname} = require("os")
 const {writeFileSync} = require("fs")
-const {sendAlert} = require("../helpers/messangers")
+const {sendMessage} = require("../helpers/messangers")
 const {logging} = require("../helpers/logs");
 const {timestamp} = require("../helpers/timestamp");
 
@@ -100,7 +100,7 @@ const processJournal = () => {
                     try {
                         writeFileSync(logs.fails, `${timestamp() + " " + message}\n`, {flag: 'a+'})
                     } catch (e) {}
-                    sendAlert("FAIL", `Mina was stopped with message \`${message}\`.`)
+                    sendMessage("FAIL", `Mina was stopped with message \`${message}\`.`)
                     return
                 }
             }

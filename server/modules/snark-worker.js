@@ -1,7 +1,7 @@
 const {hostname} = require("os")
 const {parseTime} = require("../helpers/parsers")
 const {execCommand} = require("../helpers/process")
-const {sendAlert} = require("../helpers/messangers")
+const {sendMessage} = require("../helpers/messangers")
 const {between} = require("../helpers/numbers")
 const {SYNC_STATE_SYNCED, SYNC_STATE_CATCHUP} = require("../helpers/consts");
 const {logging} = require("../helpers/logs");
@@ -40,7 +40,7 @@ const processSnarkWorkerController = async () => {
             if (code === 0) {
                 logging(`Snark Worker Fee ${fee} successfully installed!`)
             }
-            sendAlert("EXEC", `Command \`${cmdFee}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
+            sendMessage("EXEC", `Command \`${cmdFee}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
         })
 
         cmdStart = runWorkerCommand.replace("<ADDRESS>", address)
@@ -52,9 +52,9 @@ const processSnarkWorkerController = async () => {
                 logging("Snark Worker successfully started!")
             } else {
                 globalThis.snarkWorkerRunError = true
-                sendAlert("EXEC", "Snark Work run error! Snark Worker Controller was stopped!")
+                sendMessage("EXEC", "Snark Work run error! Snark Worker Controller was stopped!")
             }
-            sendAlert("EXEC", `Command \`${cmdStart}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
+            sendMessage("EXEC", `Command \`${cmdStart}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
         })
     }
 
@@ -68,7 +68,7 @@ const processSnarkWorkerController = async () => {
                 globalThis.snarkWorkerStoppedBlockTime = nextBlock
                 logging("Snark Worker successfully stopped!")
             }
-            sendAlert("EXEC", `Command \`${cmdStop}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
+            sendMessage("EXEC", `Command \`${cmdStop}\` executed \`${code === 0 ? "successfully" : "with error code " + code}\`.`)
         })
     }
 

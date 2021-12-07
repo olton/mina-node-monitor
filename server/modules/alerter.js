@@ -1,6 +1,6 @@
 const {sysInfo} = require("./system")
 const {parseTime} = require("../helpers/parsers")
-const {sendAlert} = require("../helpers/messangers")
+const {sendMessage} = require("../helpers/messangers")
 const {restart} = require("../helpers/process")
 const {deleteFromArray} = require("../helpers/arrays")
 const {secondsToTime} = require("../helpers/timestamp");
@@ -77,7 +77,7 @@ const processAlerter = async () => {
                 const exDiff = nHeight - exHeight
 
                 if (blockDiff && nHeight && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
-                    sendAlert("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${Math.abs(exDiff)}\` blocks.`)
+                    sendMessage("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${Math.abs(exDiff)}\` blocks.`)
                 }
             }
 
@@ -91,7 +91,7 @@ const processAlerter = async () => {
             if (globalThis.nodeMemoryUsage !== usedMem) {
                 globalThis.nodeMemoryUsage = usedMem
                 if (memAlert && usedMem >= memAlert) {
-                    sendAlert("MEM", `High memory usage detected! The node uses \`${usedMem}%\` of the memory.`)
+                    sendMessage("MEM", `High memory usage detected! The node uses \`${usedMem}%\` of the memory.`)
                 }
             }
 
@@ -103,13 +103,13 @@ const processAlerter = async () => {
 
             if (+peers <= 0) {
                 message = `No peers!`
-                sendAlert("PEERS", message)
+                sendMessage("PEERS", message)
             }
 
             if (canCheckFork) {
                 if (blockDiff && mHeight && DIFF_MAX >= blockDiff) {
                     message = `Fork detected! Inconsistency with \`MAX\`. Diff: \`${Math.abs(DIFF_MAX)}\`, Height: \`${nHeight}\` instead of \`${mHeight}\`.`
-                    sendAlert("MAX", message)
+                    sendMessage("MAX", message)
 
                     if (restartStateSyncedRules.includes("MAX")) {
                         if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
@@ -120,7 +120,7 @@ const processAlerter = async () => {
                     }
                 } else if (blockDiff && mHeight && DIFF_MAX < 0 && Math.abs(DIFF_MAX) >= blockDiff) {
                     message = `Forward Fork detected! Inconsistency with \`MAX\`. Diff: \`${Math.abs(DIFF_MAX)}\`, Height: \`${nHeight}\` instead of \`${mHeight}\`.`
-                    sendAlert("FORWARD-MAX", message)
+                    sendMessage("FORWARD-MAX", message)
 
                     if (restartStateSyncedRules.includes("FORWARD-MAX")) {
                         if (blockDiffToRestart && DIFF_MAX >= blockDiffToRestart) {
@@ -131,7 +131,7 @@ const processAlerter = async () => {
                     }
                 } else if (blockDiff && uHeight && DIFF_UNVALIDATED >= blockDiff) {
                     message = `Fork detected! Inconsistency with \`MAX UNVALIDATED\`. Diff: \`${Math.abs(DIFF_UNVALIDATED)}\`, Height: \`${nHeight}\` instead of \`${uHeight}\`.`
-                    sendAlert("FORK", message)
+                    sendMessage("FORK", message)
 
                     if (restartStateSyncedRules.includes("FORK")) {
                         if (blockDiffToRestart && DIFF_UNVALIDATED >= blockDiffToRestart) {
@@ -142,7 +142,7 @@ const processAlerter = async () => {
                     }
                 } else if (blockDiff && uHeight && DIFF_UNVALIDATED < 0 && Math.abs(DIFF_UNVALIDATED) >= blockDiff) {
                     message = `Forward Fork detected! Inconsistency with \`MAX UNVALIDATED\`. Diff: \`${Math.abs(DIFF_UNVALIDATED)}\`, Height: \`${nHeight}\` instead of \`${uHeight}\`.`
-                    sendAlert("FORWARD-FORK", message)
+                    sendMessage("FORWARD-FORK", message)
 
                     if (restartStateSyncedRules.includes("FORWARD-FORK")) {
                         if (blockDiffToRestart && Math.abs(DIFF_UNVALIDATED) >= blockDiffToRestart) {
@@ -170,7 +170,7 @@ const processAlerter = async () => {
                         globalThis.cache.health.push("HANG")
                     }
                     message = `Hanging node detected! Block height \`${nHeight}\` same as previous value for a long time - \`${secondsToTime(hangTimer/1000).m}\` minutes!`
-                    sendAlert("HANG", message)
+                    sendMessage("HANG", message)
                 }
 
                 if (hangInterval && globalThis.hangTimer >= _hangIntervalRestart) {

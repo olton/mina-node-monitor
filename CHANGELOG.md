@@ -10,6 +10,7 @@
 + [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `REWARDS`
 + [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `UPTIME`
 + [x] Server: removed config parameter `balanceSendInterval`
++ [x] Server: added config parameter `channel:info` to define which alerts will send to the info channel 
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  

@@ -1,5 +1,5 @@
 const {exec} = require("child_process")
-const {sendAlert} = require("./messangers")
+const {sendMessage} = require("./messangers")
 const {logging} = require("./logs");
 
 const restart = (reason) => {
@@ -25,7 +25,7 @@ const restart = (reason) => {
         }
 
         message = `Restart command executed with result ${result}\nReason: ${reason}`
-        sendAlert("RESTART", message)
+        sendMessage("RESTART", message)
     })
 }
 

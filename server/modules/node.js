@@ -2,7 +2,7 @@ const {performance} = require("perf_hooks")
 const {hostname} = require("os")
 const {parseTime} = require("../helpers/parsers")
 const {daemonStatus} = require("../helpers/node-data")
-const {sendAlert} = require("../helpers/messangers")
+const {sendMessage} = require("../helpers/messangers")
 const {fetchGraphQL, queryNodeStatus} = require("./graphql");
 const {SYNC_STATE_UNKNOWN} = require("../helpers/consts");
 
@@ -42,7 +42,7 @@ const processCollectNodeInfo = async () => {
         } = status
 
         if (globalThis.previousState !== syncStatus) {
-            sendAlert("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.previousState}\`)!`)
+            sendMessage("STATUS", `We got a new node status \`${syncStatus}\` (previous: \`${globalThis.previousState}\`)!`)
             globalThis.previousState = syncStatus
         }
 
@@ -81,7 +81,7 @@ const processCollectNodeInfo = async () => {
         currentState = syncStatus
     } else {
         if (globalThis.previousState !== SYNC_STATE_UNKNOWN) {
-            sendAlert("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.previousState}\`)!`)
+            sendMessage("STATUS", `We got a new node status \`UNKNOWN\` (old status: \`${globalThis.previousState}\`)!`)
         }
         globalThis.previousState = SYNC_STATE_UNKNOWN
         health.push("UNKNOWN")
