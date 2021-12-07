@@ -66,6 +66,9 @@ const getDefaultConfig = (extConfig = {}) => {
         "restartStateSyncedRules": defaultRestartSyncedRules,
         "alertToTelegram": defaultAlerts,
         "alertToDiscord": defaultAlerts,
+        "channel": {
+            "info": ["HELLO", "BALANCE", "PRICE", "REWARDS", "UPTIME"]
+        },
         "price": {
             "currency": "usd",
             "updateInterval": "1m",
