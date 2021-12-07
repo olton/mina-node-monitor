@@ -26,9 +26,9 @@ const processUptime = async () => {
                 let details = '', message = ''
                 if (cache.uptime && isset(cache.uptime.score, false)) {
                     details =  +(cache.uptime.score) > +(uptime.score) ? '`DOWN`' : '`UP`'
-                    message = `Your uptime score changed ${details}! New value \`${uptime.score}\` with place \`${uptime.position}\`.`
+                    message = `Your uptime score changed ${details}! New value \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place.`
                 } else {
-                    message = `Your current uptime score is \`${uptime.score}\` with place \`${uptime.position}\`.`
+                    message = `Your current uptime score is \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place.`
                 }
                 sendMessage("UPTIME", message)
             }

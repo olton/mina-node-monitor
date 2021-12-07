@@ -83,19 +83,22 @@ const processAlerter = async () => {
 
             if (_restartAfterUptime && +uptimeSecs * 1000 >= _restartAfterUptime) {
                 const {d, h, m, s} = secondsToTime(+uptimeSecs)
-                restart(`Restarted by long uptime ${d}d ${h}h ${m}m ${s}s.`)
+                if (restartStateSyncedRules.includes("UPTIME")) {
+                    restart(`Restarted by long uptime ${d}d ${h}h ${m}m ${s}s.`)
+                }
             }
 
             if (globalThis.nodeMemoryUsage !== usedMem) {
                 globalThis.nodeMemoryUsage = usedMem
-
                 if (memAlert && usedMem >= memAlert) {
                     sendAlert("MEM", `High memory usage detected! The node uses \`${usedMem}%\` of the memory.`)
                 }
             }
 
             if (canRestartNode && memRestart && usedMem >= memRestart) {
-                restart(`Critical memory usage (${usedMem}%)`)
+                if (restartStateSyncedRules.includes("MEM")) {
+                    restart(`Critical memory usage (${usedMem}%)`)
+                }
             }
 
             if (+peers <= 0) {
