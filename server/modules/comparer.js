@@ -86,12 +86,12 @@ const openHostConnection = (node) => {
         }
 
         client.onclose = () => {
-            logging(`Mina Monitor Server not connected to comparable node ${node.name}`)
-            setTimeout(openHostConnection, 1000, node)
+            logging(`Mina Monitor lost connection to comparable node ${node.name}. Reconnect after 30sec`)
+            setTimeout(openHostConnection, 30000, node)
         }
 
         client.onerror = e => {
-            logging(`Error connection to comparable node ${node.name} with message ${e.message}`)
+            //logging(`Error connection to comparable node ${node.name} with message ${e.message}`)
         }
     } catch (e) {
         logging(e.message)
