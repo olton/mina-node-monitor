@@ -13,6 +13,7 @@
 + [x] Server: added config parameter `channel:info` to define which alerts will send to the info channel 
 + [x] Server: changed reconnect interval to comparable node from `1s` to `30s`
 + [x] Server: changed parameter `comparison`. Now this parameter has a new structure
++ [x] Server: added response for Monitor Version
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  

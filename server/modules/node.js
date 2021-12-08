@@ -1,5 +1,4 @@
 const {performance} = require("perf_hooks")
-const {hostname} = require("os")
 const {parseTime} = require("../helpers/parsers")
 const {daemonStatus} = require("../helpers/node-data")
 const {sendMessage} = require("../helpers/messangers")

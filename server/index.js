@@ -22,11 +22,12 @@ const {SYNC_STATE_UNKNOWN} = require("./helpers/consts")
 const {processConsensus} = require("./modules/consensus")
 const {processBlockchain} = require("./modules/blockchain")
 const {processBlockSpeed} = require("./modules/speed")
-const {logging} = require("./helpers/logs");
-const {welcomeHtml} = require("./helpers/welcome");
-const {processCompare} = require("./modules/comparer");
+const {logging} = require("./helpers/logs")
+const {welcomeHtml} = require("./helpers/welcome")
+const {processCompare} = require("./modules/comparer")
+const packageJson = require("./package.json")
 
-const version = `2.0.2`
+const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
 const configPath = path.resolve(__dirname, 'config.json')
 
@@ -98,6 +99,10 @@ wss.on('connection', (ws) => {
     ws.send(JSON.stringify({
         action: "welcome",
         data: `Welcome, you connected to Mina Monitor Server on the host ${globalThis.host}`
+    }))
+    ws.send(JSON.stringify({
+        action: "monitorVersion",
+        data: version
     }))
     for(let k in globalThis.cache) {
         ws.send(JSON.stringify({
