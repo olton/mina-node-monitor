@@ -94,8 +94,10 @@ const getDefaultConfig = (extConfig = {}) => {
             "hooks": ["process exited"]
         },
         "restartAfterUptime": 0,
-        "comparison": [
-        ],
+        "comparison": {
+            "reconnect": "30s",
+            "nodes": []
+        },
         "explorer": {
             "getRewardsInterval": "3m",
             "getLatestBlocksInterval": "1m",

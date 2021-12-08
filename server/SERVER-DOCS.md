@@ -70,6 +70,23 @@ Change ones with your purposes.
 > I go into detail about the config file and parameters in the video on my [YouTube channel](https://www.youtube.com/channel/UC-AwjNVWxPRJYMG7vpiJnfQ).
 > Also, you can read about it in the [text transcription](https://docs.google.com/document/d/1pccoot4fTQLh9ySpf-nuLuApw1bDFSsP9nlQID0SYvY/edit?usp=sharing) of this video.
 
+## Run Mina Monitor Sever
+
+If you installed server with `onle-line` installer, you can run server with command `npm start` from Monitor Server folder.
+```shell
+npm start
+```
+
+**If you cloned repo**
+To run Sever, from repo `server` folder exec command:
+```shell
+node index.js
+```
+or from repo root folder:
+```shell
+node server/index.js
+```
+
 ### Config file parameters
 
 The config file contain a lot of different parameters.
@@ -104,19 +121,56 @@ The config file contain a lot of different parameters.
         "key": "",
         "cert": ""
     },
-    "restartStateException": ["BOOTSTRAP"],
-    "restartStateSyncedRules": ["MEM","MAX", "FORWARD-MAX", "FORK", "FORWARD-FORK", "HANG"],
+    "restartStateException": [
+        "BOOTSTRAP"
+    ],
+    "restartStateSyncedRules": [
+        "MEM",
+        "MAX",
+        "FORWARD-MAX",
+        "FORK",
+        "FORWARD-FORK",
+        "HANG"
+    ],
     "alertToTelegram": [
-        "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX", 
-        "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART", 
-        "BALANCE", "PEERS", "MEM", "COMPARE",
-        "PRICE", "REWARDS", "UPTIME"
+        "FAIL",
+        "EXEC",
+        "HELLO",
+        "STATUS",
+        "MAX",
+        "FORWARD-MAX",
+        "FORK",
+        "FORWARD-FORK",
+        "HANG",
+        "EXPLORER",
+        "RESTART",
+        "BALANCE",
+        "PEERS",
+        "MEM",
+        "COMPARE",
+        "PRICE",
+        "REWARDS",
+        "UPTIME"
     ],
     "alertToDiscord": [
-        "FAIL", "EXEC" ,"HELLO", "STATUS", "MAX", "FORWARD-MAX",
-        "FORK", "FORWARD-FORK", "HANG", "EXPLORER", "RESTART",
-        "BALANCE", "PEERS", "MEM", "COMPARE",
-        "PRICE", "REWARDS", "UPTIME"
+        "FAIL",
+        "EXEC",
+        "HELLO",
+        "STATUS",
+        "MAX",
+        "FORWARD-MAX",
+        "FORK",
+        "FORWARD-FORK",
+        "HANG",
+        "EXPLORER",
+        "RESTART",
+        "BALANCE",
+        "PEERS",
+        "MEM",
+        "COMPARE",
+        "PRICE",
+        "REWARDS",
+        "UPTIME"
     ],
     "price": {
         "currency": "usd",
@@ -140,9 +194,15 @@ The config file contain a lot of different parameters.
     },
     "journal": {
         "cmd": "journalctl",
-        "hooks": ["process exited", "crash"]
+        "hooks": [
+            "process exited",
+            "crash"
+        ]
     },
-    "comparison": [],
+    "comparison": {
+        "reconnect": "30s",
+        "nodes": []
+    },
     "explorer": {
         "getRewardsInterval": "3m",
         "getLatestBlocksInterval": "1m",
@@ -178,8 +238,8 @@ where
 - `memAlert` - value to alert when critical memory usage (0 - 100), 0 - no alert
 - `memRestart` - value to restart when critical memory usage (0 - 100), 0 - no restart
 - `snarkWorker` - options to control snark worker
-- `journal` - enable control for mina service with `jouranlctl`
-- `comparison` - you can enable comparison height with an others nodes with this parameter
+- `journal` - enable control for mina service with `jouranlctl` (not supported for Docker image)
+- `comparison` - you can enable comparison height with an others nodes with this parameter (not supported for Docker image)
 - `explorer` - interaction with Mina Explorer
 
 **Comparison with others nodes**
@@ -188,18 +248,20 @@ This parameter has an array type, and must contain objects with nodes descriptio
 
 ```json
 {
-    "comparison": [
-        {
-            "name": "server1",
-            "address": "1.1.1.1:8000",
-            "https": false
-        },
-        {
-            "name": "server2",
-            "address": "2.2.2.2:8000",
-            "https": true
-        }
-    ]
+    "comparison": {
+        "nodes": [
+            {
+                "name": "server1",
+                "address": "1.1.1.1:8000",
+                "https": false
+            },
+            {
+                "name": "server2",
+                "address": "2.2.2.2:8000",
+                "https": true
+            }
+        ]
+    }
 }
 ```
 
@@ -258,17 +320,6 @@ For `price:currency` you can use one of the next values:
 "pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",  "try",
 "twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",
 "bits",  "sats"
-```
-
-## Run Mina Monitor Sever
-
-To run Sever, use command:
-```shell
-node index.js
-```
-or from cloned repository
-```shell
-node server/index.js
 ```
 
 ### Overriding parameters at start server

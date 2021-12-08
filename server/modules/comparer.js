@@ -2,6 +2,8 @@ const WebSocket = require("ws")
 const {logging} = require("../helpers/logs");
 const {sendMessage} = require("../helpers/messangers");
 const {SYNC_STATE_SYNCED} = require("../helpers/consts");
+const {isset} = require("../helpers/isset");
+const {parseTime} = require("../helpers/parsers");
 
 const storeNodeHeight = (node, data) => {
 
@@ -68,6 +70,11 @@ const openHostConnection = (node) => {
     * */
     const {name, address, https = false} = node
     const proto = https ? 'wss://' : 'ws://'
+    let reconnect = parseTime("30s")
+
+    if (isset(config.comparison.reconnect, false) && config.comparison.reconnect) {
+        reconnect = config.comparison.reconnect
+    }
 
     try {
         const client = new WebSocket(`${proto}${address}`)
@@ -86,8 +93,8 @@ const openHostConnection = (node) => {
         }
 
         client.onclose = () => {
-            logging(`Mina Monitor lost connection to comparable node ${node.name}. Reconnect after 30sec`)
-            setTimeout(openHostConnection, 30000, node)
+            logging(`Mina Monitor lost connection to comparable node ${node.name}. Reconnect after ${(reconnect/1000).toFixed(0)}sec`)
+            setTimeout(openHostConnection, reconnect, node)
         }
 
         client.onerror = e => {
@@ -99,13 +106,11 @@ const openHostConnection = (node) => {
 }
 
 const processCompare = () => {
-    const {comparison} = config
+    if (!isset(config.comparison)) return
 
-    if (!Array.isArray(comparison) || !comparison.length) {
-        return
-    }
+    const {nodes = []} = config.comparison
 
-    for (let node of comparison) {
+    for (let node of nodes) {
         openHostConnection(node)
     }
 }

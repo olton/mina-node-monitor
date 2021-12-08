@@ -42,7 +42,7 @@ const getArguments = () => {
 
 const updateConfigFromArguments = (c) => {
     const args = getArguments()
-    let _c = c
+    let _c = Object.assign({}, c)
 
     for(let o in args) {
         let v = args[o]
