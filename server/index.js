@@ -26,10 +26,12 @@ const {logging} = require("./helpers/logs")
 const {welcomeHtml} = require("./helpers/welcome")
 const {processCompare} = require("./modules/comparer")
 const packageJson = require("./package.json")
+const {processConfigWatcher} = require("./helpers/watcher");
 
 const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
 const configPath = path.resolve(__dirname, 'config.json')
+const configPathFinal = process.platform === 'linux' && fs.existsSync(configPathLinux) ? configPathLinux : configPath
 
 createConfig(configPath)
 
@@ -40,7 +42,7 @@ if (!fs.existsSync(configPath)) {
 
 const readConfig = (path) => updateConfigFromArguments(JSON.parse(fs.readFileSync(path, 'utf-8')))
 
-const config = readConfig(process.platform === 'linux' && fs.existsSync(configPathLinux) ? configPathLinux : configPath)
+const config = readConfig(configPathFinal)
 const [SERVER_HOST, SERVER_PORT] = config.host.split(":")
 
 /* Create log dir */
@@ -160,3 +162,4 @@ setImmediate( processConsensus )
 setImmediate( processBlockchain )
 setImmediate( processBlockSpeed )
 setImmediate( processCompare )
+setImmediate( processConfigWatcher, configPathFinal )

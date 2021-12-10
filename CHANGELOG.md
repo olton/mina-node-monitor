@@ -14,6 +14,7 @@
 + [x] Server: changed reconnect interval to comparable node from `1s` to `30s`
 + [x] Server: changed parameter `comparison`. Now this parameter has a new structure
 + [x] Server: added response for Monitor Version
++ [x] Server: added watcher for config file
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  

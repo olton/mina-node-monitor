@@ -39,8 +39,8 @@ const sendToTelegram = (message, {token, recipients}) => {
 }
 
 const sendTo = (check, message, isAlert = false) => {
-    const sign = `\`${globalThis.host.toUpperCase()}\`.`
-    const signedMessage = `${isAlert ? 'ALERT: ' : 'INFO: '} ${message} Sender: ${sign}`
+    const sign = `Sender: \`${globalThis.host.toUpperCase()}\`.`
+    const signedMessage = `${isAlert ? 'ALERT: ' : 'INFO: '} ${message} ${sign}`
     const {alertToTelegram, alertToDiscord, telegram: telegramConfig = null, discord: discordConfig = null} = config
 
     logging(message)

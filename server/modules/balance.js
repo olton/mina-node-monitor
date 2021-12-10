@@ -29,7 +29,12 @@ const processBalance = async () => {
                         liquid: cacheLiquid = 0,
                         locked: cacheLocked = 0
                     } = addressBalance(cache.balance)
-                    if (+(cacheTotal) !== +(total)) {
+
+                    if (
+                        +(cacheTotal) !== +(total)
+                        || +(cacheLiquid) !== +(liquid)
+                        || +(cacheLocked) !== +(locked))
+                    {
                         sendMessage("BALANCE", `Balance for address \`${shortAddr}\` was changed to \`${totalValue}\` (Total), \`${liquidValue}\` (Movable), \`${lockedValue}\` (Locked).`)
                     }
                 } else {
