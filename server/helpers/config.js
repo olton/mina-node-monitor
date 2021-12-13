@@ -35,6 +35,12 @@ const getDefaultConfig = (extConfig = {}) => {
     const defaultSnarkWorkerFeeCmd = `mina client set-snark-work-fee <FEE>`
     const defaultConfig = {
         "name": "",
+        "host": "0.0.0.0:8000",
+        "graphql": "localhost:3085",
+        "https": {
+            "key": "",
+            "cert": ""
+        },
         "publicKey": "",
         "publicKeyDelegators": "",
         "telegram": {
@@ -53,15 +59,10 @@ const getDefaultConfig = (extConfig = {}) => {
         "alertInterval": "3m",
         "blockDiff": 3,
         "blockDiffToRestart": 10,
+        "blockSpeedDistance": 10,
         "canRestartNode": true,
         "restartAfterNotSynced": "30m",
         "restartCmd": defaultRestartCmd,
-        "host": "0.0.0.0:8000",
-        "graphql": "localhost:3085",
-        "https": {
-            "key": "",
-            "cert": ""
-        },
         "restartStateException": defaultStateException,
         "restartStateSyncedRules": defaultRestartSyncedRules,
         "alertToTelegram": defaultAlerts,
@@ -74,12 +75,15 @@ const getDefaultConfig = (extConfig = {}) => {
             "updateInterval": "1m",
             "sendInterval": "1h"
         },
-        "blockSpeedDistance": 10,
         "nodeInfoCollectInterval": "30s",
-        "hangInterval": "45m",
-        "hangIntervalAlert": "30m",
-        "memAlert": 95,
-        "memRestart": 0,
+        "memory": {
+            "alert": 95,
+            "restart": 0
+        },
+        "hang": {
+            "alert": "30m",
+            "restart": "60m"
+        },
         "snarkWorker": {
             "address": "",
             "fee": 0.001,

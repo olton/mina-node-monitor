@@ -10,7 +10,7 @@ const storeNodeHeight = (node, data) => {
     if (!data) return
     if (!globalThis.cache.daemon) return
 
-    const {blockDiff = 2} = config
+    const {blockDiff = config.blockDiff} = config.comparison
 
     const {
         syncStatus: status,

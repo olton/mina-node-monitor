@@ -17,16 +17,19 @@ const processAlerter = async () => {
         alertInterval,
         restartStateException = [],
         restartStateSyncedRules = [],
-        hangInterval = 0,
-        hangIntervalAlert = 0,
-        memAlert = 0,
-        memRestart = 0,
+        hang = {
+            alert: "30m",
+            restart: 0
+        },
+        memory = {
+            alert: 0,
+            restart: 0
+        },
         restartAfterUptime = 0
     } = globalThis.config
 
     let reload
 
-    const host = globalThis.host
     const mem = await sysInfo('mem')
     const usedMem = 100 - Math.round(mem.free * 100 / mem.total)
     const _alertInterval = parseTime(alertInterval)
@@ -90,14 +93,14 @@ const processAlerter = async () => {
 
             if (globalThis.nodeMemoryUsage !== usedMem) {
                 globalThis.nodeMemoryUsage = usedMem
-                if (memAlert && usedMem >= memAlert) {
+                if (memory.alert && usedMem >= memory.alert) {
                     sendMessage("MEM", `High memory usage detected! The node uses \`${usedMem}%\` of the memory.`)
                 }
-            }
 
-            if (canRestartNode && memRestart && usedMem >= memRestart) {
-                if (restartStateSyncedRules.includes("MEM")) {
-                    restart(`Critical memory usage (${usedMem}%)`)
+                if (canRestartNode && memory.restart && usedMem >= memory.restart) {
+                    if (restartStateSyncedRules.includes("MEM")) {
+                        restart(`Critical memory usage (${usedMem}%)`)
+                    }
                 }
             }
 
@@ -160,11 +163,11 @@ const processAlerter = async () => {
                 deleteFromArray(globalThis.cache.health, "HANG")
             }
 
-            const _hangIntervalAlert = parseTime(hangIntervalAlert)
-            const _hangIntervalRestart = parseTime(hangInterval)
+            const _hangIntervalAlert = parseTime(hang.alert)
+            const _hangIntervalRestart = parseTime(hang.restart)
 
             if (globalThis.currentControlHeight) { // We have a block height!
-                if (hangIntervalAlert && globalThis.hangTimer >= _hangIntervalAlert) {
+                if (hang.alert && globalThis.hangTimer >= _hangIntervalAlert) {
 
                     if (!globalThis.cache.health.includes("HANG")) {
                         globalThis.cache.health.push("HANG")
@@ -173,7 +176,7 @@ const processAlerter = async () => {
                     sendMessage("HANG", message)
                 }
 
-                if (hangInterval && globalThis.hangTimer >= _hangIntervalRestart) {
+                if (hang.restart && globalThis.hangTimer >= _hangIntervalRestart) {
 
                     if (restartStateSyncedRules.includes("HANG") && (canRestartNode && restartCmd)) {
                         restart('Hanging node!')

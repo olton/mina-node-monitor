@@ -21,7 +21,7 @@ const processConfigWatcher = (configFile) => {
             try {
                 globalThis.config = JSON.parse(newConfig)
                 globalThis.host = globalThis.config.name || hostname().split(".")[0]
-                logging(`Config parameters were updated!`)
+                logging(`The config file was changed. New values applied!`)
             } catch (e) {
                 logging(`New config is wrong! Please check it`, true)
             }

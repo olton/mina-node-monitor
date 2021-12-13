@@ -6,7 +6,7 @@
 + [x] Server: added config parameters `telegram`, `discord` 
 + [x] Server: added config options for `telegram`: `token`, `tokenInfo`, `tokenAlert`, `chatIDInfo`, `chatIDAlert` 
 + [x] Server: added config options for `discord`: `webhook`, `webhookInfo`, `webhookAlert`, `botName` 
-+ [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `PRICE` 
++ [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `PRICE`. Parameter `price:targets` deprecated 
 + [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `REWARDS`
 + [x] Server: to config parameters `alertToTelegram`, `alertToDiscrod` added value `UPTIME`
 + [x] Server: removed config parameter `balanceSendInterval`
@@ -15,6 +15,8 @@
 + [x] Server: changed parameter `comparison`. Now this parameter has a new structure
 + [x] Server: added response for Monitor Version
 + [x] Server: added watcher for config file
++ [x] Server: config parameters `memAlert`, `memRestart` deprecated. You must use new parameters: `memory:alert`, `memory:restart`
++ [x] Server: config parameters `hangIntervalAlert`, `hangInterval` deprecated. You must use new parameters: `hang:alert`, `hang:restart`
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  

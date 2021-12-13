@@ -1,5 +1,4 @@
 const fetch = require("node-fetch")
-const {isset} = require("../helpers/isset");
 const {sendMessage} = require("../helpers/messangers");
 
 const getUptime = async (key) => {
@@ -22,16 +21,38 @@ const processUptime = async () => {
         const uptime = await getUptime(publicKeyDelegators)
 
         if (uptime) {
-            if (!cache.uptime || uptime.score !== cache.uptime.score) {
-                let details = '', message = ''
-                if (cache.uptime && isset(cache.uptime.score, false)) {
-                    details =  +(cache.uptime.score) > +(uptime.score) ? '`DOWN`' : '`UP`'
-                    message = `Your uptime score changed ${details}! New value \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place.`
-                } else {
-                    message = `Your current uptime score is \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place.`
+            let message = '', scoreChanged = false, positionChanged = false, rateChanged = false, upDown = ''
+            let {position, score, rate, group, positions} = uptime
+
+            positions.sort()
+
+            if (!cache.uptime) {
+                message = `Your current uptime score is \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+            } else {
+                let {position: cachedPosition, score: cachedScore, rate: cachedRate, group: cachedGroup, positions: cachedPositions} = cache.uptime
+
+                cachedPositions.sort()
+
+                scoreChanged = +(cachedScore) !== +(score)
+                rateChanged = +(cachedRate) !== +(rate)
+                positionChanged = positions.length !== cachedPositions.length
+                    || positions[0] !== cachedPositions[0]
+                    || positions[positions.length - 1] !== cachedPositions[cachedPositions.length - 1]
+
+                if (scoreChanged || rateChanged || positionChanged) {
+                    if (scoreChanged) {
+                        upDown = score > cachedScore ? 'UP' : 'DOWN'
+                        message = `Your uptime score changed ${upDown}! New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                    } else if (rateChanged) {
+                        upDown = rate > cachedRate ? 'UP' : 'DOWN'
+                        message = `Your uptime rate changed ${upDown}! New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                    } else {
+                        message = `Your uptime position changed! New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                    }
                 }
-                sendMessage("UPTIME", message)
             }
+
+            if (message) sendMessage("UPTIME", message)
 
             globalThis.cache.uptime = uptime
         }
