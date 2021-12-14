@@ -73,7 +73,7 @@ const openHostConnection = (node) => {
     let reconnect = parseTime("30s")
 
     if (isset(config.comparison.reconnect, false) && config.comparison.reconnect) {
-        reconnect = config.comparison.reconnect
+        reconnect = parseTime(config.comparison.reconnect)
     }
 
     try {
@@ -93,7 +93,7 @@ const openHostConnection = (node) => {
         }
 
         client.onclose = () => {
-            logging(`Mina Monitor lost connection to comparable node ${node.name}. Reconnect after ${(reconnect/1000).toFixed(0)}sec`)
+            logging(`Mina Monitor lost connection to comparable node ${node.name}. Reconnect after ${(reconnect/1000).toFixed(0)} sec`)
             setTimeout(openHostConnection, reconnect, node)
         }
 

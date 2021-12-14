@@ -134,7 +134,8 @@ const processBlockchainLatestBlocks = async (limit = 1) => {
     let reload = parseTime(defaultValue(config.explorer.getLatestBlocksInterval, "1m"))
 
     if (summary && summary.blocks) {
-        globalThis.cache.latestBlocks = summary.blocks
+        globalThis.cache.latestBlock = summary.blocks[0]
+        globalThis.cache.explorerHeight = summary.blocks[0].blockHeight
     }
 
     setTimeout(processBlockchainLatestBlocks, reload)

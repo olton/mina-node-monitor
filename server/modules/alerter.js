@@ -37,7 +37,7 @@ const processAlerter = async () => {
     const _restartAfterNotSynced = parseTime(restartAfterNotSynced)
 
     let daemon = globalThis.cache.daemon
-    let explorerSummary = globalThis.cache.explorerSummary
+    let explorerHeight = +(globalThis.cache.explorerHeight)
 
     if (daemon) {
         const {
@@ -75,8 +75,8 @@ const processAlerter = async () => {
             const canCheckFork = mHeight && uHeight
             let message
 
-            if (canCheckFork && explorerSummary && explorerSummary.blockchainLength) {
-                const exHeight = +(explorerSummary.blockchainLength)
+            if (canCheckFork && explorerHeight) {
+                const exHeight = +(explorerHeight)
                 const exDiff = nHeight - exHeight
 
                 if (blockDiff && nHeight && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
