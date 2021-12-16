@@ -69,6 +69,8 @@ globalThis.previousState = SYNC_STATE_UNKNOWN
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
 
+globalThis.isHttps = useHttps
+
 const requestListener = async (req, res) => {
     res.setHeader("Content-Type", "text/html")
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -124,7 +126,8 @@ const broadcast = function broadcast(data) {
 
 globalThis.cache = new Proxy({
     comparison: {},
-    rewards: null
+    rewards: null,
+    https: false
 }, {
     set(target, p, value, receiver) {
         const data = {
@@ -163,3 +166,4 @@ setImmediate( processBlockchain )
 setImmediate( processBlockSpeed )
 setImmediate( processCompare )
 setImmediate( processConfigWatcher, configPathFinal )
+setImmediate( () => globalThis.cache.https = Boolean(globalThis.isHttps) )

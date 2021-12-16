@@ -17,6 +17,7 @@
 + [x] Server: added watcher for config file
 + [x] Server: config parameters `memAlert`, `memRestart` deprecated. You must use new parameters: `memory:alert`, `memory:restart`
 + [x] Server: config parameters `hangIntervalAlert`, `hangInterval` deprecated. You must use new parameters: `hang:alert`, `hang:restart`
++ [x] Server: added response about server start mode `https` with value `true` or `false`
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  

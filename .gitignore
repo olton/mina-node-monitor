@@ -19,3 +19,5 @@ server/config.json
 server/cert
 package-lock.json
 *.http
+*.key
+*.crt
