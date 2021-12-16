@@ -22,7 +22,7 @@ const processBalance = async () => {
                  liquidValue = (liquid/10**9).toFixed(4),
                  lockedValue = (locked/10**9).toFixed(4)
 
-            if (SYNC_STATE_SYNCED === cache.state) {
+            if (typeof cache.state === 'undefined' || SYNC_STATE_SYNCED === cache.state) {
                 if (cache.balance) {
                     const {
                         total: cacheTotal = 0,
