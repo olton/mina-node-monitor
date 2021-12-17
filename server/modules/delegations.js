@@ -7,9 +7,9 @@ const delegations = async (key) => {
         const data = await fetch(link)
         return data.ok ? data.json() : null
     } catch (e) {
-        logging("The Request to Minastake.com war aborted!")
-        logging("Reason: " + e.name + " " + e.message)
-        logging("Message: " + e.message)
+        logging("The Request to Minastake.com for delegations war aborted!")
+        logging("Delegation request: Reason: " + e.name + " " + e.message)
+        logging("Delegation request: Message: " + e.message)
         return null
     }
 }
