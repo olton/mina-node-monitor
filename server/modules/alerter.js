@@ -76,10 +76,10 @@ const processAlerter = async () => {
             let message
 
             if (canCheckFork && explorerHeight) {
-                const exHeight = +(explorerHeight)
-                const exDiff = nHeight - exHeight
+                const exDiff = nHeight - explorerHeight
 
                 if (blockDiff && nHeight && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
+                    console.log("Height: ", explorerHeight, nHeight, exDiff)
                     sendMessage("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${Math.abs(exDiff)}\` blocks.`)
                 }
             }

@@ -7,7 +7,9 @@ const delegations = async (key) => {
         const data = await fetch(link)
         return data.ok ? data.json() : null
     } catch (e) {
-        logging("The Request to GraphQL war aborted! Reason: " + e.name + " " + e.message)
+        logging("The Request to Minastake.com war aborted!")
+        logging("Reason: " + e.name + " " + e.message)
+        logging("Message: " + e.message)
         return null
     }
 }
