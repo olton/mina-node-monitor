@@ -8,8 +8,8 @@ const delegations = async (key) => {
         return data.ok ? data.json() : null
     } catch (e) {
         logging("The Request to Minastake.com for delegations war aborted!")
-        logging("Delegation request: Reason: " + e.name + " " + e.message)
-        logging("Delegation request: Message: " + e.message)
+        logging("Message: " + e.name + " " + e.message)
+        logging("Reason: " + e.message.split(", reason")[1])
         return null
     }
 }
