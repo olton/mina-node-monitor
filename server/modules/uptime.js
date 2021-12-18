@@ -21,7 +21,7 @@ const processUptime = async () => {
         const uptime = await getUptime(publicKeyDelegators)
 
         if (uptime) {
-            let message = '', scoreChanged = false, positionChanged = false, rateChanged = false, upDown = ''
+            let message = '', scoreChanged = false, positionChanged = false, rateChanged = false
             let {position, score, rate, group, positions} = uptime
 
             positions.sort()
@@ -40,11 +40,9 @@ const processUptime = async () => {
                 if (scoreChanged || rateChanged || positionChanged) {
                     let newValueMessage = `New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
                     if (scoreChanged) {
-                        upDown = score > cachedScore ? 'UP' : 'DOWN'
-                        message = `Your uptime score changed ${upDown}!`
+                        message = `Your uptime score changed ${score > cachedScore ? 'UP' : 'DOWN'}!`
                     } else if (rateChanged) {
-                        upDown = rate > cachedRate ? 'UP' : 'DOWN'
-                        message = `Your uptime rate changed ${upDown}!`
+                        message = `Your uptime rate changed ${rate > cachedRate ? 'UP' : 'DOWN'}!`
                     } else {
                         message = `Your uptime position changed!`
                     }
