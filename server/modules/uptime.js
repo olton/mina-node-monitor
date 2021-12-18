@@ -35,20 +35,21 @@ const processUptime = async () => {
 
                 scoreChanged = +(cachedScore) !== +(score)
                 rateChanged = +(cachedRate) !== +(rate)
-                positionChanged = positions.length !== cachedPositions.length
-                    || positions[0] !== cachedPositions[0]
-                    || positions[positions.length - 1] !== cachedPositions[cachedPositions.length - 1]
+                positionChanged = positions[0] !== cachedPositions[0] || positions[positions.length - 1] !== cachedPositions[cachedPositions.length - 1]
 
                 if (scoreChanged || rateChanged || positionChanged) {
+                    let newValueMessage = `New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
                     if (scoreChanged) {
                         upDown = score > cachedScore ? 'UP' : 'DOWN'
-                        message = `Your uptime score changed ${upDown}! New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                        message = `Your uptime score changed ${upDown}!`
                     } else if (rateChanged) {
                         upDown = rate > cachedRate ? 'UP' : 'DOWN'
-                        message = `Your uptime rate changed ${upDown}! New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                        message = `Your uptime rate changed ${upDown}!`
                     } else {
-                        message = `Your uptime position changed! New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                        message = `Your uptime position changed!`
                     }
+
+                    message = `${message} ${newValueMessage}`
                 }
             }
 
