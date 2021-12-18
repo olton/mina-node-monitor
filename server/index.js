@@ -69,7 +69,7 @@ globalThis.previousState = SYNC_STATE_UNKNOWN
 
 let server, useHttps = config.https && (config.https.cert && config.https.key)
 
-globalThis.isHttps = useHttps
+globalThis.isHttps = Boolean(useHttps)
 
 const requestListener = async (req, res) => {
     res.setHeader("Content-Type", "text/html")
@@ -166,4 +166,4 @@ setImmediate( processBlockchain )
 setImmediate( processBlockSpeed )
 setImmediate( processCompare )
 setImmediate( processConfigWatcher, configPathFinal )
-setImmediate( () => globalThis.cache.https = Boolean(globalThis.isHttps) )
+setImmediate( () => globalThis.cache.https = globalThis.isHttps )

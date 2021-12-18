@@ -79,7 +79,6 @@ const processAlerter = async () => {
                 const exDiff = nHeight - explorerHeight
 
                 if (blockDiff && nHeight && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
-                    console.log("Height: ", explorerHeight, nHeight, exDiff)
                     sendMessage("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${Math.abs(exDiff)}\` blocks.`)
                 }
             }
