@@ -20,7 +20,7 @@ const processUptime = async () => {
         const {publicKeyDelegators} = globalThis.config
         const uptime = await getUptime(publicKeyDelegators)
 
-        if (uptime) {
+        if (uptime && uptime.score) {
             let message = '', scoreChanged = false, positionChanged = false, rateChanged = false
             let {position, score, rate, group, positions} = uptime
 
