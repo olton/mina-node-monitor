@@ -94,6 +94,13 @@ The config file contain a lot of different parameters.
 ```json
 {
     "name": "",
+    "host": "0.0.0.0:8000",
+    "webRoot": "",
+    "graphql": "localhost:3085",
+    "https": {
+        "key": "",
+        "cert": ""
+    },
     "publicKey": "",
     "publicKeyDelegators": "",
     "telegram": {
@@ -115,12 +122,6 @@ The config file contain a lot of different parameters.
     "canRestartNode": true,
     "restartAfterNotSynced": "30m",
     "restartCmd": "systemctl --user restart mina",
-    "host": "0.0.0.0:8000",
-    "graphql": "localhost:3085",
-    "https": {
-        "key": "",
-        "cert": ""
-    },
     "restartStateException": [
         "BOOTSTRAP"
     ],
@@ -172,17 +173,28 @@ The config file contain a lot of different parameters.
         "REWARDS",
         "UPTIME"
     ],
+    "channel": {
+        "info": [
+            "HELLO",
+            "PRICE",
+            "BALANCE"
+        ]
+    },
     "price": {
         "currency": "usd",
         "updateInterval": "1m",
         "sendInterval": "1h"
     },
+    "memory": {
+        "alert": 95,
+        "restart": 0
+    },
+    "hang": {
+        "alert": "30m",
+        "restart": "60m"
+    },
     "blockSpeedDistance": 10,
     "nodeInfoCollectInterval": "30s",
-    "hangInterval": "45m",
-    "hangIntervalAlert": "30m",
-    "memAlert": 95,
-    "memRestart": 0,
     "snarkWorker": {
         "address": "",
         "fee": 0.001,
@@ -195,8 +207,7 @@ The config file contain a lot of different parameters.
     "journal": {
         "cmd": "journalctl",
         "hooks": [
-            "process exited",
-            "crash"
+            "process exited"
         ]
     },
     "comparison": {
@@ -214,6 +225,10 @@ The config file contain a lot of different parameters.
 where
 
 - `name` - you can set name for your Monitor Server, this name will be displayed in alert messages
+- `host` - IP and PORT on which the server will run
+- `webRoot` - Path to folder with a static web files
+- `https` - contains paths to ssl certificate and key for ssl certificate to create https server
+- `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `publicKey` - node key for getting balance
 - `publicKeyDelegators` - node key for getting delegations
 - `telegram` - your telegram bot(s) settings
@@ -221,11 +236,8 @@ where
 - `alertInterval` - the interval with which the server will check node state and send alerts in telegrams
 - `blockDiff` - difference in blocks with MinaExplorer at which an alert will be sent
 - `blockDiffToRestart` - difference in blocks when Mina will be restarted
-- `host` - IP and PORT on which the server will run
-- `graphql` - Mina node GraphQL address (by default `localhost:3085`)
 - `canRestartNode` - if true, server can restart mina node
 - `restartCmd` - command for restart mina node
-- `https` - contains paths to ssl certificate and key for ssl certificate to create https server
 - `restartStateException` - exceptions for states to restart node in non-sync
 - `restartStateSyncedRules` - enabled rules to restart in synced
 - `alertToTelegram` - types of alerts which will send to telegram
@@ -233,10 +245,8 @@ where
 - `price` - send price info to telegram/discord
 - `blockSpeedDistance` - distance for block speed calculation
 - `nodeInfoCollectInterval` - interval to collect node info into internal object. Recommended value `30000` (30 sec)
-- `hangIntervalAlert` - time to alert when node hanging
-- `hangInterval` - time to restart when node hanging
-- `memAlert` - value to alert when critical memory usage (0 - 100), 0 - no alert
-- `memRestart` - value to restart when critical memory usage (0 - 100), 0 - no restart
+- `hang` - intervals for hanging detection and reaction
+- `memory` - intervals for memory overload detection and reaction
 - `snarkWorker` - options to control snark worker
 - `journal` - enable control for mina service with `jouranlctl` (not supported for Docker image)
 - `comparison` - you can enable comparison height with an others nodes with this parameter (not supported for Docker image)
@@ -406,6 +416,8 @@ sudo apt -y install dnsutils certbot
 sudo certbot certonly --manual --preferred-challenges dns -d your-domain-name
 ```
 Answer the questions and wait for the end of the challenge.
+
+> You can control changing TXT record in dns with command `host -t txt _acme...you-domain`
 
 If you get successful result, you can copy certificate and key to Monitor folder:
 ```shell
