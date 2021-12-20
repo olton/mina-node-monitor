@@ -6,6 +6,7 @@ const http = require("http")
 const https = require("https")
 const {hostname} = require("os")
 const WebSocket = require("ws")
+const {execSync} = require('child_process')
 const {processPlatform, processMem, processCpuLoad, processCpuTemp, processNetStat, processNetConn} = require("./modules/system")
 const {processCollectNodeInfo} = require("./modules/node")
 const {processWinningBlocks, processBlockchainSummary, processBlockchainLatestBlocks} = require("./modules/explorer")
@@ -27,6 +28,7 @@ const {welcomeHtml} = require("./helpers/welcome")
 const {processCompare} = require("./modules/comparer")
 const packageJson = require("./package.json")
 const {processConfigWatcher} = require("./helpers/watcher");
+const {processGetMinaVersion} = require("./helpers/shell");
 
 const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
@@ -72,7 +74,7 @@ let server, useHttps = config.https && (config.https.cert && config.https.key)
 globalThis.isHttps = Boolean(useHttps)
 
 const requestListener = async (req, res) => {
-    const {webRoot = "."} = config
+    const {webRoot = __dirname} = config
 
     if (req.url === '/') {
         res.setHeader("Content-Type", "text/html")
@@ -82,7 +84,7 @@ const requestListener = async (req, res) => {
         res.end(
             welcomeHtml
                 .replace("%VER%", version)
-                .replace("%MINA%", globalThis.cache.version ? globalThis.cache.version : "Receiving...Please reload page")
+                .replace("%MINA%", processGetMinaVersion())
         )
 
     } else {
