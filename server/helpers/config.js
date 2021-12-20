@@ -36,6 +36,7 @@ const getDefaultConfig = (extConfig = {}) => {
     const defaultConfig = {
         "name": "",
         "host": "0.0.0.0:8000",
+        "webRoot": "",
         "graphql": "localhost:3085",
         "https": {
             "key": "",

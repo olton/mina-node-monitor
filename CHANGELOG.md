@@ -18,6 +18,8 @@
 + [x] Server: config parameters `memAlert`, `memRestart` deprecated. You must use new parameters: `memory:alert`, `memory:restart`
 + [x] Server: config parameters `hangIntervalAlert`, `hangInterval` deprecated. You must use new parameters: `hang:alert`, `hang:restart`
 + [x] Server: added response about server start mode `https` with value `true` or `false`
++ [x] Server: added support for static files for webserver
++ [x] Server: added config parameter `webRoot`. With this parameter you can set a webRoot folder other than default (the same where the monitor is installed)
 
 ### 2.0.3
 + [x] Server: added support for time interval string values for parameter `restartAfterNotSynced`  
