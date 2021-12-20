@@ -392,3 +392,24 @@ If you are sure that there are sensors, but the client does not show the CPU tem
 ```shell
 sudo apt install lm-sensors
 ```
+
+## Setup SSL certificate from Let's Encrypt
+
+```shell
+sudo certbot certonly --manual --preferred-challenges dns -d your-domain-name
+```
+Answer the questions and wait for the end of the challenge.
+
+Copy certificate and key to Monitor folder:
+```shell
+sudo cp /etc/letsencrypt/archive/your-domain-name/fullchain1.pem ~/mina-monitor-server/cert/certificate.pem
+sudo cp /etc/letsencrypt/archive/your-domain-name/privkey1.pem ~/mina-monitor-server/cert/privkey.pem
+```
+
+Change owner and access:
+```shell
+sudo chown user:user  ~/mina-monitor-server/cert/certificate.pem
+sudo chown user:user  ~/mina-monitor-server/cert/privkey.pem
+chmod 755 ~/mina-monitor-server/cert/certificate.pem
+chmod 600 ~/mina-monitor-server/cert/privkey.pem
+```

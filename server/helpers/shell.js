@@ -1,9 +1,8 @@
-const fs = require("fs")
+const fs = require("child_process")
 
 const processGetMinaVersion = () => {
     try {
-        let version = fs.execSync('mina version')
-        return version
+        return fs.execSync('mina version')
     } catch (e) {
         return "unknown"
     }
