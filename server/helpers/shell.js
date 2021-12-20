@@ -2,7 +2,8 @@ const fs = require("child_process")
 
 const processGetMinaVersion = () => {
     try {
-        return fs.execSync('mina version')
+        let version = fs.execSync('mina version')
+        return version.split(" ")[1]
     } catch (e) {
         return "unknown"
     }
