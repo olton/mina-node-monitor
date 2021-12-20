@@ -72,6 +72,8 @@ let server, useHttps = config.https && (config.https.cert && config.https.key)
 globalThis.isHttps = Boolean(useHttps)
 
 const requestListener = async (req, res) => {
+    const {webRoot = "."} = config
+
     if (req.url === '/') {
         res.setHeader("Content-Type", "text/html")
         res.setHeader('Access-Control-Allow-Origin', '*')
@@ -84,7 +86,7 @@ const requestListener = async (req, res) => {
         )
 
     } else {
-        let filePath = (config.webRoot ? config.webRoot : '.') + req.url
+        let filePath = webRoot + req.url
 
         const extname = String(path.extname(filePath)).toLowerCase();
         const mimeTypes = {
