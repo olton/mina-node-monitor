@@ -49,6 +49,7 @@ const getDefaultConfig = (extConfig = {}) => {
             "tokenInfo": "",
             "tokenAlert": "",
             "chatID": "",
+            "chatIDInfo": "",
             "chatIDAlert": ""
         },
         "discord": {

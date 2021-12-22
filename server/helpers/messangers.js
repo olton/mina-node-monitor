@@ -1,8 +1,6 @@
 const fetch = require("node-fetch")
-const {hostname} = require("os")
 const {parseTelegramChatIDs} = require("./parsers.js");
 const {logging} = require("./logs");
-const {isset} = require("./isset");
 
 const sendToDiscord = (url, message, {username = "Mina Monitor", avatar_url = ""} = {}) => {
     const params = {
@@ -27,9 +25,8 @@ const sendToTelegram = (message, {token, recipients}) => {
     if (!token || !recipients) return
 
     const TELEGRAM_URL = TELEGRAM_BOT_URL.replace("%TOKEN%", token)
-    const ids = parseTelegramChatIDs(recipients)
 
-    for (const id of ids) {
+    for (const id of recipients) {
         const url = TELEGRAM_URL.replace("%CHAT_ID%", id).replace("%MESSAGE%", message)
         fetch(encodeURI(url)).catch((e)=>{
             logging("Error! Can't send message to telegram")
@@ -46,7 +43,7 @@ const sendTo = (check, message, isAlert = false) => {
     logging(message)
 
     if (telegramConfig && (check === 'OK' || alertToTelegram.includes(check))) {
-        let {token = "", tokenInfo = "", tokenAlert = "", chatIDInfo = "", chatIDAlert = ""} = telegramConfig
+        let {token = "", tokenInfo = "", tokenAlert = "", chatID = "", chatIDInfo = "", chatIDAlert = ""} = telegramConfig
 
         if (token) {
             if (!tokenInfo) tokenInfo = token
@@ -57,9 +54,9 @@ const sendTo = (check, message, isAlert = false) => {
         if (tokenAlert && !tokenInfo) tokenInfo = tokenAlert
 
         if (isAlert) {
-            sendToTelegram(signedMessage, {token: tokenAlert, recipients: chatIDAlert})
+            sendToTelegram(signedMessage, {token: tokenAlert, recipients: parseTelegramChatIDs(chatID).concat(parseTelegramChatIDs(chatIDAlert))})
         } else {
-            sendToTelegram(signedMessage, {token: tokenInfo, recipients: chatIDInfo})
+            sendToTelegram(signedMessage, {token: tokenInfo, recipients: parseTelegramChatIDs(chatID).concat(parseTelegramChatIDs(chatIDInfo))})
         }
     }
 
