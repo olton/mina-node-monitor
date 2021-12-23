@@ -32,8 +32,6 @@ const processUptime = async () => {
             } else {
                 let {position: cachedPosition, score: cachedScore, rate: cachedRate, group: cachedGroup, positions: cachedPositions} = cache.uptime
 
-                cachedPositions.sort()
-
                 scoreChanged = +(cachedScore) !== +(score)
                 rateChanged = +(cachedRate) !== +(rate)
                 positionChanged = positions[0] !== cachedPositions[0] || positions[positions.length - 1] !== cachedPositions[cachedPositions.length - 1]
@@ -54,6 +52,7 @@ const processUptime = async () => {
 
             if (message) sendMessage("UPTIME", message)
 
+            uptime.positions = positions
             globalThis.cache.uptime = uptime
         }
     } catch (e) {
