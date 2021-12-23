@@ -54,8 +54,10 @@ const processUptime = async () => {
 
             if (message) sendMessage("UPTIME", message)
 
-            uptime.positions = positions
-            globalThis.cache.uptime = uptime
+            globalThis.cache.uptime = {
+                ...uptime,
+                positions
+            }
         }
     } catch (e) {
         console.error(e)
