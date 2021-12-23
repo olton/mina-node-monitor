@@ -1,5 +1,6 @@
 const fetch = require("node-fetch")
 const {sendMessage} = require("../helpers/messangers");
+const {parseTime} = require("../helpers/parsers");
 
 const getUptime = async (key) => {
     if (!key) return null
@@ -59,7 +60,7 @@ const processUptime = async () => {
         console.error(e)
     }
 
-    setTimeout(processUptime, 60000)
+    setTimeout(processUptime, parseTime('5m'))
 }
 
 module.exports = {
