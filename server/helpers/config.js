@@ -108,7 +108,8 @@ const getDefaultConfig = (extConfig = {}) => {
             "getRewardsInterval": "3m",
             "getLatestBlocksInterval": "1m",
             "getBlockchainSummaryInterval": "1m"
-        }
+        },
+        "uptimeUpdateInterval": "5m"
     }
 
     return Object.assign({}, defaultConfig, extConfig)

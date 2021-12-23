@@ -17,6 +17,13 @@ const getUptime = async (key) => {
 }
 
 const processUptime = async () => {
+    const minInterval = parseTime('5m')
+    let {uptimeUpdateInterval = minInterval} = config
+
+    if (uptimeUpdateInterval < minInterval) {
+        uptimeUpdateInterval = minInterval
+    }
+
     try {
         const {publicKeyDelegators} = globalThis.config
         const uptime = await getUptime(publicKeyDelegators)
@@ -63,7 +70,7 @@ const processUptime = async () => {
         console.error(e)
     }
 
-    setTimeout(processUptime, parseTime('1m'))
+    setTimeout(processUptime, uptimeUpdateInterval)
 }
 
 module.exports = {
