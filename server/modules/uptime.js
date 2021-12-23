@@ -43,8 +43,6 @@ const processUptime = async () => {
                 rateChanged = +(cachedRate) !== +(rate)
                 positionChanged = positions[0] !== cachedPositions[0] || positions[positions.length - 1] !== cachedPositions[cachedPositions.length - 1]
 
-                console.log('Uptime changes: ', scoreChanged, rateChanged, positionChanged)
-
                 if (scoreChanged || rateChanged || positionChanged) {
                     let newValueMessage = `New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
                     if (scoreChanged) {
