@@ -19,7 +19,7 @@ import {copy2clipboard} from "./helpers/clipboard";
 import {processVersion} from "./modules/version";
 import {processRewards} from "./modules/rewards";
 
-const version = `2.0.0`
+const version = `2.1.1`
 
 $("#version").text(version)
 

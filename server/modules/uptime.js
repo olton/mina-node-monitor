@@ -24,7 +24,7 @@ const processUptime = async () => {
             let message = '', scoreChanged = false, positionChanged = false, rateChanged = false
             let {position, score, rate, group, positions} = uptime
 
-            positions.sort()
+            positions = positions.map( v => +v ).sort( (a, b) => a - b)
 
             if (!cache.uptime) {
                 message = `Your current uptime score is \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`

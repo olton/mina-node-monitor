@@ -1,3 +1,6 @@
+### 2.1.1
++ [x] Server: fixed uptime positions sorting
+
 ### 2.1.0
 + [x] Server: added interaction with a block height from Mina Explorer
 + [x] Server: added interaction with the latest block from Mina Explorer
