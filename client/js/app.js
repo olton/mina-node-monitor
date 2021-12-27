@@ -19,9 +19,10 @@ import {copy2clipboard} from "./helpers/clipboard";
 import {processVersion} from "./modules/version";
 import {processRewards} from "./modules/rewards";
 
-const version = `2.1.1`
+const version = require("../package.json").version
 
 $("#version").text(version)
+$("title").text(`Mina Node Monitor v${version}`)
 
 fetch("./config.json")
 .then(r => {

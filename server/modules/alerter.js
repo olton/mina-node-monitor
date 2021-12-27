@@ -37,7 +37,7 @@ const processAlerter = async () => {
     const _restartAfterNotSynced = parseTime(restartAfterNotSynced)
 
     let daemon = globalThis.cache.daemon
-    let explorerHeight = +(globalThis.cache.explorerHeight)
+
 
     if (daemon) {
         const {
@@ -67,6 +67,7 @@ const processAlerter = async () => {
                 }
             }
         } else /*SYNCED*/ {
+            const explorerHeight = +(globalThis.cache.explorerHeight)
             const nHeight = +blockchainLength
             const mHeight = +highestBlockLengthReceived
             const uHeight = +highestUnvalidatedBlockLengthReceived
@@ -75,11 +76,13 @@ const processAlerter = async () => {
             const canCheckFork = mHeight && uHeight
             let message
 
-            if (canCheckFork && explorerHeight) {
+            if (blockDiff && nHeight && canCheckFork && explorerHeight) {
                 const exDiff = nHeight - explorerHeight
+                const exDiffBlocks = Math.abs(exDiff)
 
-                if (blockDiff && nHeight && exDiff !== 0 && Math.abs(exDiff) >= blockDiff) {
-                    sendMessage("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${Math.abs(exDiff)}\` blocks.`)
+                if (exDiff !== 0 && exDiffBlocks >= blockDiff) {
+                    console.log("Explorer check: ", explorerHeight, nHeight, exDiff, blockDiff, exDiffBlocks >= blockDiff)
+                    sendMessage("EXPLORER", `Node height \`${exDiff > 0 ? 'more' : 'less'}\` then Explorer by \`${exDiffBlocks}\` blocks.`)
                 }
             }
 

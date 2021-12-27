@@ -1,6 +1,7 @@
 ### 2.1.1
 + [x] Server: fixed uptime positions sorting
 + [x] Server: added config parameter `uptimeUpdateInterval`, default amd minimal value is `5 min` 
++ [x] Client: fixed for version number 
 
 ### 2.1.0
 + [x] Server: added interaction with a block height from Mina Explorer

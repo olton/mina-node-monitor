@@ -2,7 +2,7 @@ export const processServerInfo = (data) => {
     // $("#cpu-info").text(cpuInfo.model)
     $("#os-distro").text(data.osVersion)
     $("#hostname").text(data.hostname.split(".")[0])
-    $("title").text(data.hostname + " :: Mina Monitor")
+    // $("title").text(data.hostname + " :: Mina Monitor")
 }
 
 export const processServerTime = (data) => {
