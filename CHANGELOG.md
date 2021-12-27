@@ -1,4 +1,5 @@
 ### 2.1.1
++ [x] Christmas Edition
 + [x] Server: fixed uptime positions sorting
 + [x] Server: added config parameter `uptimeUpdateInterval`, default amd minimal value is `5 min` 
 + [x] Server: fixed spam for uptime
