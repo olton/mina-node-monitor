@@ -39,7 +39,7 @@ const processPriceSend = async () => {
     if (data && data.length) {
 
         const mina = data[0]
-        const message = `Mina price is \`${mina.current_price} ${currency.toUpperCase()}\`. Last updated at \`${timestamp("-", mina.last_updated)}\`.`
+        const message = `Mina price is \`${mina.current_price} ${currency.toUpperCase()}\`. Last updated at \`${timestamp(mina.last_updated)}\`.`
 
         sendMessage("PRICE", message)
     } else {

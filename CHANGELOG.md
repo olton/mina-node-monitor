@@ -1,3 +1,6 @@
+### 2.1.2
++ [x] Server: changed helper `timestamp()` for arguments order, now first `date`, second `divider` - `timestamp(date, '-:')`
+
 ### 2.1.1
 + [x] Christmas Edition
 + [x] Server: fixed uptime positions sorting
