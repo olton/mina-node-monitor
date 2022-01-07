@@ -9,7 +9,7 @@ sudo docker run --rm --network=host -d olton/mina-monitor-server:latest
 ### Set Mina Monitor Server parameters
 Begin from 1.1.5, you can redefine config parameters with command line arguments:
 ```shell
-node server/index -publicKey B62q... -price:currency usd -alertToDiscord FAIL,EXEC,STATUS
+node server/index --publicKey B62q... --price:currency usd --alertToDiscord "FAIL,EXEC,STATUS"
 ```
 This command overwrite three config parameters:
 ```json
@@ -24,7 +24,7 @@ This command overwrite three config parameters:
 
 To run docker image of the Mina Monitor Server with specified config parameters you must add it to end of command:
 ```shell
-sudo docker run --rm --name mina_monitor_server --network=host -d olton/mina-monitor-server:latest -journal false -publicKey B62q... 
+sudo docker run --rm --name mina_monitor_server --network=host -d olton/mina-monitor-server:latest --publicKey B62q... 
 ```
 
 > You must always set parameter `journal` to `false`! 

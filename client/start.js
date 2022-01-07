@@ -12,26 +12,29 @@ const isset = (v, nullable = true) => {
 const getArguments = () => {
     const args = process.argv.slice(2)
     const obj = {}
+    let startArgIndex = 0
 
-    for (let i = 0; i < args.length; i++) {
-        if (i % 2 !== 0) continue
-        let key = ""+args[i]
-        let _val, val = args[i + 1]
+    obj.__rest = []
 
-        if (key[0] === '-') {
-            key  = key.substr(1)
-        }
+    while (startArgIndex < args.length) {
+        let _value = args[startArgIndex], _next = args[startArgIndex + 1]
+        let key, val
 
-        _val = isNaN(val) ? val : +val
+        if (_value.slice(0, 2) === '--') {
+            key = _value.slice(2)
+            val = _next
 
-        if (isset(obj[key])) {
-            if (!Array.isArray(obj[key])) {
-                obj[key] = [obj[key]]
-            }
-            obj[key].push(_val)
+            startArgIndex++
+        } else if (_value.slice(0, 1) === '-') {
+            key = _value.slice(1)
+            val = true
         } else {
-            obj[key] = _val
+            val = obj.__rest.push(_value)
         }
+
+        obj[key] = isNaN(val) ? val : +val
+
+        startArgIndex++
     }
 
     return obj

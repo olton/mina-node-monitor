@@ -13,21 +13,9 @@ You can install the Monitor in various ways:
  - via Docker
  - and manual hemorrhoids
 
-### Install via Bash
+### Install
 
-To install default `master` branch into folder `~/mina-monitor-server`, you can use command:
-
-```shell
-curl -s https://raw.githubusercontent.com/olton/scripts/master/mina/monitor/server/install.sh | bash -s
-```
-
-If you need to install specified branch or tag into a specified folder, you must define ones on the end of command:
-
-```shell
-curl -s https://raw.githubusercontent.com/olton/scripts/master/mina/monitor/server/install.sh | bash -s -- branch_or_tag target_folder
-```
-
-***Important! If you need to specify the target folder, you must indicate a branch or tag.***
+[How-to install server](https://github.com/olton/scripts/tree/master/mina/monitor/server) with one-line installer.
 
 ### Install via Docker
 
@@ -218,7 +206,8 @@ The config file contain a lot of different parameters.
         "getRewardsInterval": "3m",
         "getLatestBlocksInterval": "1m",
         "getBlockchainSummaryInterval": "1m"
-    }
+    },
+    "uptimeUpdateInterval": "5m"
 }
 ```
 
@@ -251,6 +240,7 @@ where
 - `journal` - enable control for mina service with `jouranlctl` (not supported for Docker image)
 - `comparison` - you can enable comparison height with an others nodes with this parameter (not supported for Docker image)
 - `explorer` - interaction with Mina Explorer
+- `uptimeUpdateInterval` - interval to read uptime position
 
 **Comparison with others nodes**
 Begin from version 2.0.2, you can enable comparison node height with an others nodes. For this feature, I added a parameter `comparison`.

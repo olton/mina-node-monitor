@@ -16,21 +16,9 @@ You can install the Client in various ways:
 - via Docker
 - and manual (for developers or power-users)
 
-### Install via Bash
+### Install
 
-To install default `master` branch into folder `~/mina-monitor-client`, you can use command:
-
-```shell
-curl -s https://raw.githubusercontent.com/olton/scripts/master/mina/monitor/client/install.sh | bash -s
-```
-
-If you need to install specified branch or tag into a specified folder, you must define ones on the end of command:
-
-```shell
-curl -s https://raw.githubusercontent.com/olton/scripts/master/mina/monitor/client/install.sh | bash -s -- branch_or_tag target_folder
-```
-
-***Important! If you need to specify the target folder, you must indicate a branch or tag.***
+[How-to install client](https://github.com/olton/scripts/tree/master/mina/monitor/client) with one-line installer.
 
 ### Install via Docker
 
