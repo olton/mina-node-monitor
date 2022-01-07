@@ -348,19 +348,19 @@ To override values, you must adhere to the following rules:
 For example:
 ```shell
 # Change a simple parameter
-node index -memAlert 80
+node index --memAlert 80
 ```
 ```shell
 # Change a composite parameter
-node index -price:currency eur
+node index --price:currency eur
 ```
 ```shell
 # Change an array type parameter
-node index -alertToDiscord "HELLO, BALANCE"
+node index --alertToDiscord "HELLO, BALANCE"
 ```
 ```shell
 # Change a several parameters
-node index -alertToDiscord "HELLO, BALANCE" -memAlert 80 -price:currency eur 
+node index --alertToDiscord "HELLO, BALANCE" --memAlert 80 --price:currency eur 
 ```
 
 ## Run Mina Monitor Sever as Service

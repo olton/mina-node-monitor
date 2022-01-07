@@ -2,6 +2,7 @@
   "name": "@olton/mina-monitor",
   "version": "2.1.1",
   "license": "MIT",
+  "main": "server/index.js",
   "scripts": {
     "serve": "shx rm -rf output/* && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
     "prebuild": "shx rm -rf dist/*",
