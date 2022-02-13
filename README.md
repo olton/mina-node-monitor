@@ -12,7 +12,7 @@ This is a `client-server` application for visual monitoring of the validator nod
 
 ## Donate a project
 You can support project, donate Mina to address:
-> B62qqQjC8zaU8XXaeqb9rZXFSX9x12mCgjrdCQuJbXuxU2KUPFcH7aY
+> B62qr2twKMHyZygNZkULs5jxt4vWGKa1gcgoPdT93k8mT8SN6iiTscn
 
 ## Key Features
 

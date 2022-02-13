@@ -1,6 +1,8 @@
 ### 2.1.2
 + [x] Server: changed helper `timestamp()` for arguments order, now first `date`, second `divider` - `timestamp(date, '-:')`
 + [x] Server: changed algorithm for analyze command line arguments. Now for config parameter with value you must use format `--PARNAME value`, format `-PARNAME` reserved for flags
++ [x] Server: send alert when config reloaded
++ [ ] Server: store uptime for N days
 
 ### 2.1.1
 + [x] Christmas Edition

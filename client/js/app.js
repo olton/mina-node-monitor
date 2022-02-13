@@ -4,8 +4,6 @@ import "../vendor/metro4/css/metro-all.css"
 import "../css/index.less"
 import "../vendor/metro4/js/metro"
 import "../vendor/chart/chart"
-import "../vendor/chrismas-balls/css/christmas-balls.css"
-import "../vendor/chrismas-balls/js/christmas-balls"
 
 import {processServerCpu, processServerInfo, processServerTime} from "./modules/server-info"
 import {processDelegations} from "./modules/delegations"

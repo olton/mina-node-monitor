@@ -2,6 +2,7 @@ const {watch, existsSync, readFileSync} = require("fs")
 const crypto = require('crypto')
 const {logging} = require("./logs")
 const {hostname} = require("os");
+const {sendMessage} = require("./messangers");
 
 const processConfigWatcher = (configFile) => {
     if (!configFile || !existsSync(configFile)) return
@@ -22,6 +23,7 @@ const processConfigWatcher = (configFile) => {
                 globalThis.config = JSON.parse(newConfig)
                 globalThis.host = globalThis.config.name || hostname().split(".")[0]
                 logging(`The config file was changed. New values applied!`)
+                sendMessage("CONFIG", `The config file was changed. New values applied!`)
             } catch (e) {
                 logging(`New config is wrong! Please check it`, true)
             }

@@ -17,7 +17,8 @@ const getDefaultConfig = (extConfig = {}) => {
         "COMPARE",
         "PRICE",
         "REWARDS",
-        "UPTIME"
+        "UPTIME",
+        "CONFIG"
     ]
     const defaultRestartSyncedRules = [
         "MEM",
