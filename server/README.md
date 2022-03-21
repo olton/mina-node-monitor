@@ -411,8 +411,8 @@ Answer the questions and wait for the end of the challenge.
 
 If you get successful result, you can copy certificate and key to Monitor folder:
 ```shell
-sudo cp /etc/letsencrypt/archive/your-domain-name/fullchain1.pem ~/mina-monitor-server/cert/certificate.pem
-sudo cp /etc/letsencrypt/archive/your-domain-name/privkey1.pem ~/mina-monitor-server/cert/privkey.pem
+sudo cp /etc/letsencrypt/live/your-domain-name/fullchain.pem ~/mina-monitor-server/cert/certificate.pem
+sudo cp /etc/letsencrypt/live/your-domain-name/privkey.pem ~/mina-monitor-server/cert/privkey.pem
 ```
 
 > Change `your-domain-name` to your real domain name
