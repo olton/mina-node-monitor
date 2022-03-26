@@ -4,7 +4,6 @@ import "../vendor/metro4/css/metro-all.css"
 import "../css/index.less"
 import "../vendor/metro4/js/metro"
 import "../vendor/chart/chart"
-
 import {processServerCpu, processServerInfo, processServerTime} from "./modules/server-info"
 import {processDelegations} from "./modules/delegations"
 import {processMinaPrice} from "./modules/price"
