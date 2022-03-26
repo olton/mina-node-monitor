@@ -10,9 +10,13 @@ This is a `client-server` application for visual monitoring of the validator nod
 + [x] Gareth Davies for [Mina Explorer](https://minaexplorer.com/)
 + [x] StakeTab Team for [Validator Dashboard](https://mina.staketab.com//)
 
-## Donate a project
-You can support project, donate Mina to address:
-> B62qr2twKMHyZygNZkULs5jxt4vWGKa1gcgoPdT93k8mT8SN6iiTscn
+
+# Support Me
+You can support me with donation MINA to address:
+> B62qnyk1g4S6zCxg9p4gorrFgZQv61BnhPkQ6s2uSrYd1fxD2qLTrG2
+
+Or PayPal to address:
+> serhii@pimenov.com.ua
 
 ## Key Features
 
