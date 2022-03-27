@@ -7,6 +7,7 @@
 This is a `client-server` application for visual monitoring of the validator node and alerts when the node has a problem.
 
 ## Thanks to
++ [x] Me for [Minataur](https://minataur.net/)
 + [x] Gareth Davies for [Mina Explorer](https://minaexplorer.com/)
 + [x] StakeTab Team for [Validator Dashboard](https://mina.staketab.com//)
 
