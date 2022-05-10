@@ -1,54 +1,36 @@
-const fetch = require("node-fetch")
 const {sendMessage} = require("../helpers/messangers");
-const {parseTime} = require("../helpers/parsers");
+const {error} = require("../helpers/logs");
 
-const getUptime = async (key) => {
-    if (!key) return null
-
-    const link = `https://minastake.com/uptime/uptime2.php?publicKey=${key}`
-    let data
-
+const processUptime = (data) => {
     try {
-        data = await fetch(link)
-        return data.ok ? data.json() : null
-    } catch (e) {
-        return null
-    }
-}
-
-const processUptime = async () => {
-    const minInterval = parseTime('5m')
-    let {uptimeUpdateInterval = minInterval} = config
-
-    if (uptimeUpdateInterval < minInterval) {
-        uptimeUpdateInterval = minInterval
-    }
-
-    try {
-        const {publicKeyDelegators} = globalThis.config
-        const uptime = await getUptime(publicKeyDelegators)
+        const {uptime, line} = data
 
         if (uptime && uptime.score) {
-            let message = '', scoreChanged = false, positionChanged = false, rateChanged = false
-            let {position, score, rate, group, positions} = uptime
+            let message = '', scoreChanged = false, positionChanged = false, rateChanged = false, rangeChanged = false
+            let {position, score, rate, range} = uptime
 
-            positions = positions.map( v => +v ).sort( (a, b) => a - b)
 
             if (!cache.uptime) {
-                message = `Your current uptime score is \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                message = `Your current uptime score is \`${uptime.score}\` with rate \`${uptime.rate}%\`, and at the \`${uptime.position}\` place in range ${range.min}...${range.max}.`
             } else {
-                let {position: cachedPosition, score: cachedScore, rate: cachedRate, group: cachedGroup, positions: cachedPositions} = cache.uptime
+                let {position: cachedPosition, score: cachedScore, rate: cachedRate, range: cachedRange} = cache.uptime.uptime
 
                 scoreChanged = +(cachedScore) !== +(score)
                 rateChanged = +(cachedRate) !== +(rate)
-                positionChanged = positions[0] !== cachedPositions[0] || positions[positions.length - 1] !== cachedPositions[cachedPositions.length - 1]
+                positionChanged = +(cachedPosition) !== +(position)
+                rangeChanged = (+(cachedRange.min) !== +(range.min)) || (+(cachedRange.max) !== +(range.max))
 
-                if (scoreChanged || rateChanged || positionChanged) {
-                    let newValueMessage = `New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${positions[0]}...${positions[positions.length - 1]}.`
+                if (scoreChanged || rateChanged || positionChanged || rangeChanged) {
+                    let newValueMessage = `New value \`${score}\` with rate \`${rate}%\`, and at the \`${position}\` place in range ${range.min}..${range.max}.`
+
                     if (scoreChanged) {
-                        message = `Your uptime score changed ${score > cachedScore ? 'UP' : 'DOWN'}!`
+                        message = `Your uptime score changed ${+score > +cachedScore ? 'UP' : 'DOWN'}!`
                     } else if (rateChanged) {
-                        message = `Your uptime rate changed ${rate > cachedRate ? 'UP' : 'DOWN'}!`
+                        message = `Your uptime rate changed ${+rate > +cachedRate ? 'UP' : 'DOWN'}!`
+                    } else if (positionChanged) {
+                        message = `Your uptime position changed ${+position > +cachedPosition ? 'UP' : 'DOWN'}!`
+                    } else if (rangeChanged) {
+                        message = `Your uptime range changed from ${cachedRange.min}..${cachedRange.max} to ${range.min}..${range.max}`
                     } else {
                         message = `Your uptime position changed!`
                     }
@@ -59,18 +41,14 @@ const processUptime = async () => {
 
             if (message) sendMessage("UPTIME", message)
 
-            globalThis.cache.uptime = {
-                ...uptime,
-                positions
-            }
+            globalThis.cache.uptime = data
         }
-    } catch (e) {
-        console.error(e)
-    }
 
-    setTimeout(processUptime, uptimeUpdateInterval)
+    } catch (e) {
+        error(e.message)
+    }
 }
 
 module.exports = {
-    processUptime
+    processUptime,
 }

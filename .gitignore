@@ -21,3 +21,4 @@ package-lock.json
 *.http
 *.key
 *.crt
+.parcel-cache

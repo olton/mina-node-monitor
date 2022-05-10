@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime' // this required for Parcel
+//import 'regenerator-runtime/runtime' // this required for Parcel
 
 import "../vendor/metro4/css/metro-all.css"
 import "../css/index.less"

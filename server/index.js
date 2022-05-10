@@ -13,7 +13,7 @@ const {processWinningBlocks, processBlockchainSummary, processBlockchainLatestBl
 const {processAlerter} = require("./modules/alerter")
 const {processBalance} = require("./modules/balance")
 const {processHello} = require("./modules/hello")
-const {processUptime} = require("./modules/uptime")
+const {processUptime, processUptime2} = require("./modules/uptime")
 const {processDelegations} = require("./modules/delegations")
 const {processPriceInfo, processPriceSend} = require("./modules/price")
 const {processSnarkWorkerController} = require("./modules/snark-worker")
@@ -23,12 +23,13 @@ const {SYNC_STATE_UNKNOWN} = require("./helpers/consts")
 const {processConsensus} = require("./modules/consensus")
 const {processBlockchain} = require("./modules/blockchain")
 const {processBlockSpeed} = require("./modules/speed")
-const {logging} = require("./helpers/logs")
+const {logging, log, error} = require("./helpers/logs")
 const {welcomeHtml} = require("./helpers/welcome")
 const {processCompare} = require("./modules/comparer")
 const packageJson = require("./package.json")
 const {processConfigWatcher} = require("./helpers/watcher");
 const {processGetMinaVersion} = require("./helpers/shell");
+const {parseTime} = require("./helpers/parsers");
 
 const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
@@ -144,6 +145,75 @@ if (useHttps) {
 
 const wss = new WebSocket.Server({ server })
 
+const {host: minataurHost = 'minataur.net:443', secure: minataurSecure = true} = config.minataur
+
+const isOpen = (ws) => ws && ws.readyState === ws.OPEN
+
+const request = (ws, channel, data) => {
+    if (isOpen(ws)) {
+        ws.send(JSON.stringify({
+            channel,
+            data
+        }))
+    }
+}
+
+const connectToMinataur = () => {
+    const ws = new WebSocket(`${minataurSecure ? 'wss' : 'ws'}://${minataurHost}`)
+
+    ws.onerror = e => {
+        error('Socket from Minataur encountered error: ', e.message, 'Closing socket');
+        ws.close();
+    }
+
+    ws.onclose = e => {
+        log('Socket from Minataur is closed. Reconnect will be attempted in 1 second.', e.reason);
+        setTimeout(connectToMinataur, 1000)
+    }
+
+    ws.onopen = e => {
+        log('Connected to Minataur!')
+    }
+
+    ws.onmessage = msg => {
+        const message = JSON.parse(msg.data)
+        if (!message.channel) return
+        const {channel, data} = message
+
+        let uptimeUpdateInterval = parseTime(config.uptimeUpdateInterval || '5m')
+
+        if (uptimeUpdateInterval < parseTime("5m")) {
+            uptimeUpdateInterval = parseTime("5m")
+        }
+
+        const requestUptime = (addr = config.publicKeyDelegators || config.publicKey) => {
+            request(ws, "address_uptime_full", addr)
+        }
+
+        switch (channel){
+            case 'welcome': {
+                log("Welcome to Minataur!")
+                requestUptime()
+                break
+            }
+            case 'address_uptime_full': {
+                try {
+                    processUptime(data)
+                }
+                catch (e) {
+                    error(e.message)
+                }
+                finally {
+                    setTimeout(requestUptime, uptimeUpdateInterval)
+                }
+                break;
+            }
+        }
+    }
+}
+
+connectToMinataur()
+
 server.listen(+SERVER_PORT, SERVER_HOST, () => {
     logging(`Mina Monitor Server running on ${useHttps ? 'https' : 'http'}://${SERVER_HOST}:${SERVER_PORT}`)
 })
@@ -198,7 +268,6 @@ setImmediate( processCpuTemp )
 setImmediate( processNetStat )
 setImmediate( processNetConn )
 setImmediate( processPriceInfo )
-setImmediate( processUptime )
 setImmediate( processDelegations )
 setImmediate( processJournal )
 setImmediate( processHello )

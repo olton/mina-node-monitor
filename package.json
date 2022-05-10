@@ -1,21 +1,23 @@
 {
   "name": "@olton/mina-monitor",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "license": "MIT",
-  "main": "server/index.js",
   "scripts": {
-    "serve": "shx rm -rf output/* && parcel serve --open --target browser --out-dir output client/index.html -p 2222",
-    "prebuild": "shx rm -rf dist/*",
-    "build": "parcel build --out-dir dist --public-url . --no-source-maps client/index.html",
-    "start": "npm run serve",
+    "start": "shx rm -rf client/output/* && npm run copy && parcel serve --open --dist-dir client/output client/index.html -p 2222",
+    "serve": "parcel serve --open --dist-dir client/output client/index.html -p 2222",
+    "prebuild": "shx rm -rf client/dist/* && npm run copy",
+    "clear": "shx rm -rf client/dist/* client/output/* ",
+    "build": "parcel build --dist-dir client/dist --public-url . --no-source-maps client/index.html",
     "client": "npm run serve",
     "server": "nodemon server/index.js",
-    "test": "jest"
+    "copy": "copyfiles -f client/config.json client/output"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@parcel/transformer-less": "^2.5.0",
+    "copyfiles": "^2.4.1",
     "less": "^4.1.1",
-    "parcel-bundler": "^1.12.5",
-    "parcel-plugin-static-files-copy": "^2.6.0",
+    "parcel": "latest",
     "shx": "^0.3.3"
   },
   "dependencies": {
@@ -23,11 +25,6 @@
     "nodemon": "^2.0.14",
     "systeminformation": "^5.7.7",
     "ws": "^5.2.3"
-  },
-  "staticFiles": {
-    "staticPath": [
-      "client/config.json"
-    ]
   },
   "browserslist": [
     "last 1 Chrome versions",

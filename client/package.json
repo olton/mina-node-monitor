@@ -1,21 +1,18 @@
 {
     "name": "@olton/mina-monitor-client",
-    "version": "2.1.2",
+    "version": "2.2.0",
     "license": "MIT",
     "scripts": {
-        "client": "shx rm -rf output/* && parcel serve --target browser --out-dir output index.html -p 2222",
-        "start": "shx rm -rf output/* && parcel serve --target browser --out-dir output index.html -p 2222 --open"
+        "client": "shx rm -rf output/* && npm run copy && parcel serve --dist-dir output index.html -p 2222",
+        "start": "shx rm -rf output/* && npm run copy && parcel serve --dist-dir output index.html -p 2222 --open",
+        "copy": "copyfiles -f config.json output"
     },
     "devDependencies": {
         "less": "^4.1.1",
-        "parcel-bundler": "^1.12.5",
-        "parcel-plugin-static-files-copy": "^2.6.0",
+        "parcel": "latest",
+        "@parcel/transformer-less": "^2.5.0",
+        "copyfiles": "^2.4.1",
         "shx": "^0.3.3"
-    },
-    "staticFiles": {
-        "staticPath": [
-            "config.json"
-        ]
     },
     "browserslist": [
         "last 1 Chrome versions",
