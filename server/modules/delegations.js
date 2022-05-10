@@ -1,29 +1,7 @@
-const fetch = require("node-fetch")
-const {logging} = require("../helpers/logs");
-
-const delegations = async (key) => {
-    try {
-        const link = `https://minastake.com/ledger/delegations.php?publicKey=${key}`
-        const data = await fetch(link)
-        return data.ok ? data.json() : null
-    } catch (e) {
-        logging("The Request to Minastake.com for delegations war aborted!")
-        logging("Message: " + e.name + " " + e.message)
-        logging("Reason: " + e.message.split(", reason")[1])
-        return null
-    }
-}
-
-const processDelegations = async () => {
-    const {publicKey, publicKeyDelegators} = globalThis.config
-    const key = publicKeyDelegators || publicKey
-    let data = await delegations(key)
-
+const processDelegations = (data) => {
     if (data) {
         globalThis.cache.delegations = data
     }
-
-    setTimeout(processDelegations, 600000)
 }
 
 module.exports = {

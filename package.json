@@ -3,13 +3,13 @@
   "version": "2.2.0",
   "license": "MIT",
   "scripts": {
-    "start": "shx rm -rf client/output/* && npm run copy && parcel serve --open --dist-dir client/output client/index.html -p 2222",
+    "client": "shx rm -rf client/output/* && npm run copy && npm run serve",
     "serve": "parcel serve --open --dist-dir client/output client/index.html -p 2222",
     "prebuild": "shx rm -rf client/dist/* && npm run copy",
     "clear": "shx rm -rf client/dist/* client/output/* ",
     "build": "parcel build --dist-dir client/dist --public-url . --no-source-maps client/index.html",
-    "client": "npm run serve",
     "server": "nodemon server/index.js",
+    "start": "node server/index.js",
     "copy": "copyfiles -f client/config.json client/output"
   },
   "devDependencies": {

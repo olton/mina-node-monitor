@@ -6,14 +6,13 @@ const http = require("http")
 const https = require("https")
 const {hostname} = require("os")
 const WebSocket = require("ws")
-const {execSync} = require('child_process')
 const {processPlatform, processMem, processCpuLoad, processCpuTemp, processNetStat, processNetConn} = require("./modules/system")
 const {processCollectNodeInfo} = require("./modules/node")
-const {processWinningBlocks, processBlockchainSummary, processBlockchainLatestBlocks} = require("./modules/explorer")
+const {processBlockchainSummary, processBlockchainLatestBlocks} = require("./modules/explorer")
 const {processAlerter} = require("./modules/alerter")
 const {processBalance} = require("./modules/balance")
 const {processHello} = require("./modules/hello")
-const {processUptime, processUptime2} = require("./modules/uptime")
+const {processUptime} = require("./modules/uptime")
 const {processDelegations} = require("./modules/delegations")
 const {processPriceInfo, processPriceSend} = require("./modules/price")
 const {processSnarkWorkerController} = require("./modules/snark-worker")
@@ -30,6 +29,7 @@ const packageJson = require("./package.json")
 const {processConfigWatcher} = require("./helpers/watcher");
 const {processGetMinaVersion} = require("./helpers/shell");
 const {parseTime} = require("./helpers/parsers");
+const {processRewards} = require("./modules/rewards");
 
 const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
@@ -190,10 +190,20 @@ const connectToMinataur = () => {
             request(ws, "address_uptime_full", addr)
         }
 
+        const requestDelegations = (addr = config.publicKeyDelegators || config.publicKey) => {
+            request(ws, "address_stakes", addr)
+        }
+
+        const requestRewards = (address = config.publicKeyDelegators || config.publicKey) => {
+            request(ws, "address_rewards", {address})
+        }
+
         switch (channel){
             case 'welcome': {
                 log("Welcome to Minataur!")
                 requestUptime()
+                requestDelegations()
+                requestRewards()
                 break
             }
             case 'address_uptime_full': {
@@ -205,6 +215,30 @@ const connectToMinataur = () => {
                 }
                 finally {
                     setTimeout(requestUptime, uptimeUpdateInterval)
+                }
+                break;
+            }
+            case 'address_stakes': {
+                try {
+                    processDelegations(data)
+                }
+                catch (e) {
+                    error(e.message)
+                }
+                finally {
+                    setTimeout(requestDelegations, 600000)
+                }
+                break;
+            }
+            case 'address_rewards': {
+                try {
+                    processRewards(data)
+                }
+                catch (e) {
+                    error(e.message)
+                }
+                finally {
+                    setTimeout(requestRewards, parseTime("3m"))
                 }
                 break;
             }
@@ -274,7 +308,7 @@ setImmediate( processHello )
 setImmediate( processPriceSend )
 setImmediate( processCollectNodeInfo )
 setImmediate( processAlerter )
-setImmediate( processWinningBlocks )
+// setImmediate( processWinningBlocks )
 setImmediate( processBlockchainSummary )
 setImmediate( processBlockchainLatestBlocks )
 setImmediate( processSnarkWorkerController )

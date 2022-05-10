@@ -3,7 +3,7 @@ const {error} = require("../helpers/logs");
 
 const processUptime = (data) => {
     try {
-        const {uptime, line} = data
+        const {uptime} = data
 
         if (uptime && uptime.score) {
             let message = '', scoreChanged = false, positionChanged = false, rateChanged = false, rangeChanged = false
