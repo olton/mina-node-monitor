@@ -1,9 +1,8 @@
 export const processRewards = data => {
     if (!data) return
 
-    let blocks = data.data.blocks
-    let rewards = blocks.length ? blocks.reduce((acc, val)=>acc + parseInt(val.transactions.coinbase), 0) : 0
+    const {blocks_count, total_rewards, zero_blocks, super_count, super_rewards} = data[0]
 
-    $("#blocks-in-epoch").text(blocks.length)
-    $("#rewards-in-epoch").text(rewards / 10**9)
+    $("#blocks-in-epoch").text(blocks_count)
+    $("#rewards-in-epoch").text(total_rewards / 10**9)
 }

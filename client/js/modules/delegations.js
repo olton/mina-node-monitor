@@ -1,11 +1,11 @@
 export const processDelegations = data => {
     if (!data) return
 
-    const {current, next} = data
+    const {delegators, delegators_next, stake, stake_next} = data[0]
 
-    $("#delegators-total").text(current.count)
-    $("#delegators-stack").text((current.stake).format(2, null, ",", "."))
+    $("#delegators-total").text(delegators)
+    $("#delegators-stack").text(Number(stake/10**9).format(4, null, ",", "."))
 
-    $("#delegators-total-next").text(next.count)
-    $("#delegators-stack-next").text((next.stake).format(2, null, ",", "."))
+    $("#delegators-total-next").text(delegators_next)
+    $("#delegators-stack-next").text(Number(stake_next/10**9).format(4, null, ",", "."))
 }
