@@ -30,7 +30,6 @@ const {processConfigWatcher} = require("./helpers/watcher");
 const {processGetMinaVersion} = require("./helpers/shell");
 const {parseTime} = require("./helpers/parsers");
 const {processRewards} = require("./modules/rewards");
-const {add} = require("nodemon/lib/rules");
 
 const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
