@@ -30,6 +30,7 @@ const {processConfigWatcher} = require("./helpers/watcher");
 const {processGetMinaVersion} = require("./helpers/shell");
 const {parseTime} = require("./helpers/parsers");
 const {processRewards} = require("./modules/rewards");
+const {add} = require("nodemon/lib/rules");
 
 const version = packageJson.version
 const configPathLinux = "/etc/mina-monitor/config.json"
@@ -187,7 +188,8 @@ const connectToMinataur = () => {
         }
 
         const requestUptime = (addr = config.publicKeyDelegators || config.publicKey) => {
-            request(ws, "address_uptime_full", addr)
+            // request(ws, "address_uptime_full", {address:addr})
+            request(ws, "address_uptime_new", {address:addr})
         }
 
         const requestDelegations = (addr = config.publicKeyDelegators || config.publicKey) => {
@@ -206,7 +208,19 @@ const connectToMinataur = () => {
                 requestRewards()
                 break
             }
-            case 'address_uptime_full': {
+            // case 'address_uptime_full': {
+            //     try {
+            //         processUptime(data)
+            //     }
+            //     catch (e) {
+            //         error(e.message)
+            //     }
+            //     finally {
+            //         setTimeout(requestUptime, uptimeUpdateInterval)
+            //     }
+            //     break;
+            // }
+            case 'address_uptime_new': {
                 try {
                     processUptime(data)
                 }

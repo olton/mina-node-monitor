@@ -1,6 +1,6 @@
 {
   "name": "@olton/mina-monitor",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "scripts": {
     "client": "shx rm -rf client/output/* && npm run copy && npm run serve",
