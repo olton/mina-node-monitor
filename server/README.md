@@ -207,7 +207,15 @@ The config file contain a lot of different parameters.
         "getLatestBlocksInterval": "1m",
         "getBlockchainSummaryInterval": "1m"
     },
-    "uptimeUpdateInterval": "5m"
+    "uptimeUpdateInterval": "5m",
+    "minataur": {
+        "host": "minataur.net",
+        "secure": true
+    },
+    "rewards": {
+        "regular": 720,
+        "super": 1440
+    }
 }
 ```
 
